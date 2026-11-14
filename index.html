@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2312306b%27/%3E%3Cpath d=%27M7 22l5-7 4 4 5-9 4 6%27 stroke=%27%23fff%27 stroke-width=%273%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
-<title>Dashboard Isolir FTTH</title>
+<title>Dashboard Analisa Blast Isolir</title>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -568,6 +568,247 @@ td{padding:5px 8px}
 .mn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mc{font-size:11px;color:var(--ink2);font-weight:500;font-variant-numeric:tabular-nums}
 @media(max-width:560px){.mfil{flex:1 1 100%}.mfb{width:100%}.mfpanel{left:0;right:0;width:auto}}
+/* ===== Sidebar dan tampilan ===== */
+body{padding:0}
+.app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh;align-items:start}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:14px;padding:20px 14px;background:linear-gradient(180deg,#12306b,#0e2452);color:#fff;z-index:30;overflow:auto}
+.brand{display:flex;gap:10px;align-items:center;padding:2px 8px 6px}
+.logo{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.logo svg{width:22px;height:22px}
+.brand b{font-family:var(--display);font-weight:400;font-size:16px;display:block;line-height:1.2}
+.brand small{font-size:11px;opacity:.75}
+.mlabel{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.6;padding:6px 10px 0}
+.menu{display:flex;flex-direction:column;gap:4px}
+.mi{display:flex;gap:11px;align-items:center;padding:10px 12px;border-radius:12px;color:#d4e1fa;text-decoration:none;font-weight:600;font-size:13px;line-height:1.3}
+.mi svg{width:19px;height:19px;flex:none}
+.mi:hover{background:rgba(255,255,255,.1);color:#fff}
+.mi.on{background:#fff;color:#12306b;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.mi:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.appfoot{text-align:center;font-size:12px;color:#64748b;padding:18px 0 6px}.menu-bottom{margin-top:auto;border-top:1px solid rgba(255,255,255,.18);padding-top:10px}.sidefoot{margin-top:0;font-size:11px;line-height:1.5;opacity:.7;padding:8px 10px}
+.scrim{position:fixed;inset:0;background:rgba(15,27,61,.5);z-index:29}
+main.wrap{width:100%;min-width:0;max-width:1260px;margin:0 auto;padding:14px max(18px,env(safe-area-inset-right,0px)) 32px max(18px,env(safe-area-inset-left,0px))}
+.vcol{display:flex;flex-direction:column;gap:14px;min-width:0}
+.menubtn{display:none;flex:none;align-items:center;justify-content:center;background:rgba(255,255,255,.18);color:#fff;border:0;padding:7px 9px}
+.menubtn svg{width:20px;height:20px}
+.menubtn:hover{background:rgba(255,255,255,.28);color:#fff}
+header .hl{flex:1 1 auto;min-width:0}
+.boot{background:#fff;border:1.5px solid #d5dce8;border-radius:14px;padding:22px;text-align:center;color:#52607a;font-size:13.5px;line-height:1.7}
+@media(max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;left:0;top:0;bottom:0;width:272px;height:auto;transform:translateX(-104%);transition:transform .2s ease;box-shadow:12px 0 32px rgba(0,0,0,.3)}
+  .side.open{transform:none}
+  .menubtn{display:inline-flex}
+  header{flex-wrap:nowrap;align-items:center}
+}
+@media(prefers-reduced-motion:reduce){.side{transition:none}}
+/* ===== Blast dan pencocokan ===== */
+.kpis.kg .kpi:nth-child(n){background:linear-gradient(180deg,#f7fdf9,#e6f8ec);border-color:#16a34a}
+.kpis.kg .kpi:nth-child(n) .l{color:#15803d}
+.outs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.oc{display:flex;flex-direction:column;align-items:stretch;gap:5px;text-align:left;background:var(--bg);border:1.5px solid var(--l);border-radius:14px;padding:11px 14px;cursor:pointer;color:var(--ink)}
+.oc:hover{border-color:var(--c);box-shadow:0 6px 16px rgba(18,48,107,.12)}
+.oc.sel{box-shadow:0 0 0 3px rgba(37,99,235,.35)}
+.oc .ol{font-family:var(--display);font-size:13px;color:var(--c);line-height:1.3}
+.oc .on{font-family:var(--display);font-size:28px;line-height:1.1;color:#0f1b3d}
+.oc .obar{display:block;height:8px;border-radius:999px;background:rgba(15,27,61,.1);overflow:hidden}
+.oc .obar i{display:block;height:100%;background:var(--l);border-radius:999px}
+.oc .op{font-size:11.5px;color:var(--ink2);font-weight:600}
+.oex{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:11px;color:var(--ink2)}
+.oex b{color:var(--ink)}
+.gp{display:inline-block;border-radius:999px;padding:1px 9px;font-size:11px;font-weight:700;background:var(--bg);color:var(--c);white-space:nowrap}
+.tg{display:inline-block;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;border-radius:6px;padding:1px 7px;font-size:11px;margin:1px 4px 1px 0;background:var(--bg);color:var(--c)}
+.yes{color:#15803d;font-weight:700;font-size:12px}
+.vcol .head select{max-width:190px}
+#v-match .kpis .kpi:nth-child(n){background:linear-gradient(180deg,#f8fbff,#e9f1ff);border-color:#2563eb}
+#cmodal .mk b{font-size:14px}
+/* ===== Timeline blast per hari ===== */
+.stack{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--grid);width:100%}
+.stack i{display:block;height:100%}
+.flag.bl{background:#dde8fd;color:#1d4ed8}
+.evs6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.evs6 .st:nth-child(1){background:#eef1fb}.evs6 .st:nth-child(1) b{color:#1e3a8a}
+.evs6 .st:nth-child(2){background:#eef4ff}.evs6 .st:nth-child(2) b{color:#1d4ed8}
+.evs6 .st:nth-child(3){background:#ddebf7}.evs6 .st:nth-child(3) b{color:#1d4ed8}
+.evs6 .st:nth-child(4){background:#d3efdb}.evs6 .st:nth-child(4) b{color:#15803d}
+.evs6 .st:nth-child(5){background:#fce4d6}.evs6 .st:nth-child(5) b{color:#b45309}
+.evs6 .st:nth-child(6){background:#e6eaf0}.evs6 .st:nth-child(6) b{color:#475569}
+.ev.sel .evc{box-shadow:0 0 0 3px rgba(37,99,235,.35)}
+#v-match .kpis .kpi:nth-child(2){background:linear-gradient(180deg,#fffdf4,#fdf0d6);border-color:#d97706}
+#v-match .kpis .kpi:nth-child(2) .l{color:#b45309}
+@media(max-width:900px){.evs6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.evs6{grid-template-columns:repeat(2,minmax(0,1fr))}.rtab .rt-first{min-width:150px}}
+/* ===== Tabel respon per tanggal blast (se-tema dashboard) ===== */
+.rtab{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;background:#fff;border:1.5px solid #d5dce8;border-radius:14px;overflow:hidden}
+.rtab th,.rtab td{border:0;border-bottom:1px solid var(--grid);padding:9px 12px;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums;color:#0f1b3d;font-weight:600;background:#fff}
+.rtab thead th{position:static;background:#e9f1ff;color:#1d4ed8;font-weight:700;font-size:12px;text-transform:none;letter-spacing:0;border-bottom:1px solid #c8daf6}
+.rtab thead tr:nth-child(2) th{background:#f4f8ff;color:#52607a;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #2563eb}
+.rtab .rt-first{text-align:left;position:sticky;left:0;z-index:1;min-width:200px}
+.rtab thead .rt-first{background:#e9f1ff;z-index:2;text-align:center;font-size:12.5px;border-bottom:2px solid #2563eb}
+.rtab .r-dr td{background:linear-gradient(180deg,#f8fbff,#eaf2ff);font-family:var(--display);font-weight:400;font-size:15px;color:#0f1b3d}
+.rtab .r-dr .rt-first{font-family:var(--sans);font-weight:700;font-size:12.5px;color:#1d4ed8}
+.rtab .r-gt td{background:#f3f6fb;font-weight:800}
+.rtab tbody tr:last-child td{border-bottom:0}
+.rtab td.cl{cursor:pointer}
+.rtab td.cl:hover{box-shadow:inset 0 0 0 2px #2563eb}
+.rtab td[colspan].cl:hover{box-shadow:inset 0 0 0 2px #2563eb}
+/* ===== Kartu ringkasan pencocokan ===== */
+.mhero{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.hcard{display:flex;flex-direction:column;gap:6px;text-align:left;border:1.5px solid #2563eb;border-radius:14px;padding:14px 16px;background:linear-gradient(180deg,#f8fbff,#e9f1ff);color:var(--ink);min-width:0}
+button.hcard{cursor:pointer}
+button.hcard:hover{box-shadow:0 8px 18px rgba(18,48,107,.14)}
+.hl2{font-family:var(--display);font-size:14px;color:#1d4ed8;line-height:1.3}
+.hbig{font-family:var(--display);font-size:44px;line-height:1.05;color:#0f1b3d}
+.hsub{font-size:12px;color:var(--ink2);font-weight:600;line-height:1.4}
+.hfocus{border-color:#d97706;background:linear-gradient(180deg,#fffdf4,#fdf0d6)}.hfocus .hl2{color:#b45309}
+.hpaid{border-color:#16a34a;background:linear-gradient(180deg,#f7fdf9,#e6f8ec)}.hpaid .hl2{color:#15803d}
+.hgo{margin-top:auto;font-size:12px;font-weight:800;color:var(--ink)}
+.hgrid{grid-template-columns:repeat(auto-fit,minmax(138px,1fr));margin-top:6px}
+.hmain .oc{background:#fff}
+.hmain .oc .on{font-size:22px}
+.hall{align-self:flex-start;margin-top:6px;border:0;background:#2563eb;color:#fff;border-radius:999px;padding:7px 16px;font-size:12.5px;font-weight:700}
+.hall:hover{background:#1d4ed8;color:#fff}
+.lchips{display:flex;flex-wrap:wrap;gap:6px}
+.lc{display:inline-flex;gap:8px;align-items:center;border:1.5px solid var(--l);background:var(--bg);color:var(--c);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.lc b{color:#0f1b3d;font-variant-numeric:tabular-nums}
+.lc.sel{box-shadow:0 0 0 3px rgba(37,99,235,.3)}
+#lmodal .mk{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+#lTbl,#lmodal .tw{max-width:100%}
+@media(max-width:900px){.mhero{grid-template-columns:minmax(0,1fr)}}
+.hfocus,.hpaid{align-self:start}
+/* ===== Kartu ringkasan pencocokan: tata letak simetris ===== */
+.mhero{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+.hmain{grid-column:1/-1;gap:10px}
+.htop{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.htop .hsub{flex:1 1 280px;max-width:640px;font-size:12.5px}
+.hgrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:2px}
+.hgrid .oc{height:100%}
+.hmain .oc .on{font-size:24px}
+.hmain .oc.hall{border-style:dashed;background:#fff}
+.hfocus,.hpaid{flex-direction:row;align-items:center;justify-content:space-between;gap:16px;align-self:stretch}
+.hf-l{display:flex;flex-direction:column;gap:5px;min-width:0}
+.hfocus .hbig,.hpaid .hbig{font-size:46px;flex:none}
+.hgo{margin-top:2px}
+@media(max-width:900px){.mhero{grid-template-columns:minmax(0,1fr)}.hgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.hfocus .hbig,.hpaid .hbig{font-size:38px}}
+.hmain .oc.hall{align-self:stretch;margin-top:0;border:1.5px dashed var(--l);border-radius:14px;padding:11px 14px;background:#fff;color:var(--ink);font-size:inherit;font-weight:inherit}
+.hmain .oc.hall:hover{background:#f4f8ff;color:var(--ink);border-style:solid}
+/* ===== Analisa blast: kategori produk ===== */
+.bhero{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bh{display:flex;flex-direction:column;gap:6px;text-align:left;background:linear-gradient(180deg,#fff,var(--bg));border:1.5px solid var(--l);border-radius:14px;padding:14px 16px;color:var(--ink);cursor:pointer;min-width:0}
+.bh:hover{box-shadow:0 8px 18px rgba(18,48,107,.14)}
+.bh .hl2{color:var(--c)}
+.bms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:6px}
+.bm{display:flex;flex-direction:column;background:#fff;border:1px solid var(--grid);border-radius:10px;padding:6px 10px}
+.bm em{font-style:normal;font-size:10px;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.bm b{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.rtab thead th.ph-ftth{background:#e3ecfe;color:#1d4ed8}.rtab thead th.ph-fwa{background:#dcf5e5;color:#15803d}.rtab thead th.ph-all{background:#e6eaf6;color:#1e3a8a}
+.rtab thead tr:nth-child(2) th.ph-ftth{background:#eef4ff;color:#1d4ed8}.rtab thead tr:nth-child(2) th.ph-fwa{background:#effcf3;color:#15803d}.rtab thead tr:nth-child(2) th.ph-all{background:#f1f4fb;color:#1e3a8a}
+.rtab tbody td:first-child:not(.rt-first){text-align:left}
+tr.click.sel td{background:#e3ecfe}
+#bmodal .mk{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+#bmodal .mrow{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+#bdTbl,#bmodal .tw{max-width:100%}
+@media(max-width:900px){.bhero{grid-template-columns:minmax(0,1fr)}}
+.bh .hsub{min-height:2.8em}
+/* ===== Garis tabel .rtab lebih tegas ===== */
+.rtab{border:2px solid #1f3d73}
+.rtab th,.rtab td{border-right:1px solid #7f9cc9;border-bottom:1px solid #7f9cc9}
+.rtab tr>*:last-child{border-right:0}
+.rtab tbody tr:last-child td{border-bottom:0}
+.rtab thead tr:first-child th{border-bottom:1px solid #7f9cc9}
+.rtab thead tr:nth-child(2) th{border-bottom:2px solid #1f3d73}
+.rtab thead .rt-first{border-bottom:2px solid #1f3d73}
+.rtab .rt-first{border-right:2px solid #1f3d73}
+.rtab .gs{border-right:2px solid #1f3d73!important}
+.rtab .r-dr td{border-bottom:2px solid #1f3d73}
+.rtab .r-gt td{border-top:2px solid #1f3d73}
+/* tile timeline blast: kategori produk */
+.evs6.evsb .st:nth-child(1){background:#eef1fb}.evs6.evsb .st:nth-child(1) b{color:#1e3a8a}
+.evs6.evsb .st:nth-child(2){background:#e3ecfe}.evs6.evsb .st:nth-child(2) b{color:#1d4ed8}
+.evs6.evsb .st:nth-child(3){background:#dcf5e5}.evs6.evsb .st:nth-child(3) b{color:#15803d}
+.evs6.evsb .st:nth-child(4){background:#eef1fb}.evs6.evsb .st:nth-child(4) b{color:#1e3a8a}
+.evs6.evsb .st:nth-child(5){background:#fefaea}.evs6.evsb .st:nth-child(5) b{color:#b45309}
+.evs6.evsb .st:nth-child(6){background:#e6eaf0}.evs6.evsb .st:nth-child(6) b{color:#475569}
+#bDate{max-width:230px}
+/* status tag di hero card blast */
+.bts{display:flex;flex-direction:column;gap:3px;margin-top:6px}
+.bts-h{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:2px}
+.bt{display:grid;grid-template-columns:minmax(0,1fr) auto 52px;gap:8px;align-items:center;padding:4px 9px;border-radius:8px;font-size:12px;border:1px solid var(--grid);background-color:#fff}
+.bt em{font-style:normal;font-weight:700;color:var(--c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bt b{font-weight:800;color:#0f1b3d;font-variant-numeric:tabular-nums;text-align:right}
+.bt i{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums;text-align:right;font-size:11px}
+.bt:hover{border-color:var(--c)}
+/* ===== Hero card blast: ringkas dan bertema warna per kategori ===== */
+.bh{gap:6px;padding:11px 13px;border-width:1.5px}
+.bh:hover{color:var(--ink)}
+.bh-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bh .hl2{font-size:13px}
+.bh .hgo{margin:0;font-size:11px;font-weight:700;color:var(--c)}
+.bh-num{display:flex;align-items:center;gap:12px}
+.bh .hbig{font-size:34px;line-height:1;flex:none}
+.bh .hsub{font-size:11px;line-height:1.35;min-height:0}
+.bms{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:2px}
+.bm{padding:4px 7px;border-radius:8px;min-width:0}
+.bm em{font-size:9px}
+.bm b{font-size:13px;white-space:nowrap}
+.bts{gap:2px;margin-top:2px}
+.bt{padding:2px 8px;font-size:11.5px;border-radius:6px;grid-template-columns:minmax(0,1fr) auto 46px;background-color:#fff}
+.bt i{font-size:10.5px}
+/* status tag di hero card: tanpa bilah progres, dipisah garis tipis */
+.bts{gap:0;margin-top:4px}
+.bt{background:none!important;background-color:transparent!important;border:0;border-bottom:1px solid rgba(15,27,61,.16);border-radius:0;padding:4px 2px}
+.bt:last-child{border-bottom:0}
+.bt:hover{background:rgba(255,255,255,.45)!important}
+/* tabel respon pencocokan: selebar kartu */
+#tbA{width:100%}
+#tbA .rtab{width:100%;max-width:none;table-layout:auto}
+#tbA .rtab .rt-first{min-width:240px}
+/* ===== Kesimpulan tag lain ===== */
+.lseg{display:inline-flex;gap:0;margin-bottom:10px;border:1.5px solid #0d9488;border-radius:10px;overflow:hidden}.lseg button{font:inherit;font-size:12.5px;font-weight:600;border:0;background:#fff;color:#0f766e;padding:5px 14px;cursor:pointer}.lseg button+button{border-left:1.5px solid #0d9488}.lseg button.on{background:#0d9488;color:#fff}
+.concl-card{border-color:#0d9488}
+.concl{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;font-size:13px;line-height:1.6;color:var(--ink);max-width:1000px}
+.concl p{margin:0}
+.ltab{border-collapse:collapse;width:100%;font-size:12.5px}
+.ltab th{background:#d6f1ee;color:#0f766e;border-bottom:2px solid #0d9488;white-space:normal;line-height:1.3}
+.ltab td{vertical-align:top;white-space:normal;border-bottom:1px solid #b5ddd7}
+.ltab td.num,.ltab th.num{white-space:nowrap}
+.ltab td.act{min-width:320px;max-width:520px;color:var(--ink2);line-height:1.5}
+.ltab tr.click:hover td{background:#effaf8}
+/* kartu tag lain: ringkas */
+.concl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;max-width:none;margin-bottom:12px}
+.cs{display:flex;align-items:center;gap:10px;background:#effaf8;border:1px solid #b5ddd7;border-radius:12px;padding:8px 12px}
+.csn{font-family:var(--display);font-size:22px;line-height:1;color:#0f766e;flex:none}
+.csl{font-size:12px;line-height:1.4;color:var(--ink)}
+.ltab td.act{min-width:220px;max-width:340px}
+/* ===== Submenu sidebar ===== */
+.mg{display:flex;flex-direction:column}
+.mrow{display:flex;align-items:stretch;gap:2px}
+.mrow .mi{flex:1;min-width:0}
+.mx{flex:none;width:34px;border:0;background:transparent;color:#d4e1fa;border-radius:10px;cursor:pointer;padding:0;display:grid;place-items:center}
+.mx svg{width:16px;height:16px;transition:transform .15s ease}
+.mx[aria-expanded=true] svg{transform:rotate(180deg)}
+.mx:hover{background:rgba(255,255,255,.14);color:#fff}
+.mx:focus-visible{outline:2px solid #fff;outline-offset:1px}
+.sub{display:flex;flex-direction:column;gap:1px;margin:3px 0 8px 20px;padding-left:10px;border-left:1.5px solid rgba(255,255,255,.22)}
+.sub a{display:block;padding:5px 9px;border-radius:8px;color:#bcd0f5;font-size:12px;font-weight:500;line-height:1.35;text-decoration:none}
+.sub a:hover{background:rgba(255,255,255,.12);color:#fff}
+.sub a:focus-visible{outline:2px solid #fff;outline-offset:1px}
+.anch{position:absolute;width:0;height:0;overflow:hidden}
+.sechead,section[id],.card[id]{scroll-margin-top:14px}
+@media(prefers-reduced-motion:reduce){.mx svg{transition:none}}
+input[type=password]{font:inherit;color:var(--ink);background:#f8f9fb;border:1.5px solid #cbd5e1;border-radius:10px;padding:5px 9px;font-size:13px;min-width:0;width:200px;max-width:100%}
+.upgrid{display:grid;gap:10px}
+.updrop{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:18px;border:2px dashed #93b4e8;border-radius:12px;background:#f1f6ff;color:#1d4ed8;font-weight:600;font-size:13px;cursor:pointer;text-align:center}
+.updrop.over{background:#dbe8ff;border-color:#2563eb}
+.updrop input{font-size:12px;max-width:100%}
+.upst{margin-top:8px;font-size:13px;color:#0f5132}
+.upst:empty{display:none}
+.upst.bad{color:#b91c1c;font-weight:600}
+.up-new{color:#15803d;font-weight:600}.up-rep{color:#b45309;font-weight:600}
+.upDel,.upYes,.upNo,#upOld{font:inherit;font-size:12px;border:1.5px solid #cbd5e1;background:#fff;border-radius:8px;padding:4px 10px;cursor:pointer}
+.upYes{background:#fee2e2;border-color:#ef4444;color:#b91c1c}
+#upOld{border-color:#2563eb;color:#1d4ed8}
+#upGo:disabled{opacity:.5;cursor:not-allowed}
 .wrap.loading>*:not(header):not(#boot){display:none}
 .boot{background:#fff;border:1.5px solid #d5dce8;border-radius:14px;padding:22px;text-align:center;color:#52607a;font-size:13.5px;line-height:1.7}
 .boot b{color:#0f1b3d;font-size:15px}
@@ -576,17 +817,48 @@ td{padding:5px 8px}
 </head>
 <body>
 
-<div class="wrap loading">
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="Menu utama">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18l5-7 4 4 7-10"/></svg></span>
+      <div><b>Dashboard Analisa Blast Isolir</b><small>Monitoring dan blast</small></div>
+    </div>
+    <div class="mlabel">Menu</div>
+    <nav class="menu">
+      <div class="mg">
+        <div class="mrow"><a class="mi" href="#blast" data-v="blast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg><span>Analisa Blast FTTH &amp; IRA</span></a><button class="mx" data-v="blast" aria-expanded="false" aria-controls="sub-blast" aria-label="Submenu Analisa Blast FTTH &amp; IRA"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>
+        <div class="sub" id="sub-blast" hidden></div>
+      </div>
+      <div class="mg">
+        <div class="mrow"><a class="mi" href="#isolir" data-v="isolir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard Isolir FTTH</span></a><button class="mx" data-v="isolir" aria-expanded="false" aria-controls="sub-isolir" aria-label="Submenu Dashboard Isolir FTTH"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>
+        <div class="sub" id="sub-isolir" hidden></div>
+      </div>
+      <div class="mg">
+        <div class="mrow"><a class="mi" href="#pencocokan" data-v="pencocokan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg><span>Blast FTTH Isolir</span></a><button class="mx" data-v="pencocokan" aria-expanded="false" aria-controls="sub-pencocokan" aria-label="Submenu Blast FTTH Isolir"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>
+        <div class="sub" id="sub-pencocokan" hidden></div>
+      </div>
+    </nav>
+    <nav class="menu menu-bottom">
+      <div class="mg">
+        <div class="mrow"><a class="mi" href="#unggah" data-v="unggah"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>Unggah Data Blast</span></a></div>
+      </div>
+    </nav>
+    <div class="sidefoot">Dashboard Versi V1.0.0</div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+  <main class="wrap loading">
   <header>
+    <button id="btnMenu" class="menubtn" aria-label="Buka menu" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="hl">
-      <h1>Dashboard Isolir FTTH</h1>
-      <div class="meta"><span class="pill" id="hRange"></span><span class="pill" id="hCount"></span><span class="pill off" id="hLive">Memuatâ€¦</span></div>
+      <h1 id="hTitle">Dashboard Isolir FTTH</h1>
+      <div class="meta"><span class="pill" id="hRange"></span><span class="pill" id="hCount"></span><span class="pill off" id="hLive">Memuat…</span></div>
     </div>
     <div class="hr"><span class="foot" id="rfMsg" role="status"></span><button id="btnRefresh">Perbarui data</button></div>
   </header>
-  <div id="boot" class="boot" role="status">Memuat data isolirâ€¦</div>
+  <div id="boot" class="boot" role="status">Memuat data isolir…</div>
+  <div class="view vcol" id="v-isolir">
 
-  <section class="searchbar" aria-label="Cari per mitra dan stasiun">
+  <section class="searchbar" id="i-cari" aria-label="Cari per mitra dan stasiun">
     <div class="srch">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4"/></svg>
       <input type="text" id="eq" role="combobox" aria-label="Cari per mitra dan stasiun" aria-expanded="false" aria-controls="eList" aria-autocomplete="list" autocomplete="off" placeholder="Cari mitra atau stasiun, contoh: Cilegon atau Fiber Data">
@@ -604,17 +876,17 @@ td{padding:5px 8px}
     <div class="chips" id="chips"></div>
   </section>
 
-  <div class="sechead"><div><div class="eyebrow">Summary</div><h2 class="big">Ringkasan Isolir</h2></div></div>
+  <div class="sechead" id="i-ringkasan"><div><div class="eyebrow">Summary</div><h2 class="big">Ringkasan Isolir</h2></div></div>
   <section class="kpis" id="kpis" aria-label="Ringkasan"></section>
 
-  <section aria-label="Aktivitas isolir">
+  <section id="i-aktivitas" aria-label="Aktivitas isolir">
     <div class="sechead"><div><div class="eyebrow">Aktivitas</div><h2 class="big">Aktivitas Isolir</h2></div></div>
     <div class="act" id="act"></div>
   </section>
 
   <section class="card">
     <div class="head">
-      <div><div class="eyebrow">Timeline</div><h2 class="big">Isolir per Hari</h2></div>
+      <span id="i-timeline" class="anch"></span><div><div class="eyebrow">Timeline</div><h2 class="big">Isolir per Hari</h2></div>
       <div class="ctl"><span class="foot">Terbaru di atas. Klik satu hari untuk membuka detail dan aging pelanggan.</span><button id="tlToggle" aria-expanded="true" aria-controls="tl">Ciutkan</button></div>
     </div>
     <div class="tl" id="tl"></div>
@@ -623,7 +895,7 @@ td{padding:5px 8px}
   <div class="row">
     
     
-      <section class="card"><div class="head"><h2>Stasiun terbanyak</h2><span class="foot">klik untuk memfilter</span></div><div class="rank" id="rkSt"></div></section>
+      <section class="card" id="i-peringkat"><div class="head"><h2>Stasiun terbanyak</h2><span class="foot">klik untuk memfilter</span></div><div class="rank" id="rkSt"></div></section>
       <section class="card"><div class="head"><h2>Mitra terbanyak</h2><span class="foot">klik untuk memfilter</span></div><div class="rank" id="rkMi"></div></section>
     
   </div>
@@ -635,6 +907,12 @@ td{padding:5px 8px}
     <div class="pager"><button id="pPrev">Sebelumnya</button><span id="pInfo"></span><button id="pNext">Berikutnya</button></div>
   </section>
   <p class="note">Data ini adalah foto kondisi saat ini: hanya pelanggan yang masih berstatus suspend. Pelanggan yang sudah diaktifkan kembali tidak ada di data, sehingga timeline menunjukkan isolir yang masih berlaku, bukan semua isolir yang pernah terjadi.</p>
+  </div>
+  <div class="view vcol" id="v-blast" hidden></div>
+  <div class="view vcol" id="v-match" hidden></div>
+  <div class="view vcol" id="v-unggah" hidden></div>
+  <footer class="appfoot">Dashboard Versi V1.0.0</footer>
+  </main>
 </div>
 
 <div class="mback" id="modal" hidden>
@@ -691,11 +969,15 @@ window.APP_CONFIG = {
   csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbhCzQ-etZt_rMYk3WCXbldcP78vI9iasSKhYp02hZxngDA0cVgDDIfcoAJsZbQnAUb0nDUolvJvjH/pub?gid=0&single=true&output=csv',
   // Cadangan: file CSV dengan kolom yang sama, diletakkan di folder yang sama dengan index.html (boleh dikosongkan).
   dataFile: 'data.csv',
+  // Alamat web app Google Apps Script (database bersama, berakhiran /exec). Kosong = pakai link CSV saja.
+  apiUrl: 'https://script.google.com/macros/s/AKfycbz-DqYj9vS-bT6jbe71Dvp7Zs-NcMIlQUb5UthJGSoY26QzhxTaYUYqMd5JdU-ZKuQ0ow/exec',
   // Muat ulang data otomatis tiap sekian menit. Isi 0 untuk mematikan.
   refreshMinutes: 30
 };
 </script><script>
 const D=null;
+const BD=null;
+const API_URL=/*APIURL*/'';
 let ST,MI,R,minD,maxD;
 const HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const BULAN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -710,10 +992,8 @@ ST=D.st;MI=D.mi;R=D.rows.map(r=>({s:r[0],m:r[1],code:r[2],name:r[3],ph:r[4],act:
   R.forEach(r=>r.life=Math.max(0,diffDays(r.act,r.d)));
   minD=R.reduce((a,r)=>r.d<a?r.d:a,'9999');maxD=R.reduce((a,r)=>r.d>a?r.d:a,'');
   
-  const when=live?new Date(live).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
-  $('hRange').textContent=`${fmtD(minD)} – ${fmtD(maxD)}`;$('hCount').textContent=`${nf(R.length)} pelanggan suspend`;
-  const hl=$('hLive');hl.textContent=live?`Data langsung · diambil ${when}`:'Data tersimpan';hl.className='pill '+(live?'on':'off');
-  buildIndex();
+  ISOLIVE=live;
+  buildIndex();buildMatch();updateHeader();
 }
 const F={from:'',to:'',st:null,mi:null,date:null,q:'',gran:'day',page:0};
 const PS=25;
@@ -1319,6 +1599,901 @@ $('mfList').addEventListener('keydown',e=>{
 });
 document.addEventListener('click',e=>{if(!e.target.closest('.mfil'))closeMf()});
 
+/* ================== MENU, SIDEBAR, ROUTING ================== */
+const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',unggah:'v-unggah'};
+const VTITLE={isolir:'Dashboard Isolir FTTH',blast:'Analisa Blast FTTH & IRA',pencocokan:'Blast FTTH Isolir',unggah:'Unggah Data Blast'};
+let CUR='blast', ISOLIVE=null, BLIVE=null, BERR='';
+const fmtWhen=l=>l?new Date(l).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+const pctS=(a,b,d=1)=>(b?a/b*100:0).toFixed(d).replace('.',',')+'%';
+const menit=s=>s===null||s===undefined||isNaN(s)?'-':(s/60<10?(s/60).toFixed(1).replace('.',','):nf(Math.round(s/60)))+' mnt';
+function setPills(a,b,c,live){$('hRange').textContent=a;$('hCount').textContent=b;const hl=$('hLive');hl.textContent=c;hl.className='pill '+(live?'on':'off')}
+function updateHeader(){
+  const liveTxt=(l,name)=>l?`${name} langsung · ${fmtWhen(l)}`:`${name} tersimpan`;
+  if(CUR==='isolir'){
+    if(!R){setPills('','','Memuat…',false);return}
+    setPills(`${fmtD(minD)} – ${fmtD(maxD)}`,`${nf(R.length)} pelanggan suspend`,liveTxt(ISOLIVE,'Data'),!!ISOLIVE);
+  }else if(CUR==='blast'){
+    if(!BREADY){setPills('','',BERR?'Data blast gagal dimuat':'Memuat data blast…',false);return}
+    const ts=BL.map(b=>b.at).sort();
+    setPills(`${fmtD(ts[0].slice(0,10))} · ${ts[0].slice(11,16)}–${ts[ts.length-1].slice(11,16)}`,`${nf(BPH)} nomor unik · ${nf(BL.length)} room`,liveTxt(BLIVE,'Blast'),!!BLIVE);
+  }else if(CUR==='unggah'){
+    setPills(API_MAN?(API_MAN.length+' tanggal tersimpan'):'Database blast','Hanya untuk petugas','Database bersama',!!apiUrl());
+  }else{
+    if(!R||!BREADY){setPills('','',BERR?'Data blast gagal dimuat':'Memuat data…',false);return}
+    setPills(`${nf(MS.cust)} pelanggan isolir terjangkau blast`,`${nf(FU.length)} mau lanjut, masih isolir`,`Isolir ${ISOLIVE?'langsung':'tersimpan'} · Blast ${BLIVE?'langsung':'tersimpan'}`,!!(ISOLIVE&&BLIVE));
+  }
+}
+function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='unggah')renderUnggah()}
+function closeSide(){$('side').classList.remove('open');$('scrim').hidden=true;$('btnMenu').setAttribute('aria-expanded','false')}
+function openSide(){$('side').classList.add('open');$('scrim').hidden=false;$('btnMenu').setAttribute('aria-expanded','true')}
+function show(v){
+  CUR=VIEWS[v]?v:'blast';
+  Object.keys(VIEWS).forEach(k=>{$(VIEWS[k]).hidden=k!==CUR});
+  document.querySelectorAll('.mi').forEach(a=>{const on=a.dataset.v===CUR;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  $('hTitle').textContent=VTITLE[CUR];
+  closeSide();updateHeader();renderView();window.scrollTo(0,0);
+  setSub(CUR,true);
+  if(PEND){const id=PEND;PEND='';setTimeout(()=>scrollToId(id),80)}
+}
+function route(){show((location.hash||'').replace(/^#/,''))}
+window.addEventListener('hashchange',route);
+$('btnMenu').addEventListener('click',()=>$('side').classList.contains('open')?closeSide():openSide());
+$('scrim').addEventListener('click',closeSide);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('side').classList.contains('open'))closeSide()});
+
+/* ================== SUBMENU SIDEBAR (anak menu per kartu) ================== */
+const SUBS={
+  blast:[['b-ringkasan','Ringkasan blast'],['b-timeline','Timeline blast per hari'],['b-tag','Hasil blast per tag'],['b-status','Status nomor'],['b-lain','Kesimpulan tag lain'],['b-channel','Channel'],['b-jam','Nomor per jam'],['b-agen','Agen penanganan'],['b-daftar','Daftar nomor WhatsApp']],
+  isolir:[['i-cari','Pencarian dan filter mitra'],['i-ringkasan','Ringkasan isolir'],['i-aktivitas','Aktivitas isolir'],['i-timeline','Timeline isolir per hari'],['i-peringkat','Stasiun dan mitra terbanyak'],['custCard','Daftar pelanggan']],
+  pencocokan:[['m-ringkasan','Ringkasan pencocokan'],['m-timeline','Timeline blast per hari'],['m-respon','Respon per tanggal blast'],['m-followup','Follow-up per mitra dan stasiun'],['m-daftarfu','Daftar follow-up'],['m-semua','Semua data pencocokan']]
+};
+let PEND='';
+function scrollToId(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+function goTo(v,id){closeSide();if(CUR!==v){PEND=id;location.hash='#'+v}else scrollToId(id)}
+function setSub(k,open){
+  const b=document.querySelector(`.mx[data-v="${k}"]`),s=$('sub-'+k);
+  if(!b||!s)return;
+  b.setAttribute('aria-expanded',String(open));s.hidden=!open;
+}
+Object.keys(SUBS).forEach(k=>{
+  $('sub-'+k).innerHTML=SUBS[k].map(([id,l])=>`<a href="#${k}" data-v="${k}" data-t="${id}">${l}</a>`).join('');
+});
+document.querySelectorAll('.sub a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();goTo(a.dataset.v,a.dataset.t)}));
+document.querySelectorAll('.mx').forEach(b=>b.addEventListener('click',()=>setSub(b.dataset.v,b.getAttribute('aria-expanded')!=='true')));
+
+/* ================== DATA BLAST WHATSAPP ================== */
+let BL=[], BCH=[], BAG=[], BREADY=false, BPH=0;
+const OUT=[
+  {k:'bayar',label:'Sudah bayar',c:'#15803d',bg:'#dcf5e5',line:'#16a34a',rank:1},
+  {k:'lanjut',label:'Mau lanjut',c:'#1d4ed8',bg:'#e3ecfe',line:'#2563eb',rank:2},
+  {k:'tidak',label:'Tidak mau lanjut',c:'#b45309',bg:'#fdecd0',line:'#d97706',rank:3},
+  {k:'norespon',label:'Tidak respon',c:'#475569',bg:'#e6eaf0',line:'#64748b',rank:4},
+  {k:'reminder',label:'Reminder tagihan',c:'#4338ca',bg:'#e4e5fb',line:'#4f46e5',rank:5},
+  {k:'lain',label:'Tag lain (layanan)',c:'#0f766e',bg:'#d6f1ee',line:'#0d9488',rank:6},
+  {k:'notag',label:'Tanpa tag',c:'#64748b',bg:'#eef1f5',line:'#94a3b8',rank:7}
+];
+const OUTK=Object.fromEntries(OUT.map(o=>[o.k,o]));
+OUTK.none={k:'none',label:'Belum ada blast',c:'#64748b',bg:'#f1f3f7',line:'#cbd5e1',rank:8};
+function tagGroup(t){
+  t=String(t).toLowerCase();
+  if(/sudah bayar/.test(t))return 'bayar';
+  if(/tidak mau lanjut/.test(t))return 'tidak';
+  if(/mau lanjut/.test(t))return 'lanjut';
+  if(/no respon/.test(t))return 'norespon';
+  if(/reminder h[-+]\d|bc billing|bc isolir/.test(t))return 'reminder';
+  return 'lain';
+}
+const bestOf=gs=>gs.reduce((b,g)=>OUTK[g].rank<OUTK[b].rank?g:b,gs[0]||'notag');
+const roomGroup=tags=>tags.length?bestOf(tags.map(tagGroup)):'notag';
+const normPhone=p=>{let x=String(p||'').replace(/\D/g,'');if(!x)return '';if(x.startsWith('62'))return x;const i=x.indexOf('628');if(i>0)return x.slice(i);if(x.startsWith('08'))return '62'+x.slice(1);if(x.startsWith('8'))return '62'+x;return x};
+const chName=c=>String(c).replace(/^wa_cloud \[/,'').replace(/\]$/,'');
+const gp=(k)=>{const o=OUTK[k]||OUTK.notag;return `<span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>`};
+const tagChips=tags=>tags.length?tags.map(t=>{const o=OUTK[tagGroup(t)];return `<span class="tg" style="--c:${o.c};--bg:${o.bg}" title="${esc(t)}">${esc(t)}</span>`}).join(''):'<span class="foot">—</span>';
+
+function blastFromCsv(txt){
+  const outer=parseCsv(txt.replace(/^﻿/,'')), recs=[];
+  for(const r of outer){
+    if(!r.length||(r.length===1&&!r[0]))continue;
+    const row=r.length===1?parseCsv(r[0])[0]:r;
+    if(row)recs.push(row);
+  }
+  const h=recs.shift()||[], ix=n=>h.indexOf(n);
+  const I={rid:ix('room_id'),name:ix('name'),ph:ix('handler'),ch:ix('channel'),ag:ix('agents'),st:ix('status'),at:ix('created_at'),tag:ix('tag'),note:ix('note'),frs:ix('first_response_time_in_seconds'),rs:ix('resolved_time_in_seconds'),fra:ix('first_response_time_in_seconds_by_agent')};
+  if(Object.entries(I).some(([k,v])=>k!=='rid'&&v<0))throw new Error('kolom CSV blast tidak lengkap');
+  const num=x=>x!==undefined&&x!==''&&!isNaN(+x)?+x:null;
+  const chl=[],chh=new Map(),agl=[],agh=new Map(),rows=[];
+  for(const r of recs){
+    if(r.length<h.length-3||!r[I.ph])continue;
+    const c=r[I.ch]||'';if(!chh.has(c)){chh.set(c,chl.length);chl.push(c)}
+    const a=(r[I.ag]||'').trim();let ai=-1;if(a){if(!agh.has(a)){agh.set(a,agl.length);agl.push(a)}ai=agh.get(a)}
+    rows.push([(r[I.name]||'').trim(),r[I.ph].trim(),chh.get(c),r[I.st]||'',r[I.at]||'',(r[I.tag]||'').trim().toLowerCase(),(r[I.note]||'').trim(),ai,num(r[I.frs]),num(r[I.rs]),num(r[I.fra]),I.rid>=0?(r[I.rid]||'').trim():'']);
+  }
+  return {ch:chl,ag:agl,rows};
+}
+function setBlast(B,live){
+  BCH=B.ch;BAG=B.ag;
+  BL=B.rows.map((r,i)=>{
+    const tags=r[5]?r[5].split(',').map(s=>s.trim()).filter(Boolean):[];
+    return {i,name:r[0],ph:r[1],pn:normPhone(r[1]),ch:r[2],st:r[3],at:r[4],tag:r[5],tags,note:r[6],ag:r[7],frs:r[8],rs:r[9],fra:r[10],g:roomGroup(tags),cust:null,pr:prodOf(BCH[r[2]])};
+  });
+  BPH=new Set(BL.map(b=>b.pn)).size;
+  BLIVE=live;BERR='';BREADY=true;
+  buildMatch();updateHeader();
+}
+
+/* ================== PENCOCOKAN ISOLIR x BLAST ================== */
+let MS={cust:0,rooms:0,unmatchedPh:0};
+function buildMatch(){
+  if(!R||!BREADY)return;
+  const byPhone=new Map();
+  R.forEach(r=>{r.pn=normPhone(r.ph);r.rooms=[];r.g='none';r.lanjut=[];r.paid=false;r.last=null;if(r.pn){let a=byPhone.get(r.pn);if(!a){a=[];byPhone.set(r.pn,a)}a.push(r)}});
+  const unm=new Set();let mr=0;
+  BL.forEach(b=>{
+    const a=byPhone.get(b.pn);b.cust=a||null;
+    if(a){mr++;a.forEach(c=>c.rooms.push(b))}else unm.add(b.pn);
+  });
+  let cust=0;
+  R.forEach(r=>{
+    if(r.rooms.length){cust++;r.g=bestOf(r.rooms.map(b=>b.g));r.rooms.sort((x,y)=>x.at<y.at?1:-1);r.last=r.rooms[0];r.lanjut=r.rooms.filter(b=>b.g==='lanjut');r.paid=r.rooms.some(b=>b.g==='bayar')}
+  });
+  MS={cust,rooms:mr,unmatchedPh:unm.size};FU=R.filter(r=>r.lanjut.length);
+}
+
+/* ---------- export Excel generik ---------- */
+async function exportSheets(fname,sheets,nrows){
+  let dl=null;
+  try{if(window.claude&&window.claude.use)dl=await window.claude.use('downloads')}catch(e){dl=null}
+  const local=true;
+  if(!dl&&!local){
+    copy(sheets[0].aoa.map(r=>r.map(c=>String(c===null||c===undefined?'':c).replace(/\t|\r|\n/g,' ')).join('\t')).join('\n'),document.createElement('span'));
+    toast(`Unduhan tidak tersedia di tampilan ini. ${nf(nrows)} baris disalin, tempel ke Excel.`);
+    return;
+  }
+  toast(`Menyiapkan ${fname} …`);
+  try{
+    const X=await loadXlsx(), wb=X.utils.book_new();
+    sheets.forEach(s=>{const ws=X.utils.aoa_to_sheet(s.aoa);if(s.cols)ws['!cols']=s.cols.map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,s.name)});
+    if(dl){await dl.save({filename:fname,data:X.write(wb,{bookType:'xlsx',type:'array'})});toast(`${fname} disimpan (${nf(nrows)} baris).`)}
+    else{X.writeFile(wb,fname);toast(`${fname} diunduh (${nf(nrows)} baris).`)}
+  }catch(e){
+    if(dl){toast(e&&e.code==='declined'?'Unduhan dibatalkan.':'Unduhan gagal: '+((e&&(e.message||e.code))||'tidak diketahui'));return}
+    const csv='﻿'+sheets[0].aoa.map(r=>r.map(c=>'"'+String(c===null||c===undefined?'':c).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+    saveBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),fname.replace(/\.xlsx$/,'.csv'));
+    toast(`Pustaka Excel tidak bisa dimuat. ${fname.replace(/\.xlsx$/,'.csv')} diunduh sebagai gantinya.`);
+  }
+}
+const pagerH=(id,page,pages,total)=>`<div class="pager"><button id="${id}Prev"${page===0?' disabled':''}>Sebelumnya</button><span>${nf(total)} baris · halaman ${page+1} dari ${nf(pages)}</span><button id="${id}Next"${page>=pages-1?' disabled':''}>Berikutnya</button></div>`;
+function hourBars(color){
+  const hrs=new Array(24).fill(0);BL.forEach(b=>hrs[+b.at.slice(11,13)||0]++);
+  const mx=Math.max(1,...hrs),W=1000,H=190,L=44,B=24,T=10,pw=W-L-4,ph=H-B-T,bw=pw/24;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Jumlah room per jam">`;
+  s+=`<line x1="${L}" x2="${W-4}" y1="${T}" y2="${T}" stroke="var(--grid)"/><text x="${L-6}" y="${T+4}" text-anchor="end">${nf(mx)}</text><line x1="${L}" x2="${W-4}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/><text x="${L-6}" y="${T+ph+4}" text-anchor="end">0</text>`;
+  hrs.forEach((v,i)=>{const h=v/mx*ph,x=L+i*bw;
+    if(v>0)s+=`<rect x="${x+2}" y="${T+ph-h}" width="${bw-4}" height="${h}" rx="3" fill="${color}"/>`;
+    s+=`<rect x="${x}" y="${T}" width="${bw}" height="${ph}" fill="transparent"><title>${String(i).padStart(2,'0')}.00: ${nf(v)} room</title></rect>`;
+    if(i%3===0)s+=`<text x="${x+bw/2}" y="${H-6}" text-anchor="middle">${String(i).padStart(2,'0')}</text>`});
+  return s+'</svg>';
+}
+
+/* ================== HALAMAN: ANALISA BLAST ================== */
+/* Analisa data blast apa adanya dari CSV, tanpa mencocokkan data isolir.
+   Angka utama = nomor WhatsApp unik. Satu nomor bisa punya beberapa room; hasilnya memakai hasil terbaik. */
+const FWA_CH=['IRA - Internet Rakyat','Internet Rakyat','Internet Rakyat Support'];
+const PROD={
+  ftth:{k:'ftth',label:'FTTH Starlite',c:'#1d4ed8',bg:'#e3ecfe',line:'#2563eb',soft:'#eef4ff'},
+  fwa:{k:'fwa',label:'FWA IRA',c:'#15803d',bg:'#dcf5e5',line:'#16a34a',soft:'#effcf3'}
+};
+const PRODALL={k:'',label:'Total (semua kategori)',c:'#1e3a8a',bg:'#e6eaf6',line:'#1e3a8a',soft:'#f1f4fb'};
+const prodOf=ch=>FWA_CH.includes(chName(ch).trim())?'fwa':'ftth';
+const prodPill=k=>{const o=PROD[k];return `<span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>`};
+let BDATE='',BLV=[],NS={};
+const subOf=pr=>pr?BLV.filter(b=>b.pr===pr):BLV;
+function numMap(list){
+  const m=new Map();
+  list.forEach(b=>{
+    let o=m.get(b.pn);if(!o){o={pn:b.pn,ph:b.ph,name:'',rooms:[],gs:[]};m.set(b.pn,o)}
+    o.rooms.push(b);o.gs.push(b.g);if(!o.name&&b.name&&!/^\+?\d/.test(b.name))o.name=b.name;
+  });
+  m.forEach(o=>{
+    o.g=bestOf(o.gs);let l=o.rooms[0];o.rooms.forEach(b=>{if(b.at>l.at)l=b});
+    o.last=l;o.st=l.st;o.prs=[...new Set(o.rooms.map(b=>b.pr))];o.tags=[...new Set(o.rooms.flatMap(b=>b.tags))];
+    o.rooms.sort((x,y)=>x.at<y.at?1:x.at>y.at?-1:0);
+  });
+  return m;
+}
+const gCount=m=>{const c={};m.forEach(o=>{c[o.g]=(c[o.g]||0)+1});return c};
+function statsOf(list,m){
+  m=m||numMap(list);
+  const n=list.length, res=list.filter(b=>b.st==='resolved').length, wag=list.filter(b=>b.ag>=0).length;
+  const av=k=>{const v=list.map(b=>b[k]).filter(x=>x!==null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null};
+  return {n,ph:m.size,res,wag,frs:av('frs'),rs:av('rs')};
+}
+const STS=[['resolved','Selesai (resolved)'],['assigned','Ditangani (assigned)'],['unassigned','Belum ditugaskan']];
+const dayOfB=b=>b.at.slice(0,10);
+
+let BINIT=false;
+/* garis pemisah tegas antar kelompok kolom pada tabel .rtab */
+function rtabSep(root){
+  root.querySelectorAll('table.rtab').forEach(tb=>{
+    [...tb.rows].forEach(tr=>{
+      let c=(tr.parentNode.tagName==='THEAD'&&tr.rowIndex===1)?1:0;
+      const last=tr.cells[tr.cells.length-1];
+      [...tr.cells].forEach(td=>{const sp=td.colSpan||1,end=c+sp-1;td.classList.toggle('gs',end>0&&end%2===0&&td!==last);c+=sp});
+    });
+  });
+}
+const BF={q:'',pr:'',ch:'',st:'',g:'',page:0}, BPS=20;
+const BD2={pr:'',ch:'',g:'',th:'',q:'',page:0,title:''}, BDPS=15;
+const UNGGAH_HTML=`
+<section class="card" id="upGate" hidden><div class="head"><h2>Kata sandi unggah</h2></div><div class="ctl" style="gap:8px"><input type="password" id="gKey" placeholder="Kata sandi" aria-label="Kata sandi unggah" autocomplete="off"><button id="gGo" class="xls">Buka</button><span class="foot upst" id="gMsg" role="status"></span></div></section>
+<div id="upWrap" class="vcol" hidden>
+<div class="ctl" style="justify-content:space-between"><span class="foot">Akses unggah terbuka untuk sesi ini.</span><button id="gLock" class="upNo">Kunci kembali</button></div>
+<section class="card" id="upNoApi" hidden><p class="foot" style="margin:0">Database bersama belum dihubungkan. Isi <b>apiUrl</b> pada bagian PENGATURAN (lihat apps-script/PETUNJUK.md) agar unggahan terlihat oleh semua pengunjung dashboard.</p></section>
+  <div id="upMain" class="vcol" hidden>
+    <section class="card">
+      <div class="head"><h2>Unggah file CSV blast</h2><span class="foot">tanggal blast otomatis dibaca dari kolom created_at</span></div>
+      <div class="upgrid">
+        <label class="updrop" id="upDrop">Tarik file CSV ke sini atau pilih file<input type="file" id="upFile" accept=".csv,text/csv,text/plain"></label>
+        <div class="ctl" style="gap:8px;flex-wrap:wrap">
+          <select id="upMode" aria-label="Penentuan tanggal"><option value="auto">Tanggal dari isi file</option><option value="force">Paksa satu tanggal</option></select>
+          <input type="date" id="upDate" hidden aria-label="Tanggal blast">
+          <button id="upGo" class="xls" disabled>Simpan ke database</button>
+        </div>
+      </div>
+      <div id="upPreview" style="margin-top:10px"></div>
+      <div id="upStatus" class="upst" role="status"></div>
+    </section>
+    <section class="card"><div class="head"><h2>Tanggal tersimpan di database</h2><span class="foot">menyimpan ulang tanggal yang sama akan mengganti datanya</span></div><div class="tw"><table id="upDays"></table></div></section>
+  </div>
+</div>`;
+const BLAST_HTML=`
+<div id="bEmpty" class="boot" role="status">Memuat data blast WhatsApp…</div>
+<section class="card" id="bKeyBox" hidden><div class="head"><h2>Kata sandi diperlukan</h2></div><div class="ctl" style="gap:8px"><input type="password" id="rkKey" placeholder="Kata sandi baca" aria-label="Kata sandi baca" autocomplete="off"><button id="rkGo" class="xls">Buka data</button><span class="foot" id="rkMsg"></span></div></section>
+<div id="bMain" class="vcol" hidden>
+  <div class="sechead" id="b-ringkasan"><div><div class="eyebrow">Ringkasan</div><h2 class="big">Ringkasan Blast WhatsApp</h2></div><div class="ctl"><span class="foot" id="bDateNote"></span><label for="bDate" class="foot">Tanggal blast</label><select id="bDate" aria-label="Filter tanggal blast"></select></div></div>
+  <section class="bhero" id="bHero" aria-label="Ringkasan blast per kategori produk"></section>
+
+  <div class="sechead" id="b-timeline"><div><div class="eyebrow">Timeline</div><h2 class="big">Timeline Blast per Hari</h2></div><span class="meta2">klik satu hari untuk memfilter seluruh halaman</span></div>
+  <section class="card"><div class="tl" id="bTl"></div></section>
+
+  <div class="sechead" id="b-tag"><div><div class="eyebrow">Hasil blast</div><h2 class="big">Hasil Blast per Tag</h2></div><button id="bTagXls" class="xls">Download Excel</button></div>
+  <section class="card"><div class="tw" id="bTagT"></div><p class="foot" style="margin:10px 0 0">Angka utama adalah <b>nomor WhatsApp unik</b>. Bila satu nomor punya beberapa room, dipakai hasil terbaik (Sudah bayar, Mau lanjut, Tidak mau lanjut, Tidak respon, Reminder tagihan, Tag lain, Tanpa tag). Kolom Total menghitung nomor yang muncul di dua kategori sekali saja. Kategori produk: FWA IRA = channel IRA - Internet Rakyat, Internet Rakyat, dan Internet Rakyat Support; channel lain = FTTH Starlite. Klik angka untuk melihat detailnya.</p></section>
+  <section class="card" id="b-status"><div class="head"><h2>Status nomor per kategori</h2><span class="foot">berdasarkan status room terakhir tiap nomor</span></div><div class="tw"><table id="bStT" class="rtab"></table></div></section>
+
+  <div class="sechead" id="b-lain"><div><div class="eyebrow">Kesimpulan</div><h2 class="big">Tag Lain (Layanan): Apa yang Bisa Ditindaklanjuti</h2></div><button id="bLainXls" class="xls">Download Excel</button></div>
+  <section class="card concl-card">
+    <div class="lseg" id="bLainSeg" role="group" aria-label="Kategori produk"><button data-p="" class="on">Semua</button><button data-p="ftth">FTTH Starlite</button><button data-p="fwa">FWA IRA</button></div>
+    <div class="concl" id="bLainSum"></div>
+    <div class="tw"><table id="bLainT" class="ltab"></table></div>
+  </section>
+  <section class="card" id="b-channel"><div class="head"><h2>Channel per kategori</h2><span class="foot">klik baris untuk melihat detail</span></div><div class="tw"><table id="bChT"></table></div></section>
+  <section class="card" id="b-jam"><div class="head"><h2>Nomor WhatsApp per jam</h2><div class="legend" id="bLeg"></div></div><div class="chartbox" id="bHour"></div></section>
+  <section class="card" id="b-agen"><div class="head"><h2>Agen penanganan</h2><span class="foot">nomor yang ditangani agen</span></div><div class="tw scrollbox" style="max-height:300px"><table id="bAgT"></table></div></section>
+
+  <section class="card">
+    <div class="head"><span id="b-daftar" class="anch"></span><h2 id="bTitle">Daftar nomor WhatsApp</h2>
+      <div class="ctl"><input type="text" id="bQ" placeholder="Cari nama, nomor, tag" aria-label="Cari nomor"><select id="bPr" aria-label="Kategori produk"><option value="">Semua kategori</option><option value="ftth">FTTH Starlite</option><option value="fwa">FWA IRA</option></select><select id="bCh" aria-label="Channel"></select><select id="bSt" aria-label="Status room terakhir"><option value="">Semua status</option><option>resolved</option><option>assigned</option><option>unassigned</option></select><select id="bG" aria-label="Hasil blast"></select><button id="bXls" class="xls">Download Excel</button></div></div>
+    <div class="tw"><table id="bTbl"></table></div><div id="bPager"></div>
+  </section>
+</div>
+<div class="mback" id="bmodal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bdTitle">
+    <div class="mhead"><div><div class="eyebrow">Detail blast WhatsApp</div><h2 id="bdTitle"></h2><div class="foot" id="bdSub" style="margin-top:2px"></div></div><div class="ctl"><button id="bdXls" class="xls">Download Excel</button><button id="bdClose" aria-label="Tutup">Tutup ✕</button></div></div>
+    <div class="mbody">
+      <div class="mk mk2" id="bdK"></div>
+      <div class="mrow">
+        <div><h3 class="sub3">Hasil blast per tag</h3><div class="tw"><table id="bdG"></table></div></div>
+        <div><h3 class="sub3">Status nomor</h3><div class="tw"><table id="bdS"></table></div></div>
+        <div><h3 class="sub3">Channel</h3><div class="tw"><table id="bdC"></table></div></div>
+      </div>
+      <div><h3 class="sub3" id="bdTT">Tag terbanyak</h3><div class="tw scrollbox" style="max-height:260px"><table id="bdT"></table></div></div>
+      <div><h3 class="sub3">Nomor WhatsApp per jam</h3><div class="chartbox" id="bdH"></div></div>
+      <div>
+        <div class="head" style="margin-bottom:8px"><h3 class="sub3" style="margin:0">Daftar nomor WhatsApp</h3><div class="ctl"><input type="text" id="bdQ" placeholder="Cari nama, nomor, tag" aria-label="Cari nomor"></div></div>
+        <div class="lchips" id="bdChips" style="margin-bottom:8px"></div>
+        <div class="tw"><table id="bdTbl"></table></div><div id="bdPager"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mback" id="nmodal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="nTitle">
+    <div class="mhead"><div><div class="eyebrow">Nomor WhatsApp</div><h2 id="nTitle"></h2><div class="foot" id="nSub" style="margin-top:2px"></div></div><div class="ctl"><button id="nClose" aria-label="Tutup">Tutup ✕</button></div></div>
+    <div class="mbody" id="nBody"></div>
+  </div>
+</div>`;
+function renderBlast(){
+  if(!BINIT){$('v-blast').innerHTML=BLAST_HTML;BINIT=true;bindBlast();bindReadKey()}
+  $('bEmpty').hidden=BREADY||BAUTH;$('bMain').hidden=!BREADY;$('bKeyBox').hidden=!BAUTH||BREADY;
+  if(!BREADY){$('bEmpty').textContent=BERR||'Memuat data blast WhatsApp…';return}
+  fillBlast();rtabSep(document);
+}
+function closeBD(){$('bmodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+function closeN(){$('nmodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+function bindBlast(){
+  $('bDate').onchange=e=>{BDATE=e.target.value;BF.page=0;fillBlast();rtabSep(document)};
+  $('bQ').oninput=e=>{BF.q=e.target.value.trim();BF.page=0;renderBTable()};
+  $('bPr').onchange=e=>{BF.pr=e.target.value;BF.page=0;renderBTable()};
+  $('bCh').onchange=e=>{BF.ch=e.target.value;BF.page=0;renderBTable()};
+  $('bSt').onchange=e=>{BF.st=e.target.value;BF.page=0;renderBTable()};
+  $('bG').onchange=e=>{BF.g=e.target.value;BF.page=0;renderBTable()};
+  $('bXls').onclick=exportBlast;$('bTagXls').onclick=exportBlastTags;$('bLainXls').onclick=exportLain;
+  $('bdQ').oninput=e=>{BD2.q=e.target.value.trim();BD2.page=0;renderBdTable()};
+  $('bdXls').onclick=exportBd;$('bdClose').onclick=closeBD;
+  $('bmodal').addEventListener('click',e=>{if(e.target===$('bmodal'))closeBD()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('bmodal').hidden&&$('nmodal').hidden)closeBD()});
+  $('nClose').onclick=closeN;
+  $('nmodal').addEventListener('click',e=>{if(e.target===$('nmodal'))closeN()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('nmodal').hidden)closeN()});
+}
+
+/* ---------- grafik nomor unik per jam ---------- */
+function stackBars(list,W,H){
+  const h={ftth:Array.from({length:24},()=>new Set()),fwa:Array.from({length:24},()=>new Set())};
+  list.forEach(b=>{h[b.pr][+b.at.slice(11,13)||0].add(b.pn)});
+  const f=h.ftth.map(s=>s.size), w=h.fwa.map(s=>s.size), tot=f.map((v,i)=>v+w[i]), mx=Math.max(1,...tot);
+  const L=44,B=24,T=10,pw=W-L-4,ph=H-B-T,bw=pw/24;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Jumlah nomor WhatsApp unik per jam">`;
+  s+=`<line x1="${L}" x2="${W-4}" y1="${T}" y2="${T}" stroke="var(--grid)"/><text x="${L-6}" y="${T+4}" text-anchor="end">${nf(mx)}</text><line x1="${L}" x2="${W-4}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/><text x="${L-6}" y="${T+ph+4}" text-anchor="end">0</text>`;
+  for(let i=0;i<24;i++){
+    const x=L+i*bw, hf=f[i]/mx*ph, hw=w[i]/mx*ph;
+    if(f[i])s+=`<rect x="${x+2}" y="${T+ph-hf}" width="${bw-4}" height="${hf}" rx="2" fill="${PROD.ftth.line}"/>`;
+    if(w[i])s+=`<rect x="${x+2}" y="${T+ph-hf-hw}" width="${bw-4}" height="${hw}" rx="2" fill="${PROD.fwa.line}"/>`;
+    s+=`<rect x="${x}" y="${T}" width="${bw}" height="${ph}" fill="transparent"><title>${String(i).padStart(2,'0')}.00 · FTTH Starlite ${nf(f[i])} · FWA IRA ${nf(w[i])} nomor</title></rect>`;
+    if(i%3===0)s+=`<text x="${x+bw/2}" y="${H-6}" text-anchor="middle">${String(i).padStart(2,'0')}</text>`;
+  }
+  return s+'</svg>';
+}
+const legendH=()=>`<span><i style="width:12px;height:10px;background:${PROD.ftth.line};border-radius:2px"></i>FTTH Starlite</span><span><i style="width:12px;height:10px;background:${PROD.fwa.line};border-radius:2px"></i>FWA IRA</span>`;
+
+/* ---------- ringkasan ---------- */
+function fillBlast(){
+  const days=[...new Set(BL.map(dayOfB))].sort();
+  if(BDATE&&!days.includes(BDATE))BDATE='';
+  BLV=BDATE?BL.filter(b=>dayOfB(b)===BDATE):BL;
+  NS={'':numMap(BLV),ftth:numMap(subOf('ftth')),fwa:numMap(subOf('fwa'))};
+  $('bDate').innerHTML='<option value="">Semua tanggal blast</option>'+days.slice().reverse().map(d=>`<option value="${d}">${dayName(d)}, ${fmtD(d)}</option>`).join('');$('bDate').value=BDATE;
+  $('bDateNote').textContent=BDATE?`Menampilkan blast ${fmtD(BDATE)}`:'angka utama = nomor WhatsApp unik · klik kartu untuk detail';
+  const all=statsOf(BLV,NS['']), cards=[[PRODALL,all],[PROD.ftth,statsOf(subOf('ftth'),NS.ftth)],[PROD.fwa,statsOf(subOf('fwa'),NS.fwa)]];
+  const CT={'':{a:'#fffaf2',b:'#fde7cb',l:'#ea8a1a',c:'#b45309'},ftth:{a:'#f4f9ff',b:'#dbe8fd',l:'#2563eb',c:'#1d4ed8'},fwa:{a:'#fff6f6',b:'#fddede',l:'#dc2626',c:'#b91c1c'}};
+  $('bHero').innerHTML=cards.map(([p,s])=>{const t=CT[p.k], g=gCount(NS[p.k]);return `<button class="bh" data-pr="${p.k}" style="--c:${t.c};--l:${t.l};background:linear-gradient(180deg,${t.a},${t.b})" aria-haspopup="dialog">
+    <span class="bh-top"><span class="hl2">${p.label}</span><span class="hgo">Lihat detail ›</span></span>
+    <span class="bh-num"><span class="hbig">${nf(s.ph)}</span><span class="hsub">nomor WhatsApp unik<br>${p.k?`${pctS(s.ph,all.ph)} dari total nomor`:'semua kategori produk'}</span></span>
+    <span class="bms"><span class="bm" title="Jumlah room blast"><em>Room</em><b>${nf(s.n)}</b></span><span class="bm" title="Room selesai"><em>Selesai</em><b>${pctS(s.res,s.n,0)}</b></span><span class="bm" title="Rata-rata respon pertama"><em>Respon</em><b>${menit(s.frs)}</b></span><span class="bm" title="Rata-rata waktu selesai"><em>Waktu</em><b>${menit(s.rs)}</b></span></span>
+    <span class="bts">${OUT.map(o=>{const v=g[o.k]||0,pc=s.ph?v/s.ph*100:0;return `<span class="bt" data-g="${o.k}" style="--c:${o.c}"><em>${o.label}</em><b>${nf(v)}</b><i>${pctS(v,s.ph)}</i></span>`}).join('')}</span></button>`}).join('');  $('bHero').querySelectorAll('.bh').forEach(b=>b.addEventListener('click',e=>{const k=b.dataset.pr,row=e.target.closest('.bt'),g=row?row.dataset.g:'';const nm=k?PROD[k].label:'Total semua kategori produk';openBlastDetail({pr:k,g,title:g?`${OUTK[g].label} · ${nm}`:nm})}));
+  fillTagTable();fillLain();fillStatus();fillChannel();
+  $('bLeg').innerHTML=legendH();$('bHour').innerHTML=stackBars(BLV,1000,190);
+  // agen
+  const am=new Map();BLV.forEach(b=>{if(b.ag<0)return;let o=am.get(b.ag);if(!o){o={ftth:new Set(),fwa:new Set(),all:new Set(),n:0,r:0,f:[]};am.set(b.ag,o)}o[b.pr].add(b.pn);o.all.add(b.pn);o.n++;if(b.st==='resolved')o.r++;if(b.fra!==null)o.f.push(b.fra)});
+  const ag=[...am].sort((a,b)=>b[1].all.size-a[1].all.size).slice(0,20);
+  $('bAgT').innerHTML=`<thead><tr><th>Agen</th><th class="num">FTTH Starlite</th><th class="num">FWA IRA</th><th class="num">Total nomor</th><th class="num">Room</th><th class="num">Room selesai</th><th class="num">Respon agen</th></tr></thead><tbody>${ag.map(([i,o])=>`<tr><td>${esc(BAG[i])}</td><td class="num">${nf(o.ftth.size)}</td><td class="num">${nf(o.fwa.size)}</td><td class="num">${nf(o.all.size)}</td><td class="num">${nf(o.n)}</td><td class="num">${pctS(o.r,o.n,0)}</td><td class="num">${menit(o.f.length?o.f.reduce((a,b)=>a+b,0)/o.f.length:null)}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">Belum ada room dengan agen</td></tr>'}</tbody>`;
+  // opsi filter
+  const chs=chList();const cur=BF.ch;
+  $('bCh').innerHTML='<option value="">Semua channel</option>'+chs.map(x=>`<option value="${x.i}">${esc(chName(BCH[x.i]))} (${nf(x.u)})</option>`).join('');$('bCh').value=cur;
+  $('bG').innerHTML='<option value="">Semua hasil</option>'+OUT.map(o=>`<option value="${o.k}">${o.label}</option>`).join('');$('bG').value=BF.g;
+  $('bSt').value=BF.st;$('bPr').value=BF.pr;
+  fillBTimeline();
+  renderBTable();
+}
+function chList(){
+  return BCH.map((c,i)=>{const l=BLV.filter(b=>b.ch===i);return {i,n:l.length,pr:prodOf(c),u:new Set(l.map(b=>b.pn)).size,r:l.filter(b=>b.st==='resolved').length,f:statsOf(l).frs}}).filter(x=>x.n).sort((a,b)=>(a.pr===b.pr?0:a.pr==='ftth'?-1:1)||b.u-a.u);
+}
+
+/* ---------- timeline blast per hari (tanggal blast) ---------- */
+function fillBTimeline(){
+  const by={};BL.forEach(b=>{const d=dayOfB(b);(by[d]=by[d]||[]).push(b)});
+  const asc=Object.keys(by).sort(), days=asc.slice().reverse();
+  let h='<ol>',prevM=null;
+  days.forEach((d,idx)=>{
+    const l=by[d], m=numMap(l), s=statsOf(l,m), g=gCount(m), mk=d.slice(0,7);
+    const nf_=l.filter(b=>b.pr==='ftth').map(b=>b.pn), nw_=l.filter(b=>b.pr==='fwa').map(b=>b.pn);
+    if(mk!==prevM){h+=`<li class="mon"><span>${BLN[+d.slice(5,7)-1]} ${d.slice(0,4)}</span></li>`;prevM=mk}
+    const tiles=[['Nomor WA unik',nf(s.ph)],['FTTH Starlite',nf(new Set(nf_).size)],['FWA IRA',nf(new Set(nw_).size)],['Room blast',nf(s.n)],['Room selesai',pctS(s.res,s.n,0)],['Respon pertama',menit(s.frs)]];
+    const stack=OUT.map(o=>{const v=g[o.k]||0;return v?`<i style="width:${s.ph?v/s.ph*100:0}%;background:${o.line}" title="${o.label}: ${nf(v)} nomor"></i>`:''}).join('');
+    const leg=OUT.map(o=>g[o.k]?`<span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label} ${nf(g[o.k])}</span>`:'').join('');
+    h+=`<li class="ev${BDATE===d?' sel':''}" data-d="${d}"><span class="node" aria-hidden="true"><b>${+d.slice(8)}</b><small>${BULAN[+d.slice(5,7)-1]}</small></span>
+      <button class="evc" aria-pressed="${BDATE===d}">
+        <span class="evh"><span class="evd"><b>${dayName(d)}, ${fmtD(d)}</b><span class="flag bl">Batch ${asc.indexOf(d)+1}</span></span><span class="foot">${BDATE===d?'Filter aktif · klik lagi untuk melepas':'Klik untuk memfilter halaman ini'}</span></span>
+        <span class="evs evs6 evsb">${tiles.map(t=>`<span class="st"><em>${t[0]}</em><b>${t[1]}</b></span>`).join('')}</span>
+        <span class="stack" role="img" aria-label="Komposisi hasil blast per nomor">${stack}</span>
+        <span class="evt" style="gap:5px">${leg}</span>
+      </button></li>`;
+    const nxt=days[idx+1];
+    if(nxt){const gap=diffDays(nxt,d)-1;if(gap>0)h+=`<li class="gap"><span>${nf(gap)} hari tanpa blast</span></li>`}
+  });
+  $('bTl').innerHTML=days.length?h+'</ol>':'<div class="empty">Belum ada data blast</div>';
+  $('bTl').querySelectorAll('.ev').forEach(li=>li.querySelector('.evc').addEventListener('click',()=>{
+    BDATE=BDATE===li.dataset.d?'':li.dataset.d;BF.page=0;fillBlast();rtabSep(document);
+  }));
+}
+
+/* ---------- tabel hasil blast per tag ---------- */
+const PHEAD={ftth:'ph-ftth',fwa:'ph-fwa','':'ph-all'};
+function tagTable(){
+  const cols=['ftth','fwa',''].map(k=>({k,n:NS[k].size,g:gCount(NS[k])}));
+  const head1=`<th rowspan="2" class="rt-first">Hasil Blast (Tag)</th>${cols.map(c=>`<th colspan="2" class="${PHEAD[c.k]}">${c.k?PROD[c.k].label:'Total'}</th>`).join('')}`;
+  const head2=cols.map(c=>`<th class="${PHEAD[c.k]}">Jumlah</th><th class="${PHEAD[c.k]}">% dari Total</th>`).join('');
+  const dr=`<tr class="r-dr"><td class="rt-first">Nomor WhatsApp Unik</td>${cols.map(c=>`<td colspan="2" class="cl" data-pr="${c.k}" data-g="">${nf(c.n)}</td>`).join('')}</tr>`;
+  const rows=OUT.map(o=>`<tr class="${RT_CLASS[o.k]}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span></td>${cols.map(c=>{const v=c.g[o.k]||0,p=c.n?v/c.n*100:0;return `<td class="cl" data-pr="${c.k}" data-g="${o.k}">${nf(v)}</td><td class="cl" data-pr="${c.k}" data-g="${o.k}" style="background:linear-gradient(90deg,${o.bg} ${p}%,#fff ${p}%)">${pctS(v,c.n)}</td>`}).join('')}</tr>`).join('');
+  const gt=`<tr class="r-gt"><td class="rt-first">Grand Total</td>${cols.map(c=>`<td>${nf(c.n)}</td><td>${c.n?'100,0%':'0,0%'}</td>`).join('')}</tr>`;
+  return {html:`<table class="rtab"><thead><tr>${head1}</tr><tr>${head2}</tr></thead><tbody>${dr}${rows}${gt}</tbody></table>`,cols};
+}
+function fillTagTable(){
+  $('bTagT').innerHTML=tagTable().html;
+  $('bTagT').querySelectorAll('td.cl').forEach(td=>td.addEventListener('click',()=>{
+    const pr=td.dataset.pr,g=td.dataset.g;
+    openBlastDetail({pr,g,title:`${g?OUTK[g].label:'Semua hasil'} · ${pr?PROD[pr].label:'Total semua kategori'}`});
+  }));
+}
+function exportBlastTags(){
+  const {cols}=tagTable();
+  const h1=['Hasil Blast (Tag)'],h2=[''];cols.forEach(c=>{h1.push(c.k?PROD[c.k].label:'Total','');h2.push('Jumlah nomor','% dari Total')});
+  const aoa=[h1,h2,['Nomor WhatsApp Unik',...cols.flatMap(c=>[c.n,''])],...OUT.map(o=>[o.label,...cols.flatMap(c=>{const v=c.g[o.k]||0;return [v,c.n?+(v/c.n).toFixed(4):0]})]),['Grand Total',...cols.flatMap(c=>[c.n,c.n?1:0])]];
+  const tg=new Map();
+  ['ftth','fwa'].forEach(k=>NS[k].forEach(o=>o.tags.concat(o.tags.length?[]:['(tanpa tag)']).forEach(t=>{let e=tg.get(t);if(!e){e={ftth:0,fwa:0,all:new Set(),g:t==='(tanpa tag)'?'notag':tagGroup(t)};tg.set(t,e)}e[k]++;e.all.add(o.pn)})));
+  const tag=[['Tag','Kelompok hasil','FTTH Starlite (nomor)','FWA IRA (nomor)','Total nomor unik'],...[...tg].sort((a,b)=>OUTK[a[1].g].rank-OUTK[b[1].g].rank||b[1].all.size-a[1].all.size).map(([t,o])=>[t,OUTK[o.g].label,o.ftth,o.fwa,o.all.size])];
+  exportSheets('hasil-blast-per-tag.xlsx',[{name:'Hasil per Kelompok',aoa,cols:[34,12,12,12,12,12,12]},{name:'Rincian Tag',aoa:tag,cols:[48,22,18,16,16]}],aoa.length+tag.length);
+}
+function fillStatus(){
+  const cols=['ftth','fwa',''].map(k=>{const c={};NS[k].forEach(o=>{c[o.st]=(c[o.st]||0)+1});return {k,n:NS[k].size,s:c}});
+  $('bStT').innerHTML=`<thead><tr><th rowspan="2" class="rt-first">Status nomor</th>${cols.map(c=>`<th colspan="2" class="${PHEAD[c.k]}">${c.k?PROD[c.k].label:'Total'}</th>`).join('')}</tr><tr>${cols.map(c=>`<th class="${PHEAD[c.k]}">Jumlah</th><th class="${PHEAD[c.k]}">%</th>`).join('')}</tr></thead><tbody>${STS.map(([k,l])=>`<tr><td class="rt-first">${l}</td>${cols.map(c=>{const v=c.s[k]||0;return `<td>${nf(v)}</td><td>${pctS(v,c.n,0)}</td>`}).join('')}</tr>`).join('')}<tr class="r-gt"><td class="rt-first">Grand Total</td>${cols.map(c=>`<td>${nf(c.n)}</td><td>${c.n?'100%':'0%'}</td>`).join('')}</tr></tbody>`;
+}
+function fillChannel(){
+  const chs=chList();
+  $('bChT').innerHTML=`<thead><tr><th>Kategori</th><th>Channel</th><th class="num">Nomor unik</th><th class="num">Room</th><th class="num">Room selesai</th><th class="num">Respon pertama</th></tr></thead><tbody>${chs.map(x=>`<tr class="click" data-i="${x.i}"><td>${prodPill(x.pr)}</td><td>${esc(chName(BCH[x.i]))}</td><td class="num">${nf(x.u)}</td><td class="num">${nf(x.n)}</td><td class="num">${pctS(x.r,x.n,0)}</td><td class="num">${menit(x.f)}</td></tr>`).join('')}</tbody>`;
+  $('bChT').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>{const i=+tr.dataset.i;openBlastDetail({pr:prodOf(BCH[i]),ch:i,title:`Channel ${chName(BCH[i])}`})}));
+}
+
+/* ---------- daftar nomor (halaman) ---------- */
+function bScoped(){
+  let r=BLV;
+  if(BF.pr)r=r.filter(b=>b.pr===BF.pr);
+  if(BF.ch!=='')r=r.filter(b=>b.ch===+BF.ch);
+  return r;
+}
+function numList(m,f){
+  let a=[...m.values()];
+  if(f.g)a=a.filter(o=>o.g===f.g);
+  if(f.st)a=a.filter(o=>o.st===f.st);
+  if(f.q){const q=f.q.toLowerCase();a=a.filter(o=>o.name.toLowerCase().includes(q)||o.ph.includes(q)||o.tags.some(t=>t.includes(q)))}
+  return a.sort((x,y)=>x.last.at<y.last.at?1:x.last.at>y.last.at?-1:0);
+}
+const numHead='<thead><tr><th>Waktu terakhir</th><th>Nama</th><th>Nomor</th><th>Kategori</th><th>Hasil</th><th>Tag</th><th class="num">Room</th><th>Channel terakhir</th><th>Status</th><th>Agen</th></tr></thead>';
+const numRow=(o,i)=>`<tr class="click" data-i="${i}"><td class="mono">${o.last.at.slice(5,16)}</td><td>${esc(o.name||'(tanpa nama)')}</td><td class="mono">${esc(o.ph)}</td><td>${o.prs.map(prodPill).join(' ')}</td><td>${gp(o.g)}</td><td>${tagChips(o.tags)}</td><td class="num">${nf(o.rooms.length)}</td><td>${esc(chName(BCH[o.last.ch]))}</td><td>${esc(o.st)}</td><td>${o.last.ag>=0?esc(BAG[o.last.ag]):'—'}</td></tr>`;
+function openNumber(o){
+  $('nTitle').textContent=o.name||'(tanpa nama)';
+  $('nSub').innerHTML=`${esc(o.ph)} · ${gp(o.g)} ${o.prs.map(prodPill).join(' ')}`;
+  const kp=[['Room',nf(o.rooms.length)],['Kategori',o.prs.map(k=>PROD[k].label).join(', ')],['Hasil terbaik',OUTK[o.g].label],['Status terakhir',esc(o.st)]];
+  $('nBody').innerHTML=`<div class="mk mk2">${kp.map(k=>`<div><span>${k[0]}</span><b style="font-size:14px">${k[1]}</b></div>`).join('')}</div>
+   <div><h3 class="sub3">Room WhatsApp nomor ini</h3><div class="tw"><table><thead><tr><th>Waktu</th><th>Channel</th><th>Kategori</th><th>Status</th><th>Hasil</th><th>Tag</th><th>Agen</th><th class="num">Respon pertama</th><th>Catatan</th></tr></thead><tbody>${o.rooms.map(b=>`<tr><td class="mono">${b.at.slice(0,16)}</td><td>${esc(chName(BCH[b.ch]))}</td><td>${prodPill(b.pr)}</td><td>${esc(b.st)}</td><td>${gp(b.g)}</td><td>${tagChips(b.tags)}</td><td>${b.ag>=0?esc(BAG[b.ag]):'—'}</td><td class="num">${menit(b.frs)}</td><td>${esc(b.note||'—')}</td></tr>`).join('')}</tbody></table></div></div>`;
+  $('nmodal').hidden=false;document.body.style.overflow='hidden';$('nBody').scrollTop=0;$('nClose').focus();
+}
+function renderBTable(){
+  const m=numMap(bScoped()), r=numList(m,BF),pages=Math.max(1,Math.ceil(r.length/BPS));BF.page=Math.min(BF.page,pages-1);
+  const sl=r.slice(BF.page*BPS,BF.page*BPS+BPS);
+  $('bTbl').innerHTML=numHead+`<tbody>${sl.map((o,i)=>numRow(o,i)).join('')||'<tr><td colspan="10" class="empty">Tidak ada nomor yang cocok</td></tr>'}</tbody>`;
+  $('bTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openNumber(sl[+tr.dataset.i])));
+  $('bPager').innerHTML=pagerH('bp',BF.page,pages,r.length);
+  $('bpPrev').onclick=()=>{BF.page--;renderBTable()};$('bpNext').onclick=()=>{BF.page++;renderBTable()};
+}
+const numAoa=r=>[['Nomor','Nama','Kategori produk','Hasil blast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Agen (terakhir)','Waktu room terakhir','Respon pertama (detik)'],...r.map(o=>[o.ph,o.name,o.prs.map(k=>PROD[k].label).join(', '),OUTK[o.g].label,o.tags.join('; '),o.rooms.length,chName(BCH[o.last.ch]),o.st,o.last.ag>=0?BAG[o.last.ag]:'',o.last.at,o.last.frs])];
+function exportBlast(){const r=numList(numMap(bScoped()),BF);exportSheets('nomor-whatsapp-blast.xlsx',[{name:'Nomor WhatsApp',aoa:numAoa(r),cols:[18,24,22,18,40,10,26,12,20,18,12]}],r.length)}
+
+/* ---------- kesimpulan tag lain (layanan) ---------- */
+const LAIN_TH=[
+  {k:'gangguan',label:'Gangguan & kualitas internet',s:'Gangguan',re:/gangguan|internet mati|koneksi terbatas|no internet|lambat|tidak stabil|intermitten|kecepatan/,act:'Teruskan ke NOC/teknisi, info area terdampak'},
+  {k:'tagihan',label:'Tagihan & pembayaran',s:'Tagihan',re:/tagihan|invoice|pembayaran|cara bayar/,act:'Kirim tagihan & cara bayar, follow-up bayar'},
+  {k:'tiket',label:'Status tiket',s:'Tiket',re:/status tiket/,act:'Update status tiket, eskalasi yang lama'},
+  {k:'sales',label:'Calon pelanggan & registrasi',s:'Calon pelanggan',re:/registrasi|register|minat berlangganan|produk|paket|cakupan|coverage|aktivasi|jadwal pemasangan|sahabat|member get member/,act:'Teruskan ke sales: cek cakupan, survei, aktivasi'},
+  {k:'perangkat',label:'Bantuan perangkat',s:'Perangkat',re:/password|ssid|modem|relokasi/,act:'Kirim panduan password/SSID, jadwalkan teknisi'},
+  {k:'pindah',label:'Berhenti / pindah rumah',s:'Pindah rumah',re:/dismantle|pindah/,act:'Tawarkan pindah alamat atau proses dismantle'},
+  {k:'data',label:'Perubahan data',s:'Ubah data',re:/ubah data|no telepon/,act:'Proses perubahan data pelanggan'},
+  {k:'dealer',label:'Dealer & mitra',s:'Dealer',re:/dealer/,act:'Teruskan ke tim dealer'},
+  {k:'info',label:'Informasi umum',s:'Informasi umum',re:/layanan internet|informasi lainnya/,act:'Tinjau isi chat, buat jawaban standar (FAQ)'},
+  {k:'auto',label:'Tag otomatis & spam',s:'Otomatis',re:/autotag|auto tag|spam/,act:'Tanpa tindakan; minta agen beri tag spesifik'},
+  {k:'lainnya',label:'Belum dikelompokkan',s:'Lainnya',re:/.^/,act:'Tinjau tag dan isi chat'}
+];
+const LAIN_K=Object.fromEntries(LAIN_TH.map(t=>[t.k,t]));
+const lainTheme=tag=>{for(const t of LAIN_TH){if(t.re.test(tag))return t.k}return 'lainnya'};
+function lainNums(th,pr){
+  const keep=new Set();
+  NS[pr||''].forEach(o=>{if(o.g==='lain'&&o.tags.some(t=>lainTheme(t)===th))keep.add(o.pn)});
+  return keep;
+}
+function lainStats(){
+  const res={};LAIN_TH.forEach(t=>{res[t.k]={ftth:new Set(),fwa:new Set(),all:new Set(),un:new Set(),notes:new Map(),unf:new Set(),unw:new Set()}});
+  ['ftth','fwa'].forEach(pk=>NS[pk].forEach(o=>{
+    if(o.g!=='lain')return;
+    const ths=new Set(o.tags.map(lainTheme));
+    ths.forEach(k=>{const r=res[k];r[pk].add(o.pn);r.all.add(o.pn);if(o.st!=='resolved'){r.un.add(o.pn);(pk==='ftth'?r.unf:r.unw).add(o.pn)}});
+    if(ths.has('gangguan'))o.rooms.forEach(b=>{if(b.note){const m=res.gangguan.notes;m.set(b.note,(m.get(b.note)||0)+1)}});
+  }));
+  let tot=0,un=0,totF=0,totW=0;NS[''].forEach(o=>{if(o.g==='lain'){tot++;if(o.st!=='resolved')un++}});
+  NS.ftth.forEach(o=>{if(o.g==='lain')totF++});NS.fwa.forEach(o=>{if(o.g==='lain')totW++});
+  return {res,tot,un,totF,totW};
+}
+let LAINPR='';
+function fillLain(){
+  const S=lainStats(), P=LAINPR, all=NS[P].size||1, pk=P||'all', uk=P==='ftth'?'unf':P==='fwa'?'unw':'un';
+  S.tot=0;S.un=0;NS[P].forEach(o=>{if(o.g==='lain'){S.tot++;if(o.st!=='resolved')S.un++}});
+  document.querySelectorAll('#bLainSeg button').forEach(b=>{b.classList.toggle('on',b.dataset.p===P);b.onclick=()=>{LAINPR=b.dataset.p;fillLain()}});
+  const lastK=k=>k==='auto'||k==='lainnya'?1:0;
+  const rows=LAIN_TH.map(t=>({t,r:S.res[t.k]})).filter(x=>x.r.all.size).sort((a,b)=>lastK(a.t.k)-lastK(b.t.k)||b.r.all.size-a.r.all.size);
+  const top=rows.filter(x=>x.t.k!=='auto');
+  const vrows=rows.filter(x=>x.r[pk].size).sort((a,b)=>lastK(a.t.k)-lastK(b.t.k)||b.r[pk].size-a.r[pk].size);
+  const prio=vrows.filter(x=>!['auto','info','lainnya','perangkat','pindah'].includes(x.t.k)).sort((a,b)=>b.r[uk].size-a.r[uk].size).slice(0,3);
+  const domBy=pk=>{const m=rows.filter(x=>x.t.k!=='auto').sort((a,b)=>b.r[pk].size-a.r[pk].size)[0];return m&&m.r[pk].size?`${m.t.label} (${nf(m.r[pk].size)} nomor)`:'-'};
+  const autoN=S.res.auto.all.size;
+  $('bLainSum').innerHTML=`
+    <div class="cs"><span class="csn">${nf(S.tot)}</span><span class="csl">nomor bertag layanan (${pctS(S.tot,all)})</span></div>
+    <div class="cs"><span class="csn">${nf(S.un)}</span><span class="csl">belum selesai</span></div>
+    <div class="cs cs-p"><span class="csl"><b>Prioritas:</b> ${prio.length?prio.map(x=>`${esc(x.t.s)} (${nf(x.r[uk].size)})`).join(' · '):'-'}</span></div>`;
+  const sh=vrows.filter(x=>x.t.k!=='auto'&&x.t.k!=='lainnya').slice(0,6);
+  $('bLainT').innerHTML=`<thead><tr><th>Tema</th><th class="num">Nomor</th><th class="num">Belum selesai</th><th>Tindak lanjut</th></tr></thead><tbody>${sh.map(x=>`<tr class="click" data-k="${x.t.k}"><td><b>${esc(x.t.s)}</b></td><td class="num">${nf(x.r[pk].size)}</td><td class="num">${nf(x.r[uk].size)}</td><td class="act">${esc(x.t.act)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Belum ada nomor bertag layanan</td></tr>'}</tbody>`;
+  $('bLainT').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>{
+    const k=tr.dataset.k;openBlastDetail({pr:LAINPR,th:k,title:`Tag lain · ${LAIN_K[k].label}`});
+  }));
+  LAIN_EXPORT={rows,S};
+}
+let LAIN_EXPORT=null;
+function exportLain(){
+  if(!LAIN_EXPORT)return;
+  const {rows,S}=LAIN_EXPORT;
+  const aoa=[['Tema','FTTH Starlite (nomor)','FWA IRA (nomor)','Total nomor unik','Belum selesai (nomor)','Tindak lanjut'],...rows.map(x=>[x.t.label,x.r.ftth.size,x.r.fwa.size,x.r.all.size,x.r.un.size,x.t.act])];
+  exportSheets('kesimpulan-tag-lain-layanan.xlsx',[{name:'Tindak Lanjut',aoa,cols:[34,16,14,14,16,50]}],aoa.length);
+}
+
+/* ---------- pop up detail ---------- */
+function bdScoped(){
+  let r=BLV.filter(b=>(!BD2.pr||b.pr===BD2.pr)&&(BD2.ch===''||b.ch===+BD2.ch));
+  if(BD2.th){const keep=lainNums(BD2.th,BD2.pr);r=r.filter(b=>keep.has(b.pn))}
+  return r;
+}
+function openBlastDetail(o){
+  BD2.pr=o.pr||'';BD2.th=o.th||'';BD2.ch=o.ch===undefined?'':o.ch;BD2.g=o.g||'';BD2.q='';BD2.page=0;BD2.title=o.title+(BDATE?' · '+fmtD(BDATE):'');
+  $('bdTitle').textContent=BD2.title;$('bdQ').value='';
+  showBD();
+  $('bmodal').hidden=false;document.body.style.overflow='hidden';$('bmodal').querySelector('.mbody').scrollTop=0;$('bdClose').focus();
+}
+function showBD(){
+  const rooms=bdScoped(), m=numMap(rooms), s=statsOf(rooms,m), gc=gCount(m);
+  $('bdSub').textContent=`${nf(s.ph)} nomor WhatsApp unik · ${nf(s.n)} room${BD2.g?' · filter hasil: '+OUTK[BD2.g].label:''}`;
+  const kp=[['Nomor WA unik',nf(s.ph)],['Room blast',nf(s.n)],['Room selesai',pctS(s.res,s.n)],['Room ditangani agen',pctS(s.wag,s.n)],['Respon pertama',menit(s.frs)],['Waktu selesai',menit(s.rs)]];
+  $('bdK').innerHTML=kp.map(k=>`<div><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
+  $('bdG').innerHTML=`<thead><tr><th>Hasil</th><th class="num">Nomor</th><th class="num">%</th></tr></thead><tbody>${OUT.map(o=>{const v=gc[o.k]||0;return `<tr class="click${BD2.g===o.k?' sel':''}" data-g="${o.k}"><td>${gp(o.k)}</td><td class="num">${nf(v)}</td><td class="num">${pctS(v,s.ph)}</td></tr>`}).join('')}</tbody>`;
+  $('bdG').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>{BD2.g=BD2.g===tr.dataset.g?'':tr.dataset.g;BD2.page=0;showBD()}));
+  const sc={};m.forEach(o=>{sc[o.st]=(sc[o.st]||0)+1});
+  $('bdS').innerHTML=`<thead><tr><th>Status</th><th class="num">Nomor</th><th class="num">%</th></tr></thead><tbody>${STS.map(([k,l])=>{const v=sc[k]||0;return `<tr><td>${l}</td><td class="num">${nf(v)}</td><td class="num">${pctS(v,s.ph)}</td></tr>`}).join('')}</tbody>`;
+  const cu=new Map();rooms.forEach(b=>{let o=cu.get(b.ch);if(!o){o={u:new Set(),n:0};cu.set(b.ch,o)}o.u.add(b.pn);o.n++});
+  $('bdC').innerHTML=`<thead><tr><th>Channel</th><th class="num">Nomor</th><th class="num">Room</th></tr></thead><tbody>${[...cu].sort((a,b)=>b[1].u.size-a[1].u.size).map(([i,o])=>`<tr><td>${esc(chName(BCH[i]))}</td><td class="num">${nf(o.u.size)}</td><td class="num">${nf(o.n)}</td></tr>`).join('')}</tbody>`;
+  // tag: jumlah nomor yang punya tag (mengikuti filter hasil)
+  const tm=new Map();m.forEach(o=>{if(BD2.g&&o.g!==BD2.g)return;(o.tags.length?o.tags:['(tanpa tag)']).forEach(t=>tm.set(t,(tm.get(t)||0)+1))});
+  const tt=[...tm].sort((a,b)=>b[1]-a[1]).slice(0,40), tn=BD2.g?(gc[BD2.g]||0):s.ph;
+  $('bdTT').textContent=`Tag terbanyak (jumlah nomor)${BD2.g?' · '+OUTK[BD2.g].label:''}`;
+  $('bdT').innerHTML=`<thead><tr><th>Tag</th><th>Hasil</th><th class="num">Nomor</th><th class="num">%</th></tr></thead><tbody>${tt.map(([t,v])=>`<tr><td>${esc(t)}</td><td>${gp(t==='(tanpa tag)'?'notag':tagGroup(t))}</td><td class="num">${nf(v)}</td><td class="num">${pctS(v,tn||1)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Belum ada tag</td></tr>'}</tbody>`;
+  $('bdH').innerHTML=(BD2.pr?'':`<div class="legend" style="margin-bottom:6px">${legendH()}</div>`)+stackBars(rooms,1000,170);
+  $('bdChips').innerHTML=`<button class="lc${BD2.g===''?' sel':''}" data-g="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(s.ph)}</b></button>`+OUT.filter(o=>gc[o.k]).map(o=>`<button class="lc${BD2.g===o.k?' sel':''}" data-g="${o.k}" style="--c:${o.c};--bg:${o.bg};--l:${o.line}"><span>${o.label}</span><b>${nf(gc[o.k])}</b></button>`).join('');
+  $('bdChips').querySelectorAll('.lc').forEach(b=>b.addEventListener('click',()=>{BD2.g=b.dataset.g;BD2.page=0;showBD()}));
+  BD2.map=m;
+  renderBdTable();
+}
+function bdRows(){return numList(BD2.map||numMap(bdScoped()),{g:BD2.g,q:BD2.q,st:''})}
+function renderBdTable(){
+  const r=bdRows(),pages=Math.max(1,Math.ceil(r.length/BDPS));BD2.page=Math.min(BD2.page,pages-1);
+  const sl=r.slice(BD2.page*BDPS,BD2.page*BDPS+BDPS);
+  $('bdTbl').innerHTML=numHead+`<tbody>${sl.map((o,i)=>numRow(o,i)).join('')||'<tr><td colspan="10" class="empty">Tidak ada nomor yang cocok</td></tr>'}</tbody>`;
+  $('bdTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openNumber(sl[+tr.dataset.i])));
+  $('bdPager').innerHTML=pagerH('bdp',BD2.page,pages,r.length);
+  $('bdpPrev').onclick=()=>{BD2.page--;renderBdTable()};$('bdpNext').onclick=()=>{BD2.page++;renderBdTable()};
+}
+function exportBd(){const r=bdRows();exportSheets('detail-blast-whatsapp.xlsx',[{name:'Nomor WhatsApp',aoa:numAoa(r),cols:[18,24,22,18,40,10,26,12,20,18,12]}],r.length)}
+
+/* ================== HALAMAN: PENCOCOKAN ================== */
+let MINIT=false, FU=[];
+const MF={g:'',scope:'blast',q:'',page:0}, MPS2=20;
+const TB={basis:'cust'};
+const FF={q:'',sort:'wait',page:0,dim:'m'}, FPS=20;
+const L={items:[],g:'',q:'',sort:'status',page:0,title:'',sub:''}, LPS=15;
+const todayWib=()=>new Date(Date.now()+7*36e5).toISOString().slice(0,10);
+const dOf=b=>b.at.slice(0,10);
+const blastDays=()=>[...new Set(BL.map(dOf))].sort();
+const dShort=d=>`${+d.slice(8)} ${BULAN[+d.slice(5,7)-1]}`;
+const dLong=d=>`${+d.slice(8)} ${BLN[+d.slice(5,7)-1]}`;
+const itemsAll=()=>R.filter(c=>c.rooms.length).map(c=>({c,g:c.g}));
+const itemsOnDay=d=>{const o=[];R.forEach(c=>{if(!c.rooms.length)return;const gs=c.rooms.filter(b=>dOf(b)===d).map(b=>b.g);if(gs.length)o.push({c,g:bestOf(gs)})});return o};
+
+const MATCH_HTML=`
+<div id="mEmpty" class="boot" role="status">Memuat data isolir dan blast…</div>
+<div id="mMain" class="vcol" hidden>
+  <div class="sechead" id="m-ringkasan"><div><div class="eyebrow">Pencocokan</div><h2 class="big">Isolir × Hasil Blast</h2></div><span class="meta2">dicocokkan lewat nomor telepon · klik kartu untuk melihat detail</span></div>
+  <section class="mhero" id="mHero" aria-label="Ringkasan pencocokan"></section>
+
+  <div class="sechead" id="m-timeline"><div><div class="eyebrow">Timeline</div><h2 class="big">Timeline Blast per Hari</h2></div><span class="meta2">klik satu hari untuk melihat pelanggannya</span></div>
+  <section class="card"><div class="tl" id="mTl"></div></section>
+
+  <div class="sechead" id="m-respon"><div><div class="eyebrow">Tabel per tag</div><h2 class="big">Respon Pelanggan per Tanggal Blast</h2></div>
+    <div class="ctl"><button id="tbXls" class="xls">Download Excel</button></div></div>
+  <section class="card"><div class="tw" id="tbA"></div><p class="foot" id="tbNote" style="margin:10px 0 0"></p></section>
+
+  <div class="sechead" id="m-followup"><div><div class="eyebrow">Follow-up</div><h2 class="big">Pelanggan Mau Lanjut, Masih Isolir</h2></div><span class="meta2">terus di-follow up sampai berlangganan lagi</span></div>
+  <section class="card">
+    <div class="head"><h2>Mau lanjut per <span id="fuDimL">mitra</span></h2><div class="seg" role="group" aria-label="Kelompok"><button id="fuDm" aria-pressed="true">Mitra</button><button id="fuDs" aria-pressed="false">Stasiun</button></div></div>
+    <div class="tw scrollbox" style="max-height:300px"><table id="fuDT"></table></div>
+  </section>
+  <section class="card">
+    <div class="head"><span id="m-daftarfu" class="anch"></span><h2>Daftar follow-up</h2>
+      <div class="ctl"><input type="text" id="fuQ" placeholder="Cari nama, kode, nomor, mitra, stasiun" aria-label="Cari pelanggan"><select id="fuS" aria-label="Urutkan"><option value="wait">Terlama menunggu</option><option value="new">Terbaru mau lanjut</option><option value="aging">Aging isolir terlama</option><option value="mitra">Mitra A–Z</option><option value="nama">Nama A–Z</option></select><button id="fuXls" class="xls">Download Excel</button></div></div>
+    <div class="tw"><table id="fuT"></table></div><div id="fuPager"></div>
+  </section>
+
+  <section class="card">
+    <div class="head"><span id="m-semua" class="anch"></span><h2>Semua data pencocokan pelanggan</h2>
+      <div class="ctl"><input type="text" id="mQ" placeholder="Cari nama, kode, nomor, mitra, stasiun, tag" aria-label="Cari pelanggan"><select id="mSc" aria-label="Cakupan"><option value="blast">Sudah ada blast</option><option value="none">Belum ada blast</option><option value="all">Semua pelanggan isolir</option></select><select id="mG" aria-label="Hasil blast"></select><button id="mXls" class="xls">Download Excel</button></div></div>
+    <div class="tw"><table id="mTbl"></table></div><div id="mPager"></div>
+  </section>
+  <p class="note">Satu pelanggan dapat punya beberapa room blast. Pada tabel per tag, satu pelanggan dihitung satu kali per tanggal dengan hasil terbaik (urutan: Sudah bayar, Mau lanjut, Tidak mau lanjut, Tidak respon, Reminder tagihan, Tag lain, Tanpa tag). Pelanggan "mau lanjut" yang masih ada di data isolir berarti belum diaktifkan kembali, sehingga tetap perlu di-follow up. Data blast hanya mencakup room pada file ekspor blast.</p>
+</div>
+<div class="mback" id="lmodal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lTitle">
+    <div class="mhead"><div><div class="eyebrow">Detail pelanggan isolir</div><h2 id="lTitle"></h2><div class="foot" id="lSub" style="margin-top:2px"></div></div><div class="ctl"><button id="lXls" class="xls">Download Excel</button><button id="lClose" aria-label="Tutup">Tutup ✕</button></div></div>
+    <div class="mbody" id="lBody">
+      <div class="mk mk2" id="lKpis"></div>
+      <div class="lchips" id="lChips"></div>
+      <div class="head" style="margin-bottom:0"><h3 class="sub3" style="margin:0">Daftar pelanggan</h3><div class="ctl"><input type="text" id="lQ" placeholder="Cari nama, kode, nomor, mitra, stasiun" aria-label="Cari pelanggan"><select id="lS" aria-label="Urutkan"><option value="status">Urut status</option><option value="wait">Terlama menunggu (mau lanjut)</option><option value="aging">Aging isolir terlama</option><option value="recent">Blast terbaru</option><option value="nama">Nama A–Z</option></select></div></div>
+      <div class="tw"><table id="lTbl"></table></div><div id="lPager"></div>
+    </div>
+  </div>
+</div>
+<div class="mback" id="cmodal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+    <div class="mhead"><div><div class="eyebrow">Pelanggan isolir</div><h2 id="cTitle"></h2><div class="foot" id="cSub" style="margin-top:2px"></div></div><div class="ctl"><button id="cClose" aria-label="Tutup">Tutup ✕</button></div></div>
+    <div class="mbody" id="cBody"></div>
+  </div>
+</div>`;
+function renderMatch(){
+  if(!MINIT){$('v-match').innerHTML=MATCH_HTML;MINIT=true;bindMatch()}
+  const ok=!!R&&BREADY;$('mEmpty').hidden=ok;$('mMain').hidden=!ok;
+  if(!ok){$('mEmpty').textContent=BERR||'Memuat data isolir dan blast…';return}
+  fillMatch();rtabSep(document);
+}
+function closeCust(){$('cmodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+function closeList(){$('lmodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+function bindMatch(){
+  $('tbXls').onclick=exportTags;
+  $('fuDm').onclick=()=>{FF.dim='m';fillFollow()};$('fuDs').onclick=()=>{FF.dim='s';fillFollow()};
+  $('fuQ').oninput=e=>{FF.q=e.target.value.trim();FF.page=0;renderFuTable()};
+  $('fuS').onchange=e=>{FF.sort=e.target.value;FF.page=0;renderFuTable()};
+  $('fuXls').onclick=exportFollow;
+  $('mQ').oninput=e=>{MF.q=e.target.value.trim();MF.page=0;renderMTable()};
+  $('mSc').onchange=e=>{MF.scope=e.target.value;MF.page=0;renderMTable()};
+  $('mG').onchange=e=>{MF.g=e.target.value;if(MF.g&&MF.scope==='none')MF.scope='blast';MF.page=0;renderMTable()};
+  $('mXls').onclick=exportMatch;
+  $('lQ').oninput=e=>{L.q=e.target.value.trim();L.page=0;renderLTable()};
+  $('lS').onchange=e=>{L.sort=e.target.value;L.page=0;renderLTable()};
+  $('lXls').onclick=exportList;
+  $('lClose').onclick=closeList;
+  $('lmodal').addEventListener('click',e=>{if(e.target===$('lmodal'))closeList()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('lmodal').hidden&&$('cmodal').hidden)closeList()});
+  $('cClose').onclick=closeCust;
+  $('cmodal').addEventListener('click',e=>{if(e.target===$('cmodal'))closeCust()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('cmodal').hidden)closeCust()});
+}
+function fillMatch(){
+  const n=R.length, today=todayWib();
+  FU.forEach(c=>{c.wait=Math.max(0,diffDays(dOf(c.lanjut[0]),today))});
+  const gc=count(R.filter(c=>c.rooms.length),'g'), paid=R.filter(c=>c.paid), mx=Math.max(1,...OUT.map(o=>gc.get(o.k)||0));
+  $('mHero').innerHTML=`
+   <div class="hcard hmain">
+     <span class="hl2">Pelanggan isolir terjangkau blast</span>
+     <div class="htop"><span class="hbig">${nf(MS.cust)}</span><span class="hsub">${pctS(MS.cust,n)} dari ${nf(n)} pelanggan isolir.<br>Status tiap pelanggan adalah hasil terbaik dari seluruh room blast-nya. Klik status untuk melihat daftar pelanggan.</span></div>
+     <div class="outs hgrid">${OUT.map(o=>{const c=gc.get(o.k)||0;return `<button class="oc" data-g="${o.k}" style="--c:${o.c};--bg:${o.bg};--l:${o.line}" aria-haspopup="dialog"><span class="ol">${o.label}</span><span class="on">${nf(c)}</span><span class="obar"><i style="width:${c/mx*100}%"></i></span><span class="op">${pctS(c,MS.cust)} dari terjangkau</span></button>`}).join('')}<button class="oc hall" data-g="" style="--c:#1d4ed8;--bg:#ffffff;--l:#2563eb" aria-haspopup="dialog"><span class="ol">Semua pelanggan</span><span class="on">${nf(MS.cust)}</span><span class="obar"><i style="width:100%"></i></span><span class="op">Lihat daftar lengkap ›</span></button></div>
+   </div>
+   <button class="hcard hfocus" id="hFu" aria-haspopup="dialog"><span class="hf-l"><span class="hl2">Mau lanjut, masih isolir</span><span class="hsub">Terus di-follow up sampai berlangganan lagi</span><span class="hgo">Lihat detail ›</span></span><span class="hbig">${nf(FU.length)}</span></button>
+   <button class="hcard hpaid" id="hPaid" aria-haspopup="dialog"><span class="hf-l"><span class="hl2">Sudah bayar, masih isolir</span><span class="hsub">Perlu dicek aktivasinya</span><span class="hgo">Lihat detail ›</span></span><span class="hbig">${nf(paid.length)}</span></button>`;
+  $('mHero').querySelectorAll('.oc,.hall').forEach(b=>b.addEventListener('click',()=>{
+    const g=b.dataset.g, all=itemsAll();
+    openList(g?OUTK[g].label:`Semua pelanggan terjangkau`,`${nf(MS.cust)} pelanggan isolir terjangkau blast`,all,g);
+  }));
+  $('hFu').onclick=()=>openList('Mau lanjut, masih isolir',`${nf(FU.length)} pelanggan dengan tag mau lanjut yang masih berstatus isolir`,FU.map(c=>({c,g:'lanjut'})),'');
+  $('hPaid').onclick=()=>openList('Sudah bayar, masih isolir',`${nf(paid.length)} pelanggan bertag sudah bayar yang masih berstatus isolir`,paid.map(c=>({c,g:'bayar'})),'');
+  fillTimeline();fillTags();fillFollow();
+  $('mG').innerHTML='<option value="">Semua hasil</option>'+[...OUT,OUTK.none].map(o=>`<option value="${o.k}">${o.label}</option>`).join('');$('mG').value=MF.g;$('mSc').value=MF.scope;
+  renderMTable();
+}
+
+/* ---------- agregasi per tanggal blast ---------- */
+function aggDay(basis){
+  const dates=blastDays(), cell={};dates.forEach(d=>{cell[d]={n:0,g:{}}});
+  const tot={n:0,g:{}}, add=(o,g)=>{o.n++;o.g[g]=(o.g[g]||0)+1};
+  if(basis==='room'){
+    const byDay=new Map();
+    BL.forEach(b=>{const d=dOf(b);let m=byDay.get(d);if(!m){m=new Map();byDay.set(d,m)}let x=m.get(b.pn);if(!x){x=[];m.set(b.pn,x)}x.push(b.g)});
+    byDay.forEach((m,d)=>m.forEach(gs=>add(cell[d],bestOf(gs))));
+    const tm=new Map();BL.forEach(b=>{let x=tm.get(b.pn);if(!x){x=[];tm.set(b.pn,x)}x.push(b.g)});tm.forEach(gs=>add(tot,bestOf(gs)));
+  }
+  else R.forEach(c=>{
+    if(!c.rooms.length)return;
+    const by=new Map();c.rooms.forEach(b=>{const d=dOf(b);if(!by.has(d))by.set(d,[]);by.get(d).push(b.g)});
+    by.forEach((gs,d)=>add(cell[d],bestOf(gs)));add(tot,c.g);
+  });
+  return {dates,cell,tot};
+}
+
+/* ---------- timeline blast per hari ---------- */
+function fillTimeline(){
+  const a=aggDay('cust'), days=a.dates.slice().reverse();
+  const roomN={},setN={};BL.forEach(b=>{const d=dOf(b);(setN[d]=setN[d]||new Set()).add(b.pn)});Object.keys(setN).forEach(d=>{roomN[d]=setN[d].size});
+  let h='<ol>',prevM=null;
+  days.forEach((d,idx)=>{
+    const c=a.cell[d], g=c.g, mk=d.slice(0,7);
+    if(mk!==prevM){h+=`<li class="mon"><span>${BLN[+d.slice(5,7)-1]} ${d.slice(0,4)}</span></li>`;prevM=mk}
+    const bn=a.dates.indexOf(d)+1;
+    const tiles=[['Nomor WA unik',nf(roomN[d]||0)],['Isolir terjangkau',nf(c.n)],['Mau lanjut',nf(g.lanjut||0)],['Sudah bayar',nf(g.bayar||0)],['Tidak mau lanjut',nf(g.tidak||0)],['Tidak respon',nf(g.norespon||0)]];
+    const stack=OUT.map(o=>{const v=g[o.k]||0;return v?`<i style="width:${c.n?v/c.n*100:0}%;background:${o.line}" title="${o.label}: ${nf(v)}"></i>`:''}).join('');
+    const leg=OUT.map(o=>g[o.k]?`<span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label} ${nf(g[o.k])}</span>`:'').join('');
+    h+=`<li class="ev" data-d="${d}"><span class="node" aria-hidden="true"><b>${+d.slice(8)}</b><small>${BULAN[+d.slice(5,7)-1]}</small></span>
+      <button class="evc" aria-haspopup="dialog">
+        <span class="evh"><span class="evd"><b>${dayName(d)}, ${fmtD(d)}</b><span class="flag bl">Batch ${bn}</span></span><span class="foot">Klik untuk melihat detail</span></span>
+        <span class="evs evs6">${tiles.map(t=>`<span class="st"><em>${t[0]}</em><b>${t[1]}</b></span>`).join('')}</span>
+        <span class="stack" role="img" aria-label="Komposisi hasil blast pelanggan isolir">${stack}</span>
+        <span class="evt" style="gap:5px">${leg||'<span class="foot">Belum ada pelanggan isolir yang cocok pada hari ini</span>'}</span>
+      </button></li>`;
+    const nxt=days[idx+1];
+    if(nxt){const gap=diffDays(nxt,d)-1;if(gap>0)h+=`<li class="gap"><span>${nf(gap)} hari tanpa blast</span></li>`}
+  });
+  $('mTl').innerHTML=days.length?h+'</ol>':'<div class="empty">Belum ada data blast</div>';
+  $('mTl').querySelectorAll('.ev').forEach(li=>li.querySelector('.evc').addEventListener('click',()=>{
+    const d=li.dataset.d, it=itemsOnDay(d), i=a.dates.indexOf(d)+1;
+    openList(`Blast ${fmtD(d)}`,`Batch ${i} · ${nf(it.length)} pelanggan isolir terjangkau`,it,'');
+  }));
+}
+
+/* ---------- tabel respon per tag dan tanggal blast ---------- */
+const RT_CLASS={bayar:'r-bayar',lanjut:'r-lanjut',tidak:'r-tidak',norespon:'r-norespon',reminder:'r-reminder',lain:'r-lain',notag:'r-notag'};
+function tableA(a,basis){
+  const D=a.dates, multi=D.length>1, click=basis==='cust';
+  const head1=`<th rowspan="2" class="rt-first">Kategori Respon Pelanggan</th>${D.map((d,i)=>`<th colspan="2">${dLong(d)} · Batch ${i+1}</th>`).join('')}${multi?'<th colspan="2">Total</th>':''}`;
+  const nc=D.length+(multi?1:0);
+  const head2=Array.from({length:nc},()=>'<th>Jumlah</th><th>% dari Total</th>').join('');
+  const keys=D.concat(multi?['']:[]), cols=D.map(d=>a.cell[d]).concat(multi?[a.tot]:[]);
+  const cl=(g,d)=>click?` class="cl" data-g="${g}" data-d="${d}"`:'';
+  const first=basis==='room'?'Nomor WhatsApp Unik':'Pelanggan Isolir Terjangkau';
+  const dr=`<tr class="r-dr"><td class="rt-first">${first}</td>${cols.map((c,i)=>`<td colspan="2"${cl('',keys[i])}>${nf(c.n)}</td>`).join('')}</tr>`;
+  const rows=OUT.map(o=>`<tr class="${RT_CLASS[o.k]}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span></td>${cols.map((c,i)=>{const v=c.g[o.k]||0,p=c.n?v/c.n*100:0;return `<td${cl(o.k,keys[i])}>${nf(v)}</td><td${cl(o.k,keys[i])} style="background:linear-gradient(90deg,${o.bg} ${p}%,#fff ${p}%)">${pctS(v,c.n)}</td>`}).join('')}</tr>`).join('');
+  const gt=`<tr class="r-gt"><td class="rt-first">Grand Total</td>${cols.map(c=>`<td>${nf(c.n)}</td><td>${c.n?'100,0%':'0,0%'}</td>`).join('')}</tr>`;
+  return `<table class="rtab"><thead><tr>${head1}</tr><tr>${head2}</tr></thead><tbody>${dr}${rows}${gt}</tbody></table>`;
+}
+function fillTags(){
+  const basis=TB.basis, a=aggDay(basis);
+  
+  $('tbA').innerHTML=a.dates.length?tableA(a,basis):'<div class="empty">Belum ada data blast</div>';rtabSep(document);
+  $('tbNote').textContent=basis==='cust'?'Dihitung per pelanggan isolir yang nomornya cocok dengan room blast; satu pelanggan dihitung sekali per tanggal dengan hasil terbaik. Klik angka untuk melihat pelanggannya.':'Dihitung per nomor WhatsApp unik dari seluruh file ekspor (hasil terbaik per nomor), termasuk nomor yang tidak ada di data isolir.';
+  $('tbA').querySelectorAll('td.cl').forEach(td=>td.addEventListener('click',()=>{
+    const g=td.dataset.g, d=td.dataset.d;
+    const it=(d?itemsOnDay(d):itemsAll()).filter(x=>!g||x.g===g);
+    const bi=d?blastDays().indexOf(d)+1:0;
+    openList(`${g?OUTK[g].label:'Semua pelanggan terjangkau'}${d?' · '+dLong(d):' · seluruh tanggal'}`,`${d?`Batch ${bi} · `:''}${nf(it.length)} pelanggan isolir`,d?itemsOnDay(d):itemsAll(),g);
+  }));
+}
+function exportTags(){
+  const basis=TB.basis, a=aggDay(basis), D=a.dates, multi=D.length>1;
+  const cols=D.map(d=>a.cell[d]).concat(multi?[a.tot]:[]);
+  const names=D.map((d,i)=>`${dLong(d)} Batch ${i+1}`).concat(multi?['Total']:[]);
+  const h1=['Kategori Respon Pelanggan'],h2=[''];names.forEach(nm=>{h1.push(nm,'');h2.push('Jumlah','% dari Total')});
+  const aoa=[h1,h2,[basis==='room'?'Nomor WhatsApp Unik':'Pelanggan Isolir Terjangkau',...cols.flatMap(c=>[c.n,''])],...OUT.map(o=>[o.label,...cols.flatMap(c=>{const v=c.g[o.k]||0;return [v,c.n?+(v/c.n).toFixed(4):0]})]),['Grand Total',...cols.flatMap(c=>[c.n,c.n?1:0])]];
+  exportSheets('tabel-respon-per-tanggal-blast.xlsx',[{name:'Kategori Respon',aoa,cols:[34,...names.flatMap(()=>[12,12])]}],aoa.length);
+}
+
+/* ---------- pop up daftar pelanggan ---------- */
+function openList(title,sub,items,g){
+  L.title=title;L.sub=sub;L.items=items;L.g=g||'';L.q='';L.page=0;L.sort=L.g==='lanjut'||/mau lanjut/i.test(title)?'wait':'status';
+  $('lTitle').textContent=title;$('lSub').textContent=sub;$('lQ').value='';$('lS').value=L.sort;
+  showList();
+  $('lmodal').hidden=false;document.body.style.overflow='hidden';$('lBody').scrollTop=0;$('lClose').focus();
+}
+function showList(){
+  const base=L.items, n=base.length||1;
+  const avg=base.length?base.reduce((a,x)=>a+x.c.life,0)/base.length:0;
+  const kp=[['Pelanggan',nf(base.length)],['Rata-rata aging isolir',nf(Math.round(avg))+' hari'],['Mitra',nf(new Set(base.map(x=>x.c.m)).size)],['Stasiun',nf(new Set(base.map(x=>x.c.s)).size)]];
+  $('lKpis').innerHTML=kp.map(k=>`<div><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
+  const gc=count(base.map(x=>({g:x.g})),'g');
+  $('lChips').innerHTML=`<button class="lc${L.g===''?' sel':''}" data-g="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(base.length)}</b></button>`+[...OUT,OUTK.none].filter(o=>gc.get(o.k)).map(o=>`<button class="lc${L.g===o.k?' sel':''}" data-g="${o.k}" style="--c:${o.c};--bg:${o.bg};--l:${o.line}"><span>${o.label}</span><b>${nf(gc.get(o.k))}</b></button>`).join('');
+  $('lChips').querySelectorAll('.lc').forEach(b=>b.addEventListener('click',()=>{L.g=b.dataset.g;L.page=0;showList()}));
+  renderLTable();
+}
+function lRows(){
+  let r=L.items;
+  if(L.g)r=r.filter(x=>x.g===L.g);
+  if(L.q){const q=L.q.toLowerCase();r=r.filter(x=>x.c.name.toLowerCase().includes(q)||x.c.code.toLowerCase().includes(q)||x.c.ph.includes(q)||MI[x.c.m].toLowerCase().includes(q)||ST[x.c.s].toLowerCase().includes(q))}
+  const cmp={status:(a,b)=>OUTK[a.g].rank-OUTK[b.g].rank||b.c.life-a.c.life,wait:(a,b)=>(b.c.wait||0)-(a.c.wait||0)||b.c.life-a.c.life,aging:(a,b)=>b.c.life-a.c.life,recent:(a,b)=>(a.c.last&&b.c.last?(a.c.last.at<b.c.last.at?1:-1):0),nama:(a,b)=>a.c.name.localeCompare(b.c.name)}[L.sort];
+  return r.slice().sort(cmp);
+}
+function renderLTable(){
+  const r=lRows(),pages=Math.max(1,Math.ceil(r.length/LPS));L.page=Math.min(L.page,pages-1);
+  const sl=r.slice(L.page*LPS,L.page*LPS+LPS), off=L.page*LPS;
+  $('lTbl').innerHTML=`<thead><tr><th class="num">No</th><th>Tanggal Isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th class="num">Aging</th><th>Status</th><th>Tag</th><th class="num">Room</th><th>Blast terakhir</th><th class="num">Hari menunggu</th></tr></thead><tbody>${
+    sl.map((x,k)=>{const c=x.c,tg=[...new Set(c.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${R.indexOf(c)}"><td class="num">${off+k+1}</td><td>${fmtD(c.d)}</td><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${esc(c.ph)}</td><td>${esc(ST[c.s])}</td><td>${esc(MI[c.m])}</td><td class="num">${nf(c.life)} hari</td><td>${gp(x.g)}</td><td>${tagChips(tg)}</td><td class="num">${nf(c.rooms.length)}</td><td class="mono">${c.last?c.last.at.slice(5,16):'—'}</td><td class="num">${c.lanjut.length?`<span class="ag${c.wait>=3?' new':''}">${nf(c.wait||0)} hari</span>`:'—'}</td></tr>`}).join('')||'<tr><td colspan="13" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+  }</tbody>`;
+  $('lTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(R[+tr.dataset.i])));
+  $('lPager').innerHTML=pagerH('lp',L.page,pages,r.length);
+  $('lpPrev').onclick=()=>{L.page--;renderLTable()};$('lpNext').onclick=()=>{L.page++;renderLTable()};
+}
+function exportList(){
+  const r=lRows();
+  const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Aging isolir (hari)','Status','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)','Hari menunggu (mau lanjut)'];
+  const aoa=[head,...r.map(x=>{const c=x.c,l=c.last;return [c.d,c.code,c.name,c.ph,ST[c.s],MI[c.m],c.life,OUTK[x.g].label,[...new Set(c.rooms.flatMap(b=>b.tags))].join('; '),c.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'',c.lanjut.length?(c.wait||0):'']})];
+  exportSheets('detail-pelanggan-pencocokan.xlsx',[{name:'Pelanggan',aoa,cols:[14,16,26,16,20,28,10,18,44,8,26,12,18,20,12]}],r.length);
+}
+
+/* ---------- follow-up: mau lanjut, masih isolir ---------- */
+function fillFollow(){
+  $('fuDm').setAttribute('aria-pressed',String(FF.dim==='m'));$('fuDs').setAttribute('aria-pressed',String(FF.dim==='s'));$('fuDimL').textContent=FF.dim==='m'?'mitra':'stasiun';
+  const names=FF.dim==='m'?MI:ST, dm=new Map();
+  FU.forEach(c=>{const k=c[FF.dim];let o=dm.get(k);if(!o){o={n:0,life:0,wait:0};dm.set(k,o)}o.n++;o.life+=c.life;o.wait+=c.wait});
+  const dr=[...dm].sort((a,b)=>b[1].n-a[1].n).slice(0,40);
+  $('fuDT').innerHTML=`<thead><tr><th>${FF.dim==='m'?'Mitra':'Stasiun'}</th><th class="num">Mau lanjut, masih isolir</th><th class="num">Rata-rata aging isolir</th><th class="num">Rata-rata hari menunggu</th></tr></thead><tbody>${dr.map(([k,o])=>`<tr><td>${esc(names[k])}</td><td class="num">${nf(o.n)}</td><td class="num">${nf(Math.round(o.life/o.n))} hari</td><td class="num">${(o.wait/o.n).toFixed(1).replace('.',',')} hari</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Belum ada pelanggan mau lanjut yang masih isolir</td></tr>'}</tbody>`;
+  renderFuTable();
+}
+function fuRows(){
+  let r=FU;
+  if(FF.q){const q=FF.q.toLowerCase();r=r.filter(c=>c.name.toLowerCase().includes(q)||c.code.toLowerCase().includes(q)||c.ph.includes(q)||MI[c.m].toLowerCase().includes(q)||ST[c.s].toLowerCase().includes(q))}
+  const cmp={wait:(a,b)=>b.wait-a.wait||b.life-a.life,new:(a,b)=>a.wait-b.wait||b.life-a.life,aging:(a,b)=>b.life-a.life,mitra:(a,b)=>MI[a.m].localeCompare(MI[b.m])||b.wait-a.wait,nama:(a,b)=>a.name.localeCompare(b.name)}[FF.sort];
+  return r.slice().sort(cmp);
+}
+function renderFuTable(){
+  const r=fuRows(),pages=Math.max(1,Math.ceil(r.length/FPS));FF.page=Math.min(FF.page,pages-1);
+  const sl=r.slice(FF.page*FPS,FF.page*FPS+FPS);
+  $('fuT').innerHTML=`<thead><tr><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Mitra</th><th>Stasiun</th><th>Tanggal Isolir</th><th class="num">Aging isolir</th><th>Mau lanjut sejak</th><th class="num">Hari menunggu</th><th>Status room</th><th>Agen</th><th class="num">Room</th></tr></thead><tbody>${
+    sl.map(c=>{const l=c.lanjut[0],last=c.last;return `<tr class="click" data-i="${R.indexOf(c)}"><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${esc(c.ph)}</td><td>${esc(MI[c.m])}</td><td>${esc(ST[c.s])}</td><td>${fmtD(c.d)}</td><td class="num">${nf(c.life)} hari</td><td class="mono">${l.at.slice(5,16)}</td><td class="num"><span class="ag${c.wait>=3?' new':''}">${nf(c.wait)} hari</span></td><td>${esc(last.st)}</td><td>${last.ag>=0?esc(BAG[last.ag]):'—'}</td><td class="num">${nf(c.rooms.length)}</td></tr>`}).join('')||'<tr><td colspan="12" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+  }</tbody>`;
+  $('fuT').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(R[+tr.dataset.i])));
+  $('fuPager').innerHTML=pagerH('fp',FF.page,pages,r.length);
+  $('fpPrev').onclick=()=>{FF.page--;renderFuTable()};$('fpNext').onclick=()=>{FF.page++;renderFuTable()};
+}
+function exportFollow(){
+  const r=fuRows();
+  const head=['Kode pelanggan','Nama pelanggan','Nomor HP','Mitra','Stasiun','Tanggal Isolir','Aging isolir (hari)','Waktu tag mau lanjut (terbaru)','Hari menunggu','Status room (terakhir)','Agen (terakhir)','Channel (terakhir)','Tag','Jumlah room'];
+  const aoa=[head,...r.map(c=>[c.code,c.name,c.ph,MI[c.m],ST[c.s],c.d,c.life,c.lanjut[0].at,c.wait,c.last.st,c.last.ag>=0?BAG[c.last.ag]:'',chName(BCH[c.last.ch]),[...new Set(c.rooms.flatMap(b=>b.tags))].join('; '),c.rooms.length])];
+  exportSheets('followup-mau-lanjut-masih-isolir.xlsx',[{name:'Follow-up',aoa,cols:[16,26,16,28,20,14,10,18,10,12,20,26,44,8]}],r.length);
+}
+
+/* ---------- tabel semua pencocokan ---------- */
+function mFiltered(){
+  let r=R;
+  if(MF.scope==='blast')r=r.filter(x=>x.g!=='none');else if(MF.scope==='none')r=r.filter(x=>x.g==='none');
+  if(MF.g)r=r.filter(x=>x.g===MF.g);
+  if(MF.q){const q=MF.q.toLowerCase();r=r.filter(x=>x.name.toLowerCase().includes(q)||x.code.toLowerCase().includes(q)||x.ph.includes(q)||MI[x.m].toLowerCase().includes(q)||ST[x.s].toLowerCase().includes(q)||x.rooms.some(b=>b.tag.includes(q)))}
+  return r.slice().sort((a,b)=>OUTK[a.g].rank-OUTK[b.g].rank||(a.last&&b.last?(a.last.at<b.last.at?1:-1):0)||(a.d<b.d?1:-1));
+}
+function renderMTable(){
+  const r=mFiltered(),pages=Math.max(1,Math.ceil(r.length/MPS2));MF.page=Math.min(MF.page,pages-1);
+  const sl=r.slice(MF.page*MPS2,MF.page*MPS2+MPS2);
+  $('mTbl').innerHTML=`<thead><tr><th>Tanggal Isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th class="num">Aging</th><th>Hasil blast</th><th>Tag</th><th class="num">Room</th><th>Waktu blast terakhir</th></tr></thead><tbody>${
+    sl.map(x=>{const tg=[...new Set(x.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${R.indexOf(x)}"><td>${fmtD(x.d)}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${esc(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td class="num">${nf(x.life)} hari</td><td>${gp(x.g)}</td><td>${x.rooms.length?tagChips(tg):'<span class="foot">—</span>'}</td><td class="num">${x.rooms.length?nf(x.rooms.length):'—'}</td><td class="mono">${x.last?x.last.at.slice(5,16):'—'}</td></tr>`}).join('')||'<tr><td colspan="11" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+  }</tbody>`;
+  $('mTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(R[+tr.dataset.i])));
+  $('mPager').innerHTML=pagerH('mp',MF.page,pages,r.length);
+  $('mpPrev').onclick=()=>{MF.page--;renderMTable()};$('mpNext').onclick=()=>{MF.page++;renderMTable()};
+}
+function openCust(c){
+  if(!c)return;
+  $('cTitle').textContent=c.name;
+  $('cSub').innerHTML=`${esc(c.code)} · ${esc(c.ph)} ${gp(c.g)}`;
+  const kp=[['Tanggal Isolir',fmtD(c.d)],['Aging isolir',nf(c.life)+' hari'],['Stasiun',esc(ST[c.s])],['Mitra',esc(MI[c.m])],['Room blast',nf(c.rooms.length)]];
+  if(c.lanjut&&c.lanjut.length)kp.push(['Hari menunggu',nf(c.wait||0)+' hari']);
+  $('cBody').innerHTML=`<div class="mk mk2">${kp.map(k=>`<div><span>${k[0]}</span><b style="font-size:14px">${k[1]}</b></div>`).join('')}</div>
+   <div><h3 class="sub3">Room blast WhatsApp</h3>${c.rooms.length?`<div class="tw"><table><thead><tr><th>Waktu</th><th>Channel</th><th>Status</th><th>Hasil</th><th>Tag</th><th>Agen</th><th class="num">Respon pertama</th><th>Catatan</th></tr></thead><tbody>${c.rooms.map(b=>`<tr><td class="mono">${b.at.slice(0,16)}</td><td>${esc(chName(BCH[b.ch]))}</td><td>${esc(b.st)}</td><td>${gp(b.g)}</td><td>${tagChips(b.tags)}</td><td>${b.ag>=0?esc(BAG[b.ag]):'—'}</td><td class="num">${menit(b.frs)}</td><td>${esc(b.note||'—')}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Belum ada jejak room blast untuk nomor ini pada file ekspor.</div>'}</div>`;
+  $('cmodal').hidden=false;document.body.style.overflow='hidden';$('cBody').scrollTop=0;$('cClose').focus();
+}
+function exportMatch(){
+  const r=mFiltered();
+  const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Aging isolir (hari)','Hasil blast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)'];
+  const aoa=[head,...r.map(x=>{const l=x.last;return [x.d,x.code,x.name,x.ph,ST[x.s],MI[x.m],x.life,OUTK[x.g].label,[...new Set(x.rooms.flatMap(b=>b.tags))].join('; '),x.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'']})];
+  const gc=count(R,'g');
+  const ring=[['Hasil blast','Jumlah pelanggan isolir'],...[...OUT,OUTK.none].map(o=>[o.label,gc.get(o.k)||0]),[],['Total pelanggan isolir',R.length],['Terjangkau blast',MS.cust],['Room blast cocok',MS.rooms]];
+  exportSheets('pencocokan-isolir-blast.xlsx',[{name:'Pencocokan',aoa,cols:[14,16,26,16,20,28,10,18,44,8,26,12,18,20]},{name:'Ringkasan',aoa:ring,cols:[30,22]}],r.length);
+}
+
 /* data langsung dari Google Sheets lewat server localhost (/data.csv) */
 function parseCsv(txt){
   const rows=[];let row=[],f='',q=false;
@@ -1351,40 +2526,243 @@ function csvToData(txt){
   }
   return {st:sl,mi:ml,rows};
 }
+/* ================== DATABASE BERSAMA (GOOGLE APPS SCRIPT) ================== */
+const apiUrl=()=>String((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||API_URL||'').trim();
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const readKey=()=>lsGet('blastReadKey')||'';
+let BAUTH=false, API_MAN=null, API_SIG='';
+
+/* cache per tanggal di IndexedDB (aman bila tidak tersedia) */
+let _idb=null;
+function idb(){
+  if(!_idb)_idb=new Promise((ok,no)=>{
+    try{const q=indexedDB.open('blastdb',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)}catch(e){no(e)}
+  });
+  return _idb;
+}
+async function idbGet(k){try{const db=await idb();return await new Promise((ok,no)=>{const r=db.transaction('kv').objectStore('kv').get(k);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}catch(e){return null}}
+async function idbSet(k,v){try{const db=await idb();await new Promise((ok,no)=>{const t=db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=ok;t.onerror=()=>no(t.error)})}catch(e){}}
+async function idbDel(k){try{const db=await idb();await new Promise((ok,no)=>{const t=db.transaction('kv','readwrite');t.objectStore('kv').delete(k);t.oncomplete=ok;t.onerror=()=>no(t.error)})}catch(e){}}
+
+async function apiCall(action,data){
+  const url=apiUrl();
+  if(!url)throw new Error('Alamat Apps Script belum diisi');
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action,key:readKey()},data||{})),redirect:'follow'});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  let j;try{j=await res.json()}catch(e){throw new Error('Balasan Apps Script tidak dikenali (cek deploy dan hak akses "Anyone")')}
+  if(!j.ok){const e=new Error(j.message||j.error||'gagal');e.code=j.error;throw e}
+  return j;
+}
+function mergeDays(list){
+  const ch=[],chh=new Map(),ag=[],agh=new Map(),rows=[];
+  list.forEach(d=>{
+    const cm=(d.ch||[]).map(c=>{if(!chh.has(c)){chh.set(c,ch.length);ch.push(c)}return chh.get(c)});
+    const am=(d.ag||[]).map(a=>{if(!agh.has(a)){agh.set(a,ag.length);ag.push(a)}return agh.get(a)});
+    (d.rows||[]).forEach(r=>{const x=r.slice();x[2]=cm[r[2]];x[7]=r[7]>=0?am[r[7]]:-1;rows.push(x)});
+  });
+  return {ch,ag,rows};
+}
+async function loadBlastApi(){
+  let man;
+  try{man=await apiCall('manifest')}catch(e){if(e.code==='unauthorized')BAUTH=true;throw e}
+  BAUTH=false;API_MAN=man.days;API_SIG=JSON.stringify(man.days);
+  if(!man.days.length){const e=new Error('Database blast masih kosong');e.code='empty';throw e}
+  const parts=[], base=apiUrl()+'|';
+  for(const d of man.days){
+    let c=await idbGet(base+d.date);
+    if(!c||c.updated!==d.updated||c.rows!==d.rows){
+      const r=await apiCall('day',{date:d.date});
+      c={updated:d.updated,rows:d.rows,data:r.day};await idbSet(base+d.date,c);
+    }
+    parts.push(c.data);
+  }
+  BERR='';
+  setBlast(mergeDays(parts),new Date().toISOString());
+  renderUpload();
+}
+async function pollBlast(){
+  if(!apiUrl()||document.querySelector('.mback:not([hidden])'))return;
+  try{
+    const man=await apiCall('manifest');
+    if(JSON.stringify(man.days)!==API_SIG){await loadBlastApi();updateHeader();renderView()}
+  }catch(e){}
+}
+if(apiUrl())setInterval(pollBlast,5*60*1000);
+
+/* ---------- kata sandi baca ---------- */
+function bindReadKey(){
+  const go=async()=>{
+    const v=$('rkKey').value.trim();if(!v){$('rkMsg').textContent='Masukkan kata sandi.';return}
+    lsSet('blastReadKey',v);$('rkMsg').textContent='Memeriksa…';
+    const r=await loadLive(true);
+    if(!BREADY)$('rkMsg').textContent=BAUTH?'Kata sandi salah.':(BERR||'Belum ada data.');
+    renderView();
+  };
+  $('rkGo').onclick=go;$('rkKey').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+}
+
+/* ---------- unggah data blast ---------- */
+let UPKEY='', UINIT=false;
+function renderUnggah(){
+  if(!UINIT){$('v-unggah').innerHTML=UNGGAH_HTML;UINIT=true;bindUpload();bindGate()}
+  const on=!!apiUrl();
+  $('upNoApi').hidden=on;
+  $('upGate').hidden=!on||!!UPKEY;$('upWrap').hidden=on&&!UPKEY;
+  $('upMain').hidden=!on||!UPKEY;
+  if(on&&UPKEY)renderUpload();
+  updateHeader();
+}
+function bindGate(){
+  const go=async()=>{
+    const v=$('gKey').value;if(!v){$('gMsg').textContent='Masukkan kata sandi.';$('gMsg').className='foot upst bad';return}
+    $('gMsg').className='foot upst';$('gMsg').textContent='Memeriksa…';
+    try{await apiCall('del',{wkey:v,date:'2000-01-01'});throw Object.assign(new Error('x'),{code:'not-found'})}
+    catch(e){
+      if(e.code==='not-found'){UPKEY=v;$('gKey').value='';$('gMsg').textContent='';renderUnggah()}
+      else{$('gMsg').className='foot upst bad';$('gMsg').textContent=e.code==='bad-write-key'?'Kata sandi salah.':errText(e)}
+    }
+  };
+  $('gGo').onclick=go;$('gKey').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+  $('gLock').onclick=()=>{UPKEY='';renderUnggah()};
+}
+const UP={name:'',ch:[],ag:[],raw:null,groups:new Map(),skipped:0,busy:false};
+function upStatus(msg,bad){const s=$('upStatus');s.textContent=msg||'';s.className='upst'+(bad?' bad':'')}
+function bindUpload(){
+  $('upFile').onchange=async e=>{const f=e.target.files[0];if(f)upLoadText(await f.text(),f.name)};
+  const dz=$('upDrop');
+  ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over')}));
+  ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over')}));
+  dz.addEventListener('drop',async e=>{const f=e.dataTransfer&&e.dataTransfer.files[0];if(f)upLoadText(await f.text(),f.name)});
+  $('upMode').onchange=()=>{$('upDate').hidden=$('upMode').value!=='force';upBuildGroups()};
+  $('upDate').onchange=upBuildGroups;
+  $('upGo').onclick=uploadAll;
+}
+function upLoadText(text,name){
+  try{
+    const B=blastFromCsv(text);
+    if(!B.rows.length)throw new Error('tidak ada baris data');
+    UP.name=name;UP.ch=B.ch;UP.ag=B.ag;UP.raw=B.rows;upStatus('');upBuildGroups();
+  }catch(e){UP.raw=null;UP.groups=new Map();renderPreview();upStatus('File tidak bisa dibaca: '+(e.message||e),true)}
+}
+function upBuildGroups(){
+  UP.groups=new Map();UP.skipped=0;
+  if(!UP.raw){renderPreview();return}
+  const force=$('upMode').value==='force', fd=$('upDate').value;
+  if(force&&!fd){renderPreview();return}
+  UP.raw.forEach(r=>{
+    const own=String(r[4]).slice(0,10), d=force?fd:own;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){UP.skipped++;return}
+    let x=r;if(force&&own!==fd){x=r.slice();x[4]=fd+String(r[4]).slice(10)}
+    let a=UP.groups.get(d);if(!a){a=[];UP.groups.set(d,a)}a.push(x);
+  });
+  renderPreview();
+}
+function renderPreview(){
+  const p=$('upPreview');
+  if(!UP.raw){p.innerHTML='';$('upGo').disabled=true;return}
+  const force=$('upMode').value==='force';
+  const ex=new Map((API_MAN||[]).map(d=>[d.date,d]));
+  const ds=[...UP.groups.keys()].sort();
+  $('upGo').disabled=!ds.length;
+  p.innerHTML=`<div class="foot" style="margin-bottom:6px"><b>${esc(UP.name)}</b> · ${nf(UP.raw.length)} baris terbaca${UP.skipped?` · ${nf(UP.skipped)} baris tanpa tanggal dilewati`:''}</div>`+(ds.length?`<div class="tw"><table><thead><tr><th>Tanggal blast</th><th class="num">Baris</th><th class="num">Nomor unik</th><th>Status</th></tr></thead><tbody>${ds.map(d=>{const rows=UP.groups.get(d),u=new Set(rows.map(r=>normPhone(r[1]))).size,old=ex.get(d);return `<tr><td>${fmtD(d)} <span class="foot">${dayName(d)}</span></td><td class="num">${nf(rows.length)}</td><td class="num">${nf(u)}</td><td>${old?`<span class="up-rep">Ganti data lama${old.rows!=null?` (${nf(old.rows)} baris)`:''}</span>`:'<span class="up-new">Tanggal baru</span>'}</td></tr>`}).join('')}</tbody></table></div>`:`<div class="empty">${force?'Pilih tanggal blast terlebih dahulu.':'Tidak ada baris bertanggal pada file ini.'}</div>`);
+}
+const errText=e=>({'bad-write-key':'Kata sandi tulis salah.','write-key-not-set':'WRITE_KEY belum diatur di Script properties Apps Script.','unauthorized':'Kata sandi baca salah.','missing-part':'Ada bagian unggahan yang hilang, coba unggah lagi.'}[e&&e.code]||(e&&e.message)||String(e));
+async function uploadAll(){
+  if(UP.busy||!UP.groups.size)return;
+  const key=UPKEY;
+  if(!key){upStatus('Sesi terkunci, buka kembali dengan kata sandi.',true);return}
+  UP.busy=true;$('upGo').disabled=true;
+  const ds=[...UP.groups.keys()].sort(), PART=4000;let total=0;
+  try{
+    for(const d of ds){
+      const rows=UP.groups.get(d), n=Math.max(1,Math.ceil(rows.length/PART)), id=(Date.now().toString(36)+Math.random().toString(36).slice(2,10));
+      for(let i=0;i<n;i++){
+        upStatus(`Mengunggah ${fmtD(d)}: bagian ${i+1} dari ${n}…`);
+        await apiCall('put',{wkey:key,uploadId:id,date:d,part:i,parts:n,payload:{ch:UP.ch,ag:UP.ag,rows:rows.slice(i*PART,(i+1)*PART)}});
+      }
+      upStatus(`Menyimpan ${fmtD(d)}…`);
+      const r=await apiCall('commit',{wkey:key,uploadId:id,date:d,parts:n});
+      total+=r.rows;
+    }
+    upStatus('Memuat ulang data…');
+    UP.raw=null;UP.groups=new Map();renderPreview();$('upFile').value='';
+    try{await loadBlastApi()}catch(e){if(e.code!=='empty')throw e}
+    updateHeader();renderView();
+    upStatus(`Selesai: ${nf(total)} baris tersimpan untuk ${ds.length} tanggal. Data langsung tampil di dashboard ini dan akan terlihat oleh pengunjung lain saat mereka menyegarkan atau dalam beberapa menit.`);
+    toast(`${nf(total)} baris blast tersimpan di database.`);
+  }catch(e){upStatus('Gagal: '+errText(e),true)}
+  finally{UP.busy=false;$('upGo').disabled=!UP.groups.size}
+}
+function renderUpload(){
+  if(!$('upMain'))return;
+  const on=!!apiUrl();
+  $('upNoApi').hidden=on;$('upMain').hidden=!on;
+  if(!on)return;
+  const m=API_MAN;
+  $('upDays').innerHTML=m===null?'<tbody><tr><td class="empty">Memuat daftar tanggal…</td></tr></tbody>':`<thead><tr><th>Tanggal blast</th><th class="num">Baris</th><th>Diperbarui</th><th class="num">Aksi</th></tr></thead><tbody>${m.length?m.slice().reverse().map(d=>`<tr><td>${fmtD(d.date)} <span class="foot">${dayName(d.date)}</span></td><td class="num">${d.rows==null?'-':nf(d.rows)}</td><td>${fmtWhen(new Date(d.updated).toISOString())}</td><td class="num"><span class="updel" data-d="${d.date}"><button class="upDel">Hapus</button></span></td></tr>`).join(''):'<tr><td colspan="4" class="empty">Database masih kosong</td></tr>'}</tbody>`;
+  $('upDays').querySelectorAll('.updel').forEach(sp=>{
+    const d=sp.dataset.d;
+    sp.querySelector('.upDel').onclick=()=>{
+      sp.innerHTML=`<span class="foot">Hapus ${fmtD(d)}?</span> <button class="upYes">Ya</button> <button class="upNo">Batal</button>`;
+      sp.querySelector('.upNo').onclick=()=>renderUpload();
+      sp.querySelector('.upYes').onclick=async()=>{
+        const key=UPKEY;if(!key){upStatus('Sesi terkunci.',true);renderUpload();return}
+        try{await apiCall('del',{wkey:key,date:d});await idbDel(apiUrl()+'|'+d);upStatus(`Tanggal ${fmtD(d)} dihapus.`);
+          try{await loadBlastApi()}catch(e){if(e.code==='empty'){API_MAN=[];BL=[];BREADY=false}else throw e}
+          updateHeader();renderView()}
+        catch(e){upStatus('Gagal menghapus: '+errText(e),true);renderUpload()}
+      };
+    };
+  });
+  if(m===null)apiCall('manifest').then(r=>{API_MAN=r.days;API_SIG=JSON.stringify(r.days);renderUpload()}).catch(()=>{API_MAN=[];renderUpload()});
+}
+
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
 const CFG=Object.assign({csvUrl:'',dataFile:'data.csv',refreshMinutes:30},window.APP_CONFIG||{});
-async function fetchCsv(){
-  const tries=[];
-  if(CFG.csvUrl)tries.push([CFG.csvUrl+(CFG.csvUrl.includes('?')?'&':'?')+'_='+Date.now(),'Google Sheets']);
-  if(CFG.dataFile)tries.push([CFG.dataFile+'?_='+Date.now(),'data.csv']);
-  if(!tries.length)throw new Error('csvUrl dan dataFile belum diisi pada bagian PENGATURAN di index.html');
+async function fetchFirst(list){
+  const tries=list.filter(x=>x[0]).map(([u,src])=>[u+(u.includes('?')?'&':'?')+'_='+Date.now(),src,/\.csv$/i.test(src)]);
+  if(!tries.length)throw new Error('alamat CSV belum diisi pada bagian PENGATURAN di index.html');
   let last=null;
-  for(const [u,src] of tries){
+  for(const [u,src,isFile] of tries){
     try{
       const res=await fetch(u,{cache:'no-store'});
       if(!res.ok)throw new Error(src+': HTTP '+res.status);
-      const D2=csvToData(await res.text());
-      if(!D2.rows.length)throw new Error(src+': tidak ada baris berstatus suspend');
-      const lm=src==='data.csv'?res.headers.get('last-modified'):null;
-      return {D2,at:lm?new Date(lm).toISOString():new Date().toISOString()};
+      const text=await res.text(), lm=isFile?res.headers.get('last-modified'):null;
+      return {text,at:lm?new Date(lm).toISOString():new Date().toISOString()};
     }catch(e){last=e}
   }
   throw last;
 }
 let firstLoad=true;
+async function loadIso(){
+  const {text,at}=await fetchFirst([[CFG.csvUrl,'Google Sheets (isolir)'],[CFG.dataFile,CFG.dataFile]]);
+  const D2=csvToData(text);
+  if(!D2.rows.length)throw new Error('tidak ada baris berstatus suspend');
+  const sn=(!firstLoad&&F.st!==null)?ST[F.st]:null, mn=(!firstLoad&&F.mi!==null)?MI[F.mi]:null;
+  setData(D2,at);
+  const si=sn===null?-1:ST.indexOf(sn), mi=mn===null?-1:MI.indexOf(mn);
+  F.st=si<0?null:si;F.mi=mi<0?null:mi;F.page=0;
+  if(F.date&&!R.some(r=>r.d===F.date))F.date=null;
+  if(firstLoad){firstLoad=false;document.querySelector('.wrap').classList.remove('loading');$('boot').hidden=true}
+  render();
+}
+async function loadBlastData(){
+  if(!apiUrl())throw new Error('alamat database (apiUrl) belum diisi pada bagian PENGATURAN di index.html');
+  try{await loadBlastApi()}
+  catch(e){
+    if(e.code==='unauthorized')return;
+    if(e.code==='empty')throw new Error('database blast masih kosong; unggah data pada menu Unggah Data Blast');
+    throw new Error('Database tidak bisa dihubungi: '+((e&&e.message)||''));
+  }
+}
 async function loadLive(force){
-  if(!force&&(!$('modal').hidden||!$('emodal').hidden||!$('omodal').hidden||!$('pmodal').hidden||!$('qmodal').hidden))return {ok:false};
-  try{
-    const {D2,at}=await fetchCsv();
-    const sn=(!firstLoad&&F.st!==null)?ST[F.st]:null, mn=(!firstLoad&&F.mi!==null)?MI[F.mi]:null;
-    setData(D2,at);
-    const si=sn===null?-1:ST.indexOf(sn), mi=mn===null?-1:MI.indexOf(mn);
-    F.st=si<0?null:si;F.mi=mi<0?null:mi;F.page=0;
-    if(F.date&&!R.some(r=>r.d===F.date))F.date=null;
-    if(firstLoad){firstLoad=false;document.querySelector('.wrap').classList.remove('loading');$('boot').hidden=true}
-    render();
-    return {ok:true};
-  }catch(e){return {ok:false,err:e}}
+  if(!force&&document.querySelector('.mback:not([hidden])'))return {ok:false};
+  let a={ok:true},b={ok:true};
+  try{await loadIso()}catch(e){a={ok:false,err:e}}
+  try{await loadBlastData()}catch(e){b={ok:false,err:e};if(!BREADY&&!BAUTH)BERR='Data blast tidak bisa dimuat. '+((e&&e.message)||'')}
+  updateHeader();renderView();
+  return {ok:a.ok||b.ok,err:a.err||b.err,isoOk:a.ok};
 }
 const btnR=$('btnRefresh');
 btnR.onclick=async()=>{
@@ -1396,13 +2774,13 @@ btnR.onclick=async()=>{
 };
 async function boot(){
   const r=await loadLive(true);
-  if(!r.ok){
+  if(firstLoad){
     const msg=esc(String((r.err&&r.err.message)||r.err||'tidak diketahui'));
     $('boot').innerHTML=`<b>Data tidak bisa dimuat.</b><br><span>Pastikan alamat CSV di bagian PENGATURAN (index.html) benar dan Google Sheets sudah dipublikasikan ke web sebagai CSV.</span><br><span class="foot">Detail: ${msg}</span><br><button id="bootRetry">Coba lagi</button>`;
     $('bootRetry').onclick=()=>{$('boot').textContent='Memuat data isolir…';boot()};
   }
 }
-boot();
+route();boot();
 if(CFG.refreshMinutes>0)setInterval(()=>{if(!firstLoad)loadLive()},CFG.refreshMinutes*60*1000);
 </script>
 </body>
