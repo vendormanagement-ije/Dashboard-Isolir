@@ -1824,6 +1824,11 @@ function setBlast(B,live){
       BC.push(e);let a=BCBY.get(e.pn);if(!a){a=[];BCBY.set(e.pn,a)}a.push(e);
     }else rooms.push(r);
   });
+  /* room yang sama (room_id sama) di beberapa tanggal dihitung sekali: dipakai tanggal broadcast terbaru */
+  const rbest=new Map();
+  rooms.forEach(r=>{const k=r[11];if(!k)return;const o=rbest.get(k);if(!o||String(r[13]||'')>String(o[13]||''))rbest.set(k,r)});
+  const rooms2=rooms.filter(r=>!r[11]||rbest.get(r[11])===r);
+  rooms.length=0;rooms2.forEach(r=>rooms.push(r));
   rooms.forEach(r=>{
     const tags=r[5]?r[5].split(',').map(s=>s.trim()).filter(Boolean):[];
     BL.push({i:BL.length,name:r[0],ph:r[1],pn:normPhone(r[1]),ch:r[2],st:r[3],at:r[4],tag:r[5],tags,note:r[6],ag:r[7],frs:r[8],rs:r[9],fra:r[10],day:r[13]||String(r[4]).slice(0,10),g:roomGroup(tags),cust:null,pr:r[14]==='fwa'?'fwa':prodOf(BCH[r[2]])});
@@ -2061,7 +2066,7 @@ const BLAST_HTML=`
     <div class="mhead"><div><div class="eyebrow">Output Broadcast FTTH Starlite</div><h2 id="oTitle"></h2><div class="foot" id="oSub" style="margin-top:2px"></div></div><div class="ctl"><button id="oMXls" class="xls">Download Excel</button><button id="oClose" aria-label="Tutup">Tutup ✕</button></div></div>
     <div class="mbody">
       <div class="ctl"><input type="text" id="oQ" placeholder="Cari nama, nomor, tag" aria-label="Cari"></div>
-      <div class="lchips" id="oChips"></div><div class="tw"><table id="oTbl"></table></div><div id="oPager"></div>
+      <div class="foot" style="margin:4px 0 2px;font-weight:700">Hasil tag</div><div class="lchips" id="oChips"></div><div class="foot" style="margin:6px 0 2px;font-weight:700">Status broadcast</div><div class="lchips" id="oChips2"></div><div class="tw"><table id="oTbl"></table></div><div id="oPager"></div>
     </div>
   </div>
 </div><div class="mback" id="nmodal" hidden>
@@ -2124,7 +2129,7 @@ const legendH=()=>`<span><i style="width:12px;height:10px;background:${PROD.ftth
 /* ---------- output broadcast FTTH Starlite: Aktif / Masih isolir / Dismantle ---------- */
 const AKT={set:null,state:'idle',at:0,err:'',n:0};
 const OCLS=[
-  {k:'aktif',label:'Aktif',note:'Pelanggan berstatus aktif',c:'#15803d',bg:'#dcf5e5',line:'#16a34a'},
+  {k:'aktif',label:'Aktif kembali',note:'Pelanggan sudah berstatus aktif kembali',c:'#15803d',bg:'#dcf5e5',line:'#16a34a'},
   {k:'iso',label:'Masih isolir',note:'Pelanggan masih berstatus isolir',c:'#b45309',bg:'#fdecd0',line:'#d97706'},
   {k:'dis',label:'Dismantle',note:'Perangkat siap di ambil',c:'#b91c1c',bg:'#fde2e2',line:'#dc2626'}
 ];
@@ -2181,7 +2186,7 @@ function fillOut(){
   el.innerHTML=`<div class="ocards">
     <div class="oc oc-t" style="--c:#1d4ed8;--bg:#eef4ff;--l:#2563eb"><em>Total broadcast FTTH Starlite</em><b>${nf(tot)}</b><i>nomor WhatsApp unik</i></div>
     ${OCLS.map(o=>card(o.k,o.label,rows[o.k].n,o.c,o.bg,o.line,o.k==='dis'?'perangkat siap di ambil':'')).join('')}</div>
-    <p class="foot ocheck" style="margin:8px 0">${nf(rows.aktif.n)} Aktif + ${nf(rows.iso.n)} Masih isolir + ${nf(rows.dis.n)} Dismantle = <b>${nf(sum)}</b> ${sum===tot?'✓ sama dengan total broadcast FTTH Starlite':'(tidak sama dengan total broadcast '+nf(tot)+')'}</p>
+    <p class="foot ocheck" style="margin:8px 0">${nf(rows.aktif.n)} Aktif kembali +${nf(rows.iso.n)} Masih isolir + ${nf(rows.dis.n)} Dismantle = <b>${nf(sum)}</b> ${sum===tot?'✓ sama dengan total broadcast FTTH Starlite':'(tidak sama dengan total broadcast '+nf(tot)+')'}</p>
     <div class="tw"><table class="rtab" id="bOutT"><thead><tr><th class="rt-first">Status pelanggan</th><th>Nomor</th><th>%</th>${cols.map(o=>`<th style="color:${o.c}">${o.label}</th>`).join('')}</tr></thead><tbody>
     ${OCLS.map(o=>{const r=rows[o.k];return `<tr class="click" data-k="${o.k}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>${o.k==='dis'?'<div class="foot" style="margin-top:2px">perangkat siap di ambil</div>':''}</td><td><b>${nf(r.n)}</b></td><td class="gs">${pctS(r.n,tot)}</td>${cols.map(c=>`<td data-g="${c.k}">${nf(r.g[c.k]||0)}</td>`).join('')}</tr>`}).join('')}
     <tr class="r-gt"><td class="rt-first">Total</td><td>${nf(sum)}</td><td class="gs">${pctS(sum,tot)}</td>${cols.map(c=>`<td>${nf(gtG[c.k]||0)}</td>`).join('')}</tr></tbody></table></div>
@@ -2189,14 +2194,16 @@ function fillOut(){
   el.querySelectorAll('.oc[data-k]').forEach(b=>b.onclick=()=>openOut(b.dataset.k,''));
   el.querySelectorAll('#bOutT tr.click').forEach(tr=>tr.addEventListener('click',e=>{const td=e.target.closest('td[data-g]');openOut(tr.dataset.k,td?td.dataset.g:'')}));
 }
-const OP={k:'aktif',g:'',q:'',page:0}, OPS=15;
+const OP={k:'aktif',g:'',bs:'',q:'',page:0}, OPS=15;
+const bsOf=o=>o.bc?o.bc.st:'none';
 function opRows(){
   let r=outList(OP.k,OP.g);
+  if(OP.bs)r=r.filter(o=>bsOf(o)===OP.bs);
   if(OP.q){const q=OP.q.toLowerCase();r=r.filter(o=>(o.name||'').toLowerCase().includes(q)||o.ph.includes(q)||o.tags.some(t=>t.includes(q)))}
   return r;
 }
 function openOut(k,g){
-  OP.k=k;OP.g=g||'';OP.q='';OP.page=0;$('oQ').value='';
+  OP.k=k;OP.g=g||'';OP.bs='';OP.q='';OP.page=0;$('oQ').value='';
   renderOut();$('omodal').hidden=false;document.body.style.overflow='hidden';$('oClose').focus();
 }
 function closeOut(){$('omodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
@@ -2204,9 +2211,15 @@ function renderOut(){
   const o=OCK[OP.k], all=outList(OP.k,'');
   $('oTitle').textContent=o.label+(OP.k==='dis'?' · perangkat siap di ambil':'')+(OP.g?' · '+OUTK[OP.g].label:'')+(BDATE?' · '+fmtD(BDATE):'');
   $('oSub').textContent=`${nf(all.length)} nomor WhatsApp unik · ${o.note}`;
-  const gc={};all.forEach(x=>{gc[x.g]=(gc[x.g]||0)+1});
-  $('oChips').innerHTML=`<button class="lc${OP.g===''?' sel':''}" data-g="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(all.length)}</b></button>`+OUT.filter(x=>gc[x.k]).map(x=>`<button class="lc${OP.g===x.k?' sel':''}" data-g="${x.k}" style="--c:${x.c};--bg:${x.bg};--l:${x.line}"><span>${x.label}</span><b>${nf(gc[x.k])}</b></button>`).join('');
+  /* semua kategori selalu tampil (walau 0). Chip tag dihitung menurut filter status broadcast, chip status dihitung menurut filter tag */
+  const gc={},bc={};
+  all.forEach(x=>{if(!OP.bs||bsOf(x)===OP.bs)gc[x.g]=(gc[x.g]||0)+1;if(!OP.g||x.g===OP.g)bc[bsOf(x)]=(bc[bsOf(x)]||0)+1});
+  const gTot=all.filter(x=>!OP.bs||bsOf(x)===OP.bs).length, bTot=all.filter(x=>!OP.g||x.g===OP.g).length;
+  $('oChips').innerHTML=`<button class="lc${OP.g===''?' sel':''}" data-g="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(gTot)}</b></button>`+OUT.filter(x=>x.k!=='lain'||gc.lain||OP.g==='lain').map(x=>`<button class="lc${OP.g===x.k?' sel':''}" data-g="${x.k}" style="--c:${x.c};--bg:${x.bg};--l:${x.line}"><span>${x.label}</span><b>${nf(gc[x.k]||0)}</b></button>`).join('');
   $('oChips').querySelectorAll('.lc').forEach(b=>b.addEventListener('click',()=>{OP.g=b.dataset.g;OP.page=0;renderOut()}));
+  const BSL=[['read','Dibaca','#15803d','#dcf5e5','#16a34a'],['delivered','Terkirim','#1d4ed8','#e3ecfe','#2563eb'],['sent','Dikirim','#b45309','#fdecd0','#d97706'],['failed','Gagal','#b91c1c','#fde2e2','#dc2626']];
+  $('oChips2').innerHTML=`<button class="lc${OP.bs===''?' sel':''}" data-b="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(bTot)}</b></button>`+BSL.map(([k,l,c,bg,ln])=>`<button class="lc${OP.bs===k?' sel':''}" data-b="${k}" style="--c:${c};--bg:${bg};--l:${ln}"><span>${l}</span><b>${nf(bc[k]||0)}</b></button>`).join('');
+  $('oChips2').querySelectorAll('.lc').forEach(b=>b.addEventListener('click',()=>{OP.bs=b.dataset.b;OP.page=0;renderOut()}));
   const r=opRows(),pages=Math.max(1,Math.ceil(r.length/OPS));OP.page=Math.min(OP.page,pages-1);
   const sl=r.slice(OP.page*OPS,OP.page*OPS+OPS);
   $('oTbl').innerHTML=numHead+`<tbody>${sl.map((x,i)=>numRow(x,i)).join('')||'<tr><td colspan="14" class="empty">Tidak ada nomor yang cocok</td></tr>'}</tbody>`;
@@ -2247,7 +2260,7 @@ function fillBlast(){
   const CT={'':{a:'#fffaf2',b:'#fde7cb',l:'#ea8a1a',c:'#b45309'},ftth:{a:'#f4f9ff',b:'#dbe8fd',l:'#2563eb',c:'#1d4ed8'},fwa:{a:'#fff6f6',b:'#fddede',l:'#dc2626',c:'#b91c1c'}};
   /* baris "Tag lain (layanan)" hanya tampil bila ada nomor bertag itu di FTTH Starlite atau FWA IRA */
   const showLain=((gCount(NS.ftth).lain||0)+(gCount(NS.fwa).lain||0))>0;
-  $('bHero').innerHTML=cards.map(([p,s])=>{const t=CT[p.k], g=gCount(NS[p.k]), bcC={};(BDATE?BC.filter(e=>e.day===BDATE):BC).forEach(e=>{if(!p.k||e.pr===p.k)bcC[e.st]=(bcC[e.st]||0)+1});return `<button class="bh" data-pr="${p.k}" style="--c:${t.c};--l:${t.l};background:linear-gradient(180deg,${t.a},${t.b})" aria-haspopup="dialog">
+  $('bHero').innerHTML=cards.map(([p,s])=>{const t=CT[p.k], g=gCount(NS[p.k]), bcC={};bcEntries(p.k).forEach(e=>{bcC[e.st]=(bcC[e.st]||0)+1});return `<button class="bh" data-pr="${p.k}" style="--c:${t.c};--l:${t.l};background:linear-gradient(180deg,${t.a},${t.b})" aria-haspopup="dialog">
     <span class="bh-top"><span class="hl2">${p.label}</span><span class="hgo">Lihat detail ›</span></span>
     <span class="bh-num"><span class="hbig">${nf(s.ph)}</span><span class="hsub">nomor WhatsApp unik<br>${p.k?`${pctS(s.ph,all.ph)} dari total nomor`:'semua kategori produk'}</span></span>
     <span class="bms">${[['read','Dibaca','Pesan sudah dibaca'],['delivered','Terkirim','Pesan terkirim, belum dibaca'],['sent','Dikirim','Pesan dikirim, belum terkirim'],['failed','Gagal','Pesan gagal terkirim']].map(([k,l,ti])=>`<span class="bm" title="${ti}"><em>${l}</em><b>${nf(bcC[k]||0)}</b></span>`).join('')}</span>
@@ -2304,15 +2317,20 @@ function fillBTimeline(){
 }
 
 /* ---------- status broadcast (kolom FTTH Starlite dan FWA IRA) ---------- */
-function bcEntries(pr){return (BDATE?BC.filter(e=>e.day===BDATE):BC).filter(e=>e.pr===pr)}
+/* satu tanggal: broadcast hari itu. Semua tanggal: broadcast terakhir tiap nomor (pr kosong = semua kategori), agar nomor yang sama tidak terhitung dobel */
+function bcEntries(pr){
+  const m=new Map();
+  BC.forEach(e=>{if(pr&&e.pr!==pr)return;if(BDATE&&e.day!==BDATE)return;const o=m.get(e.pn);if(!o||e.day>o.day||(e.day===o.day&&e.at>o.at))m.set(e.pn,e)});
+  return [...m.values()];
+}
 function bcData(pr){
   const en=bcEntries(pr), total=en.length;
-  const real=new Set(BLV.filter(b=>!b.syn&&b.pr===pr).map(b=>b.pn+'|'+b.day));
   const rows={};
   en.forEach(e=>{
     const r=rows[e.st]||(rows[e.st]={n:0,rs:0,gc:{}});
-    r.n++;if(real.has(e.pn+'|'+e.day))r.rs++;
-    const o=NS[pr].get(e.pn), g=o?o.g:'norespon';r.gc[g]=(r.gc[g]||0)+1;
+    const o=NS[pr].get(e.pn), g=o?o.g:'norespon';
+    r.n++;if(o&&o.nr>0)r.rs++;
+    r.gc[g]=(r.gc[g]||0)+1;
   });
   const er=new Map();en.forEach(e=>{const m=e.err&&e.err!=='n/a'?e.err:'';if(m)er.set(m,(er.get(m)||0)+1)});
   return {total,rows,err:er};
@@ -2536,7 +2554,7 @@ function showBD(){
   $('bdSub').textContent=`${nf(s.ph)} nomor WhatsApp unik · ${nf(s.n)} room${BD2.g?' · hasil: '+OUTK[BD2.g].label:''}`;
   const kp=[['Nomor WA unik',nf(s.ph)],['Room broadcast',nf(s.n)],['Room selesai',(s.kn?pctS(s.res,s.kn):'-')],['Room ditangani agen',pctS(s.wag,s.n)],['Respon pertama',menit(s.frs)],['Waktu selesai',menit(s.rs)]];
   $('bdK').innerHTML=kp.map(k=>`<div><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
-  {const pns=new Set(m.keys()), en=BD2.ch===''?(BDATE?BC.filter(e=>e.day===BDATE):BC).filter(e=>pns.has(e.pn)&&(!BD2.pr||e.pr===BD2.pr)):[], c={};
+  {const pns=new Set(m.keys()), en=BD2.ch===''?bcEntries(BD2.pr).filter(e=>pns.has(e.pn)):[], c={};
    en.forEach(e=>{c[e.st]=(c[e.st]||0)+1});
    const bs=[['read','Dibaca','#dcf5e5','#15803d'],['delivered','Terkirim','#e3ecfe','#1d4ed8'],['sent','Dikirim','#e6eaf0','#475569'],['failed','Gagal','#fde2e2','#b91c1c']];
    const isoList=[...m.values()].flatMap(o=>(ISOBY.get(o.pn)||[]).map(c=>({o,c})));BD2.isoList=isoList;
