@@ -860,7 +860,10 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
 .bt.bt-tot{border-top:2px solid rgba(15,27,61,.35);border-bottom:0;margin-top:3px;padding-top:6px}.bt.bt-tot em,.bt.bt-tot b,.bt.bt-tot i{font-weight:800;color:#0f1b3d}
 #bdG tr.tot td,#bdS tr.tot td,#bdC tr.tot td{font-weight:800;border-top:2px solid #94a3b8;background:#f1f4fb;color:#0f1b3d}
 .mkbc{grid-template-columns:repeat(5,minmax(0,1fr))!important}@media(max-width:700px){.mkbc{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-.furow{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;margin-top:0}
+.furow{display:grid;grid-template-columns:1.35fr 1fr 1fr 1.1fr 1.15fr;gap:5px;margin-top:0}
+.fu-ak{background:#e8f8ee;border:1.5px solid #15803d}.fu-ak .fuic{background:#15803d}.fu-ak b,.fu-ak .fun{color:#15803d}.fu-ak small{color:#166534}
+.fu-ds{background:#fde2e2;border:1.5px solid #dc2626}.fu-ds .fuic{background:#dc2626}.fu-ds b,.fu-ds .fun{color:#b91c1c}.fu-ds small{color:#991b1b}
+.furow .fuhl{padding:4px 7px;gap:5px}
 .fuhl{display:flex;align-items:center;gap:7px;padding:4px 9px;border-radius:9px;cursor:pointer;text-align:left;min-width:0}
 .fuic{flex:none;width:18px;height:18px;border-radius:50%;color:#fff;font-weight:800;font-size:9px;display:grid;place-items:center}
 .fut{flex:1 1 auto;display:flex;flex-direction:column;min-width:0;line-height:1.2}.fut b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fut small{font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1048,7 +1051,7 @@ window.APP_CONFIG = {
 const D=null;
 const BD=null;
 const API_URL=/*APIURL*/'';
-let ST,MI,R,minD,maxD,ISOEX=new Set();
+let ST,MI,R,minD,maxD,ISOEXL=[];
 const ACTIVE_URL=/*AKTIFURL*/'';
 const activeUrl=()=>String((window.APP_CONFIG&&window.APP_CONFIG.aktifUrl)||ACTIVE_URL||'').trim();
 const HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -1065,7 +1068,7 @@ const mitraCell=n=>{const m=mitraOf(n);if(!m||!m.c.length)return '<td class="foo
 const mitraText=n=>{const m=mitraOf(n);return m?m.c.map(([r,nm,p])=>`${r}${nm?' '+nm:''}: ${p}`).join('; '):''};
 const wa=p=>{const raw=String(p==null?'':p),n=raw.replace(/\D/g,'').replace(/^0/,'62').replace(/^8/,'628');return n.length>=8?`<a class="wa" href="https://wa.me/${n}" target="_blank" rel="noopener noreferrer" title="Buka chat WhatsApp ${esc(raw)}" onclick="event.stopPropagation()">${esc(raw)}</a>`:esc(raw)};
 const dt=s=>new Date(s+'T00:00:00Z'), dayName=s=>HARI[dt(s).getUTCDay()];
-const fmtD=s=>{const [y,m,d]=s.split('-');return `${+d} ${BULAN[+m-1]} ${y}`};
+const fmtD=s=>{if(!s)return '-';const [y,m,d]=s.split('-');return `${+d} ${BULAN[+m-1]} ${y}`};
 const diffDays=(a,b)=>Math.round((dt(b)-dt(a))/864e5);
 const addDays=(s,n)=>{const x=dt(s);x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10)};
 function setData(D,live){
@@ -1074,7 +1077,7 @@ ST=D.st;MI=D.mi;R=D.rows.map(r=>({s:r[0],m:r[1],code:r[2],name:r[3],ph:r[4],act:
   minD=R.reduce((a,r)=>r.d<a?r.d:a,'9999');maxD=R.reduce((a,r)=>r.d>a?r.d:a,'');
   
   ISOLIVE=live;
-  ISOEX=new Set((D.ex||[]).map(normPhone).filter(Boolean)); /* pelanggan suspend tanpa tanggal isolir valid (kosong / jadwal mendatang) */
+  ISOEXL=(D.ex||[]).map(x=>({s:x[1],m:x[2],code:x[3],name:x[4],ph:x[0],act:x[5],d:x[6]||'',t:'-',life:0,nd:true}));
   buildIndex();buildMatch();updateHeader();
 }
 const F={from:'',to:'',st:null,mi:null,date:null,q:'',gran:'day',page:0};
@@ -1702,7 +1705,7 @@ function updateHeader(){
     setPills(API_MAN?(API_MAN.length+' tanggal tersimpan'):'Database broadcast','Hanya untuk petugas','Database bersama',!!apiUrl());
   }else{
     if(!R||!BREADY){setPills('','',BERR?'Data broadcast gagal dimuat':'Memuat data…',false);return}
-    setPills(`${nf(MS.cust)} pelanggan isolir terjangkau broadcast`,`${nf(FU.length)} mau lanjut, masih isolir`,`Isolir ${ISOLIVE?'langsung':'tersimpan'} · Broadcast ${BLIVE?'langsung':'tersimpan'}`,!!(ISOLIVE&&BLIVE));
+    setPills(`${nf(MS.cust)} nomor isolir terjangkau broadcast`,`${nf(FU.length)} mau lanjut, masih isolir`,`Isolir ${ISOLIVE?'langsung':'tersimpan'} · Broadcast ${BLIVE?'langsung':'tersimpan'}`,!!(ISOLIVE&&BLIVE));
   }
 }
 function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='unggah')renderUnggah()}
@@ -1845,11 +1848,13 @@ function setBlast(B,live){
   buildMatch();updateHeader();
 }
 /* ================== PENCOCOKAN ISOLIR x BLAST ================== */
-let MS={cust:0,rooms:0,unmatchedPh:0};
+let MS={cust:0,rooms:0,unmatchedPh:0},RM=[];
 function buildMatch(){
   if(!R||!BREADY)return;
   const byPhone=new Map();ISOBY=byPhone;
   R.forEach(r=>{r.pn=normPhone(r.ph);r.rooms=[];r.g='none';r.lanjut=[];r.paid=false;r.last=null;if(r.pn){let a=byPhone.get(r.pn);if(!a){a=[];byPhone.set(r.pn,a)}a.push(r)}});
+  /* pelanggan isolir tanpa tanggal valid ikut daftar nomor isolir (bukan bagian R, jadi menu Dashboard Isolir tidak berubah) */
+  (ISOEXL||[]).forEach(r=>{r.pn=normPhone(r.ph);r.rooms=[];if(!r.pn)return;let a=byPhone.get(r.pn);if(!a){a=[];byPhone.set(r.pn,a)}a.push(r)});
   const unm=new Set();let mr=0;
   BL.forEach(b=>{
     if(b.pr!=='ftth'){b.cust=null;return}
@@ -1860,7 +1865,20 @@ function buildMatch(){
   R.forEach(r=>{
     if(r.rooms.length){cust++;r.g=bestOf(r.rooms.map(b=>b.g));r.rooms.sort((x,y)=>x.at<y.at?1:-1);r.last=r.rooms[0];r.lanjut=r.rooms.filter(b=>b.g==='lanjut');r.paid=r.rooms.some(b=>b.g==='bayar')}
   });
-  MS={cust,rooms:mr,unmatchedPh:unm.size};FU=R.filter(r=>r.g==='lanjut');
+  /* Menu Status Broadcast FTTH: satu baris per NOMOR WhatsApp isolir (pelanggan yang berbagi nomor digabung),
+     sehingga angkanya sama dengan Output Broadcast di menu Report. */
+  const rmBy=new Map();
+  RM=[...byPhone.entries()].map(([pn,a])=>{
+    const f=a.slice().sort((x,y)=>(x.nd?1:0)-(y.nd?1:0)||(x.d<y.d?-1:x.d>y.d?1:0))[0];
+    const m={s:f.s,m:f.m,code:a.map(c=>c.code).join(' / '),name:[...new Set(a.map(c=>c.name).filter(Boolean))].join(' / '),ph:f.ph,act:f.act,d:f.d,t:f.t||'-',life:Math.max(...a.map(c=>c.life||0)),pn,nd:a.every(c=>c.nd),n:a.length,rooms:[],g:'none',lanjut:[],paid:false,last:null};
+    rmBy.set(pn,m);return m;
+  });
+  let ncust=0,nroom=0;
+  BL.forEach(b=>{if(b.pr!=='ftth')return;const m=rmBy.get(b.pn);if(m){m.rooms.push(b);nroom++}});
+  RM.forEach(r=>{
+    if(r.rooms.length){ncust++;r.g=bestOf(r.rooms.map(b=>b.g));r.rooms.sort((x,y)=>x.at<y.at?1:-1);r.last=r.rooms[0];r.lanjut=r.rooms.filter(b=>b.g==='lanjut');r.paid=r.rooms.some(b=>b.g==='bayar')}
+  });
+  MS={cust:ncust,rooms:nroom,unmatchedPh:unm.size};FU=RM.filter(r=>r.g==='lanjut');
 }
 
 /* ---------- export Excel generik ---------- */
@@ -2135,7 +2153,7 @@ const OCLS=[
 ];
 const OCK=Object.fromEntries(OCLS.map(o=>[o.k,o]));
 /* nomor ada di daftar isolir -> Masih isolir; ada di daftar aktif -> Aktif; selain itu -> Dismantle */
-const clsOf=o=>(ISOBY.has(o.pn)||ISOEX.has(o.pn))?'iso':(AKT.set&&AKT.set.has(o.pn)?'aktif':'dis');
+const clsOf=o=>ISOBY.has(o.pn)?'iso':(AKT.set&&AKT.set.has(o.pn)?'aktif':'dis');
 async function loadActive(force){
   const url=activeUrl();if(!url){AKT.state='off';return}
   if(!force&&AKT.set&&Date.now()-AKT.at<36e5)return;
@@ -2162,10 +2180,11 @@ async function loadActive(force){
   idbSet(key,{at:AKT.at,p:[...set].join(',')});
 }
 function kickActive(force){
-  loadActive(force).catch(e=>{AKT.state='err';AKT.err=(e&&e.message)||String(e)}).then(()=>{try{if(typeof fillOut==='function'&&$('bOut'))fillOut()}catch(e){}});
+  loadActive(force).catch(e=>{AKT.state='err';AKT.err=(e&&e.message)||String(e)}).then(()=>{try{if(typeof fillOut==='function'&&$('bOut')){fillOut();if(AKT.set&&BREADY&&typeof fillBTimeline==='function'&&$('bTl'))fillBTimeline()}}catch(e){}});
 }
-function outList(k,g){
-  return [...(NS.ftth||new Map()).values()].filter(o=>clsOf(o)===k&&(!g||o.g===g)).sort((a,b)=>OUTK[a.g].rank-OUTK[b.g].rank||(a.last.at<b.last.at?1:-1));
+function outList(k,g,day){
+  const ds=day?new Set(BL.filter(b=>b.pr==='ftth'&&dayOfB(b)===day).map(b=>b.pn)):null;
+  return [...(NS.ftth||new Map()).values()].filter(o=>(!ds||ds.has(o.pn))&&clsOf(o)===k&&(!g||o.g===g)).sort((a,b)=>OUTK[a.g].rank-OUTK[b.g].rank||(a.last.at<b.last.at?1:-1));
 }
 function fillOut(){
   const el=$('bOut');if(!el)return;
@@ -2178,7 +2197,7 @@ function fillOut(){
   const m=NS.ftth,tot=m.size;
   if(!tot)return msg('Belum ada data broadcast FTTH Starlite untuk tanggal ini.');
   const rows={};OCLS.forEach(o=>rows[o.k]={n:0,g:{}});let exOnly=0;
-  m.forEach(o=>{const k=clsOf(o),r=rows[k];r.n++;r.g[o.g]=(r.g[o.g]||0)+1;if(k==='iso'&&!ISOBY.has(o.pn))exOnly++});
+  m.forEach(o=>{const k=clsOf(o),r=rows[k];r.n++;r.g[o.g]=(r.g[o.g]||0)+1;if(k==='iso'&&ISOBY.get(o.pn).every(c=>c.nd))exOnly++});
   const sum=OCLS.reduce((a,o)=>a+rows[o.k].n,0);
   const cols=OUT.filter(o=>o.k!=='lain'||OCLS.some(c=>rows[c.k].g.lain));
   const card=(k,l,n,c,bg,line,sub)=>`<button class="oc" data-k="${k}" style="--c:${c};--bg:${bg};--l:${line}"><em>${l}</em><b>${nf(n)}</b><i>${pctS(n,tot)} dari total broadcast</i>${sub?`<u>${sub}</u>`:''}</button>`;
@@ -2190,26 +2209,26 @@ function fillOut(){
     <div class="tw"><table class="rtab" id="bOutT"><thead><tr><th class="rt-first">Status pelanggan</th><th>Nomor</th><th>%</th>${cols.map(o=>`<th style="color:${o.c}">${o.label}</th>`).join('')}</tr></thead><tbody>
     ${OCLS.map(o=>{const r=rows[o.k];return `<tr class="click" data-k="${o.k}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>${o.k==='dis'?'<div class="foot" style="margin-top:2px">perangkat siap di ambil</div>':''}</td><td><b>${nf(r.n)}</b></td><td class="gs">${pctS(r.n,tot)}</td>${cols.map(c=>`<td data-g="${c.k}">${nf(r.g[c.k]||0)}</td>`).join('')}</tr>`}).join('')}
     <tr class="r-gt"><td class="rt-first">Total</td><td>${nf(sum)}</td><td class="gs">${pctS(sum,tot)}</td>${cols.map(c=>`<td>${nf(gtG[c.k]||0)}</td>`).join('')}</tr></tbody></table></div>
-    <p class="foot" style="margin:8px 0 0">Pencocokan memakai nomor WhatsApp pelanggan. Nomor yang tidak ditemukan di data aktif maupun isolir otomatis masuk Dismantle (perangkat siap di ambil). Klik baris atau angka untuk melihat daftar nomor.${exOnly?` ${nf(exOnly)} nomor isolir belum punya tanggal isolir valid (kosong atau jadwal mendatang), sehingga belum dihitung di kartu "Masih isolir" lain.`:''}</p>`;
+    <p class="foot" style="margin:8px 0 0">Pencocokan memakai nomor WhatsApp pelanggan. Nomor yang tidak ditemukan di data aktif maupun isolir otomatis masuk Dismantle (perangkat siap di ambil). Klik baris atau angka untuk melihat daftar nomor.${exOnly?` ${nf(exOnly)} nomor isolir belum punya tanggal isolir valid (kosong atau jadwal mendatang); tetap dihitung Masih isolir dan tampil tanpa tanggal di daftar.`:''}</p>`;
   el.querySelectorAll('.oc[data-k]').forEach(b=>b.onclick=()=>openOut(b.dataset.k,''));
   el.querySelectorAll('#bOutT tr.click').forEach(tr=>tr.addEventListener('click',e=>{const td=e.target.closest('td[data-g]');openOut(tr.dataset.k,td?td.dataset.g:'')}));
 }
-const OP={k:'aktif',g:'',bs:'',q:'',page:0}, OPS=15;
+const OP={k:'aktif',g:'',bs:'',day:'',q:'',page:0}, OPS=15;
 const bsOf=o=>o.bc?o.bc.st:'none';
 function opRows(){
-  let r=outList(OP.k,OP.g);
+  let r=outList(OP.k,OP.g,OP.day);
   if(OP.bs)r=r.filter(o=>bsOf(o)===OP.bs);
   if(OP.q){const q=OP.q.toLowerCase();r=r.filter(o=>(o.name||'').toLowerCase().includes(q)||o.ph.includes(q)||o.tags.some(t=>t.includes(q)))}
   return r;
 }
-function openOut(k,g){
-  OP.k=k;OP.g=g||'';OP.bs='';OP.q='';OP.page=0;$('oQ').value='';
+function openOut(k,g,day){
+  OP.k=k;OP.day=day||'';OP.g=g||'';OP.bs='';OP.q='';OP.page=0;$('oQ').value='';
   renderOut();$('omodal').hidden=false;document.body.style.overflow='hidden';$('oClose').focus();
 }
 function closeOut(){$('omodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
 function renderOut(){
-  const o=OCK[OP.k], all=outList(OP.k,'');
-  $('oTitle').textContent=o.label+(OP.k==='dis'?' · perangkat siap di ambil':'')+(OP.g?' · '+OUTK[OP.g].label:'')+(BDATE?' · '+fmtD(BDATE):'');
+  const o=OCK[OP.k], all=outList(OP.k,'',OP.day);
+  $('oTitle').textContent=o.label+(OP.k==='dis'?' · perangkat siap di ambil':'')+(OP.g?' · '+OUTK[OP.g].label:'')+(OP.day?' · '+fmtD(OP.day):BDATE?' · '+fmtD(BDATE):'');
   $('oSub').textContent=`${nf(all.length)} nomor WhatsApp unik · ${o.note}`;
   /* semua kategori selalu tampil (walau 0). Chip tag dihitung menurut filter status broadcast, chip status dihitung menurut filter tag */
   const gc={},bc={};
@@ -2293,9 +2312,11 @@ function fillBTimeline(){
     const nf_=l.filter(b=>b.pr==='ftth').map(b=>b.pn), nw_=l.filter(b=>b.pr==='fwa').map(b=>b.pn);
     if(mk!==prevM){h+=`<li class="mon"><span>${BLN[+d.slice(5,7)-1]} ${d.slice(0,4)}</span></li>`;prevM=mk}
     const tiles=[['Nomor WA unik',nf(s.ph)],['FTTH Starlite',nf(new Set(nf_).size)],['FWA IRA',nf(new Set(nw_).size)],...[['read','Dibaca'],['delivered','Terkirim'],['sent','Dikirim'],['failed','Gagal']].map(([k,l])=>[l,nf(BC.filter(e=>e.day===d&&e.st===k).length)])];
-    const ip=R?isoPairsDay(d):[], ipL=ip.filter(x=>x.o.g==='lanjut').length, ipB=ip.filter(x=>x.o.g==='bayar').length;
-    const fcard=(g,cls,ico,ttl,sub,n)=>`<span class="fuhl ${cls}" data-d="${d}" data-g="${g}" role="button" tabindex="0" title="Klik untuk melihat daftar pelanggan"><span class="fuic">${ico}</span><span class="fut"><b>${ttl}</b><small>${sub}</small></span><span class="fun">${nf(n)}<small>pelanggan</small></span></span>`;
-    const hl=R?`<span class="furow">${fcard('','fu-all','!','Masih isolir FTTH','perlu follow up',ip.length)}${fcard('lanjut','fu-lj','✓','Mau lanjut','masih isolir · prioritas',ipL)}${fcard('bayar','fu-by','Rp','Sudah bayar','masih isolir · cek aktivasi',ipB)}</span>`:'';    const stack=OUT.map(o=>{const v=g[o.k]||0;return v?`<i style="width:${s.ph?v/s.ph*100:0}%;background:${o.line}" title="${o.label}: ${nf(v)} nomor"></i>`:''}).join('');
+    const ip=R?isoPairsDay(d):[], uq=l=>new Set(l.map(x=>x.o.pn)).size, ipN=uq(ip), ipL=uq(ip.filter(x=>x.o.g==='lanjut')), ipB=uq(ip.filter(x=>x.o.g==='bayar'));
+    const cd={aktif:0,dis:0};if(AKT.set){numMap(BL.filter(b=>b.pr==='ftth'&&dayOfB(b)===d)).forEach(o=>{const k=clsOf(o);if(k!=='iso')cd[k]++})}
+    const cdn=k=>AKT.set?cd[k]:'…';
+    const fcard=(g,cls,ico,ttl,sub,n,kk)=>`<span class="fuhl ${cls}" data-d="${d}" data-g="${g}"${kk?` data-k="${kk}"`:''} role="button" tabindex="0" title="Klik untuk melihat daftar nomor"><span class="fuic">${ico}</span><span class="fut"><b>${ttl}</b><small>${sub}</small></span><span class="fun">${nf(n)}<small>nomor</small></span></span>`;
+    const hl=R?`<span class="furow">${fcard('','fu-all','!','Masih isolir FTTH','perlu follow up',ipN)}${fcard('lanjut','fu-lj','✓','Mau lanjut','masih isolir · prioritas',ipL)}${fcard('bayar','fu-by','Rp','Sudah bayar','masih isolir · cek aktivasi',ipB)}${fcard('','fu-ak','↻','Aktif kembali','sudah aktif lagi',cdn('aktif'),'aktif')}${fcard('','fu-ds','×','Dismantle','perangkat siap di ambil',cdn('dis'),'dis')}</span>`:'';    const stack=OUT.map(o=>{const v=g[o.k]||0;return v?`<i style="width:${s.ph?v/s.ph*100:0}%;background:${o.line}" title="${o.label}: ${nf(v)} nomor"></i>`:''}).join('');
     const leg=OUT.map(o=>g[o.k]?`<span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label} ${nf(g[o.k])}</span>`:'').join('');
     h+=`<li class="ev${BDATE===d?' sel':''}" data-d="${d}"><span class="node" aria-hidden="true"><b>${+d.slice(8)}</b><small>${BULAN[+d.slice(5,7)-1]}</small></span>
       <button class="evc" aria-pressed="${BDATE===d}">
@@ -2311,6 +2332,7 @@ function fillBTimeline(){
   $('bTl').innerHTML=days.length?h+'</ol>':'<div class="empty">Belum ada data broadcast</div>';
   $('bTl').querySelectorAll('.ev').forEach(li=>li.querySelector('.evc').addEventListener('click',e=>{
     const hlx=e.target.closest('.fuhl');
+    if(hlx&&hlx.dataset.k){e.stopPropagation();if(AKT.set)openOut(hlx.dataset.k,'',hlx.dataset.d);return}
     if(hlx){e.stopPropagation();const dd=hlx.dataset.d,gg=hlx.dataset.g;const all=isoPairsDay(dd);openIso(gg?all.filter(x=>x.o.g===gg):all,(gg?OUTK[gg].label+' · ':'Follow up · ')+fmtD(dd));return}
     BDATE=BDATE===li.dataset.d?'':li.dataset.d;BF.page=0;fillBlast();rtabSep(document);
   }));
@@ -2440,7 +2462,7 @@ function isoRows(){
 }
 function openIso(items,title){
   ISP.items=items.slice();ISP.q='';ISP.g='';ISP.page=0;ISP.title=title||'';
-  $('iTitle').textContent='Masih isolir · '+(title||'');$('iSub').textContent=`${nf(items.length)} pelanggan yang masih berstatus isolir · ${nf(new Set(items.map(x=>x.o.pn)).size)} nomor WhatsApp`;$('iQ').value='';
+  $('iTitle').textContent='Masih isolir · '+(title||'');$('iSub').textContent=`${nf(new Set(items.map(x=>x.o.pn)).size)} nomor WhatsApp yang masih berstatus isolir · ${nf(items.length)} baris pelanggan (satu nomor bisa dipakai lebih dari satu pelanggan)`;$('iQ').value='';
   renderIso();$('imodal').hidden=false;document.body.style.overflow='hidden';$('iClose').focus();
 }
 function closeIso(){$('imodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
@@ -2559,7 +2581,7 @@ function showBD(){
    const bs=[['read','Dibaca','#dcf5e5','#15803d'],['delivered','Terkirim','#e3ecfe','#1d4ed8'],['sent','Dikirim','#e6eaf0','#475569'],['failed','Gagal','#fde2e2','#b91c1c']];
    const isoList=[...m.values()].flatMap(o=>(ISOBY.get(o.pn)||[]).map(c=>({o,c})));BD2.isoList=isoList;
    $('bdK2').hidden=!en.length;
-   const isoHtml=R?`<div id="bdIsoCard" role="button" tabindex="0" style="background:#fef3c7;cursor:pointer;border:1.5px solid #f59e0b" title="Klik untuk melihat daftar yang masih isolir"><span>Masih isolir (pelanggan) · Lihat ›</span><b style="color:#b45309">${nf(isoList.length)}</b></div>`:'';
+   const isoHtml=R?`<div id="bdIsoCard" role="button" tabindex="0" style="background:#fef3c7;cursor:pointer;border:1.5px solid #f59e0b" title="Klik untuk melihat daftar yang masih isolir"><span>Masih isolir (nomor) · Lihat ›</span><b style="color:#b45309">${nf(new Set(isoList.map(x=>x.o.pn)).size)}</b></div>`:'';
    $('bdK2').innerHTML=bs.map(([k,l,bg,fg])=>`<div style="background:${bg}"><span>Status broadcast · ${l}</span><b style="color:${fg}">${nf(c[k]||0)}</b></div>`).join('')+isoHtml;
    const ic=$('bdIsoCard');if(ic){ic.onclick=()=>openIso(BD2.isoList,BD2.title);ic.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openIso(BD2.isoList,BD2.title)}}}}
   $('bdG').innerHTML=`<thead><tr><th>Hasil</th><th class="num">Nomor</th><th class="num">%</th></tr></thead><tbody>${OUT.map(o=>{const v=gc[o.k]||0;return `<tr class="click${BD2.g===o.k?' sel':''}" data-g="${o.k}"><td>${gp(o.k)}</td><td class="num">${nf(v)}</td><td class="num">${pctS(v,tot0)}</td></tr>`}).join('')}<tr class="tot"><td>Total</td><td class="num">${nf(OUT.reduce((a,o)=>a+(gc[o.k]||0),0))}</td><td class="num">${pctS(OUT.reduce((a,o)=>a+(gc[o.k]||0),0),tot0)}</td></tr></tbody>`;
@@ -2602,8 +2624,8 @@ const BLF=()=>BL.filter(b=>b.pr==='ftth');
 const blastDays=()=>[...new Set(BLF().map(dOf))].sort();
 const dShort=d=>`${+d.slice(8)} ${BULAN[+d.slice(5,7)-1]}`;
 const dLong=d=>`${+d.slice(8)} ${BLN[+d.slice(5,7)-1]}`;
-const itemsAll=()=>R.filter(c=>c.rooms.length).map(c=>({c,g:c.g}));
-const itemsOnDay=d=>{const o=[];R.forEach(c=>{if(!c.rooms.length)return;const gs=c.rooms.filter(b=>dOf(b)===d).map(b=>b.g);if(gs.length)o.push({c,g:bestOf(gs)})});return o};
+const itemsAll=()=>RM.filter(c=>c.rooms.length).map(c=>({c,g:c.g}));
+const itemsOnDay=d=>{const o=[];RM.forEach(c=>{if(!c.rooms.length)return;const gs=c.rooms.filter(b=>dOf(b)===d).map(b=>b.g);if(gs.length)o.push({c,g:bestOf(gs)})});return o};
 
 const MATCH_HTML=`
 <div id="mEmpty" class="boot" role="status">Memuat data isolir dan broadcast…</div>
@@ -2682,14 +2704,14 @@ function bindMatch(){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('cmodal').hidden)closeCust()});
 }
 function fillMatch(){
-  const n=R.length, today=todayWib();
+  const n=RM.length, today=todayWib();
   FU.forEach(c=>{c.wait=Math.max(0,diffDays(dOf(c.lanjut[0]),today))});
-  const gc=count(R.filter(c=>c.rooms.length),'g'), paid=R.filter(c=>c.paid), mx=Math.max(1,...OUT.map(o=>gc.get(o.k)||0));
+  const gc=count(RM.filter(c=>c.rooms.length),'g'), paid=RM.filter(c=>c.paid), mx=Math.max(1,...OUT.map(o=>gc.get(o.k)||0));
   $('mHero').innerHTML=`
    <div class="hcard hmain">
-     <span class="hl2">Pelanggan isolir terjangkau broadcast</span>
-     <div class="htop"><span class="hbig">${nf(MS.cust)}</span><span class="hsub">${pctS(MS.cust,n)} dari ${nf(n)} pelanggan isolir.<br>Status tiap pelanggan adalah hasil terbaik dari seluruh room broadcast-nya. Klik status untuk melihat daftar pelanggan.</span></div>
-     <div class="outs hgrid">${OUT.map(o=>{const c=gc.get(o.k)||0;return `<button class="oc" data-g="${o.k}" style="--c:${o.c};--bg:${o.bg};--l:${o.line}" aria-haspopup="dialog"><span class="ol">${o.label}</span><span class="on">${nf(c)}</span><span class="obar"><i style="width:${c/mx*100}%"></i></span><span class="op">${pctS(c,MS.cust)} dari terjangkau</span></button>`}).join('')}<button class="oc hall" data-g="" style="--c:#1d4ed8;--bg:#ffffff;--l:#2563eb" aria-haspopup="dialog"><span class="ol">Semua pelanggan</span><span class="on">${nf(MS.cust)}</span><span class="obar"><i style="width:100%"></i></span><span class="op">Lihat daftar lengkap ›</span></button></div>
+     <span class="hl2">Nomor isolir terjangkau broadcast</span>
+     <div class="htop"><span class="hbig">${nf(MS.cust)}</span><span class="hsub">${pctS(MS.cust,n)} dari ${nf(n)} nomor isolir (satu nomor = satu baris; pelanggan yang berbagi nomor digabung).<br>Status tiap nomor adalah hasil terbaik dari seluruh room broadcast-nya. Klik status untuk melihat daftar nomor.</span></div>
+     <div class="outs hgrid">${OUT.map(o=>{const c=gc.get(o.k)||0;return `<button class="oc" data-g="${o.k}" style="--c:${o.c};--bg:${o.bg};--l:${o.line}" aria-haspopup="dialog"><span class="ol">${o.label}</span><span class="on">${nf(c)}</span><span class="obar"><i style="width:${c/mx*100}%"></i></span><span class="op">${pctS(c,MS.cust)} dari terjangkau</span></button>`}).join('')}<button class="oc hall" data-g="" style="--c:#1d4ed8;--bg:#ffffff;--l:#2563eb" aria-haspopup="dialog"><span class="ol">Semua nomor</span><span class="on">${nf(MS.cust)}</span><span class="obar"><i style="width:100%"></i></span><span class="op">Lihat daftar lengkap ›</span></button></div>
    </div>
    <button class="hcard hfocus" id="hFu" aria-haspopup="dialog"><span class="hf-l"><span class="hl2">Mau lanjut, masih isolir</span><span class="hsub">Terus di-follow up sampai berlangganan lagi</span><span class="hgo">Lihat detail ›</span></span><span class="hbig">${nf(FU.length)}</span></button>
    <button class="hcard hpaid" id="hPaid" aria-haspopup="dialog"><span class="hf-l"><span class="hl2">Sudah bayar, masih isolir</span><span class="hsub">Perlu dicek aktivasinya</span><span class="hgo">Lihat detail ›</span></span><span class="hbig">${nf(paid.length)}</span></button>`;
@@ -2714,7 +2736,7 @@ function aggDay(basis){
     byDay.forEach((m,d)=>m.forEach(gs=>add(cell[d],bestOf(gs))));
     const tm=new Map();BLF().forEach(b=>{let x=tm.get(b.pn);if(!x){x=[];tm.set(b.pn,x)}x.push(b.g)});tm.forEach(gs=>add(tot,bestOf(gs)));
   }
-  else R.forEach(c=>{
+  else RM.forEach(c=>{
     if(!c.rooms.length)return;
     const by=new Map();c.rooms.forEach(b=>{const d=dOf(b);if(!by.has(d))by.set(d,[]);by.get(d).push(b.g)});
     by.forEach((gs,d)=>add(cell[d],bestOf(gs)));add(tot,c.g);
@@ -2815,9 +2837,9 @@ function renderLTable(){
   const r=lRows(),pages=Math.max(1,Math.ceil(r.length/LPS));L.page=Math.min(L.page,pages-1);
   const sl=r.slice(L.page*LPS,L.page*LPS+LPS), off=L.page*LPS;
   $('lTbl').innerHTML=`<thead><tr><th class="num">No</th><th>Tanggal Isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Kontak mitra</th><th class="num">Aging</th><th>Status</th><th>Tag</th><th class="num">Room</th><th>Broadcast terakhir</th><th class="num">Hari menunggu</th></tr></thead><tbody>${
-    sl.map((x,k)=>{const c=x.c,tg=[...new Set(c.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${R.indexOf(c)}"><td class="num">${off+k+1}</td><td>${fmtD(c.d)}</td><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(ST[c.s])}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td class="num">${nf(c.life)} hari</td><td>${gp(x.g)}</td><td>${tagChips(tg)}</td><td class="num">${nf(c.rooms.length)}</td><td class="mono">${c.last?c.last.at.slice(5,16):'—'}</td><td class="num">${c.lanjut.length?`<span class="ag${c.wait>=3?' new':''}">${nf(c.wait||0)} hari</span>`:'—'}</td></tr>`}).join('')||'<tr><td colspan="14" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map((x,k)=>{const c=x.c,tg=[...new Set(c.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${RM.indexOf(c)}"><td class="num">${off+k+1}</td><td>${fmtD(c.d)}</td><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(ST[c.s])}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td class="num">${nf(c.life)} hari</td><td>${gp(x.g)}</td><td>${tagChips(tg)}</td><td class="num">${nf(c.rooms.length)}</td><td class="mono">${c.last?c.last.at.slice(5,16):'—'}</td><td class="num">${c.lanjut.length?`<span class="ag${c.wait>=3?' new':''}">${nf(c.wait||0)} hari</span>`:'—'}</td></tr>`}).join('')||'<tr><td colspan="14" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody>`;
-  $('lTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(R[+tr.dataset.i])));
+  $('lTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(RM[+tr.dataset.i])));
   $('lPager').innerHTML=pagerH('lp',L.page,pages,r.length);
   $('lpPrev').onclick=()=>{L.page--;renderLTable()};$('lpNext').onclick=()=>{L.page++;renderLTable()};
 }
@@ -2847,9 +2869,9 @@ function renderFuTable(){
   const r=fuRows(),pages=Math.max(1,Math.ceil(r.length/FPS));FF.page=Math.min(FF.page,pages-1);
   const sl=r.slice(FF.page*FPS,FF.page*FPS+FPS);
   $('fuT').innerHTML=`<thead><tr><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Mitra</th><th>Kontak mitra</th><th>Stasiun</th><th>Tanggal Isolir</th><th class="num">Aging isolir</th><th>Mau lanjut sejak</th><th class="num">Hari menunggu</th><th>Status room</th><th>Agen</th><th class="num">Room</th></tr></thead><tbody>${
-    sl.map(c=>{const l=c.lanjut[0],last=c.last;return `<tr class="click" data-i="${R.indexOf(c)}"><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td>${esc(ST[c.s])}</td><td>${fmtD(c.d)}</td><td class="num">${nf(c.life)} hari</td><td class="mono">${l.at.slice(5,16)}</td><td class="num"><span class="ag${c.wait>=3?' new':''}">${nf(c.wait)} hari</span></td><td>${esc(last.st)}</td><td>${last.ag>=0?esc(BAG[last.ag]):'—'}</td><td class="num">${nf(c.rooms.length)}</td></tr>`}).join('')||'<tr><td colspan="13" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map(c=>{const l=c.lanjut[0],last=c.last;return `<tr class="click" data-i="${RM.indexOf(c)}"><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td>${esc(ST[c.s])}</td><td>${fmtD(c.d)}</td><td class="num">${nf(c.life)} hari</td><td class="mono">${l.at.slice(5,16)}</td><td class="num"><span class="ag${c.wait>=3?' new':''}">${nf(c.wait)} hari</span></td><td>${esc(last.st)}</td><td>${last.ag>=0?esc(BAG[last.ag]):'—'}</td><td class="num">${nf(c.rooms.length)}</td></tr>`}).join('')||'<tr><td colspan="13" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody>`;
-  $('fuT').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(R[+tr.dataset.i])));
+  $('fuT').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(RM[+tr.dataset.i])));
   $('fuPager').innerHTML=pagerH('fp',FF.page,pages,r.length);
   $('fpPrev').onclick=()=>{FF.page--;renderFuTable()};$('fpNext').onclick=()=>{FF.page++;renderFuTable()};
 }
@@ -2862,7 +2884,7 @@ function exportFollow(){
 
 /* ---------- tabel semua pencocokan ---------- */
 function mFiltered(){
-  let r=R;
+  let r=RM;
   if(MF.scope==='blast')r=r.filter(x=>x.g!=='none');else if(MF.scope==='none')r=r.filter(x=>x.g==='none');
   if(MF.g)r=r.filter(x=>x.g===MF.g);
   if(MF.q){const q=MF.q.toLowerCase();r=r.filter(x=>x.name.toLowerCase().includes(q)||x.code.toLowerCase().includes(q)||x.ph.includes(q)||MI[x.m].toLowerCase().includes(q)||ST[x.s].toLowerCase().includes(q)||x.rooms.some(b=>b.tag.includes(q)))}
@@ -2872,9 +2894,9 @@ function renderMTable(){
   const r=mFiltered(),pages=Math.max(1,Math.ceil(r.length/MPS2));MF.page=Math.min(MF.page,pages-1);
   const sl=r.slice(MF.page*MPS2,MF.page*MPS2+MPS2);
   $('mTbl').innerHTML=`<thead><tr><th>Tanggal Isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Kontak mitra</th><th class="num">Aging</th><th>Hasil broadcast</th><th>Tag</th><th class="num">Room</th><th>Waktu broadcast terakhir</th></tr></thead><tbody>${
-    sl.map(x=>{const tg=[...new Set(x.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${R.indexOf(x)}"><td>${fmtD(x.d)}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td>${mitraCell(MI[x.m])}<td class="num">${nf(x.life)} hari</td><td>${gp(x.g)}</td><td>${x.rooms.length?tagChips(tg):'<span class="foot">—</span>'}</td><td class="num">${x.rooms.length?nf(x.rooms.length):'—'}</td><td class="mono">${x.last?x.last.at.slice(5,16):'—'}</td></tr>`}).join('')||'<tr><td colspan="12" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map(x=>{const tg=[...new Set(x.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${RM.indexOf(x)}"><td>${fmtD(x.d)}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td>${mitraCell(MI[x.m])}<td class="num">${nf(x.life)} hari</td><td>${gp(x.g)}</td><td>${x.rooms.length?tagChips(tg):'<span class="foot">—</span>'}</td><td class="num">${x.rooms.length?nf(x.rooms.length):'—'}</td><td class="mono">${x.last?x.last.at.slice(5,16):'—'}</td></tr>`}).join('')||'<tr><td colspan="12" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody>`;
-  $('mTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(R[+tr.dataset.i])));
+  $('mTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(RM[+tr.dataset.i])));
   $('mPager').innerHTML=pagerH('mp',MF.page,pages,r.length);
   $('mpPrev').onclick=()=>{MF.page--;renderMTable()};$('mpNext').onclick=()=>{MF.page++;renderMTable()};
 }
@@ -2894,8 +2916,8 @@ function exportMatch(){
   const r=mFiltered();
   const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Kontak mitra','Aging isolir (hari)','Hasil broadcast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)'];
   const aoa=[head,...r.map(x=>{const l=x.last;return [x.d,x.code,x.name,x.ph,ST[x.s],MI[x.m],mitraText(MI[x.m]),x.life,OUTK[x.g].label,[...new Set(x.rooms.flatMap(b=>b.tags))].join('; '),x.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'']})];
-  const gc=count(R,'g');
-  const ring=[['Hasil broadcast','Jumlah pelanggan isolir'],...[...OUT,OUTK.none].map(o=>[o.label,gc.get(o.k)||0]),[],['Total pelanggan isolir',R.length],['Terjangkau broadcast',MS.cust],['Room broadcast cocok',MS.rooms]];
+  const gc=count(RM,'g');
+  const ring=[['Hasil broadcast','Jumlah pelanggan isolir'],...[...OUT,OUTK.none].map(o=>[o.label,gc.get(o.k)||0]),[],['Total pelanggan isolir',RM.length],['Terjangkau broadcast',MS.cust],['Room broadcast cocok',MS.rooms]];
   exportSheets('pencocokan-isolir-broadcast.xlsx',[{name:'Pencocokan',aoa,cols:[14,16,26,16,20,28,60,10,18,44,8,26,12,18,20]},{name:'Ringkasan',aoa:ring,cols:[30,22]}],r.length);
 }
 
@@ -2926,13 +2948,19 @@ function csvToData(txt){
   const todayW=new Date(Date.now()+7*36e5).toISOString().slice(0,10);
   const toWib=s=>{s=String(s).trim();return s.length<=10?[s.slice(0,10),'-']:toWibTs(s)};
   const sl=[],ml=[],sh=new Map(),mh=new Map(),rows=[],ex=[];
+  /* pelanggan suspend tanpa tanggal isolir valid (kosong / jadwal mendatang): tetap dihitung Masih isolir pada pencocokan broadcast */
+  const exAdd=(r,dd)=>{
+    const a=(r[I.s]||'').trim()||'(Tanpa stasiun)', b=(r[I.m]||'').trim()||'(Tanpa mitra)';
+    if(!sh.has(a)){sh.set(a,sl.length);sl.push(a)}if(!mh.has(b)){mh.set(b,ml.length);ml.push(b)}
+    ex.push([r[I.p],sh.get(a),mh.get(b),r[I.c],(r[I.n]||'').trim(),String(r[I.a]||'').slice(0,10),dd||'']);
+  };
   for(const r of t){
     if(r.length<h.length||(r[I.st]||'').trim().toLowerCase()!=='suspend')continue;
-    if(!r[I.u]||!r[I.a]){ex.push(r[I.p]);continue}
+    if(!r[I.u]||!r[I.a]){exAdd(r);continue}
     const a=(r[I.s]||'').trim()||'(Tanpa stasiun)', b=(r[I.m]||'').trim()||'(Tanpa mitra)';
     if(!sh.has(a)){sh.set(a,sl.length);sl.push(a)}if(!mh.has(b)){mh.set(b,ml.length);ml.push(b)}
     const [d,tm]=toWib(r[I.u]), [ad]=toWib(r[I.a]);
-    if(d>todayW){ex.push(r[I.p]);continue}
+    if(d>todayW){exAdd(r,d);continue}
     rows.push([sh.get(a),mh.get(b),r[I.c],(r[I.n]||'').trim(),r[I.p],ad,d,tm]);
   }
   return {st:sl,mi:ml,rows,ex};
