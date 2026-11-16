@@ -771,8 +771,9 @@ tr.click.sel td{background:#e3ecfe}
 .bh-num{display:flex;align-items:center;gap:12px}
 .bh .hbig{font-size:34px;line-height:1;flex:none}
 .bh .hsub{font-size:11px;line-height:1.35;min-height:0}
-.bms{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:2px}
-.bm{padding:4px 7px;border-radius:8px;min-width:0}
+.bms{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:2px}
+.bm{padding:4px 7px;border-radius:8px;min-width:0;align-items:center;text-align:center}
+.bm i{font-style:normal;font-size:9px;font-weight:600;color:var(--ink2);line-height:1.2;white-space:nowrap}
 .bm em{font-size:9px}
 .bm b{font-size:13px;white-space:nowrap}
 .bts{gap:2px;margin-top:2px}
@@ -878,7 +879,21 @@ a.wa{color:#15803d;font-weight:600;text-decoration:none;border-bottom:1.5px dott
 @media(prefers-reduced-motion:reduce){.sendic{animation:none}}
 @media(max-width:820px){.rmsum{grid-template-columns:repeat(2,minmax(0,1fr))}.rmc{grid-template-columns:minmax(0,1fr);gap:8px}}
 /* preview pesan ala WhatsApp */
-.rmmodal{max-width:560px}
+.rmst{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:10px 12px;margin-top:10px;border:1.5px solid #cbd5e1;background:#f8fafc;font-size:12.5px}
+.rmst[hidden]{display:none}
+.rmst-t{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}.rmst-t b{font-size:13px}.rmst-t small{font-size:11px;color:#52607a}
+.rmst.prog{background:#eef4ff;border-color:#93b4f5;color:#1e3a8a}.rmst.ok{background:#e8f8ee;border-color:#86d3a3;color:#14532d}.rmst.bad{background:#fdecec;border-color:#f0a3a3;color:#7f1d1d}.rmst.pw{background:#fff8e6;border-color:#f3d28a;color:#78350f}
+.rmst.bad small{color:#991b1b}.rmst.ok small{color:#166534}
+.rmst .uspin{flex:none;margin-top:2px}.rmst-ic{flex:none;width:22px;height:22px;border-radius:50%;background:#16a34a;color:#fff;font-weight:800;display:grid;place-items:center;font-size:12px}
+.rmprog{height:5px;border-radius:999px;background:#d6e3fb;overflow:hidden;margin:4px 0}.rmprog i{display:block;height:100%;width:40%;border-radius:999px;background:#2563eb;animation:rmslide 1.1s ease-in-out infinite}
+@keyframes rmslide{0%{margin-left:-40%}100%{margin-left:100%}}
+.rmlnk{font-size:11.5px;color:#027eb5;text-decoration:underline;word-break:break-all}
+.rmpw{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.rmpw input{flex:1 1 160px;font:inherit;font-size:12.5px;padding:6px 9px;border:1.5px solid #cbd5e1;border-radius:8px}
+.rmpw button{font:inherit;font-size:11.5px;font-weight:700;border-radius:8px;padding:5px 11px;cursor:pointer;border:1.5px solid #cbd5e1;background:#fff;color:#334155}
+.rmpw .rmS{background:#16a34a;border-color:#15803d;color:#fff}
+.rmbtns .rmS.busy{background:#2563eb;border-color:#1d4ed8;color:#fff;display:inline-flex;align-items:center;gap:6px;cursor:progress;opacity:1}.uspin.sm{width:12px;height:12px;border-width:2px;border-color:rgba(255,255,255,.45);border-top-color:#fff}
+.rmmact button:disabled{opacity:.55;cursor:not-allowed}
+@media(prefers-reduced-motion:reduce){.rmprog i{animation:none;width:100%}}.rmmodal{max-width:560px}
 .rmto{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
 .wa{border-radius:12px;overflow:hidden;border:1px solid #d1d7db}
 .wahead{display:flex;align-items:center;gap:9px;background:#075e54;color:#fff;padding:8px 12px}
@@ -889,7 +904,7 @@ a.wa{color:#15803d;font-weight:600;text-decoration:none;border-bottom:1.5px dott
 .waatt{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.55);border-radius:7px;padding:6px 8px;margin-bottom:6px}
 .waico{flex:none;width:30px;height:34px;border-radius:4px;background:#1d6f42;color:#fff;font-size:9px;font-weight:800;display:grid;place-items:center}
 .waatt b{display:block;font-size:12px;word-break:break-all}.waatt small{font-size:10.5px;color:#54656f}
-.watime{position:absolute;right:8px;bottom:4px;font-size:10px;color:#667781}.watime{color:#53bdeb}.watime span{color:#667781}
+.walink{color:#027eb5;text-decoration:underline;word-break:break-all}.watime{position:absolute;right:8px;bottom:4px;font-size:10px;color:#667781}.watime{color:#53bdeb}.watime span{color:#667781}
 .rmmact{display:flex;justify-content:flex-end;gap:6px;margin-top:10px;flex-wrap:wrap}
 #rmT{width:100%;table-layout:fixed}#rmT th,#rmT td{font-size:12px;padding:5px 6px;vertical-align:top;white-space:normal;overflow-wrap:anywhere}
 .rmA .rmX{border-color:#15803d;color:#15803d}
@@ -1830,7 +1845,16 @@ function tagGroup(t){
   if(/tidak mau lanjut/.test(t))return 'tidak';
   if(/mau lanjut|vb-lanjut/.test(t))return 'lanjut';
   if(/no respon/.test(t))return 'norespon';
-  if(/reminder h[-+]\d|bc billing|bc isolir/.test(t))return 'reminder';
+  /* tag broadcast isolir "... bc isolir - <hasil>": kelompok ditentukan oleh hasil di belakangnya */
+  const bc=/bc (?:isolir|billing)\s*(?:-\s*)?(.*)$/.exec(t);
+  if(bc){
+    const r=bc[1].trim();
+    if(!r)return 'reminder';
+    if(/(?<!belum |tidak )(?:bayar|success|berhasil)/.test(r))return 'bayar';
+    if(/nanti aja|pikir|retensi|retention|mau/.test(r))return 'lanjut';
+    return 'lain';
+  }
+  if(/reminder h[-+]\d/.test(t))return 'reminder';
   return 'lain';
 }
 const bestOf=gs=>gs.reduce((b,g)=>OUTK[g].rank<OUTK[b].rank?g:b,gs[0]||'notag');
@@ -1879,7 +1903,7 @@ function setBlast(B,live){
   const rooms=[];
   B.rows.forEach(r=>{
     if(r[12]==='B'){
-      const e={name:r[0],ph:r[1],pn:normPhone(r[1]),st:r[3]||'sent',at:r[4],err:r[6]||'',day:r[13]||String(r[4]).slice(0,10),ch:r[2],pr:r[14]==='fwa'?'fwa':'ftth'};
+      const e={name:r[0],ph:r[1],pn:normPhone(r[1]),st:(r[3]==='sent'||!r[3])?'delivered':r[3],at:r[4],err:r[6]||'',day:r[13]||String(r[4]).slice(0,10),ch:r[2],pr:r[14]==='fwa'?'fwa':'ftth'};
       BC.push(e);let a=BCBY.get(e.pn);if(!a){a=[];BCBY.set(e.pn,a)}a.push(e);
     }else rooms.push(r);
   });
@@ -2102,7 +2126,7 @@ const BLAST_HTML=`
 
   <section class="card">
     <div class="head"><span id="b-daftar" class="anch"></span><h2 id="bTitle">Daftar nomor WhatsApp</h2>
-      <div class="ctl"><input type="text" id="bQ" placeholder="Cari nama, nomor, tag" aria-label="Cari nomor"><select id="bPr" aria-label="Kategori produk"><option value="">Semua kategori</option><option value="ftth">FTTH Starlite</option><option value="fwa">FWA IRA</option></select><select id="bCh" aria-label="Channel"></select><select id="bSt" aria-label="Status room terakhir"><option value="">Semua status</option><option>resolved</option><option>assigned</option><option>unassigned</option></select><select id="bIso" aria-label="Status isolir"><option value="">Semua status isolir</option><option value="iso">Masih isolir</option></select><select id="bBs" aria-label="Status broadcast"><option value="">Semua status broadcast</option><option value="read">Dibaca</option><option value="delivered">Terkirim</option><option value="sent">Dikirim</option><option value="failed">Gagal</option></select><select id="bG" aria-label="Hasil broadcast"></select><button id="bXls" class="xls">Download Excel</button></div></div>
+      <div class="ctl"><input type="text" id="bQ" placeholder="Cari nama, nomor, tag" aria-label="Cari nomor"><select id="bPr" aria-label="Kategori produk"><option value="">Semua kategori</option><option value="ftth">FTTH Starlite</option><option value="fwa">FWA IRA</option></select><select id="bCh" aria-label="Channel"></select><select id="bSt" aria-label="Status room terakhir"><option value="">Semua status</option><option>resolved</option><option>assigned</option><option>unassigned</option></select><select id="bIso" aria-label="Status isolir"><option value="">Semua status isolir</option><option value="iso">Masih isolir</option></select><select id="bBs" aria-label="Status broadcast"><option value="">Semua status broadcast</option><option value="read">Dibaca</option><option value="delivered">Terkirim</option><option value="failed">Gagal</option></select><select id="bG" aria-label="Hasil broadcast"></select><button id="bXls" class="xls">Download Excel</button></div></div>
     <div class="tw"><table id="bTbl"></table></div><div id="bPager"></div>
   </section>
 </div>
@@ -2200,15 +2224,15 @@ function stackBars(list,W,H){
 }
 const legendH=()=>`<span><i style="width:12px;height:10px;background:${PROD.ftth.line};border-radius:2px"></i>FTTH Starlite</span><span><i style="width:12px;height:10px;background:${PROD.fwa.line};border-radius:2px"></i>FWA IRA</span>`;
 
-/* ---------- output broadcast FTTH Starlite: Aktif / Masih isolir / Dismantle ---------- */
+/* ---------- output broadcast FTTH Starlite: Aktif / Masih isolir / Tidak ditemukan ---------- */
 const AKT={set:null,state:'idle',at:0,err:'',n:0};
 const OCLS=[
   {k:'aktif',label:'Aktif kembali',note:'Pelanggan sudah berstatus aktif kembali',c:'#15803d',bg:'#dcf5e5',line:'#16a34a'},
   {k:'iso',label:'Masih isolir',note:'Pelanggan masih berstatus isolir',c:'#b45309',bg:'#fdecd0',line:'#d97706'},
-  {k:'dis',label:'Dismantle',note:'Perangkat siap di ambil',c:'#b91c1c',bg:'#fde2e2',line:'#dc2626'}
+  {k:'dis',label:'Tidak ditemukan',note:'Nomor tidak ada di data pelanggan aktif maupun isolir',c:'#b91c1c',bg:'#fde2e2',line:'#dc2626'}
 ];
 const OCK=Object.fromEntries(OCLS.map(o=>[o.k,o]));
-/* nomor ada di daftar isolir -> Masih isolir; ada di daftar aktif -> Aktif; selain itu -> Dismantle */
+/* nomor ada di daftar isolir -> Masih isolir; ada di daftar aktif -> Aktif; selain itu -> Tidak ditemukan */
 const clsOf=o=>ISOBY.has(o.pn)?'iso':(AKT.set&&AKT.set.has(o.pn)?'aktif':'dis');
 async function loadActive(force){
   const url=activeUrl();if(!url){AKT.state='off';return}
@@ -2260,12 +2284,12 @@ function fillOut(){
   const gtG={};OCLS.forEach(o=>Object.entries(rows[o.k].g).forEach(([g,v])=>{gtG[g]=(gtG[g]||0)+v}));
   el.innerHTML=`<div class="ocards">
     <div class="oc oc-t" style="--c:#1d4ed8;--bg:#eef4ff;--l:#2563eb"><em>Total broadcast FTTH Starlite</em><b>${nf(tot)}</b><i>nomor WhatsApp unik</i></div>
-    ${OCLS.map(o=>card(o.k,o.label,rows[o.k].n,o.c,o.bg,o.line,o.k==='dis'?'perangkat siap di ambil':'')).join('')}</div>
-    <p class="foot ocheck" style="margin:8px 0">${nf(rows.aktif.n)} Aktif kembali +${nf(rows.iso.n)} Masih isolir + ${nf(rows.dis.n)} Dismantle = <b>${nf(sum)}</b> ${sum===tot?'✓ sama dengan total broadcast FTTH Starlite':'(tidak sama dengan total broadcast '+nf(tot)+')'}</p>
+    ${OCLS.map(o=>card(o.k,o.label,rows[o.k].n,o.c,o.bg,o.line,o.k==='dis'?'tidak ada di data aktif & isolir':'')).join('')}</div>
+    <p class="foot ocheck" style="margin:8px 0">${nf(rows.aktif.n)} Aktif kembali +${nf(rows.iso.n)} Masih isolir + ${nf(rows.dis.n)} Tidak ditemukan = <b>${nf(sum)}</b> ${sum===tot?'✓ sama dengan total broadcast FTTH Starlite':'(tidak sama dengan total broadcast '+nf(tot)+')'}</p>
     <div class="tw"><table class="rtab" id="bOutT"><thead><tr><th class="rt-first">Status pelanggan</th><th>Nomor</th><th>%</th>${cols.map(o=>`<th style="color:${o.c}">${o.label}</th>`).join('')}</tr></thead><tbody>
-    ${OCLS.map(o=>{const r=rows[o.k];return `<tr class="click" data-k="${o.k}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>${o.k==='dis'?'<div class="foot" style="margin-top:2px">perangkat siap di ambil</div>':''}</td><td><b>${nf(r.n)}</b></td><td class="gs">${pctS(r.n,tot)}</td>${cols.map(c=>`<td data-g="${c.k}">${nf(r.g[c.k]||0)}</td>`).join('')}</tr>`}).join('')}
+    ${OCLS.map(o=>{const r=rows[o.k];return `<tr class="click" data-k="${o.k}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>${o.k==='dis'?'<div class="foot" style="margin-top:2px">tidak ada di data aktif &amp; isolir</div>':''}</td><td><b>${nf(r.n)}</b></td><td class="gs">${pctS(r.n,tot)}</td>${cols.map(c=>`<td data-g="${c.k}">${nf(r.g[c.k]||0)}</td>`).join('')}</tr>`}).join('')}
     <tr class="r-gt"><td class="rt-first">Total</td><td>${nf(sum)}</td><td class="gs">${pctS(sum,tot)}</td>${cols.map(c=>`<td>${nf(gtG[c.k]||0)}</td>`).join('')}</tr></tbody></table></div>
-    <p class="foot" style="margin:8px 0 0">Pencocokan memakai nomor WhatsApp pelanggan. Nomor yang tidak ditemukan di data aktif maupun isolir otomatis masuk Dismantle (perangkat siap di ambil). Klik baris atau angka untuk melihat daftar nomor.${exOnly?` ${nf(exOnly)} nomor isolir belum punya tanggal isolir valid (kosong atau jadwal mendatang); tetap dihitung Masih isolir dan tampil tanpa tanggal di daftar.`:''}</p>`;
+    <p class="foot" style="margin:8px 0 0">Pencocokan memakai nomor WhatsApp pelanggan. Nomor yang tidak ditemukan di data aktif maupun isolir otomatis masuk status Tidak ditemukan. Klik baris atau angka untuk melihat daftar nomor.${exOnly?` ${nf(exOnly)} nomor isolir belum punya tanggal isolir valid (kosong atau jadwal mendatang); tetap dihitung Masih isolir dan tampil tanpa tanggal di daftar.`:''}</p>`;
   el.querySelectorAll('.oc[data-k]').forEach(b=>b.onclick=()=>openOut(b.dataset.k,''));
   el.querySelectorAll('#bOutT tr.click').forEach(tr=>tr.addEventListener('click',e=>{const td=e.target.closest('td[data-g]');openOut(tr.dataset.k,td?td.dataset.g:'')}));
 }
@@ -2284,7 +2308,7 @@ function openOut(k,g,day){
 function closeOut(){$('omodal').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
 function renderOut(){
   const o=OCK[OP.k], all=outList(OP.k,'',OP.day);
-  $('oTitle').textContent=o.label+(OP.k==='dis'?' · perangkat siap di ambil':'')+(OP.g?' · '+OUTK[OP.g].label:'')+(OP.day?' · '+fmtD(OP.day):BDATE?' · '+fmtD(BDATE):'');
+  $('oTitle').textContent=o.label+(OP.g?' · '+OUTK[OP.g].label:'')+(OP.day?' · '+fmtD(OP.day):BDATE?' · '+fmtD(BDATE):'');
   $('oSub').textContent=`${nf(all.length)} nomor WhatsApp unik · ${o.note}`;
   /* semua kategori selalu tampil (walau 0). Chip tag dihitung menurut filter status broadcast, chip status dihitung menurut filter tag */
   const gc={},bc={};
@@ -2292,7 +2316,7 @@ function renderOut(){
   const gTot=all.filter(x=>!OP.bs||bsOf(x)===OP.bs).length, bTot=all.filter(x=>!OP.g||x.g===OP.g).length;
   $('oChips').innerHTML=`<button class="lc${OP.g===''?' sel':''}" data-g="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(gTot)}</b></button>`+OUT.filter(x=>x.k!=='lain'||gc.lain||OP.g==='lain').map(x=>`<button class="lc${OP.g===x.k?' sel':''}" data-g="${x.k}" style="--c:${x.c};--bg:${x.bg};--l:${x.line}"><span>${x.label}</span><b>${nf(gc[x.k]||0)}</b></button>`).join('');
   $('oChips').querySelectorAll('.lc').forEach(b=>b.addEventListener('click',()=>{OP.g=b.dataset.g;OP.page=0;renderOut()}));
-  const BSL=[['read','Dibaca','#15803d','#dcf5e5','#16a34a'],['delivered','Terkirim','#1d4ed8','#e3ecfe','#2563eb'],['sent','Dikirim','#b45309','#fdecd0','#d97706'],['failed','Gagal','#b91c1c','#fde2e2','#dc2626']];
+  const BSL=[['read','Dibaca','#15803d','#dcf5e5','#16a34a'],['delivered','Terkirim','#1d4ed8','#e3ecfe','#2563eb'],['failed','Gagal','#b91c1c','#fde2e2','#dc2626']];
   $('oChips2').innerHTML=`<button class="lc${OP.bs===''?' sel':''}" data-b="" style="--c:#1e3a8a;--bg:#e6eefe;--l:#2563eb"><span>Semua</span><b>${nf(bTot)}</b></button>`+BSL.map(([k,l,c,bg,ln])=>`<button class="lc${OP.bs===k?' sel':''}" data-b="${k}" style="--c:${c};--bg:${bg};--l:${ln}"><span>${l}</span><b>${nf(bc[k]||0)}</b></button>`).join('');
   $('oChips2').querySelectorAll('.lc').forEach(b=>b.addEventListener('click',()=>{OP.bs=b.dataset.b;OP.page=0;renderOut()}));
   const r=opRows(),pages=Math.max(1,Math.ceil(r.length/OPS));OP.page=Math.min(OP.page,pages-1);
@@ -2333,13 +2357,13 @@ function fillBlast(){
   $('bDateNote').textContent=BDATE?`Menampilkan broadcast ${fmtD(BDATE)}`:'angka utama = nomor WhatsApp unik · klik kartu untuk detail';
   const all=statsOf(BLV,NS['']), cards=[[PRODALL,all],[PROD.ftth,statsOf(subOf('ftth'),NS.ftth)],[PROD.fwa,statsOf(subOf('fwa'),NS.fwa)]];
   const CT={'':{a:'#fffaf2',b:'#fde7cb',l:'#ea8a1a',c:'#b45309'},ftth:{a:'#f4f9ff',b:'#dbe8fd',l:'#2563eb',c:'#1d4ed8'},fwa:{a:'#fff6f6',b:'#fddede',l:'#dc2626',c:'#b91c1c'}};
-  /* baris "Tag lain (layanan)" hanya tampil bila ada nomor bertag itu di FTTH Starlite atau FWA IRA */
-  const showLain=((gCount(NS.ftth).lain||0)+(gCount(NS.fwa).lain||0))>0;
+  /* baris tag hanya tampil bila ada angkanya di FTTH Starlite atau FWA IRA */
+  const gF=gCount(NS.ftth), gW=gCount(NS.fwa), showTag=k=>((gF[k]||0)+(gW[k]||0))>0;
   $('bHero').innerHTML=cards.map(([p,s])=>{const t=CT[p.k], g=gCount(NS[p.k]), bcC={};bcEntries(p.k).forEach(e=>{bcC[e.st]=(bcC[e.st]||0)+1});return `<button class="bh" data-pr="${p.k}" style="--c:${t.c};--l:${t.l};background:linear-gradient(180deg,${t.a},${t.b})" aria-haspopup="dialog">
     <span class="bh-top"><span class="hl2">${p.label}</span><span class="hgo">Lihat detail ›</span></span>
     <span class="bh-num"><span class="hbig">${nf(s.ph)}</span><span class="hsub">nomor WhatsApp unik<br>${p.k?`${pctS(s.ph,all.ph)} dari total nomor`:'semua kategori produk'}</span></span>
-    <span class="bms">${[['read','Dibaca','Pesan sudah dibaca'],['delivered','Terkirim','Pesan terkirim, belum dibaca'],['sent','Dikirim','Pesan dikirim, belum terkirim'],['failed','Gagal','Pesan gagal terkirim']].map(([k,l,ti])=>`<span class="bm" title="${ti}"><em>${l}</em><b>${nf(bcC[k]||0)}</b></span>`).join('')}</span>
-    <span class="bts">${OUT.filter(o=>o.k!=='lain'||showLain).map(o=>{const v=g[o.k]||0,pc=s.ph?v/s.ph*100:0;return `<span class="bt" data-g="${o.k}" style="--c:${o.c}"><em>${o.label}</em><b>${nf(v)}</b><i>${pctS(v,s.ph)}</i></span>`}).join('')}<span class="bt bt-tot" style="--c:#0f1b3d"><em>Total tag</em><b>${nf(OUT.reduce((a,o)=>a+(g[o.k]||0),0))}</b><i>${pctS(OUT.reduce((a,o)=>a+(g[o.k]||0),0),s.ph)}</i></span></span></button>`}).join('');  $('bHero').querySelectorAll('.bh').forEach(b=>b.addEventListener('click',e=>{const k=b.dataset.pr,row=e.target.closest('.bt'),g=row?row.dataset.g:'';const nm=k?PROD[k].label:'Total semua kategori produk';openBlastDetail({pr:k,g,title:g?`${OUTK[g].label} · ${nm}`:nm})}));
+    <span class="bms">${[['read','Dibaca','Pesan sudah dibaca'],['delivered','Terkirim','Pesan terkirim, belum dibaca'],['failed','Gagal','Pesan gagal terkirim']].map(([k,l,ti])=>`<span class="bm" title="${ti}"><em>${l}</em><b>${nf(bcC[k]||0)}</b><i>${pctS(bcC[k]||0,Object.values(bcC).reduce((a,x)=>a+x,0))} dari total</i></span>`).join('')}</span>
+    <span class="bts">${OUT.filter(o=>showTag(o.k)).map(o=>{const v=g[o.k]||0,pc=s.ph?v/s.ph*100:0;return `<span class="bt" data-g="${o.k}" style="--c:${o.c}"><em>${o.label}</em><b>${nf(v)}</b><i>${pctS(v,s.ph)}</i></span>`}).join('')}<span class="bt bt-tot" style="--c:#0f1b3d"><em>Total tag</em><b>${nf(OUT.reduce((a,o)=>a+(g[o.k]||0),0))}</b><i>${pctS(OUT.reduce((a,o)=>a+(g[o.k]||0),0),s.ph)}</i></span></span></button>`}).join('');  $('bHero').querySelectorAll('.bh').forEach(b=>b.addEventListener('click',e=>{const k=b.dataset.pr,row=e.target.closest('.bt'),g=row?row.dataset.g:'';const nm=k?PROD[k].label:'Total semua kategori produk';openBlastDetail({pr:k,g,title:g?`${OUTK[g].label} · ${nm}`:nm})}));
   fillBc();fillOut();fillTagTable();fillLain();fillStatus();fillChannel();
   $('bLeg').innerHTML=legendH();$('bHour').innerHTML=stackBars(BLV,1000,190);
   // agen
@@ -2367,12 +2391,12 @@ function fillBTimeline(){
     const l=by[d], m=numMap(l), s=statsOf(l,m), g=gCount(m), mk=d.slice(0,7);
     const nf_=l.filter(b=>b.pr==='ftth').map(b=>b.pn), nw_=l.filter(b=>b.pr==='fwa').map(b=>b.pn);
     if(mk!==prevM){h+=`<li class="mon"><span>${BLN[+d.slice(5,7)-1]} ${d.slice(0,4)}</span></li>`;prevM=mk}
-    const tiles=[['Nomor WA unik',nf(s.ph)],['FTTH Starlite',nf(new Set(nf_).size)],['FWA IRA',nf(new Set(nw_).size)],...[['read','Dibaca'],['delivered','Terkirim'],['sent','Dikirim'],['failed','Gagal']].map(([k,l])=>[l,nf(BC.filter(e=>e.day===d&&e.st===k).length)])];
+    const tiles=[['Nomor WA unik',nf(s.ph)],['FTTH Starlite',nf(new Set(nf_).size)],['FWA IRA',nf(new Set(nw_).size)],...[['read','Dibaca'],['delivered','Terkirim'],['failed','Gagal']].map(([k,l])=>[l,nf(BC.filter(e=>e.day===d&&e.st===k).length)])];
     const ip=R?isoPairsDay(d):[], uq=l=>new Set(l.map(x=>x.o.pn)).size, ipN=uq(ip), ipL=uq(ip.filter(x=>x.o.g==='lanjut')), ipB=uq(ip.filter(x=>x.o.g==='bayar'));
     const cd={aktif:0,dis:0};if(AKT.set){numMap(BL.filter(b=>b.pr==='ftth'&&dayOfB(b)===d)).forEach(o=>{const k=clsOf(o);if(k!=='iso')cd[k]++})}
     const cdn=k=>AKT.set?cd[k]:'…';
     const fcard=(g,cls,ico,ttl,sub,n,kk)=>`<span class="fuhl ${cls}" data-d="${d}" data-g="${g}"${kk?` data-k="${kk}"`:''} role="button" tabindex="0" title="Klik untuk melihat daftar nomor"><span class="fuic">${ico}</span><span class="fut"><b>${ttl}</b><small>${sub}</small></span><span class="fun">${nf(n)}<small>nomor</small></span></span>`;
-    const hl=R?`<span class="furow">${fcard('','fu-all','!','Masih isolir FTTH','perlu follow up',ipN)}${fcard('lanjut','fu-lj','✓','Mau lanjut','masih isolir · prioritas',ipL)}${fcard('bayar','fu-by','Rp','Sudah bayar','masih isolir · cek aktivasi',ipB)}${fcard('','fu-ak','↻','Aktif kembali','sudah aktif lagi',cdn('aktif'),'aktif')}${fcard('','fu-ds','×','Dismantle','perangkat siap di ambil',cdn('dis'),'dis')}</span>`:'';    const stack=OUT.map(o=>{const v=g[o.k]||0;return v?`<i style="width:${s.ph?v/s.ph*100:0}%;background:${o.line}" title="${o.label}: ${nf(v)} nomor"></i>`:''}).join('');
+    const hl=R?`<span class="furow">${fcard('','fu-all','!','Masih isolir FTTH','perlu follow up',ipN)}${fcard('lanjut','fu-lj','✓','Mau lanjut','masih isolir · prioritas',ipL)}${fcard('bayar','fu-by','Rp','Sudah bayar','masih isolir · cek aktivasi',ipB)}${fcard('','fu-ak','↻','Aktif kembali','sudah aktif lagi',cdn('aktif'),'aktif')}${fcard('','fu-ds','?','Tidak ditemukan','tidak ada di data aktif & isolir',cdn('dis'),'dis')}</span>`:'';    const stack=OUT.map(o=>{const v=g[o.k]||0;return v?`<i style="width:${s.ph?v/s.ph*100:0}%;background:${o.line}" title="${o.label}: ${nf(v)} nomor"></i>`:''}).join('');
     const leg=OUT.map(o=>g[o.k]?`<span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label} ${nf(g[o.k])}</span>`:'').join('');
     h+=`<li class="ev${BDATE===d?' sel':''}" data-d="${d}"><span class="node" aria-hidden="true"><b>${+d.slice(8)}</b><small>${BULAN[+d.slice(5,7)-1]}</small></span>
       <button class="evc" aria-pressed="${BDATE===d}">
@@ -2413,7 +2437,7 @@ function bcData(pr){
   const er=new Map();en.forEach(e=>{const m=e.err&&e.err!=='n/a'?e.err:'';if(m)er.set(m,(er.get(m)||0)+1)});
   return {total,rows,err:er};
 }
-const BC_ORDER=['read','delivered','sent','failed'];
+const BC_ORDER=['read','delivered','failed'];
 function bcAll(){
   const D={ftth:bcData('ftth'),fwa:bcData('fwa')};
   const keys=[...new Set([...BC_ORDER,...Object.keys(D.ftth.rows),...Object.keys(D.fwa.rows)])].filter(k=>D.ftth.rows[k]||D.fwa.rows[k]);
@@ -2634,7 +2658,7 @@ function showBD(){
   $('bdK').innerHTML=kp.map(k=>`<div><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
   {const pns=new Set(m.keys()), en=BD2.ch===''?bcEntries(BD2.pr).filter(e=>pns.has(e.pn)):[], c={};
    en.forEach(e=>{c[e.st]=(c[e.st]||0)+1});
-   const bs=[['read','Dibaca','#dcf5e5','#15803d'],['delivered','Terkirim','#e3ecfe','#1d4ed8'],['sent','Dikirim','#e6eaf0','#475569'],['failed','Gagal','#fde2e2','#b91c1c']];
+   const bs=[['read','Dibaca','#dcf5e5','#15803d'],['delivered','Terkirim','#e3ecfe','#1d4ed8'],['failed','Gagal','#fde2e2','#b91c1c']];
    const isoList=[...m.values()].flatMap(o=>(ISOBY.get(o.pn)||[]).map(c=>({o,c})));BD2.isoList=isoList;
    $('bdK2').hidden=!en.length;
    const isoHtml=R?`<div id="bdIsoCard" role="button" tabindex="0" style="background:#fef3c7;cursor:pointer;border:1.5px solid #f59e0b" title="Klik untuk melihat daftar yang masih isolir"><span>Masih isolir (nomor) · Lihat ›</span><b style="color:#b45309">${nf(new Set(isoList.map(x=>x.o.pn)).size)}</b></div>`:'';
@@ -2706,8 +2730,9 @@ const MATCH_HTML=`
             <div class="wabub"><div class="waatt" id="rmMAtt"></div><div class="watxt" id="rmMB"></div><span class="watime"><span id="rmMTime"></span> ✓✓</span></div>
           </div>
         </div>
-        <p class="foot" style="margin:2px 0 0">File Excel diunduh otomatis saat menekan <b>Kirim WA</b>. Lampirkan file itu di chat WhatsApp sebelum mengirim.</p>
-        <div class="rmmact"><button id="rmMCopy">Salin pesan</button><button id="rmMX">⬇ Download Excel</button><button id="rmMSend" class="rmS"><svg class="sendic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.2 15 12 3.4 13.8z" fill="currentColor"/></svg>Kirim WA</button></div>
+        <p class="foot" id="rmMNote" style="margin:2px 0 0"></p><p class="foot" style="margin:0">Saat menekan <b>Kirim WA</b>, Excel diunggah ke Google Drive dan <b>link unduhannya</b> otomatis masuk ke pesan (berlaku 7 hari).</p>
+        <div id="rmMSt" class="rmst" hidden aria-live="polite"></div>
+        <div class="rmmact"><button id="rmMLink">Buat link lampiran</button><button id="rmMCopy">Salin pesan</button><button id="rmMX">⬇ Download Excel</button><button id="rmMSend" class="rmS"><svg class="sendic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.2 15 12 3.4 13.8z" fill="currentColor"/></svg>Kirim WA</button></div>
       </div>
     </div>
   </div>
@@ -2826,31 +2851,38 @@ function rmGroups(){
   rmRows().forEach(r=>{const k=MI[r.m];let g=by.get(k);if(!g){g={mitra:k,rows:[],gc:{}};by.set(k,g)}g.rows.push(r);g.gc[r.g]=(g.gc[r.g]||0)+1});
   return [...by.values()].map(g=>{const m=mitraOf(g.mitra);g.info=m;g.contacts=m?m.c.filter(c=>waOk(c[2])):[];return g}).sort((a,b)=>b.rows.length-a.rows.length||a.mitra.localeCompare(b.mitra));
 }
-function rmText(g,ci){
+const rmLbl={bayar:'Sudah bayar',lanjut:'Mau lanjut berlangganan',tidak:'Tidak mau lanjut',norespon:'Tidak merespons',reminder:'Reminder tagihan',lain:'Tag lain (layanan)',notag:'Tanpa tag'};
+const tglPanjang=s=>{const [y,m,d]=s.split('-');return `${+d} ${BLN[+m-1]} ${y}`};
+function rmText(g,ci,link,mode){
   const c=g.contacts[ci]||null, pic=c&&c[1]?c[1].replace(/^\s*(bapak|bpk\.?|pak|ibu|bu|sdr\.?|sdri\.?)\s+/i,'').trim():'', mitra=(g.info&&g.info.n)||g.mitra;
-  /* *teks* = tebal di WhatsApp */
-  const tags=OUT.filter(o=>o.k!=='bayar'&&g.gc[o.k]).map(o=>`▪️ ${o.label}: *${nf(g.gc[o.k])}*`).join('\n');
+  /* *teks* = tebal di WhatsApp. Tanpa emoji: daftar memakai tanda "-" */
+  const tags=OUT.filter(o=>o.k!=='bayar'&&g.gc[o.k]).map(o=>`- ${rmLbl[o.k]||o.label}: *${nf(g.gc[o.k])} pelanggan*`).join('\n');
+  const att=link?['*Detail data pelanggan (Excel):*',link]
+    :mode==='file'?['*Detail data pelanggan (Excel)* terlampir pada pesan ini.']
+    :['*Detail data pelanggan (Excel):*','https://drive.google.com/uc?export=download&id=XXXXXXXXXXXXXXXX'];
   return [
-    `Selamat ${sapaan()} Bapak/Ibu${pic?' *'+pic+'*':''} – Mitra *${mitra}* 🙏`,
+    `Selamat ${sapaan()} Bapak/Ibu`,
+    `${pic?'*'+pic+'* – ':''}Mitra *${mitra}*.`,
     '',
     'Kami dari *Tim Admin Retensi Starlite*.',
     '',
-    `Berikut kami infokan hasil tindak lanjut broadcast ke pelanggan berstatus *isolir H+1 yang belum bayar* per *${ddmmyyyy(todayWib())}*.`,
+    `Berikut kami sampaikan hasil tindak lanjut broadcast CS Starlite kepada pelanggan dengan status *isolir yang belum melakukan pembayaran*, per tanggal *${tglPanjang(todayWib())}*.`,
     '',
-    `📌 *Total isolir: ${nf(g.rows.length)} pelanggan*`,
-    '',
-    '*Rincian hasil broadcast:*',
+    '*Rincian hasil broadcast CS:*',
     tags,
+    `*Total pelanggan isolir: ${nf(g.rows.length)} pelanggan*`,
     '',
-    '📎 Detail per pelanggan ada di lampiran (Excel).',
-    'Mohon bantuannya untuk follow-up pelanggan terkait. Terima kasih 🙏',
+    ...att,
+    '',
+    'Mohon bantuan Bapak/Ibu untuk melakukan *follow-up secara langsung* kepada pelanggan, guna memastikan status kelanjutan berlangganan dan mendorong pelanggan yang masih berpotensi untuk melakukan *pembayaran serta aktivasi kembali layanan*.',
+    '',
+    'Demikian kami sampaikan. Terima kasih atas perhatian dan kerja samanya.',
     '',
     'Salam,',
     '*Tim Admin Retensi Starlite*'
   ].join('\n');
-}
-/* tampilan pesan ala WhatsApp: *tebal*, _miring_ */
-const waFmt=t=>esc(t).replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|\s)_([^_\n]+)_/g,'$1<i>$2</i>').replace(/\n/g,'<br>');
+}/* tampilan pesan ala WhatsApp: *tebal*, _miring_ */
+const waFmt=t=>esc(t).replace(/(https?:\/\/[^\s<]+)/g,'<a class="walink">$1</a>').replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|\s)_([^_\n]+)_/g,'$1<i>$2</i>').replace(/\n/g,'<br>');
 const rmHead=['No','Tanggal isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Aging isolir (hari)','Status broadcast','Hasil broadcast','Tag','Waktu room terakhir'];
 const rmAoaRows=rows=>rows.slice().sort((a,b)=>b.life-a.life).map((r,i)=>{const bl=BCBY.get(r.pn),bc=bl?bl[bl.length-1]:null;return [i+1,r.d||'',r.code,r.name,r.ph,ST[r.s],MI[r.m],r.life,bc?bcLabel(bc.st):'',OUTK[r.g].label,[...new Set(r.rooms.flatMap(b=>b.tags))].join('; '),r.last?r.last.at:'']});
 const rmFname=g=>`isolir-${g.mitra.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)}-${todayWib().replace(/-/g,'')}.xlsx`;
@@ -2866,19 +2898,103 @@ async function shareRemind(g,ci){
   try{
     const X=await loadXlsx(),wb=X.utils.book_new(),s=rmSheet(g),ws=X.utils.aoa_to_sheet(s.aoa);ws['!cols']=s.cols.map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,s.name);
     const f=new File([X.write(wb,{bookType:'xlsx',type:'array'})],rmFname(g),{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-    await navigator.share({files:[f],text:rmText(g,ci),title:'Reminder isolir '+g.mitra});
+    await navigator.share({files:[f],text:rmText(g,ci,'','file'),title:'Reminder isolir '+g.mitra});
     rmSentSet(g.mitra+'|'+todayWib());renderRemind();
   }catch(e){if(e&&e.name!=='AbortError')toast('Gagal membagikan: '+(e.message||e))}
 }
-function sendRemind(g,ci){
+/* lampiran Excel -> link unduhan (Google Drive lewat Apps Script), dibuat sekali per mitra per hari */
+const RMLINK={}, RMST={busy:false,warm:false};
+const rmLinkKey=g=>g.mitra+'|'+todayWib()+'|'+g.rows.length;
+const rmWhy=e=>e&&e.code==='bad-write-key'?'Kata sandi unggah salah. Periksa huruf besar/kecil lalu coba lagi.':(e&&(e.code==='bad-action'||/tidak dikenal/i.test(e.message||'')))?'Apps Script belum diperbarui ke versi terbaru (aksi sharefile belum ada). Pasang ulang Code.gs lalu Deploy versi baru.':'Penyebab: '+((e&&e.message)||e)+(e&&e.code?' ['+e.code+']':'');
+function rmStatus(kind,html){const el=$('rmMSt');if(!el)return;if(!kind){el.hidden=true;el.innerHTML='';el.className='rmst';return}el.hidden=false;el.className='rmst '+kind;el.innerHTML=html}
+function rmAskPw(){
+  return new Promise((res,rej)=>{
+    rmStatus('pw','<div class="rmst-t"><b>Masukkan kata sandi unggah</b><small>Diperlukan sekali untuk membuat link lampiran Excel.</small></div><div class="rmpw"><input type="password" id="rmPw" placeholder="Kata sandi unggah" autocomplete="off"><button id="rmPwOk" class="rmS">Lanjut</button><button id="rmPwNo">Batal</button></div>');
+    const inp=$('rmPw');inp.focus();
+    const ok=()=>{const v=inp.value.trim();if(!v){inp.focus();return}res(v)};
+    $('rmPwOk').onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter')ok()};
+    $('rmPwNo').onclick=()=>rej(Object.assign(new Error('Dibatalkan'),{code:'cancel'}));
+  });
+}
+async function rmEnsureLink(g,step){
+  const k=rmLinkKey(g);if(RMLINK[k])return RMLINK[k];
+  step=step||(()=>{});
+  if(!apiUrl())throw Object.assign(new Error('Alamat Apps Script belum diisi'),{code:'nourl'});
+  if(!UPKEY)UPKEY=await rmAskPw();
+  step('Menyusun file Excel');
+  const X=await loadXlsx(),wb=X.utils.book_new(),s=rmSheet(g),ws=X.utils.aoa_to_sheet(s.aoa);ws['!cols']=s.cols.map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,s.name);
+  const b64=X.write(wb,{bookType:'xlsx',type:'base64'});
+  step('Mengunggah ke Google Drive dan membuat link');
+  let r;try{r=await apiCall('sharefile',{wkey:UPKEY,name:rmFname(g),b64})}catch(e){if(e.code==='bad-write-key')UPKEY='';throw e}
+  RMLINK[k]=r.url;return r.url;
+}
+/* jalankan pembuatan link dengan status progres / berhasil / gagal di jendela preview. Mengembalikan link ('' bila gagal/batal) */
+async function rmRunLink(g){
+  if(RMST.busy)return '';
+  const k=rmLinkKey(g);if(RMLINK[k]){rmStatus('ok',rmOkHtml(RMLINK[k]));return RMLINK[k]}
+  RMST.busy=true;['rmMLink','rmMCopy','rmMSend','rmMX'].forEach(id=>{const b=$(id);if(b)b.disabled=true});
+  const t0=Date.now();let msg='Menyiapkan',tm=null;
+  const paint=()=>rmStatus('prog',`<span class="uspin"></span><div class="rmst-t"><b>${esc(msg)}…</b><div class="rmprog"><i></i></div><small>Mohon tunggu dan jangan tutup jendela ini · ${Math.round((Date.now()-t0)/1000)} detik</small></div>`);
+  let link='';
+  try{
+    link=await rmEnsureLink(g,m=>{msg=m;paint();if(!tm)tm=setInterval(paint,1000)});
+    clearInterval(tm);tm=null;
+    rmStatus('ok',rmOkHtml(link)+`<small>Selesai dalam ${((Date.now()-t0)/1000).toFixed(1)} detik.</small>`);
+    toast('Link lampiran berhasil dibuat');
+  }catch(e){
+    clearInterval(tm);tm=null;link='';
+    if(e&&e.code==='cancel'){rmStatus(null)}
+    else{
+      rmFailPanel(g,e);
+    }
+  }finally{
+    RMST.busy=false;['rmMLink','rmMCopy','rmMSend','rmMX'].forEach(id=>{const b=$(id);if(b)b.disabled=false});
+    if(RMG===g)renderRmPreview();
+  }
+  return link;
+}
+function rmFailPanel(g,e){
+  console.error('Link lampiran gagal',e);
+  rmStatus('bad',`<div class="rmst-t"><b>Link lampiran gagal dibuat</b><small>${esc(rmWhy(e))}</small><div class="rmpw"><button id="rmRetry" class="rmS">Coba lagi</button><button id="rmNoLinkCopy">Salin pesan tanpa link</button><button id="rmNoLinkWa">Kirim WA tanpa link</button></div></div>`);
+  $('rmRetry').onclick=()=>rmRunLink(g).then(l=>{if(l)renderRmPreview()});
+  $('rmNoLinkCopy').onclick=async()=>{try{await navigator.clipboard.writeText(rmText(g,rmCi(g),'','file'));toast('Pesan disalin (tanpa link Excel)')}catch(x){toast('Tidak bisa menyalin otomatis')}};
+  $('rmNoLinkWa').onclick=()=>openWa(g,rmCi(g),'');
+}const rmOkHtml=l=>`<span class="rmst-ic">✓</span><div class="rmst-t"><b>Link lampiran berhasil dibuat</b><a href="${esc(l)}" target="_blank" rel="noopener noreferrer" class="rmlnk">${esc(l)}</a><small>Sudah masuk ke pesan. Berlaku 7 hari.</small></div>`;
+function openWa(g,ci,link){
   const c=g.contacts[ci];if(!c){toast('Mitra ini belum punya nomor WhatsApp terdaftar.');return}
-  const txt=rmText(g,ci);
-  window.open(`https://wa.me/${waNum(c[2])}?text=${encodeURIComponent(txt)}`,'_blank','noopener');
+  const txt=rmText(g,ci,link,link?'':'file'), url=`https://wa.me/${waNum(c[2])}?text=${encodeURIComponent(txt)}`;
+  const w=window.open(url,'_blank');
   try{navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}
-  exportRemind(g);
+  if(!link)exportRemind(g);
   rmSentSet(g.mitra+'|'+todayWib());
-  setTimeout(()=>toast(`Chat WhatsApp ${c[1]||c[2]} dibuka dan ${rmFname(g)} diunduh. Lampirkan file itu di chat sebelum mengirim.`),600);
+  if(!w&&!$('rmM').hidden){rmStatus('ok',`<span class="rmst-ic">✓</span><div class="rmst-t"><b>Pesan siap dikirim</b><small>Browser memblokir pop-up. Klik tombol di bawah untuk membuka WhatsApp.</small><div class="rmpw"><button id="rmOpenWa" class="rmS">${SENDIC}Buka WhatsApp</button></div></div>`);$('rmOpenWa').onclick=()=>window.open(url,'_blank')}
+  else toast(link?`Chat WhatsApp ${c[1]||c[2]} dibuka dengan link unduhan Excel.`:`Chat WhatsApp ${c[1]||c[2]} dibuka dan ${rmFname(g)} diunduh. Lampirkan file itu di chat.`);
   renderRemind();
+}
+/* Kirim WA langsung dari kartu: link dibuat otomatis, progres tampil di tombol; jendela preview hanya dibuka bila perlu kata sandi atau terjadi kegagalan */
+const RMBZ={};let rmTick=null;
+function rmTickPaint(){document.querySelectorAll('#rmL .rmS.busy').forEach(b=>{const g=RMD.groups[+b.dataset.i],z=g&&RMBZ[g.mitra];if(z){const sec=Math.round((Date.now()-z.t0)/1000);b.querySelector('.rmbt').textContent=`Membuat link… ${sec} dtk`}});if(!Object.keys(RMBZ).length){clearInterval(rmTick);rmTick=null}}
+async function sendRemind(g,ci){
+  const c=g.contacts[ci];if(!c){toast('Mitra ini belum punya nomor WhatsApp terdaftar.');return}
+  let link=RMLINK[rmLinkKey(g)]||'';
+  if(!link){
+    if(!UPKEY||RMST.busy){  /* perlu kata sandi: pakai panel di jendela preview */
+      if($('rmM').hidden)openRmPreview(g);else{RMG=g;renderRmPreview()}
+      link=await rmRunLink(g);if(!link)return;
+    }else{
+      RMBZ[g.mitra]={t0:Date.now(),msg:'Menyiapkan'};renderRemind();
+      if(!rmTick)rmTick=setInterval(rmTickPaint,1000);
+      try{link=await rmEnsureLink(g,m=>{if(RMBZ[g.mitra])RMBZ[g.mitra].msg=m;rmTickPaint()})}
+      catch(e){
+        delete RMBZ[g.mitra];renderRemind();
+        if(e&&e.code==='cancel')return;
+        openRmPreview(g);rmFailPanel(g,e);return;
+      }
+      delete RMBZ[g.mitra];
+      toast('Link lampiran berhasil dibuat, membuka WhatsApp…');
+    }
+  }
+  openWa(g,ci,link);
 }
 function fillRemind(){
   const days=blastDays();
@@ -2902,7 +3018,7 @@ function renderRemind(){
      <div class="rmk rmk-w"><span>Tanpa nomor WhatsApp</span><b>${nf(noC)}</b><i>lengkapi di data info perseroan</i></div>
    </div>
    <div class="rmfil" role="group" aria-label="Filter mitra">${F.map(([k,l,n])=>`<button data-f="${k}" class="${RMD.f===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('')}</div>
-   <p class="foot" style="margin:6px 0 0">Klik <b>Lihat pesan</b> untuk preview. <b>Kirim WA</b> membuka chat WhatsApp kontak terpilih dengan pesan terisi dan otomatis mengunduh Excel pelanggannya; lampirkan file tersebut di chat sebelum mengirim (WhatsApp tidak mengizinkan lampiran otomatis lewat tautan).</p>`;
+   <p class="foot" style="margin:6px 0 0">Klik <b>Lihat pesan</b> untuk preview. <b>Kirim WA</b> membuka chat WhatsApp kontak terpilih dengan pesan terisi dan otomatis menyisipkan <b>link unduhan Excel</b> pelanggannya di dalam pesan (penerima cukup mengklik link).</p>`;
   $('rmNote').querySelectorAll('.rmfil button').forEach(b=>b.onclick=()=>{RMD.f=b.dataset.f;renderRemind()});
   const q=RMD.q.toLowerCase();
   const list=gs.filter(g=>(!q||g.mitra.toLowerCase().includes(q)||(g.info&&g.info.n.toLowerCase().includes(q)))&&(RMD.f===''||(RMD.f==='todo'&&g.contacts.length&&!isSent(g))||(RMD.f==='sent'&&isSent(g))||(RMD.f==='noc'&&!g.contacts.length)));
@@ -2916,7 +3032,7 @@ function renderRemind(){
       <div class="rmc-l"><span class="rmrank">${gs.indexOf(g)+1}</span><div class="rmname"><b>${esc(g.mitra)}</b>${g.info&&g.info.n&&mkey(g.info.n)!==mkey(g.mitra)?`<small>${esc(g.info.n)}</small>`:''}${st?`<span class="rmOk">✓ Terkirim ${hhmm(st)}</span>`:''}</div></div>
       <div class="rmc-m"><div class="rmbig"><b>${nf(n)}</b><span>pelanggan masih isolir</span></div><div class="rmbar">${bar}</div><div class="rmchips">${chips}</div></div>
       <div class="rmc-r"><label class="rmlab">Kirim ke</label>${sel}
-        <div class="rmbtns"><button class="rmV" data-i="${i}">👁 Lihat pesan</button><button class="rmS" data-i="${i}"${g.contacts.length?'':' disabled'}>${SENDIC}Kirim WA</button><button class="rmX" data-i="${i}" title="Download Excel pelanggan">⬇ Excel</button>${canShareFiles?`<button class="rmB" data-i="${i}">Bagikan</button>`:''}</div></div>
+        <div class="rmbtns"><button class="rmV" data-i="${i}">👁 Lihat pesan</button>${RMBZ[g.mitra]?`<button class="rmS busy" data-i="${i}" disabled><span class="uspin sm"></span><span class="rmbt">Membuat link… 0 dtk</span></button>`:`<button class="rmS" data-i="${i}"${g.contacts.length?'':' disabled'}>${SENDIC}Kirim WA</button>`}<button class="rmX" data-i="${i}" title="Download Excel pelanggan">⬇ Excel</button>${canShareFiles?`<button class="rmB" data-i="${i}">Bagikan</button>`:''}</div></div>
     </article>`}).join('')||'<div class="empty">Tidak ada mitra yang cocok</div>';
   $('rmL').querySelectorAll('.rmC').forEach(s=>s.onchange=()=>{RMD.sel[gs[+s.dataset.i].mitra]=+s.value});
   $('rmL').querySelectorAll('.rmV').forEach(b=>b.onclick=()=>openRmPreview(gs[+b.dataset.i]));
@@ -2926,7 +3042,9 @@ function renderRemind(){
 }
 /* ---- jendela preview pesan ---- */
 let RMG=null;
-function openRmPreview(g){RMG=g;renderRmPreview();$('rmM').hidden=false;document.body.style.overflow='hidden';$('rmMClose').focus()}
+function openRmPreview(g){RMG=g;if(!RMST.busy)rmStatus(null);renderRmPreview();$('rmM').hidden=false;document.body.style.overflow='hidden';$('rmMClose').focus();rmWarm()}
+/* pemanasan: muat pustaka Excel dan bangunkan Apps Script lebih dulu agar pembuatan link lebih cepat */
+function rmWarm(){if(RMST.warm)return;RMST.warm=true;try{loadXlsx().catch(()=>{});if(apiUrl())apiCall('ping').catch(()=>{})}catch(e){}}
 function closeRmPreview(){$('rmM').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
 function renderRmPreview(){
   const g=RMG;if(!g)return;const ci=rmCi(g),c=g.contacts[ci];
@@ -2935,8 +3053,8 @@ function renderRmPreview(){
   $('rmMC').innerHTML=g.contacts.length?g.contacts.map((x,j)=>`<option value="${j}"${j===ci?' selected':''}>${esc(x[0])}${x[1]?' · '+esc(x[1]):''} · ${esc(x[2])}</option>`).join(''):'<option>Nomor WhatsApp mitra belum terdaftar</option>';
   $('rmMC').disabled=!g.contacts.length;
   $('rmMTo').innerHTML=c?`<b>${esc(c[1]||c[0])}</b><span>${esc(c[0])} · ${esc(c[2])}</span>`:'<b>Belum ada nomor</b><span>lengkapi di data info perseroan</span>';
-  $('rmMAtt').innerHTML=`<span class="waico">XLS</span><span><b>${esc(rmFname(g))}</b><small>${nf(g.rows.length)} baris pelanggan · Excel</small></span>`;
-  $('rmMB').innerHTML=waFmt(rmText(g,ci));
+  $('rmMAtt').hidden=true;$('rmMLink').hidden=!!RMLINK[rmLinkKey(g)];$('rmMNote').textContent=RMLINK[rmLinkKey(g)]?'Link unduhan asli sudah dibuat dan dipakai di pesan ini (berlaku 7 hari).':'Link di atas contoh. Tekan Buat link lampiran untuk membuat link asli, atau akan dibuat otomatis saat Kirim WA / Salin pesan.';
+  $('rmMB').innerHTML=waFmt(rmText(g,ci,RMLINK[rmLinkKey(g)]||''));
   $('rmMTime').textContent=hhmm(Date.now());
   $('rmMSend').disabled=!c;
 }
@@ -2945,9 +3063,13 @@ function bindRmPreview(){
   $('rmM').addEventListener('click',e=>{if(e.target===$('rmM'))closeRmPreview()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('rmM').hidden)closeRmPreview()});
   $('rmMC').onchange=e=>{if(RMG){RMD.sel[RMG.mitra]=+e.target.value;renderRmPreview();renderRemind()}};
-  $('rmMCopy').onclick=async()=>{try{await navigator.clipboard.writeText(rmText(RMG,rmCi(RMG)));toast('Pesan disalin')}catch(e){toast('Tidak bisa menyalin otomatis')}};
-  $('rmMX').onclick=()=>RMG&&exportRemind(RMG);
-  $('rmMSend').onclick=()=>{if(!RMG)return;sendRemind(RMG,rmCi(RMG));renderRmPreview()};
+  $('rmMLink').onclick=()=>{if(RMG)rmRunLink(RMG)};
+  $('rmMCopy').onclick=async()=>{
+    if(!RMG)return;let l=RMLINK[rmLinkKey(RMG)]||'';
+    if(!l){l=await rmRunLink(RMG);if(!l)return}
+    try{await navigator.clipboard.writeText(rmText(RMG,rmCi(RMG),l));toast('Pesan + link unduhan disalin')}catch(e){toast('Tidak bisa menyalin otomatis')}
+  };  $('rmMX').onclick=()=>RMG&&exportRemind(RMG);
+  $('rmMSend').onclick=()=>{if(RMG)sendRemind(RMG,rmCi(RMG))};
 }
 
 /* ---------- agregasi per tanggal broadcast ---------- */
@@ -3369,8 +3491,8 @@ function dayPreview(data,existing,onlyDate){
   const ds=[...new Set([...data.info.values()].map(i=>i.date))].sort().filter(d=>!onlyDate||d===onlyDate);
   const cell=(i,k)=>nf(i.st[k]||0);
   const PL={ftth:'FTTH Starlite',fwa:'FWA IRA'};
-  const body=ds.flatMap(d=>['ftth','fwa'].map(pr=>{const i=data.info.get(d+'|'+pr);if(!i)return '';const old=ex.get(d);return `<tr><td>${fmtD(d)}</td><td>${PL[pr]}</td><td class="num">${nf(i.bc)}</td><td class="num">${cell(i,'read')}</td><td class="num">${cell(i,'delivered')}</td><td class="num">${cell(i,'sent')}</td><td class="num">${cell(i,'failed')}</td><td class="num">${nf(i.rooms)}</td><td class="num">${nf(i.nums.size)}</td><td>${pr==='ftth'?(old?`<span class="up-rep">Ganti data lama${old.rows!=null?` (${nf(old.rows)} baris)`:''}</span>`:'<span class="up-new">Tanggal baru</span>'):''}</td></tr>`})).join('');
-  return `<div class="tw"><table><thead><tr><th>Tanggal</th><th>Kategori</th><th class="num">Broadcast</th><th class="num">Dibaca</th><th class="num">Terkirim</th><th class="num">Dikirim</th><th class="num">Gagal</th><th class="num">Room cocok</th><th class="num">Nomor membalas</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div><p class="foot" style="margin:6px 0 0">Hanya room yang dibuat setelah waktu kirim broadcast nomor itu yang dicocokkan (${nf(data.ignored)} baris room lain diabaikan${data.skipped?`, ${nf(data.skipped)} baris broadcast tanpa nomor/waktu valid dilewati`:''}). Nomor tanpa room dihitung Tidak respon.</p>${data.truncated?'<p class="foot" style="margin:6px 0 0;color:#b45309;font-weight:600">Peringatan: file Hasil Tag IRA memuat tepat 1.000 baris (batas ekspor), kemungkinan ada tag yang terpotong. Ekspor ulang dengan rentang lebih kecil bila perlu.</p>':''}`;
+  const body=ds.flatMap(d=>['ftth','fwa'].map(pr=>{const i=data.info.get(d+'|'+pr);if(!i)return '';const old=ex.get(d);return `<tr><td>${fmtD(d)}</td><td>${PL[pr]}</td><td class="num">${nf(i.bc)}</td><td class="num">${cell(i,'read')}</td><td class="num">${nf((i.st.delivered||0)+(i.st.sent||0))}</td><td class="num">${cell(i,'failed')}</td><td class="num">${nf(i.rooms)}</td><td class="num">${nf(i.nums.size)}</td><td>${pr==='ftth'?(old?`<span class="up-rep">Ganti data lama${old.rows!=null?` (${nf(old.rows)} baris)`:''}</span>`:'<span class="up-new">Tanggal baru</span>'):''}</td></tr>`})).join('');
+  return `<div class="tw"><table><thead><tr><th>Tanggal</th><th>Kategori</th><th class="num">Broadcast</th><th class="num">Dibaca</th><th class="num">Terkirim</th><th class="num">Gagal</th><th class="num">Room cocok</th><th class="num">Nomor membalas</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div><p class="foot" style="margin:6px 0 0">Hanya room yang dibuat setelah waktu kirim broadcast nomor itu yang dicocokkan (${nf(data.ignored)} baris room lain diabaikan${data.skipped?`, ${nf(data.skipped)} baris broadcast tanpa nomor/waktu valid dilewati`:''}). Nomor tanpa room dihitung Tidak respon.</p>${data.truncated?'<p class="foot" style="margin:6px 0 0;color:#b45309;font-weight:600">Peringatan: file Hasil Tag IRA memuat tepat 1.000 baris (batas ekspor), kemungkinan ada tag yang terpotong. Ekspor ulang dengan rentang lebih kecil bila perlu.</p>':''}`;
 }
 function upStatus(msg,bad){const s=$('upStatus');if(!s)return;s.textContent=msg||'';s.className='upst'+(bad?' bad':'')}
 function bindPair(key,ids,onChange){
