@@ -87,6 +87,23 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);bo
 .boot{text-align:center;padding:30px 14px}
 .boot .spin{margin:0 auto 10px;width:26px;height:26px}
 a.wa{color:#15803d;font-weight:700;text-decoration:none}
+.camic{width:30px;height:30px;margin-bottom:4px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h3l2-3h6l2 3h3v11H4z'/%3E%3Ccircle cx='12' cy='13' r='3.5'/%3E%3C/svg%3E")}
+.ph[data-cam]{cursor:pointer}
+.cam{position:fixed;inset:0;z-index:30;background:#05080f;color:#fff;display:flex;flex-direction:column}
+.cam[hidden]{display:none}
+.camh{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px}
+.camh .x{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+.camv{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.camv video,.camv img{max-width:100%;max-height:100%;object-fit:contain}
+.camv video.mir{transform:scaleX(-1)}
+.camgeo{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(0,0,0,.6);border-radius:10px;padding:7px 10px;font-size:12.5px;font-weight:600;line-height:1.4}
+.camgeo.bad{background:rgba(185,28,28,.85)}.camgeo.ok{background:rgba(21,128,61,.8)}
+.camerr{background:#7f1d1d;color:#fff;font-size:13px;padding:8px 12px}
+.camb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.cbtn{background:rgba(255,255,255,.14);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:9px 12px;font-weight:700;cursor:pointer;min-width:96px;text-align:center}
+.cbtn.ghost{visibility:hidden}
+.shot{width:70px;height:70px;border-radius:50%;border:5px solid #fff;background:#fff;box-shadow:inset 0 0 0 4px #05080f;cursor:pointer;flex:none}
+.shot:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:420px){.tile b{font-size:18px}.up{gap:6px}.ph{min-height:100px}}
 </style>
 </head>
@@ -137,10 +154,11 @@ a.wa{color:#15803d;font-weight:700;text-decoration:none}
     <label class="f">Foto</label>
     <div class="up">
       <label class="ph" id="pchat"><em class="req">Wajib</em><b>Screenshot chat</b><small>hasil follow up ke pelanggan</small><input type="file" accept="image/*" data-k="chat"></label>
-      <label class="ph" id="pselfie"><em class="opt">Opsional</em><b>Foto selfie</b><small>petugas follow up</small><input type="file" accept="image/*" data-k="selfie"></label>
-      <label class="ph" id="prumah"><em class="opt">Opsional</em><b>Foto rumah</b><small>pelanggan</small><input type="file" accept="image/*" data-k="rumah"></label>
+      <div class="ph" id="pselfie" role="button" tabindex="0" data-cam="selfie"><em class="opt">Opsional</em><span class="camic" aria-hidden="true"></span><b>Selfie petugas</b><small>buka kamera depan</small></div>
+      <div class="ph" id="prumah" role="button" tabindex="0" data-cam="rumah"><em class="opt">Opsional</em><span class="camic" aria-hidden="true"></span><b>Foto rumah</b><small>buka kamera belakang</small></div>
     </div>
     <div class="err" id="eChat" hidden>Screenshot chat wajib diunggah.</div>
+    <p class="foot" style="margin:6px 0 0">Selfie dan foto rumah diambil langsung dari kamera. Tanggal, jam, dan koordinat lokasi tercetak otomatis pada foto.</p>
 
     <label class="f" for="fSt">Status hasil follow up <em>*</em></label>
     <select id="fSt"><option value="">Pilih status…</option><option value="lanjut">Bersedia lanjut</option><option value="tidak">Tidak bersedia lanjut</option><option value="norespon">Tidak merespon</option></select>
@@ -159,6 +177,19 @@ a.wa{color:#15803d;font-weight:700;text-decoration:none}
     <div class="prog" id="prog" hidden></div>
     <div class="acts"><button class="btn sec" id="sCancel">Batal</button><button class="btn" id="sGo">Kirim laporan</button></div>
   </div>
+</div>
+<div class="cam" id="cam" hidden role="dialog" aria-modal="true" aria-labelledby="camT">
+  <div class="camh"><b id="camT">Kamera</b><button class="x" id="camX">Tutup ✕</button></div>
+  <div class="camv"><video id="camV" playsinline muted autoplay></video><img id="camP" alt="Hasil foto" hidden><div class="camgeo" id="camGeo">Mencari lokasi…</div></div>
+  <div class="camerr" id="camErr" hidden></div>
+  <div class="camb">
+    <button class="cbtn" id="camFlip">Ganti kamera</button>
+    <button class="shot" id="camShot" aria-label="Ambil foto"></button>
+    <button class="cbtn" id="camRetake" hidden>Ulangi</button>
+    <button class="btn" id="camUse" hidden>Pakai foto</button>
+    <span class="cbtn ghost" id="camSp"></span>
+  </div>
+  <input type="file" id="camFile" accept="image/*" hidden>
 </div>
 <div class="toast" id="toast" hidden></div>
 
@@ -281,21 +312,100 @@ function closeSheet(){if(S.busy)return;$('sheet').hidden=true;document.body.styl
 $('sX').onclick=closeSheet;$('sCancel').onclick=closeSheet;
 $('sheet').addEventListener('click',e=>{if(e.target===$('sheet'))closeSheet()});
 $('fSt').onchange=()=>{$('alWrap').hidden=$('fSt').value!=='tidak';$('eSt').hidden=true;$('fSt').classList.remove('bad-f')};
-function setPh(k,file){
+/* data: File (screenshot dari galeri) atau {b64,url,meta} (foto kamera berstempel) */
+function setPh(k,data){
   const box=$('p'+k);
   box.querySelectorAll('img,.rm').forEach(x=>x.remove());
-  if(S.files[k]&&S.files[k].url)URL.revokeObjectURL(S.files[k].url);
+  if(S.files[k]&&S.files[k].file&&S.files[k].url)URL.revokeObjectURL(S.files[k].url);
   delete S.files[k];delete S.up[k];
-  box.classList.toggle('has',!!file);box.classList.remove('bad-f');
-  box.querySelector('input').value='';
-  if(!file)return;
-  const url=URL.createObjectURL(file);S.files[k]={file,url};
-  const img=document.createElement('img');img.src=url;img.alt='';box.appendChild(img);
+  box.classList.toggle('has',!!data);box.classList.remove('bad-f');
+  const inp=box.querySelector('input');if(inp)inp.value='';
+  if(!data)return;
+  if(data instanceof Blob)data={file:data,url:URL.createObjectURL(data)};
+  S.files[k]=data;
+  const img=document.createElement('img');img.src=data.url;img.alt='';box.appendChild(img);
   const rm=document.createElement('button');rm.type='button';rm.className='rm';rm.textContent='✕';rm.setAttribute('aria-label','Hapus foto');
   rm.onclick=e=>{e.preventDefault();e.stopPropagation();setPh(k,null)};box.appendChild(rm);
   if(k==='chat')$('eChat').hidden=true;
 }
 document.querySelectorAll('.ph input').forEach(inp=>inp.onchange=()=>{const f=inp.files&&inp.files[0];if(!f)return;if(!/^image\//.test(f.type)&&!/\.(jpe?g|png|webp|heic|heif)$/i.test(f.name)){toast('File harus berupa gambar');inp.value='';return}setPh(inp.dataset.k,f)});
+
+/* ---------- kamera langsung: selfie petugas & foto rumah, berstempel tanggal, jam, dan koordinat ---------- */
+const HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const CAM={k:'',facing:'user',stream:null,geo:null,watch:null,shot:null};
+document.querySelectorAll('.ph[data-cam]').forEach(b=>{
+  b.onclick=e=>{if(e.target.closest('.rm'))return;openCam(b.dataset.cam)};
+  b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCam(b.dataset.cam)}};
+});
+function camMode(m){const live=m==='live';$('camV').hidden=!live;$('camP').hidden=live;['camShot','camFlip','camSp'].forEach(id=>$(id).hidden=!live);['camRetake','camUse'].forEach(id=>$(id).hidden=live)}
+function geoMsg(cls,t){const g=$('camGeo');g.className='camgeo'+(cls?' '+cls:'');g.textContent=t}
+function camShotState(){$('camShot').disabled=!CAM.geo}
+async function openCam(k){
+  if(S.busy)return;
+  CAM.k=k;CAM.facing=k==='selfie'?'user':'environment';CAM.shot=null;
+  $('camT').textContent=k==='selfie'?'Selfie petugas follow up':'Foto rumah pelanggan';
+  $('cam').hidden=false;camMode('live');camGeoStart();await camStart();
+}
+function camGeoStart(){
+  if(CAM.watch!=null)return;
+  if(!navigator.geolocation){geoMsg('bad','Browser ini tidak mendukung lokasi. Gunakan Chrome atau Safari terbaru.');camShotState();return}
+  geoMsg('',CAM.geo?`Lokasi: ${CAM.geo.lat.toFixed(6)}, ${CAM.geo.lng.toFixed(6)}`:'Mencari lokasi GPS… pastikan lokasi/GPS HP aktif.');
+  CAM.watch=navigator.geolocation.watchPosition(p=>{
+    CAM.geo={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};
+    geoMsg('ok',`Lokasi: ${CAM.geo.lat.toFixed(6)}, ${CAM.geo.lng.toFixed(6)} (±${Math.round(CAM.geo.acc)} m)`);camShotState();
+  },e=>{
+    if(CAM.geo)return;
+    geoMsg('bad',e.code===1?'Izin lokasi ditolak. Izinkan lokasi untuk situs ini (ikon gembok di alamat browser), lalu tutup dan buka kamera lagi.':'Lokasi belum ditemukan. Pastikan GPS aktif, lalu tunggu sebentar.');camShotState();
+  },{enableHighAccuracy:true,maximumAge:30000,timeout:25000});
+  camShotState();
+}
+async function camStart(){
+  camStop(true);$('camErr').hidden=true;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){camFallback('Kamera langsung tidak didukung browser ini.');return}
+  try{
+    CAM.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:CAM.facing},width:{ideal:1920},height:{ideal:1440}},audio:false});
+    const v=$('camV');v.srcObject=CAM.stream;v.classList.toggle('mir',CAM.facing==='user');await v.play().catch(()=>{});
+  }catch(e){camFallback(e&&e.name==='NotAllowedError'?'Izin kamera ditolak. Izinkan kamera untuk situs ini (ikon gembok di alamat browser), lalu coba lagi.':'Kamera tidak bisa dibuka ('+((e&&(e.message||e.name))||'')+').')}
+}
+function camFallback(msg){
+  const el=$('camErr');el.hidden=false;el.innerHTML=esc(msg)+' <button class="cbtn" id="camAlt" style="margin-left:6px;min-width:0">Buka aplikasi kamera</button>';
+  $('camAlt').onclick=()=>{const f=$('camFile');f.setAttribute('capture',CAM.facing);f.value='';f.click()};
+}
+function camStop(keepGeo){
+  if(CAM.stream){CAM.stream.getTracks().forEach(t=>t.stop());CAM.stream=null}
+  if(!keepGeo&&CAM.watch!=null){navigator.geolocation.clearWatch(CAM.watch);CAM.watch=null}
+}
+function closeCam(){camStop();$('camV').srcObject=null;$('cam').hidden=true}
+const wibStr=iso=>{const d=new Date(Date.parse(iso)+7*36e5),i=d.toISOString();return `${HARI[d.getUTCDay()]}, ${fmtD(i.slice(0,10))} · ${i.slice(11,19)} WIB`};
+function stamp(cx,w,h,m){
+  const row=S.cur||[], pic=getPic()||{n:''};
+  const lines=[`${CAM.k==='selfie'?'Selfie petugas':'Rumah pelanggan'} · ${row[1]||''} ${row[2]||''}`.trim(),wibStr(m.ts),`Lat ${m.lat.toFixed(6)}, Long ${m.lng.toFixed(6)} (±${m.acc} m)`,`Mitra ${S.mitra} · Petugas ${pic.n}`];
+  const fs=Math.max(14,Math.round(Math.min(w,h*1.2)*0.032)), lh=Math.round(fs*1.32), pad=Math.round(fs*.7), bh=lines.length*lh+pad*2;
+  cx.fillStyle='rgba(0,0,0,.58)';cx.fillRect(0,h-bh,w,bh);
+  cx.fillStyle='#fff';cx.textBaseline='top';
+  lines.forEach((t,i)=>{cx.font=`${i===1?800:600} ${fs}px system-ui,"Segoe UI",Roboto,Arial,sans-serif`;cx.fillText(t,pad,h-bh+pad+i*lh,w-pad*2)});
+}
+function camCompose(src,w0,h0){
+  if(!CAM.geo){toast('Tunggu sampai lokasi ditemukan');return}
+  const s=Math.min(1,1600/Math.max(w0,h0)),w=Math.round(w0*s),h=Math.round(h0*s);
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;const cx=cv.getContext('2d');cx.drawImage(src,0,0,w,h);
+  const meta={ts:new Date().toISOString(),lat:+CAM.geo.lat.toFixed(6),lng:+CAM.geo.lng.toFixed(6),acc:Math.round(CAM.geo.acc)};
+  stamp(cx,w,h,meta);
+  const url=cv.toDataURL('image/jpeg',.8);CAM.shot={b64:url.split(',')[1],url,meta};
+  $('camP').src=url;camMode('review');
+}
+$('camShot').onclick=()=>{const v=$('camV');if(!v.videoWidth){toast('Kamera belum siap');return}camCompose(v,v.videoWidth,v.videoHeight)};
+$('camFile').onchange=()=>{
+  const f=$('camFile').files[0];if(!f)return;
+  if(!CAM.geo){toast('Lokasi belum ditemukan. Aktifkan lokasi lalu ambil ulang.');return}
+  const u=URL.createObjectURL(f),img=new Image();
+  img.onload=()=>{camCompose(img,img.naturalWidth,img.naturalHeight);URL.revokeObjectURL(u)};
+  img.onerror=()=>{toast('Foto tidak bisa dibaca');URL.revokeObjectURL(u)};img.src=u;
+};
+$('camRetake').onclick=()=>{CAM.shot=null;if(CAM.stream)camMode('live');else{camMode('live');$('camFile').click()}};
+$('camUse').onclick=()=>{if(!CAM.shot)return;setPh(CAM.k,CAM.shot);closeCam()};
+$('camFlip').onclick=()=>{CAM.facing=CAM.facing==='user'?'environment':'user';camStart()};
+$('camX').onclick=closeCam;
 
 /* kecilkan foto di HP sebelum diunggah (sisi terpanjang maks. 1600 px, JPEG) */
 async function shrink(file,max,q){
@@ -324,12 +434,12 @@ $('sGo').onclick=async()=>{
     for(let i=0;i<kinds.length;i++){
       const k=kinds[i];if(S.up[k])continue;
       prog(`Mengunggah foto ${i+1} dari ${kinds.length}…`);
-      const b64=await shrink(S.files[k].file,1600,k==='chat'?.82:.72);
+      const b64=S.files[k].b64||await shrink(S.files[k].file,1600,k==='chat'?.82:.72);
       const r=await api('fu_photo',{kind:k,code:row[1],mime:'image/jpeg',b64});
       S.up[k]=r.id;
     }
     prog('Menyimpan laporan…');
-    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up}},1);
+    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
     S.recs.push(r.rec);
     S.busy=false;$('sCancel').disabled=false;closeSheet();render();
     toast('Laporan tersimpan. Terima kasih!');

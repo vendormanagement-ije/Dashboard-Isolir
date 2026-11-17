@@ -988,6 +988,20 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
 .fwthumbs img{width:96px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #d5dce8;background:#eef3f9}
 .fwdel{font:inherit;font-size:11.5px;border:1.5px solid #ef4444;color:#b91c1c;background:#fff;border-radius:8px;padding:3px 9px;cursor:pointer;align-self:start}
 .fwpw{display:flex;gap:6px;margin-top:6px}.fwpw input{font:inherit;border:1.5px solid #cbd5e1;border-radius:8px;padding:4px 8px}
+.fwatt{display:inline-grid;place-items:center;width:30px;height:28px;padding:0;border:1.5px solid #2563eb;background:#eef4ff;color:#1d4ed8;border-radius:8px;cursor:pointer}
+.fwatt svg{width:16px;height:16px}
+#fwMT td:first-child,#fwT td:first-child,#fwMT th:first-child,#fwT th:first-child{width:1%;text-align:center}
+.fwatt:hover{background:#dbe7ff}
+.fwgeo{display:block;font-size:10.5px;font-weight:700;color:#15803d;text-decoration:none;margin-top:2px;white-space:nowrap}
+.fwgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.fwgc{border:1.5px solid #d5dce8;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fwgh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.fwgh b{display:block;font-size:13.5px}
+.fwgp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.fwgp figure{margin:0;min-width:0}
+.fwgp img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;border:1.5px solid #d5dce8;background:#eef3f9;display:block}
+.fwgp figcaption{font-size:10.5px;color:#52607a;margin-top:3px}.fwgp figcaption b{display:block;color:#0f1b3d}
+.fwgp .fwgeo{white-space:normal}
+.fwgf{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#52607a;border-top:1px solid #e5eaf2;padding-top:6px}.fwgf .fwrm{max-width:none;color:#0f1b3d}
 @media(max-width:900px){.fwhero{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:520px){.fwtiles{grid-template-columns:repeat(2,minmax(0,1fr))}.fwr b{font-size:24px}}
 .wrap.loading>*:not(header):not(#boot){display:none}
@@ -2802,9 +2816,9 @@ const REMIND_HTML=`
             <div class="wabub"><div class="waatt" id="rmMAtt"></div><div class="watxt" id="rmMB"></div><span class="watime"><span id="rmMTime"></span> ✓✓</span></div>
           </div>
         </div>
-        <p class="foot" id="rmMNote" style="margin:2px 0 0"></p><p class="foot" style="margin:0">Saat menekan <b>Kirim WA</b>, Excel diunggah ke Google Drive dan <b>link unduhannya</b> otomatis masuk ke pesan (berlaku 7 hari).</p>
+        <p class="foot" id="rmMNote" style="margin:2px 0 0"></p><p class="foot" style="margin:0">Saat menekan <b>Kirim WA</b>, <b>link form laporan follow up</b> mitra ini otomatis masuk ke pesan.</p>
         <div id="rmMSt" class="rmst" hidden aria-live="polite"></div>
-        <div class="rmmact"><button id="rmMLink">Buat link lampiran</button><button id="rmMCopy">Salin pesan</button><button id="rmMX">⬇ Download Excel</button><button id="rmMSend" class="rmS"><svg class="sendic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.2 15 12 3.4 13.8z" fill="currentColor"/></svg>Kirim WA</button></div>
+        <div class="rmmact"><button id="rmMLink">Ambil link form</button><button id="rmMCopy">Salin pesan</button><button id="rmMX" title="Untuk arsip internal, tidak dikirim ke mitra">⬇ Download Excel</button><button id="rmMSend" class="rmS"><svg class="sendic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.2 15 12 3.4 13.8z" fill="currentColor"/></svg>Kirim WA</button></div>
       </div>
     </div>
   </div>
@@ -2950,7 +2964,9 @@ function rmRows(){
 function rmGroups(){
   const by=new Map();
   rmRows().forEach(r=>{const k=MI[r.m];let g=by.get(k);if(!g){g={mitra:k,rows:[],gc:{}};by.set(k,g)}g.rows.push(r);g.gc[r.g]=(g.gc[r.g]||0)+1});
-  return [...by.values()].map(g=>{const m=mitraOf(g.mitra);g.info=m;g.contacts=m?m.c.filter(c=>waOk(c[2])):[];return g}).sort((a,b)=>b.rows.length-a.rows.length||a.mitra.localeCompare(b.mitra));
+  /* total pelanggan isolir mitra (semua nomor isolir, sudah atau belum di-broadcast) */
+  const tot=new Map();RM.forEach(r=>{const k=MI[r.m];tot.set(k,(tot.get(k)||0)+1)});
+  return [...by.values()].map(g=>{const m=mitraOf(g.mitra);g.total=tot.get(g.mitra)||g.rows.length;g.info=m;g.contacts=m?m.c.filter(c=>waOk(c[2])):[];return g}).sort((a,b)=>b.rows.length-a.rows.length||a.mitra.localeCompare(b.mitra));
 }
 const rmLbl={bayar:'Sudah bayar (masih isolir, menunggu aktivasi kembali)',lanjut:'Mau lanjut berlangganan',tidak:'Tidak mau lanjut',norespon:'Tidak merespons',reminder:'Reminder tagihan',lain:'Tag lain (layanan)',notag:'Tanpa tag'};
 const tglPanjang=s=>{const [y,m,d]=s.split('-');return `${+d} ${BLN[+m-1]} ${y}`};
@@ -2958,11 +2974,9 @@ function rmText(g,ci,link,mode){
   const c=g.contacts[ci]||null, pic=c&&c[1]?c[1].replace(/^\s*(bapak|bpk\.?|pak|ibu|bu|sdr\.?|sdri\.?)\s+/i,'').trim():'', mitra=(g.info&&g.info.n)||g.mitra;
   /* *teks* = tebal di WhatsApp. Tanpa emoji: daftar memakai tanda "-" */
   const tags=[...OUT.filter(o=>o.k!=='bayar'),OUTK.bayar].filter(o=>g.gc[o.k]).map(o=>`- ${rmLbl[o.k]||o.label}: *${nf(g.gc[o.k])} pelanggan*`).join('\n');
-  const att=link?['*Detail data pelanggan (Excel):*',link]
-    :mode==='file'?['*Detail data pelanggan (Excel)* terlampir pada pesan ini.']
-    :['*Detail data pelanggan (Excel):*','https://drive.google.com/uc?export=download&id=XXXXXXXXXXXXXXXX'];
-  const fl=fuLink(g.mitra);
-  const fx=fl||(!link&&mode!=='file'?(fuFormBase()||'https://…/form.html')+'?t=XXXXXXXXXXXXXXXX':'');
+  /* hanya link form follow up (tetap per mitra, tanpa masa berlaku). mode 'nolink' = pesan tanpa link */
+  const fl=fuLink(g.mitra)||link||'';
+  const fx=fl||(mode==='nolink'?'':(fuFormBase()||'https://…/form.html')+'?t=XXXXXXXXXXXXXXXX');
   const form=fx?['','*Form laporan hasil follow up mitra:*',fx,'Link berisi daftar lengkap pelanggan isolir mitra Bapak/Ibu (urut per stasiun). Mohon laporkan hasil follow up setiap pelanggan melalui link tersebut: *screenshot chat, status hasil follow up, dan remark*.']:[];
   return [
     `Selamat ${sapaan()} Bapak/Ibu`,
@@ -2972,11 +2986,12 @@ function rmText(g,ci,link,mode){
     '',
     `Berikut kami sampaikan hasil tindak lanjut broadcast CS Starlite kepada pelanggan dengan status *isolir yang belum melakukan pembayaran*, per tanggal *${tglPanjang(todayWib())}*.`,
     '',
+    '*Ringkasan pelanggan isolir:*',
+    `- Total pelanggan isolir: *${nf(g.total||g.rows.length)} pelanggan*`,
+    `- Sudah di-broadcast CS: *${nf(g.rows.length)} pelanggan*`,
+    '',
     '*Rincian hasil broadcast CS:*',
     tags,
-    `*Total pelanggan isolir: ${nf(g.rows.length)} pelanggan*`,
-    '',
-    ...att,
     ...form,
     '',
     'Mohon bantuan Bapak/Ibu untuk melakukan *follow-up secara langsung* kepada pelanggan, guna memastikan status kelanjutan berlangganan dan mendorong pelanggan yang masih berpotensi untuk melakukan *pembayaran serta aktivasi kembali layanan*.',
@@ -3007,14 +3022,14 @@ async function shareRemind(g,ci){
     rmSentSet(g.mitra+'|'+todayWib());renderRemind();
   }catch(e){if(e&&e.name!=='AbortError')toast('Gagal membagikan: '+(e.message||e))}
 }
-/* lampiran Excel -> link unduhan (Google Drive lewat Apps Script), dibuat sekali per mitra per hari */
-const RMLINK={}, RMST={busy:false,warm:false};
-const rmLinkKey=g=>g.mitra+'|'+todayWib()+'|'+g.rows.length;
-const rmWhy=e=>e&&e.code==='bad-write-key'?'Kata sandi unggah salah. Periksa huruf besar/kecil lalu coba lagi.':(e&&(e.code==='bad-action'||/tidak dikenal/i.test(e.message||'')))?'Apps Script belum diperbarui ke versi terbaru (aksi sharefile belum ada). Pasang ulang Code.gs lalu Deploy versi baru.':'Penyebab: '+((e&&e.message)||e)+(e&&e.code?' ['+e.code+']':'');
+/* link form follow up: token tetap per mitra (tersimpan di Apps Script), tidak berubah dan tanpa masa berlaku */
+const RMLINK=new Proxy({},{get:(o,k)=>fuLink(String(k))||undefined}), RMST={busy:false,warm:false};
+const rmLinkKey=g=>g.mitra;
+const rmWhy=e=>e&&e.code==='bad-write-key'?'Kata sandi unggah salah. Periksa huruf besar/kecil lalu coba lagi.':(e&&(e.code==='bad-action'||/tidak dikenal/i.test(e.message||'')))?'Apps Script belum diperbarui ke versi terbaru (aksi fu_tokens belum ada). Pasang ulang Code.gs lalu Deploy versi baru.':e&&e.code==='noform'?e.message:'Penyebab: '+((e&&e.message)||e)+(e&&e.code?' ['+e.code+']':'');
 function rmStatus(kind,html){const el=$('rmMSt');if(!el)return;if(!kind){el.hidden=true;el.innerHTML='';el.className='rmst';return}el.hidden=false;el.className='rmst '+kind;el.innerHTML=html}
 function rmAskPw(){
   return new Promise((res,rej)=>{
-    rmStatus('pw','<div class="rmst-t"><b>Masukkan kata sandi unggah</b><small>Diperlukan sekali untuk membuat link lampiran Excel.</small></div><div class="rmpw"><input type="password" id="rmPw" placeholder="Kata sandi unggah" autocomplete="off"><button id="rmPwOk" class="rmS">Lanjut</button><button id="rmPwNo">Batal</button></div>');
+    rmStatus('pw','<div class="rmst-t"><b>Masukkan kata sandi unggah</b><small>Diperlukan sekali untuk mengambil link form follow up mitra.</small></div><div class="rmpw"><input type="password" id="rmPw" placeholder="Kata sandi unggah" autocomplete="off"><button id="rmPwOk" class="rmS">Lanjut</button><button id="rmPwNo">Batal</button></div>');
     const inp=$('rmPw');inp.focus();
     const ok=()=>{const v=inp.value.trim();if(!v){inp.focus();return}res(v)};
     $('rmPwOk').onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter')ok()};
@@ -3022,16 +3037,15 @@ function rmAskPw(){
   });
 }
 async function rmEnsureLink(g,step){
-  const k=rmLinkKey(g);if(RMLINK[k]){if(!FUTOK[g.mitra]&&!FUERR&&UPKEY)await fuTokFor(g);return RMLINK[k]}
+  const l0=fuLink(g.mitra);if(l0)return l0;
   step=step||(()=>{});
+  if(!fuFormBase())throw Object.assign(new Error('Link form hanya bisa dibuat dari dashboard GitHub Pages (bukan tampilan ini).'),{code:'noform'});
   if(!apiUrl())throw Object.assign(new Error('Alamat Apps Script belum diisi'),{code:'nourl'});
   if(!UPKEY)UPKEY=await rmAskPw();
-  step('Menyusun file Excel');
-  const X=await loadXlsx(),wb=X.utils.book_new(),s=rmSheet(g),ws=X.utils.aoa_to_sheet(s.aoa);ws['!cols']=s.cols.map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,s.name);
-  const b64=X.write(wb,{bookType:'xlsx',type:'base64'});
-  step('Mengunggah Excel dan menyiapkan link form follow up');
-  let r;try{[r]=await Promise.all([apiCall('sharefile',{wkey:UPKEY,name:rmFname(g),b64}),FUTOK[g.mitra]?null:fuTokFor(g)])}catch(e){if(e.code==='bad-write-key')UPKEY='';throw e}
-  RMLINK[k]=r.url;return r.url;
+  step('Mengambil link form follow up mitra');
+  try{await fuEnsureTokens([g.mitra,...(RMD.groups||[]).map(x=>x.mitra)])}catch(e){if(e.code==='bad-write-key')UPKEY='';throw e}
+  const l=fuLink(g.mitra);if(!l)throw new Error('Token mitra tidak diterima dari server');
+  return l;
 }
 /* jalankan pembuatan link dengan status progres / berhasil / gagal di jendela preview. Mengembalikan link ('' bila gagal/batal) */
 async function rmRunLink(g){
@@ -3045,7 +3059,7 @@ async function rmRunLink(g){
     link=await rmEnsureLink(g,m=>{msg=m;paint();if(!tm)tm=setInterval(paint,1000)});
     clearInterval(tm);tm=null;
     rmStatus('ok',rmOkHtml(link)+`<small>Selesai dalam ${((Date.now()-t0)/1000).toFixed(1)} detik.</small>`);
-    toast('Link lampiran berhasil dibuat');
+    toast('Link form follow up siap');
   }catch(e){
     clearInterval(tm);tm=null;link='';
     if(e&&e.code==='cancel'){rmStatus(null)}
@@ -3059,26 +3073,25 @@ async function rmRunLink(g){
   return link;
 }
 function rmFailPanel(g,e){
-  console.error('Link lampiran gagal',e);
-  rmStatus('bad',`<div class="rmst-t"><b>Link lampiran gagal dibuat</b><small>${esc(rmWhy(e))}</small><div class="rmpw"><button id="rmRetry" class="rmS">Coba lagi</button><button id="rmNoLinkCopy">Salin pesan tanpa link</button><button id="rmNoLinkWa">Kirim WA tanpa link</button></div></div>`);
+  console.error('Link form gagal',e);
+  rmStatus('bad',`<div class="rmst-t"><b>Link form follow up gagal diambil</b><small>${esc(rmWhy(e))}</small><div class="rmpw"><button id="rmRetry" class="rmS">Coba lagi</button><button id="rmNoLinkCopy">Salin pesan tanpa link</button><button id="rmNoLinkWa">Kirim WA tanpa link</button></div></div>`);
   $('rmRetry').onclick=()=>rmRunLink(g).then(l=>{if(l)renderRmPreview()});
-  $('rmNoLinkCopy').onclick=async()=>{try{await navigator.clipboard.writeText(rmText(g,rmCi(g),'','file'));toast('Pesan disalin (tanpa link Excel)')}catch(x){toast('Tidak bisa menyalin otomatis')}};
+  $('rmNoLinkCopy').onclick=async()=>{try{await navigator.clipboard.writeText(rmText(g,rmCi(g),'','nolink'));toast('Pesan disalin (tanpa link form)')}catch(x){toast('Tidak bisa menyalin otomatis')}};
   $('rmNoLinkWa').onclick=()=>openWa(g,rmCi(g),'');
-}const rmOkHtml=l=>`<span class="rmst-ic">✓</span><div class="rmst-t"><b>Link lampiran berhasil dibuat</b><a href="${esc(l)}" target="_blank" rel="noopener noreferrer" class="rmlnk">${esc(l)}</a><small>Sudah masuk ke pesan. Berlaku 7 hari.</small>${FUERR?`<small style="color:#b45309">Link form follow up belum bisa dibuat: ${esc((FUERR.code==='bad-action'||/tidak dikenal/i.test(FUERR.message||''))?'Apps Script belum diperbarui ke versi terbaru (aksi fu_tokens). Pasang ulang Code.gs lalu Deploy versi baru.':(FUERR.message||FUERR))}</small>`:''}</div>`;
+}const rmOkHtml=l=>`<span class="rmst-ic">✓</span><div class="rmst-t"><b>Link form follow up siap</b><a href="${esc(l)}" target="_blank" rel="noopener noreferrer" class="rmlnk">${esc(l)}</a><small>Sudah masuk ke pesan. Link ini tetap untuk mitra ini dan tidak kedaluwarsa.</small></div>`;
 function openWa(g,ci,link){
   const c=g.contacts[ci];if(!c){toast('Mitra ini belum punya nomor WhatsApp terdaftar.');return}
-  const txt=rmText(g,ci,link,link?'':'file'), url=`https://wa.me/${waNum(c[2])}?text=${encodeURIComponent(txt)}`;
+  const txt=rmText(g,ci,link,link?'':'nolink'), url=`https://wa.me/${waNum(c[2])}?text=${encodeURIComponent(txt)}`;
   const w=window.open(url,'_blank');
   try{navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}
-  if(!link)exportRemind(g);
   rmSentSet(g.mitra+'|'+todayWib());
   if(!w&&!$('rmM').hidden){rmStatus('ok',`<span class="rmst-ic">✓</span><div class="rmst-t"><b>Pesan siap dikirim</b><small>Browser memblokir pop-up. Klik tombol di bawah untuk membuka WhatsApp.</small><div class="rmpw"><button id="rmOpenWa" class="rmS">${SENDIC}Buka WhatsApp</button></div></div>`);$('rmOpenWa').onclick=()=>window.open(url,'_blank')}
-  else toast(link?`Chat WhatsApp ${c[1]||c[2]} dibuka dengan link unduhan Excel.`:`Chat WhatsApp ${c[1]||c[2]} dibuka dan ${rmFname(g)} diunduh. Lampirkan file itu di chat.`);
+  else toast(link?`Chat WhatsApp ${c[1]||c[2]} dibuka dengan link form follow up.`:`Chat WhatsApp ${c[1]||c[2]} dibuka (tanpa link form).`);
   renderRemind();
 }
 /* Kirim WA langsung dari kartu: link dibuat otomatis, progres tampil di tombol; jendela preview hanya dibuka bila perlu kata sandi atau terjadi kegagalan */
 const RMBZ={};let rmTick=null;
-function rmTickPaint(){document.querySelectorAll('#rmL .rmS.busy').forEach(b=>{const g=RMD.groups[+b.dataset.i],z=g&&RMBZ[g.mitra];if(z){const sec=Math.round((Date.now()-z.t0)/1000);b.querySelector('.rmbt').textContent=`Membuat link… ${sec} dtk`}});if(!Object.keys(RMBZ).length){clearInterval(rmTick);rmTick=null}}
+function rmTickPaint(){document.querySelectorAll('#rmL .rmS.busy').forEach(b=>{const g=RMD.groups[+b.dataset.i],z=g&&RMBZ[g.mitra];if(z){const sec=Math.round((Date.now()-z.t0)/1000);b.querySelector('.rmbt').textContent=`Mengambil link… ${sec} dtk`}});if(!Object.keys(RMBZ).length){clearInterval(rmTick);rmTick=null}}
 async function sendRemind(g,ci){
   const c=g.contacts[ci];if(!c){toast('Mitra ini belum punya nomor WhatsApp terdaftar.');return}
   let link=RMLINK[rmLinkKey(g)]||'';
@@ -3096,7 +3109,7 @@ async function sendRemind(g,ci){
         openRmPreview(g);rmFailPanel(g,e);return;
       }
       delete RMBZ[g.mitra];
-      toast('Link lampiran berhasil dibuat, membuka WhatsApp…');
+      toast('Link form follow up siap, membuka WhatsApp…');
     }
   }
   openWa(g,ci,link);
@@ -3114,16 +3127,17 @@ const hhmm=ts=>new Date(ts+7*36e5).toISOString().slice(11,16);
 function renderRemind(){
   const gs=rmGroups();RMD.groups=gs;
   const today=todayWib(), sent=rmSentGet(), isSent=g=>!!sent[g.mitra+'|'+today];
-  const tot=gs.reduce((a,g)=>a+g.rows.length,0), nBayar=gs.reduce((a,g)=>a+(g.gc.bayar||0),0), withC=gs.filter(g=>g.contacts.length), nSent=gs.filter(isSent).length, noC=gs.length-withC.length;
+  const tot=gs.reduce((a,g)=>a+g.rows.length,0), totIso=gs.reduce((a,g)=>a+(g.total||g.rows.length),0), nBayar=gs.reduce((a,g)=>a+(g.gc.bayar||0),0), withC=gs.filter(g=>g.contacts.length), nSent=gs.filter(isSent).length, noC=gs.length-withC.length;
   const F=[['','Semua mitra',gs.length],['todo','Belum dikirim',withC.filter(g=>!isSent(g)).length],['sent','Sudah dikirim hari ini',nSent],['noc','Tanpa nomor WA',noC]];
-  $('rmNote').innerHTML=`<div class="rmsum">
-     <div class="rmk"><span>Masih isolir</span><b>${nf(tot)}</b><i>nomor pelanggan${nBayar?` · termasuk ${nf(nBayar)} sudah bayar (cek aktivasi)`:''}</i></div>
+  $('rmNote').innerHTML=`<div class="rmsum" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+     <div class="rmk"><span>Total pelanggan isolir</span><b>${nf(totIso)}</b><i>seluruh pelanggan isolir mitra di daftar ini</i></div>
+     <div class="rmk"><span>Sudah di-broadcast CS</span><b>${nf(tot)}</b><i>${pctS(tot,totIso||1)} dari total isolir${nBayar?` · ${nf(nBayar)} sudah bayar (cek aktivasi)`:''}</i></div>
      <div class="rmk"><span>Mitra</span><b>${nf(gs.length)}</b><i>${nf(withC.length)} punya nomor WhatsApp</i></div>
      <div class="rmk rmk-ok"><span>Sudah dikirim hari ini</span><b>${nf(nSent)}</b><i>dari ${nf(withC.length)} mitra</i></div>
      <div class="rmk rmk-w"><span>Tanpa nomor WhatsApp</span><b>${nf(noC)}</b><i>lengkapi di data info perseroan</i></div>
    </div>
    <div class="rmfil" role="group" aria-label="Filter mitra">${F.map(([k,l,n])=>`<button data-f="${k}" class="${RMD.f===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('')}</div>
-   <p class="foot" style="margin:6px 0 0">Klik <b>Lihat pesan</b> untuk preview. <b>Kirim WA</b> membuka chat WhatsApp kontak terpilih dengan pesan terisi dan otomatis menyisipkan <b>link unduhan Excel</b> serta <b>link form laporan follow up</b> khusus mitra itu. Form hanya menampilkan pelanggan isolir milik mitra penerima; hasilnya masuk ke menu <a href="#followup">Hasil Follow Up Mitra</a>.</p>`;
+   <p class="foot" style="margin:6px 0 0">Klik <b>Lihat pesan</b> untuk preview. <b>Kirim WA</b> membuka chat WhatsApp kontak terpilih dengan pesan terisi (total pelanggan isolir, jumlah yang sudah di-broadcast CS, rincian hasil broadcast) dan otomatis menyisipkan <b>link form laporan follow up</b> khusus mitra itu. Link form tetap untuk tiap mitra dan tidak kedaluwarsa. Form hanya menampilkan pelanggan isolir milik mitra penerima; hasilnya masuk ke menu <a href="#followup">Hasil Follow Up Mitra</a>.</p>`;
   $('rmNote').querySelectorAll('.rmfil button').forEach(b=>b.onclick=()=>{RMD.f=b.dataset.f;renderRemind()});
   const q=RMD.q.toLowerCase();
   const list=gs.filter(g=>(!q||g.mitra.toLowerCase().includes(q)||(g.info&&g.info.n.toLowerCase().includes(q)))&&(RMD.f===''||(RMD.f==='todo'&&g.contacts.length&&!isSent(g))||(RMD.f==='sent'&&isSent(g))||(RMD.f==='noc'&&!g.contacts.length)));
@@ -3135,30 +3149,29 @@ function renderRemind(){
     const sel=g.contacts.length?`<select class="rmC" data-i="${i}" aria-label="Kontak tujuan">${g.contacts.map((c,j)=>`<option value="${j}"${j===ci?' selected':''}>${esc(c[0])}${c[1]?' · '+esc(c[1]):''} · ${esc(c[2])}</option>`).join('')}</select>`:'<div class="rmnoc">Nomor WhatsApp mitra belum terdaftar</div>';
     return `<article class="rmc${st?' done':''}${g.contacts.length?'':' noc'}">
       <div class="rmc-l"><span class="rmrank">${gs.indexOf(g)+1}</span><div class="rmname"><b>${esc(g.mitra)}</b>${g.info&&g.info.n&&mkey(g.info.n)!==mkey(g.mitra)?`<small>${esc(g.info.n)}</small>`:''}${st?`<span class="rmOk">✓ Terkirim ${hhmm(st)}</span>`:''}</div></div>
-      <div class="rmc-m"><div class="rmbig"><b>${nf(n)}</b><span>pelanggan masih isolir</span></div><div class="rmbar">${bar}</div><div class="rmchips">${chips}</div></div>
+      <div class="rmc-m"><div class="rmbig"><b>${nf(n)}</b><span>di-broadcast CS · dari <b style="font-size:inherit">${nf(g.total||n)}</b> total pelanggan isolir</span></div><div class="rmbar">${bar}</div><div class="rmchips">${chips}</div></div>
       <div class="rmc-r"><label class="rmlab">Kirim ke</label>${sel}
-        <div class="rmbtns"><button class="rmV" data-i="${i}">👁 Lihat pesan</button>${RMBZ[g.mitra]?`<button class="rmS busy" data-i="${i}" disabled><span class="uspin sm"></span><span class="rmbt">Membuat link… 0 dtk</span></button>`:`<button class="rmS" data-i="${i}"${g.contacts.length?'':' disabled'}>${SENDIC}Kirim WA</button>`}<button class="rmX" data-i="${i}" title="Download Excel pelanggan">⬇ Excel</button>${canShareFiles?`<button class="rmB" data-i="${i}">Bagikan</button>`:''}</div></div>
+        <div class="rmbtns"><button class="rmV" data-i="${i}">👁 Lihat pesan</button>${RMBZ[g.mitra]?`<button class="rmS busy" data-i="${i}" disabled><span class="uspin sm"></span><span class="rmbt">Membuat link… 0 dtk</span></button>`:`<button class="rmS" data-i="${i}"${g.contacts.length?'':' disabled'}>${SENDIC}Kirim WA</button>`}<button class="rmX" data-i="${i}" title="Download Excel pelanggan (untuk arsip internal)">⬇ Excel</button></div></div>
     </article>`}).join('')||'<div class="empty">Tidak ada mitra yang cocok</div>';
   $('rmL').querySelectorAll('.rmC').forEach(s=>s.onchange=()=>{RMD.sel[gs[+s.dataset.i].mitra]=+s.value});
   $('rmL').querySelectorAll('.rmV').forEach(b=>b.onclick=()=>openRmPreview(gs[+b.dataset.i]));
   $('rmL').querySelectorAll('.rmS').forEach(b=>b.onclick=()=>{const g=gs[+b.dataset.i];sendRemind(g,rmCi(g))});
   $('rmL').querySelectorAll('.rmX').forEach(b=>b.onclick=()=>exportRemind(gs[+b.dataset.i]));
-  $('rmL').querySelectorAll('.rmB').forEach(b=>b.onclick=()=>{const g=gs[+b.dataset.i];shareRemind(g,rmCi(g))});
 }
 /* ---- jendela preview pesan ---- */
 let RMG=null;
 function openRmPreview(g){RMG=g;if(!RMST.busy)rmStatus(null);renderRmPreview();$('rmM').hidden=false;document.body.style.overflow='hidden';$('rmMClose').focus();rmWarm()}
 /* pemanasan: muat pustaka Excel dan bangunkan Apps Script lebih dulu agar pembuatan link lebih cepat */
-function rmWarm(){if(RMST.warm)return;RMST.warm=true;try{loadXlsx().catch(()=>{});if(apiUrl())apiCall('ping').catch(()=>{})}catch(e){}}
+function rmWarm(){if(RMST.warm)return;RMST.warm=true;try{if(apiUrl())apiCall('ping').catch(()=>{})}catch(e){}}
 function closeRmPreview(){$('rmM').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
 function renderRmPreview(){
   const g=RMG;if(!g)return;const ci=rmCi(g),c=g.contacts[ci];
   $('rmMT').textContent=g.mitra;
-  $('rmMS').textContent=`${nf(g.rows.length)} pelanggan masih isolir · belum bayar`+(rmSentAt(g)?` · terkirim hari ini ${hhmm(rmSentAt(g))}`:'');
+  $('rmMS').textContent=`${nf(g.total||g.rows.length)} total pelanggan isolir · ${nf(g.rows.length)} sudah di-broadcast CS`+(rmSentAt(g)?` · terkirim hari ini ${hhmm(rmSentAt(g))}`:'');
   $('rmMC').innerHTML=g.contacts.length?g.contacts.map((x,j)=>`<option value="${j}"${j===ci?' selected':''}>${esc(x[0])}${x[1]?' · '+esc(x[1]):''} · ${esc(x[2])}</option>`).join(''):'<option>Nomor WhatsApp mitra belum terdaftar</option>';
   $('rmMC').disabled=!g.contacts.length;
   $('rmMTo').innerHTML=c?`<b>${esc(c[1]||c[0])}</b><span>${esc(c[0])} · ${esc(c[2])}</span>`:'<b>Belum ada nomor</b><span>lengkapi di data info perseroan</span>';
-  $('rmMAtt').hidden=true;$('rmMLink').hidden=!!RMLINK[rmLinkKey(g)];$('rmMNote').textContent=RMLINK[rmLinkKey(g)]?'Link unduhan Excel asli sudah dibuat dan dipakai di pesan ini (berlaku 7 hari)'+(fuLink(g.mitra)?'. Link form follow up mitra ini bersifat tetap dan rahasia.':'.'):'Link Excel dan link form di atas masih contoh. Tekan Buat link lampiran untuk membuat link asli, atau link dibuat otomatis saat Kirim WA / Salin pesan.';
+  $('rmMAtt').hidden=true;$('rmMLink').hidden=false;$('rmMLink').textContent=RMLINK[rmLinkKey(g)]?'Salin link form':'Ambil link form';$('rmMNote').textContent=RMLINK[rmLinkKey(g)]?'Link form follow up asli sudah dipakai di pesan ini. Link tetap untuk mitra ini, rahasia, dan tidak kedaluwarsa.':'Link form di atas masih contoh. Tekan Ambil link form, atau link diambil otomatis saat Kirim WA / Salin pesan.';
   $('rmMB').innerHTML=waFmt(rmText(g,ci,RMLINK[rmLinkKey(g)]||''));
   $('rmMTime').textContent=hhmm(Date.now());
   $('rmMSend').disabled=!c;
@@ -3168,11 +3181,16 @@ function bindRmPreview(){
   $('rmM').addEventListener('click',e=>{if(e.target===$('rmM'))closeRmPreview()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('rmM').hidden)closeRmPreview()});
   $('rmMC').onchange=e=>{if(RMG){RMD.sel[RMG.mitra]=+e.target.value;renderRmPreview();renderRemind()}};
-  $('rmMLink').onclick=()=>{if(RMG)rmRunLink(RMG)};
+  $('rmMLink').onclick=async()=>{
+    if(!RMG)return;const l=RMLINK[rmLinkKey(RMG)];
+    if(!l){rmRunLink(RMG);return}
+    try{await navigator.clipboard.writeText(l);toast('Link form '+RMG.mitra+' disalin')}
+    catch(e){rmStatus('ok',rmOkHtml(l));toast('Tidak bisa menyalin otomatis. Salin link dari kotak di bawah.')}
+  };
   $('rmMCopy').onclick=async()=>{
     if(!RMG)return;let l=RMLINK[rmLinkKey(RMG)]||'';
     if(!l){l=await rmRunLink(RMG);if(!l)return}
-    try{await navigator.clipboard.writeText(rmText(RMG,rmCi(RMG),l));toast('Pesan + link unduhan disalin')}catch(e){toast('Tidak bisa menyalin otomatis')}
+    try{await navigator.clipboard.writeText(rmText(RMG,rmCi(RMG),l));toast('Pesan + link form disalin')}catch(e){toast('Tidak bisa menyalin otomatis')}
   };  $('rmMX').onclick=()=>RMG&&exportRemind(RMG);
   $('rmMSend').onclick=()=>{if(RMG)sendRemind(RMG,rmCi(RMG))};
 }
@@ -3185,6 +3203,32 @@ const fwTs=s=>{const d=new Date(Date.parse(s)+7*36e5);if(isNaN(d))return '-';con
 const fwImg=id=>`https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w400`;
 const fwView=id=>`https://drive.google.com/file/d/${encodeURIComponent(id)}/view`;
 const FWPH=[['chat','Chat'],['selfie','Selfie'],['rumah','Rumah']];
+const FWPHL={chat:'Screenshot chat',selfie:'Selfie petugas',rumah:'Rumah pelanggan'};
+const fwNPh=recs=>recs.reduce((a,r)=>a+FWPH.filter(([k])=>r.p&&r.p[k]).length,0);
+const CLIPIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5 12.6 19.9a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg>';
+const fwAttBtn=(recs,attr)=>{const n=fwNPh(recs||[]);return n?`<button class="fwatt" ${attr} title="Lihat lampiran (${nf(n)} foto)" aria-label="Lihat lampiran, ${nf(n)} foto">${CLIPIC}</button>`:'<span class="foot">-</span>'};
+const fwGeoA=g=>g?`<a class="fwgeo" href="https://www.google.com/maps?q=${g.lat},${g.lng}" target="_blank" rel="noopener noreferrer">Lokasi ${g.lat.toFixed(5)}, ${g.lng.toFixed(5)}${g.acc?` · ±${nf(g.acc)} m`:''}</a>`:'';
+/* galeri lampiran: satu kartu per laporan, foto besar, koordinat kamera */
+const GAL={recs:[],shown:0,title:'',sub:''}, GALPS=24;
+function openGal(title,sub,recs){
+  GAL.recs=recs.filter(r=>FWPH.some(([k])=>r.p&&r.p[k])).slice().sort((a,b)=>a.ts<b.ts?1:-1);GAL.shown=0;
+  $('fwGT').textContent=title;$('fwGS').textContent=`${sub} · ${nf(fwNPh(GAL.recs))} foto`;
+  $('fwGB').innerHTML='<div class="fwgal" id="fwGL"></div><div id="fwGM"></div>';
+  galMore();$('fwG').hidden=false;document.body.style.overflow='hidden';$('fwGB').scrollTop=0;$('fwGX').focus();
+}
+function galMore(){
+  const sl=GAL.recs.slice(GAL.shown,GAL.shown+GALPS);GAL.shown+=sl.length;
+  $('fwGL').insertAdjacentHTML('beforeend',sl.map(r=>`<article class="fwgc">
+    <div class="fwgh"><div><b>${esc(r.name||r.code)}</b><span class="foot">${esc(r.code)} · ${esc(r.mitra)}${r.st?' · '+esc(r.st):''}</span></div>${fwPill(FWST[r.status])}</div>
+    <div class="fwgp">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k])=>`<figure><a href="${fwView(r.p[k])}" target="_blank" rel="noopener noreferrer" title="Buka ukuran penuh"><img src="${fwImg(r.p[k]).replace('sz=w400','sz=w800')}" alt="${FWPHL[k]}" loading="lazy" referrerpolicy="no-referrer"></a><figcaption><b>${FWPHL[k]}</b>${r.geo&&r.geo[k]?fwGeoA(r.geo[k]):''}</figcaption></figure>`).join('')}</div>
+    <div class="fwgf"><span>${fwTs(r.ts)} · ${esc(r.pic)} ${wa(r.picHp)}</span><span class="fwrm">${esc(r.remark)}${r.alasan?`<small>Alasan: ${esc(r.alasan)}</small>`:''}</span></div>
+  </article>`).join(''));
+  const rest=GAL.recs.length-GAL.shown;
+  $('fwGM').innerHTML=rest>0?`<div style="text-align:center;margin-top:10px"><button id="fwGMore">Tampilkan ${nf(Math.min(rest,GALPS))} laporan lagi (sisa ${nf(rest)})</button></div>`:'';
+  if(rest>0)$('fwGMore').onclick=galMore;
+  if(!GAL.recs.length)$('fwGL').innerHTML='<div class="empty">Belum ada lampiran</div>';
+}
+function closeGal(){$('fwG').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
 const FWF={mi:'',per:'',st:'',now:'',q:'',page:0}, FWPS=20;
 let FWINIT=false, FWCUR=[];
 async function fwLoad(force){
@@ -3246,6 +3290,12 @@ const FU_HTML=`
     <div class="mhead"><div><div class="eyebrow">Riwayat follow up pelanggan</div><h2 id="fwMT2"></h2><div class="foot" id="fwMS" style="margin-top:2px"></div></div><div class="ctl"><button id="fwMX" aria-label="Tutup">Tutup ✕</button></div></div>
     <div class="mbody" id="fwMB"></div>
   </div>
+</div>
+<div class="mback" id="fwG" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fwGT">
+    <div class="mhead"><div><div class="eyebrow">Lampiran follow up</div><h2 id="fwGT"></h2><div class="foot" id="fwGS" style="margin-top:2px"></div></div><div class="ctl"><button id="fwGX" aria-label="Tutup">Tutup ✕</button></div></div>
+    <div class="mbody" id="fwGB"></div>
+  </div>
 </div>`;
 function renderFu(){
   if(!FWINIT){
@@ -3259,7 +3309,9 @@ function renderFu(){
     $('fwXls').onclick=exportFu;
     $('fwMX').onclick=closeFw;
     $('fwM').addEventListener('click',e=>{if(e.target===$('fwM'))closeFw()});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('fwM')&&!$('fwM').hidden)closeFw()});
+    document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('fwG')&&!$('fwG').hidden)closeGal();else if($('fwM')&&!$('fwM').hidden)closeFw()});
+    $('fwGX').onclick=closeGal;
+    $('fwG').addEventListener('click',e=>{if(e.target===$('fwG'))closeGal()});
   }
   if(!FW.recs&&!FW.err){
     $('fwEmpty').hidden=false;$('fwMain').hidden=true;$('fwEmpty').textContent='Memuat laporan follow up…';
@@ -3269,7 +3321,7 @@ function renderFu(){
   if(!FW.recs){$('fwEmpty').hidden=false;$('fwMain').hidden=true;$('fwEmpty').innerHTML=`<b>${esc(FW.err)}</b>`;return}
   if(!R){$('fwEmpty').hidden=false;$('fwMain').hidden=true;$('fwEmpty').textContent='Memuat data isolir…';return}
   $('fwEmpty').hidden=true;$('fwMain').hidden=false;
-  if(!$('fwM').hidden)return;
+  if(!$('fwM').hidden||!$('fwG').hidden)return;
   fillFu();
   if(!FW.busy&&Date.now()-FW.at>120000)fwLoad().then(()=>{if(CUR==='followup'&&$('fwM').hidden){fillFu();updateHeader()}});
 }
@@ -3312,13 +3364,13 @@ function fillFu(){
   inPer.forEach(c=>{let o=by.get(c.mitra);if(!o){o={c:[],rec:0,last:''};by.set(c.mitra,o)}o.c.push(c);o.rec+=c.recs.length;if(c.last.ts>o.last)o.last=c.last.ts});
   const rows=mitras.map(m=>{const o=by.get(m)||{c:[],rec:0,last:''}, s=isoBy.get(m)||new Map();let done=0;s.forEach((r,code)=>{if(curSet.has(code))done++});
     const k=x=>o.c.filter(c=>c.last.status===x).length, akt=o.c.filter(c=>c.now==='aktif').length;
-    return {m,iso:s.size,done,n:o.c.length,rec:o.rec,l:k('lanjut'),t:k('tidak'),r:k('norespon'),akt,last:o.last};
+    return {m,iso:s.size,done,n:o.c.length,rec:o.rec,l:k('lanjut'),t:k('tidak'),r:k('norespon'),akt,last:o.last,recs:o.c.flatMap(c=>c.recs)};
   }).sort((a,b)=>b.n-a.n||b.iso-a.iso||a.m.localeCompare(b.m,'id'));
   const tot=rows.reduce((a,r)=>{['iso','done','n','rec','l','t','r','akt'].forEach(k=>a[k]+=r[k]);return a},{iso:0,done:0,n:0,rec:0,l:0,t:0,r:0,akt:0});
-  const tr=(r,cls,lab)=>`<tr class="${cls}"${cls==='click'?` data-m="${esc(r.m)}"`:''}><td>${lab||esc(r.m)}</td><td class="num">${nf(r.iso)}</td><td class="num">${nf(r.done)} <span class="foot">${r.iso?pctS(r.done,r.iso,0):''}</span></td><td class="num">${nf(r.n)}</td><td class="num">${nf(r.rec)}</td><td class="num">${nf(r.l)}</td><td class="num">${nf(r.t)}</td><td class="num">${nf(r.r)}</td><td class="num">${nf(r.akt)}</td><td class="num">${r.n?pctS(r.l,r.n):'-'}</td><td class="num"><b>${r.n?pctS(r.akt,r.n):'-'}</b></td><td>${r.last?fwTs(r.last):'<span class="foot">belum ada</span>'}</td></tr>`;
-  $('fwMT').innerHTML=`<thead><tr><th>Mitra</th><th class="num">Isolir saat ini</th><th class="num">Sudah dilaporkan</th><th class="num">Di-follow up</th><th class="num">Laporan</th><th class="num">Bersedia</th><th class="num">Tidak bersedia</th><th class="num">Tidak merespon</th><th class="num">Aktif kembali</th><th class="num">Rate klaim</th><th class="num">Success rate</th><th>Laporan terakhir</th></tr></thead><tbody>${rows.map(r=>tr(r,'click'+(r.m===FWF.mi?' sel':''))).join('')}${tr(Object.assign(tot,{last:''}),'tot','Total')}</tbody>`;
-  $('fwMT').querySelector('tr.tot td:last-child').textContent='';
+  const tr=(r,cls,lab)=>`<tr class="${cls}"${cls==='click'?` data-m="${esc(r.m)}"`:''}><td>${cls==='tot'?'':fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</td><td>${lab||esc(r.m)}</td><td class="num">${nf(r.iso)}</td><td class="num">${nf(r.done)} <span class="foot">${r.iso?pctS(r.done,r.iso,0):''}</span></td><td class="num">${nf(r.n)}</td><td class="num">${nf(r.rec)}</td><td class="num">${nf(r.l)}</td><td class="num">${nf(r.t)}</td><td class="num">${nf(r.r)}</td><td class="num">${nf(r.akt)}</td><td class="num">${r.n?pctS(r.l,r.n):'-'}</td><td class="num"><b>${r.n?pctS(r.akt,r.n):'-'}</b></td><td>${r.last?fwTs(r.last):cls==='tot'?'':'<span class="foot">belum ada</span>'}</td></tr>`;
+  $('fwMT').innerHTML=`<thead><tr><th>Lampiran</th><th>Mitra</th><th class="num">Isolir saat ini</th><th class="num">Sudah dilaporkan</th><th class="num">Di-follow up</th><th class="num">Laporan</th><th class="num">Bersedia</th><th class="num">Tidak bersedia</th><th class="num">Tidak merespon</th><th class="num">Aktif kembali</th><th class="num">Rate klaim</th><th class="num">Success rate</th><th>Laporan terakhir</th></tr></thead><tbody>${rows.map(r=>tr(r,'click'+(r.m===FWF.mi?' sel':''))).join('')}${tr(Object.assign(tot,{last:''}),'tot','Total')}</tbody>`;
   $('fwMT').querySelectorAll('tr.click').forEach(t=>t.onclick=()=>{FWF.mi=FWF.mi===t.dataset.m?'':t.dataset.m;FWF.page=0;fillFu()});
+  $('fwMT').querySelectorAll('.fwatt').forEach(b=>b.onclick=e=>{e.stopPropagation();const r=rows.find(x=>x.m===b.dataset.m);if(r)openGal(r.m,`${nf(r.rec)} laporan follow up${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}`,r.recs)});
   FWCUR=C;renderFwTable();
 }
 function fwRows(){
@@ -3328,9 +3380,10 @@ function fwRows(){
 function renderFwTable(){
   const r=fwRows(),pages=Math.max(1,Math.ceil(r.length/FWPS));FWF.page=Math.min(FWF.page,pages-1);
   const sl=r.slice(FWF.page*FWPS,FWF.page*FWPS+FWPS);
-  $('fwT').innerHTML=`<thead><tr><th>Laporan terakhir</th><th>Mitra</th><th>Pelanggan</th><th>Stasiun</th><th>Tgl isolir</th><th class="num">Follow up</th><th>Status mitra</th><th>Remark / alasan</th><th>Pelapor</th><th>Foto</th><th>Status sekarang</th></tr></thead><tbody>${sl.map((c,i)=>{const L=c.last;
-    return `<tr class="click" data-i="${i}"><td>${fwTs(L.ts)}${c.recs.length>1?`<br><span class="foot">${c.recs.length} laporan</span>`:''}</td><td>${esc(c.mitra)}</td><td><b>${esc(L.name||'-')}</b><br><span class="foot">${esc(c.code)} · ${wa(L.ph)}</span></td><td>${esc(L.st||'-')}</td><td>${fmtD(c.iso)}</td><td class="num">ke-${c.n}</td><td>${fwPill(FWST[L.status])}</td><td class="fwrm">${esc(L.remark)}${L.alasan?`<small>Alasan: ${esc(L.alasan)}</small>`:''}</td><td>${esc(L.pic)}<br>${wa(L.picHp)}</td><td><div class="fwph">${FWPH.filter(([k])=>L.p&&L.p[k]).map(([k,l])=>`<a href="${fwView(L.p[k])}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${l}</a>`).join('')}</div></td><td>${fwPill(FWNOW[c.now],c.again?'Aktif kembali (lalu isolir lagi)':'')}</td></tr>`}).join('')||`<tr><td colspan="11" class="empty">${FW.recs&&FW.recs.length?'Tidak ada laporan yang cocok dengan filter':'Belum ada laporan follow up dari mitra. Link form dikirim otomatis bersama pesan di menu Kirim Reminder ke Mitra.'}</td></tr>`}</tbody>`;
+  $('fwT').innerHTML=`<thead><tr><th>Lampiran</th><th>Laporan terakhir</th><th>Mitra</th><th>Pelanggan</th><th>Stasiun</th><th>Tgl isolir</th><th class="num">Follow up</th><th>Status mitra</th><th>Remark / alasan</th><th>Pelapor</th><th>Status sekarang</th></tr></thead><tbody>${sl.map((c,i)=>{const L=c.last;
+    return `<tr class="click" data-i="${i}"><td>${fwAttBtn(c.recs,`data-i="${i}"`)}</td><td>${fwTs(L.ts)}${c.recs.length>1?`<br><span class="foot">${c.recs.length} laporan</span>`:''}</td><td>${esc(c.mitra)}</td><td><b>${esc(L.name||'-')}</b><br><span class="foot">${esc(c.code)} · ${wa(L.ph)}</span></td><td>${esc(L.st||'-')}</td><td>${fmtD(c.iso)}</td><td class="num">ke-${c.n}</td><td>${fwPill(FWST[L.status])}</td><td class="fwrm">${esc(L.remark)}${L.alasan?`<small>Alasan: ${esc(L.alasan)}</small>`:''}</td><td>${esc(L.pic)}<br>${wa(L.picHp)}</td><td>${fwPill(FWNOW[c.now],c.again?'Aktif kembali (lalu isolir lagi)':'')}</td></tr>`}).join('')||`<tr><td colspan="11" class="empty">${FW.recs&&FW.recs.length?'Tidak ada laporan yang cocok dengan filter':'Belum ada laporan follow up dari mitra. Link form dikirim otomatis bersama pesan di menu Kirim Reminder ke Mitra.'}</td></tr>`}</tbody>`;
   $('fwT').querySelectorAll('tr.click').forEach(t=>t.onclick=()=>openFw(sl[+t.dataset.i].code));
+  $('fwT').querySelectorAll('.fwatt').forEach(b=>b.onclick=e=>{e.stopPropagation();const c=sl[+b.dataset.i];openGal(c.last.name||c.code,`${c.code} · ${c.mitra} · follow up ke-${c.n} · ${c.recs.length} laporan`,c.recs)});
   $('fwPager').innerHTML=pagerH('fwp',FWF.page,pages,r.length);
   $('fwpPrev').onclick=()=>{FWF.page--;renderFwTable()};$('fwpNext').onclick=()=>{FWF.page++;renderFwTable()};
 }
@@ -3347,7 +3400,7 @@ function renderFwModal(){
   cs.map(c=>`<div class="fwcyc"><h4>Follow up ke-${c.n} · periode isolir ${fmtD(c.iso)} ${fwPill(FWNOW[c.now],c.again?'Aktif kembali (lalu isolir lagi)':'')}</h4>${c.recs.slice().reverse().map(r=>`<div class="fwrec"><div>
       <div>${fwPill(FWST[r.status])} <b>${fwTs(r.ts)}</b> · ${esc(r.pic)} ${wa(r.picHp)}</div>
       <p>${esc(r.remark)}</p>${r.alasan?`<p style="color:#b91c1c"><b>Alasan tidak bersedia:</b> ${esc(r.alasan)}</p>`:''}
-      <div class="fwthumbs">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k,l])=>`<a href="${fwView(r.p[k])}" target="_blank" rel="noopener noreferrer"><img src="${fwImg(r.p[k])}" alt="Foto ${l}" loading="lazy" referrerpolicy="no-referrer"><span>${l==='Chat'?'Screenshot chat':l==='Selfie'?'Selfie petugas':'Rumah pelanggan'}</span></a>`).join('')}</div>
+      <div class="fwthumbs">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k,l])=>`<div style="max-width:120px"><a href="${fwView(r.p[k])}" target="_blank" rel="noopener noreferrer"><img src="${fwImg(r.p[k])}" alt="Foto ${l}" loading="lazy" referrerpolicy="no-referrer"><span>${FWPHL[k]}</span></a>${r.geo&&r.geo[k]?fwGeoA(r.geo[k]).replace('class="fwgeo"','class="fwgeo" style="white-space:normal"'):''}</div>`).join('')}</div>
     </div><div><button class="fwdel" data-id="${esc(r.id)}">Hapus</button></div></div>`).join('')}</div>`).join('')+
   `<p class="foot" style="margin-top:10px">Foto tersimpan di Google Drive (folder Foto Follow Up). Klik foto untuk membuka ukuran penuh. Tombol Hapus hanya untuk laporan uji coba atau salah isi dan memerlukan kata sandi unggah.</p>`;
   $('fwMB').querySelectorAll('.fwdel').forEach(b=>b.onclick=()=>fwDel(b));
