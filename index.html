@@ -987,6 +987,8 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
 .fwthumbs a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:#52607a;text-decoration:none}
 .fwthumbs img{width:96px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #d5dce8;background:#eef3f9}
 .fwdel{font:inherit;font-size:11.5px;border:1.5px solid #ef4444;color:#b91c1c;background:#fff;border-radius:8px;padding:3px 9px;cursor:pointer;align-self:start}
+.fwres{font:inherit;font-size:11.5px;border:1.5px solid #16a34a;color:#15803d;background:#fff;border-radius:8px;padding:3px 9px;cursor:pointer}
+.fwpa{white-space:nowrap}.fwpa .fwpw input{width:130px}
 .fwpw{display:flex;gap:6px;margin-top:6px}.fwpw input{font:inherit;border:1.5px solid #cbd5e1;border-radius:8px;padding:4px 8px}
 .fwatt{display:inline-grid;place-items:center;width:30px;height:28px;padding:0;border:1.5px solid #2563eb;background:#eef4ff;color:#1d4ed8;border-radius:8px;cursor:pointer}
 .fwatt svg{width:16px;height:16px}
@@ -3235,7 +3237,7 @@ async function fwLoad(force){
   if(!apiUrl()){FW.err='Alamat Apps Script (apiUrl) belum diisi pada bagian PENGATURAN.';return}
   if(FW.busy||(!force&&FW.recs&&Date.now()-FW.at<120000))return;
   FW.busy=true;FW.err='';
-  try{const r=await apiCall('fu_all',{});FW.recs=Array.isArray(r.recs)?r.recs:[];FW.at=Date.now()}
+  try{const r=await apiCall('fu_all',{});FW.recs=Array.isArray(r.recs)?r.recs:[];FW.hidden=r.hidden&&typeof r.hidden==='object'?r.hidden:{};FW.at=Date.now()}
   catch(e){FW.err=(e.code==='bad-action'||/tidak dikenal/i.test(e.message||''))?'Apps Script belum diperbarui ke versi terbaru (aksi fu_all belum ada). Pasang ulang Code.gs lalu Deploy versi baru.':e.code==='unauthorized'?'Kata sandi baca diperlukan untuk melihat laporan.':'Laporan follow up tidak bisa dimuat: '+((e&&e.message)||e)}
   finally{FW.busy=false}
 }
@@ -3279,6 +3281,12 @@ const FU_HTML=`
     <div class="tw scrollbox" style="max-height:360px"><table id="fwMT"></table></div>
   </section>
   <section class="card">
+    <div class="head"><h2>Petugas follow up mitra</h2>
+      <div class="ctl"><input type="text" id="fwPQ" placeholder="Cari nama, nomor, mitra" aria-label="Cari petugas"><label class="foot" style="display:inline-flex;gap:5px;align-items:center;cursor:pointer"><input type="checkbox" id="fwPH">Tampilkan yang dihapus</label></div></div>
+    <div class="tw scrollbox" style="max-height:360px"><table id="fwPT"></table></div>
+    <p class="foot" style="margin:8px 0 0">Menghapus nama hanya mengeluarkannya dari daftar petugas dan dari pilihan nama di form mitra. Laporan yang sudah dikirim tetap tersimpan dan tetap dihitung. Jika petugas itu melapor lagi, namanya otomatis muncul kembali. Hapus dan pulihkan memerlukan kata sandi unggah.</p>
+  </section>
+  <section class="card">
     <div class="head"><h2>Daftar laporan follow up</h2>
       <div class="ctl"><input type="text" id="fwQ" placeholder="Cari nama, kode, nomor, mitra, pelapor, remark" aria-label="Cari laporan"><select id="fwSt" aria-label="Status hasil follow up"><option value="">Semua status mitra</option><option value="lanjut">Bersedia lanjut</option><option value="tidak">Tidak bersedia lanjut</option><option value="norespon">Tidak merespon</option></select><select id="fwNow" aria-label="Status pelanggan sekarang"><option value="">Semua status sekarang</option><option value="aktif">Aktif kembali</option><option value="iso">Masih isolir</option><option value="dis">Tidak ditemukan</option></select></div></div>
     <div class="tw"><table id="fwT"></table></div><div id="fwPager"></div>
@@ -3307,6 +3315,8 @@ function renderFu(){
     $('fwQ').oninput=e=>{FWF.q=e.target.value.trim().toLowerCase();FWF.page=0;renderFwTable()};
     $('fwRf').onclick=async()=>{$('fwRf').disabled=true;await fwLoad(true);$('fwRf').disabled=false;renderFu();toast(FW.err||'Laporan follow up diperbarui')};
     $('fwXls').onclick=exportFu;
+    $('fwPQ').oninput=e=>{FWP.q=e.target.value.trim().toLowerCase();fillPetugas()};
+    $('fwPH').onchange=e=>{FWP.showHidden=e.target.checked;fillPetugas()};
     $('fwMX').onclick=closeFw;
     $('fwM').addEventListener('click',e=>{if(e.target===$('fwM'))closeFw()});
     document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('fwG')&&!$('fwG').hidden)closeGal();else if($('fwM')&&!$('fwM').hidden)closeFw()});
@@ -3371,7 +3381,48 @@ function fillFu(){
   $('fwMT').innerHTML=`<thead><tr><th>Lampiran</th><th>Mitra</th><th class="num">Isolir saat ini</th><th class="num">Sudah dilaporkan</th><th class="num">Di-follow up</th><th class="num">Laporan</th><th class="num">Bersedia</th><th class="num">Tidak bersedia</th><th class="num">Tidak merespon</th><th class="num">Aktif kembali</th><th class="num">Rate klaim</th><th class="num">Success rate</th><th>Laporan terakhir</th></tr></thead><tbody>${rows.map(r=>tr(r,'click'+(r.m===FWF.mi?' sel':''))).join('')}${tr(Object.assign(tot,{last:''}),'tot','Total')}</tbody>`;
   $('fwMT').querySelectorAll('tr.click').forEach(t=>t.onclick=()=>{FWF.mi=FWF.mi===t.dataset.m?'':t.dataset.m;FWF.page=0;fillFu()});
   $('fwMT').querySelectorAll('.fwatt').forEach(b=>b.onclick=e=>{e.stopPropagation();const r=rows.find(x=>x.m===b.dataset.m);if(r)openGal(r.m,`${nf(r.rec)} laporan follow up${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}`,r.recs)});
-  FWCUR=C;renderFwTable();
+  FWCUR=C;renderFwTable();fillPetugas();
+}
+/* ---------- petugas follow up mitra (dari laporan) ---------- */
+const FWP={q:'',showHidden:false,rows:[]};
+const fwHpK=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slice(1);else if(x[0]==='8')x='62'+x;return x};
+function fillPetugas(){
+  const el=$('fwPT');if(!el)return;
+  const hid=FW.hidden||{}, by=new Map();
+  (FW.recs||[]).forEach(r=>{
+    if(!r.picHp||(FWF.mi&&r.mitra!==FWF.mi))return;
+    const k=r.mitra+'|'+fwHpK(r.picHp);let o=by.get(k);
+    if(!o){o={k,mitra:r.mitra,n:r.pic,h:r.picHp,rec:0,codes:new Set(),l:0,last:''};by.set(k,o)}
+    o.rec++;o.codes.add(r.code);if(r.status==='lanjut')o.l++;
+    if(r.ts>o.last){o.last=r.ts;o.n=r.pic;o.h=r.picHp}
+  });
+  const all=[...by.values()].map(o=>Object.assign(o,{hid:!!hid[o.k]}));
+  const nHid=all.filter(o=>o.hid).length, q=FWP.q;
+  const rows=all.filter(o=>(FWP.showHidden||!o.hid)&&(!q||(o.n+' '+o.h+' '+o.mitra).toLowerCase().includes(q))).sort((a,b)=>(a.hid-b.hid)||a.mitra.localeCompare(b.mitra,'id')||a.n.localeCompare(b.n,'id'));
+  FWP.rows=rows;
+  el.innerHTML=`<thead><tr><th>Aksi</th><th>Mitra</th><th>Nama petugas</th><th>Nomor telepon</th><th class="num">Laporan</th><th class="num">Pelanggan di-follow up</th><th class="num">Bersedia lanjut</th><th>Laporan terakhir</th></tr></thead><tbody>${rows.map((o,i)=>`<tr${o.hid?' style="opacity:.6"':''}><td class="fwpa">${o.hid?`<button class="fwres" data-i="${i}">Pulihkan</button>`:`<button class="fwdel" data-i="${i}">Hapus</button>`}</td><td>${esc(o.mitra)}</td><td><b>${esc(o.n)}</b>${o.hid?' <span class="gp" style="--c:#b91c1c;--bg:#fde2e2">Dihapus</span>':''}</td><td>${wa(o.h)}</td><td class="num">${nf(o.rec)}</td><td class="num">${nf(o.codes.size)}</td><td class="num">${nf(o.l)}</td><td>${fwTs(o.last)}</td></tr>`).join('')||`<tr><td colspan="8" class="empty">${all.length?'Tidak ada petugas yang cocok':'Belum ada petugas yang melapor'}${nHid&&!FWP.showHidden?` · ${nf(nHid)} petugas dihapus (centang "Tampilkan yang dihapus")`:''}</td></tr>`}</tbody>`;
+  el.querySelectorAll('.fwdel').forEach(b=>b.onclick=()=>fwPicAct(b,FWP.rows[+b.dataset.i],true));
+  el.querySelectorAll('.fwres').forEach(b=>b.onclick=()=>fwPicAct(b,FWP.rows[+b.dataset.i],false));
+}
+function fwPicAct(b,o,hide){
+  if(!o)return;
+  const run=async()=>{
+    b.disabled=true;b.textContent=hide?'Menghapus…':'Memulihkan…';
+    try{const r=await apiCall(hide?'fu_pic_del':'fu_pic_restore',{wkey:UPKEY,mitra:o.mitra,hp:o.h,name:o.n});FW.hidden=r.hidden||{};toast(hide?`${o.n} dihapus dari daftar petugas`:`${o.n} dipulihkan`);fillPetugas()}
+    catch(e){if(e.code==='bad-write-key')UPKEY='';b.disabled=false;b.textContent=hide?'Hapus':'Pulihkan';delete b.dataset.sure;
+      toast(e.code==='bad-write-key'?'Kata sandi unggah salah':(e.code==='bad-action'||/tidak dikenal/i.test(e.message||''))?'Apps Script belum diperbarui (aksi fu_pic_del). Pasang ulang Code.gs lalu Deploy versi baru.':'Gagal: '+(e.message||e))}
+  };
+  const box=b.parentElement;
+  if(!UPKEY){
+    if(box.querySelector('.fwpw'))return;
+    const w=document.createElement('div');w.className='fwpw';w.innerHTML=`<input type="password" placeholder="Kata sandi unggah" autocomplete="off"><button class="${hide?'fwdel':'fwres'}">${hide?'Hapus':'Pulihkan'}</button>`;box.appendChild(w);
+    const inp=w.querySelector('input');inp.focus();
+    const go=()=>{if(!inp.value)return;UPKEY=inp.value;w.remove();run()};
+    w.querySelector('button').onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go()};
+    return;
+  }
+  if(hide&&!b.dataset.sure){b.dataset.sure='1';b.textContent='Yakin? Klik lagi';setTimeout(()=>{if(b.isConnected&&!b.disabled){delete b.dataset.sure;b.textContent='Hapus'}},5000);return}
+  run();
 }
 function fwRows(){
   const q=FWF.q;

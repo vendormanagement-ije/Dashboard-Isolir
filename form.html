@@ -10,6 +10,7 @@
 <style>
 :root{--bg:#f3f6fb;--surface:#fff;--ink:#0f1b3d;--ink2:#52607a;--line:#d5dce8;--navy:#12306b;--blue:#2563eb;--ok:#15803d;--okbg:#dcf5e5;--bad:#b91c1c;--badbg:#fde2e2;--warn:#b45309;--warnbg:#fdecd0;--mut:#475569;--mutbg:#e6eaf0}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
 .top{background:linear-gradient(135deg,#0f2557,#1d4ed8);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 18px}
@@ -41,6 +42,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);bo
 .tile b{font-size:21px;font-weight:800}
 .tile.ok{border-color:#a7e3bd}.tile.ok span{color:var(--ok)}
 .tile.w{border-color:#f5c7a1}.tile.w span{color:var(--warn)}
+.pk{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;margin-top:8px;cursor:pointer}
+.pk input{width:18px;height:18px;accent-color:var(--blue);flex:none;margin:0}
+.pk b{display:block;font-size:14.5px}.pk span{font-size:12px;color:var(--ink2)}
+.pk:has(input:checked){border-color:var(--blue);background:#eef4ff}
+.pkh{font-size:12px;font-weight:700;color:var(--ink2);margin:10px 0 0}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .chips button{border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
 .chips button.sel{background:var(--blue);border-color:var(--blue);color:#fff}
@@ -119,10 +125,13 @@ a.wa{color:#15803d;font-weight:700;text-decoration:none}
   <section class="card" id="who" hidden>
     <h2>Data petugas follow up</h2>
     <p class="foot" style="margin:0">Wajib diisi sebelum melaporkan. Tersimpan di HP ini untuk laporan berikutnya.</p>
-    <label class="f" for="wN">Nama petugas <em>*</em></label>
-    <input type="text" id="wN" autocomplete="name" placeholder="Nama lengkap">
-    <label class="f" for="wH">Nomor telepon / WhatsApp <em>*</em></label>
-    <input type="tel" id="wH" autocomplete="tel" inputmode="tel" placeholder="08xxxxxxxxxx">
+    <div id="wList"></div>
+    <div id="wNew">
+      <label class="f" for="wN">Nama petugas <em>*</em></label>
+      <input type="text" id="wN" autocomplete="name" placeholder="Nama lengkap">
+      <label class="f" for="wH">Nomor telepon / WhatsApp <em>*</em></label>
+      <input type="tel" id="wH" autocomplete="tel" inputmode="tel" placeholder="08xxxxxxxxxx">
+    </div>
     <div class="err" id="wErr" hidden></div>
     <div class="acts"><button class="btn" id="wOk">Simpan dan lanjut</button></div>
   </section>
@@ -238,7 +247,7 @@ async function load(){
   if(!T){fail('Link tidak lengkap. Buka link yang dikirim Tim Admin Retensi Starlite melalui WhatsApp.');return}
   try{
     const r=await api('fu_list',{});
-    S.mitra=r.mitra;S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];
+    S.mitra=r.mitra;S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];S.petugas=r.petugas||[];
     document.title='Follow Up Isolir · '+S.mitra;
     $('mName').textContent='Mitra '+S.mitra;
     $('boot').hidden=true;
@@ -253,14 +262,25 @@ function fail(msg,retry){
 }
 
 /* ---------- petugas ---------- */
+const hpK=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slice(1);else if(x[0]==='8')x='62'+x;return x};
+const hpMask=h=>{const x=String(h||'').replace(/\s/g,'');return x.length>8?x.slice(0,4)+'••••'+x.slice(-4):x};
 function showWho(edit){
   const p=getPic(), need=edit||!p;
   $('who').hidden=!need;$('whoSum').hidden=need;
   ['tiles','listCard'].forEach(id=>$(id).hidden=need);
-  if(need){$('wN').value=p?p.n:'';$('wH').value=p?p.h:'';setTimeout(()=>$('wN').focus(),50)}
+  if(need){
+    const L=S.petugas||[], cur=p?L.findIndex(x=>hpK(x.h)===hpK(p.h)):-1;
+    $('wList').innerHTML=L.length?`<div class="pkh">Pilih nama Anda</div>${L.map((x,i)=>`<label class="pk"><input type="radio" name="pk" value="${i}"${i===cur?' checked':''}><span><b>${esc(x.n)}</b><span>${esc(hpMask(x.h))}</span></span></label>`).join('')}<label class="pk"><input type="radio" name="pk" value="new"${cur<0?' checked':''}><span><b>Petugas baru</b><span>nama belum ada di daftar</span></span></label>`:'';
+    const sync=()=>{const v=(document.querySelector('input[name=pk]:checked')||{}).value;$('wNew').hidden=!!L.length&&v!=='new';$('wErr').hidden=true};
+    $('wList').querySelectorAll('input').forEach(r=>r.onchange=sync);sync();
+    $('wN').value=p&&cur<0?p.n:'';$('wH').value=p&&cur<0?p.h:'';
+    if(!$('wNew').hidden)setTimeout(()=>$('wN').focus(),50);
+  }
   else{$('wsN').textContent=p.n;$('wsH').textContent=p.h}
 }
 $('wOk').onclick=()=>{
+  const sel=(document.querySelector('input[name=pk]:checked')||{}).value;
+  if(sel!==undefined&&sel!=='new'){const x=S.petugas[+sel];if(x){lsSet(picKey,JSON.stringify({n:x.n,h:x.h}));showWho();render();return}}
   const n=$('wN').value.trim(), h=$('wH').value.trim(), e=$('wErr');
   $('wN').classList.toggle('bad-f',!n);$('wH').classList.toggle('bad-f',h.replace(/\D/g,'').length<9);
   if(!n||h.replace(/\D/g,'').length<9){e.hidden=false;e.textContent=!n?'Nama petugas wajib diisi.':'Nomor telepon tidak valid (minimal 9 angka).';return}
@@ -290,7 +310,7 @@ function render(){
   $('list').querySelectorAll('.it').forEach(b=>b.onclick=()=>openSheet(S.rows.find(r=>r[1]===b.dataset.c)));
 }
 $('q').oninput=e=>{S.q=e.target.value.trim();render()};
-$('reload').onclick=()=>{$('reload').disabled=true;api('fu_list',{}).then(r=>{S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];render();toast('Daftar diperbarui')}).catch(e=>toast(e.message)).finally(()=>{$('reload').disabled=false})};
+$('reload').onclick=()=>{$('reload').disabled=true;api('fu_list',{}).then(r=>{S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];S.petugas=r.petugas||[];render();toast('Daftar diperbarui')}).catch(e=>toast(e.message)).finally(()=>{$('reload').disabled=false})};
 
 /* ---------- formulir ---------- */
 function openSheet(row){
@@ -441,6 +461,7 @@ $('sGo').onclick=async()=>{
     prog('Menyimpan laporan…');
     const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
     S.recs.push(r.rec);
+    if(!(S.petugas||[]).some(x=>hpK(x.h)===hpK(pic.h)))(S.petugas=S.petugas||[]).push({n:pic.n,h:pic.h});
     S.busy=false;$('sCancel').disabled=false;closeSheet();render();
     toast('Laporan tersimpan. Terima kasih!');
   }catch(e){
