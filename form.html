@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Laporan Follow Up Isolir</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2312306b%27/%3E%3Cpath d=%27M9 16l5 5 9-10%27 stroke=%27%23fff%27 stroke-width=%273.4%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f3f6fb;--surface:#fff;--ink:#0f1b3d;--ink2:#52607a;--line:#d5dce8;--navy:#12306b;--blue:#2563eb;--ok:#15803d;--okbg:#dcf5e5;--bad:#b91c1c;--badbg:#fde2e2;--warn:#b45309;--warnbg:#fdecd0;--mut:#475569;--mutbg:#e6eaf0}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+.top{background:linear-gradient(135deg,#0f2557,#1d4ed8);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 18px}
+.top small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;font-weight:700}
+.top h1{margin:2px 0 4px;font-size:19px;line-height:1.25}
+.top .mn{font-size:14px;font-weight:700;background:rgba(255,255,255,.14);display:inline-block;padding:3px 10px;border-radius:999px}
+main{max-width:760px;margin:0 auto;padding:12px 12px calc(30px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 4px 12px rgba(18,48,107,.05)}
+.card h2{margin:0 0 8px;font-size:15px;color:var(--navy)}
+.foot{color:var(--ink2);font-size:12px}
+label.f{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin:10px 0 4px}
+label.f em{color:var(--bad);font-style:normal}
+label.f i{font-style:normal;font-weight:500;color:#8a96ab}
+input[type=text],input[type=tel],input[type=search],select,textarea{width:100%;border:1.5px solid #c3cddd;border-radius:10px;padding:10px 11px;background:#fff;font-size:15px}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.err{color:var(--bad);font-size:12px;font-weight:600;margin-top:4px}
+.bad-f{border-color:var(--bad)!important}
+.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff;font-size:15px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.sec{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.who{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.who b{display:block;font-size:15px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{background:#fff;border:1.5px solid #c7d6f5;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column}
+.tile span{font-size:10.5px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.03em}
+.tile b{font-size:21px;font-weight:800}
+.tile.ok{border-color:#a7e3bd}.tile.ok span{color:var(--ok)}
+.tile.w{border-color:#f5c7a1}.tile.w span{color:var(--warn)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chips button{border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
+.chips button.sel{background:var(--blue);border-color:var(--blue);color:#fff}
+.stg{position:sticky;top:0;z-index:2;background:#e8eefa;color:var(--navy);font-weight:800;font-size:12px;letter-spacing:.03em;text-transform:uppercase;padding:7px 10px;border-radius:8px;margin:12px 0 6px;display:flex;justify-content:space-between}
+.it{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;cursor:pointer}
+.it:hover{border-color:#9db6ea}
+.it .l{flex:1;min-width:0}
+.it .l b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it .l span{display:block;font-size:12px;color:var(--ink2)}
+.it .r{text-align:right;flex:none;max-width:48%}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;background:var(--bg2,#e6eaf0);color:var(--c,#475569);white-space:nowrap}
+.p-lanjut{--c:var(--ok);--bg2:var(--okbg)}.p-tidak{--c:var(--bad);--bg2:var(--badbg)}.p-norespon{--c:var(--mut);--bg2:var(--mutbg)}.p-todo{--c:var(--warn);--bg2:var(--warnbg)}
+.it .r small{display:block;font-size:11px;color:var(--ink2);margin-top:2px}
+.empty{text-align:center;color:var(--ink2);padding:24px 10px}
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(15,27,61,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.sh{background:#fff;width:100%;max-width:760px;max-height:94vh;overflow:auto;border-radius:18px 18px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px))}
+@media(min-width:700px){.sheet{align-items:center}.sh{border-radius:18px;max-height:90vh}}
+.shh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:sticky;top:-14px;background:#fff;padding:4px 0 8px;z-index:1}
+.shh h3{margin:0;font-size:17px}
+.x{border:1.5px solid #cbd5e1;background:#fff;border-radius:9px;padding:5px 10px;cursor:pointer;font-weight:700}
+.cinfo{background:#f3f7ff;border:1.5px solid #c7d6f5;border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;font-size:13px}
+.cinfo span{display:block;font-size:10.5px;color:var(--ink2);text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+.cyc{margin:10px 0 0;background:#12306b;color:#fff;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px}
+.hist{margin-top:10px;border:1.5px dashed #c3cddd;border-radius:12px;padding:8px 10px}
+.hist h4{margin:0 0 6px;font-size:12px;color:var(--ink2);text-transform:uppercase;letter-spacing:.03em}
+.he{border-top:1px solid #e5eaf2;padding:6px 0;font-size:12.5px}.he:first-of-type{border-top:0}
+.he b{font-size:12px}
+.up{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
+.ph{position:relative;border:1.5px dashed #9db6ea;border-radius:12px;background:#f7faff;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;cursor:pointer;overflow:hidden}
+.ph input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.ph b{font-size:12px}.ph small{font-size:10.5px;color:var(--ink2)}
+.ph em{font-style:normal;font-size:10px;font-weight:800;border-radius:999px;padding:1px 7px;margin-bottom:4px}
+.ph em.req{background:var(--badbg);color:var(--bad)}.ph em.opt{background:var(--mutbg);color:var(--mut)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.has{border-style:solid;border-color:var(--ok)}
+.ph .rm{position:absolute;top:4px;right:4px;z-index:2;border:0;border-radius:999px;background:rgba(15,27,61,.75);color:#fff;width:24px;height:24px;font-weight:800;cursor:pointer}
+.ph.bad-f{border-color:var(--bad)}
+.prog{margin-top:12px;background:#eef4ff;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:var(--navy);display:flex;gap:10px;align-items:center}
+.prog.bad{background:var(--badbg);color:var(--bad)}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid #bfd3fb;border-top-color:var(--blue);animation:sp .8s linear infinite;flex:none}@keyframes sp{to{transform:rotate(360deg)}}
+.acts{display:flex;gap:8px;margin-top:14px}.acts .btn{flex:1}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f1b3d;color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;z-index:40;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.boot{text-align:center;padding:30px 14px}
+.boot .spin{margin:0 auto 10px;width:26px;height:26px}
+a.wa{color:#15803d;font-weight:700;text-decoration:none}
+@media(max-width:420px){.tile b{font-size:18px}.up{gap:6px}.ph{min-height:100px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <small>Tim Admin Retensi Starlite</small>
+  <h1>Laporan Follow Up Pelanggan Isolir</h1>
+  <span class="mn" id="mName">Memuat…</span>
+</header>
+<main>
+  <div class="card boot" id="boot"><div class="spin"></div>Memuat daftar pelanggan isolir…</div>
+
+  <section class="card" id="who" hidden>
+    <h2>Data petugas follow up</h2>
+    <p class="foot" style="margin:0">Wajib diisi sebelum melaporkan. Tersimpan di HP ini untuk laporan berikutnya.</p>
+    <label class="f" for="wN">Nama petugas <em>*</em></label>
+    <input type="text" id="wN" autocomplete="name" placeholder="Nama lengkap">
+    <label class="f" for="wH">Nomor telepon / WhatsApp <em>*</em></label>
+    <input type="tel" id="wH" autocomplete="tel" inputmode="tel" placeholder="08xxxxxxxxxx">
+    <div class="err" id="wErr" hidden></div>
+    <div class="acts"><button class="btn" id="wOk">Simpan dan lanjut</button></div>
+  </section>
+
+  <section class="card who" id="whoSum" hidden>
+    <div><span class="foot">Petugas follow up</span><b id="wsN"></b><span class="foot" id="wsH"></span></div>
+    <button class="btn sec sm" id="wEdit">Ubah</button>
+  </section>
+
+  <section class="tiles" id="tiles" hidden></section>
+
+  <section class="card" id="listCard" hidden>
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0">Daftar pelanggan isolir</h2><button class="btn sec sm" id="reload">Muat ulang</button></div>
+    <p class="foot" style="margin:4px 0 8px">Diurutkan per stasiun. Ketuk pelanggan untuk mengisi laporan follow up.</p>
+    <input type="search" id="q" placeholder="Cari nama, kode, nomor HP, stasiun" aria-label="Cari pelanggan">
+    <div class="chips" id="chips"></div>
+    <div id="list"></div>
+  </section>
+  <p class="foot" style="text-align:center">Link ini khusus untuk mitra Anda. Mohon tidak dibagikan ke pihak lain.</p>
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sh" role="dialog" aria-modal="true" aria-labelledby="sT">
+    <div class="shh"><div><span class="foot">Laporan follow up</span><h3 id="sT"></h3></div><button class="x" id="sX" aria-label="Tutup">Tutup ✕</button></div>
+    <div class="cinfo" id="sInfo"></div>
+    <div class="cyc" id="sCyc"></div>
+    <div id="sHist"></div>
+
+    <label class="f">Foto</label>
+    <div class="up">
+      <label class="ph" id="pchat"><em class="req">Wajib</em><b>Screenshot chat</b><small>hasil follow up ke pelanggan</small><input type="file" accept="image/*" data-k="chat"></label>
+      <label class="ph" id="pselfie"><em class="opt">Opsional</em><b>Foto selfie</b><small>petugas follow up</small><input type="file" accept="image/*" data-k="selfie"></label>
+      <label class="ph" id="prumah"><em class="opt">Opsional</em><b>Foto rumah</b><small>pelanggan</small><input type="file" accept="image/*" data-k="rumah"></label>
+    </div>
+    <div class="err" id="eChat" hidden>Screenshot chat wajib diunggah.</div>
+
+    <label class="f" for="fSt">Status hasil follow up <em>*</em></label>
+    <select id="fSt"><option value="">Pilih status…</option><option value="lanjut">Bersedia lanjut</option><option value="tidak">Tidak bersedia lanjut</option><option value="norespon">Tidak merespon</option></select>
+    <div class="err" id="eSt" hidden>Pilih status hasil follow up.</div>
+
+    <div id="alWrap" hidden>
+      <label class="f" for="fAl">Alasan tidak bersedia lanjut <em>*</em></label>
+      <textarea id="fAl" maxlength="1000" placeholder="Tuliskan alasan pelanggan"></textarea>
+      <div class="err" id="eAl" hidden>Alasan wajib diisi.</div>
+    </div>
+
+    <label class="f" for="fRm">Remark hasil follow up <em>*</em></label>
+    <textarea id="fRm" maxlength="2000" placeholder="Ceritakan hasil follow up, misalnya waktu dihubungi dan tanggapan pelanggan"></textarea>
+    <div class="err" id="eRm" hidden>Remark wajib diisi.</div>
+
+    <div class="prog" id="prog" hidden></div>
+    <div class="acts"><button class="btn sec" id="sCancel">Batal</button><button class="btn" id="sGo">Kirim laporan</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const API='https://script.google.com/macros/s/AKfycbz-DqYj9vS-bT6jbe71Dvp7Zs-NcMIlQUb5UthJGSoY26QzhxTaYUYqMd5JdU-ZKuQ0ow/exec';
+const T=(new URLSearchParams(location.search).get('t')||'').trim();
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nf=n=>Number(n||0).toLocaleString('id-ID');
+const BULAN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const fmtD=s=>{if(!s||!/^\d{4}-\d{2}-\d{2}/.test(s))return '-';const [y,m,d]=s.slice(0,10).split('-');return `${+d} ${BULAN[+m-1]} ${y}`};
+const fmtTs=s=>{const d=new Date(new Date(s).getTime()+7*36e5);if(isNaN(d))return '-';const i=d.toISOString();return fmtD(i.slice(0,10))+' '+i.slice(11,16)};
+const STL={lanjut:'Bersedia lanjut',tidak:'Tidak bersedia lanjut',norespon:'Tidak merespon'};
+const waNum=p=>String(p||'').replace(/\D/g,'').replace(/^0/,'62').replace(/^8/,'628');
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>{t.hidden=true},3500)}
+
+async function api(action,data,tries){
+  tries=tries||2;let last;
+  for(let i=0;i<tries;i++){
+    try{
+      const res=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action,t:T},data||{})),redirect:'follow'});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const j=await res.json();
+      if(!j.ok){const e=new Error(j.message||j.error||'gagal');e.code=j.error;throw e}
+      return j;
+    }catch(e){last=e;if(e.code)throw e;await new Promise(r=>setTimeout(r,1200))}
+  }
+  throw new Error('Koneksi gagal. Periksa internet lalu coba lagi. ('+((last&&last.message)||'')+')');
+}
+
+/* ---------- data ---------- */
+const S={mitra:'',rows:[],recs:[],f:'',q:'',cur:null,files:{},up:{},busy:false};
+const picKey='fuPic.'+T.slice(0,10);
+const getPic=()=>{try{return JSON.parse(lsGet(picKey)||'null')}catch(e){return null}};
+function recsOf(code){return S.recs.filter(r=>r.code===code).sort((a,b)=>a.ts<b.ts?-1:1)}
+/* follow up ke-N = urutan periode isolir (tanggal isolir) pelanggan yang pernah dilaporkan */
+function cycleNo(code,iso){const ds=[...new Set(recsOf(code).map(r=>r.iso||'').concat([iso||'']))].sort();return ds.indexOf(iso||'')+1}
+function stateOf(row){
+  const all=recsOf(row[1]), cur=all.filter(r=>(r.iso||'')===(row[5]||''));
+  return {all,cur,last:cur[cur.length-1]||null,n:cycleNo(row[1],row[5])};
+}
+
+async function load(){
+  if(!API){fail('Alamat server belum diatur. Hubungi Tim Admin Retensi Starlite.');return}
+  if(!T){fail('Link tidak lengkap. Buka link yang dikirim Tim Admin Retensi Starlite melalui WhatsApp.');return}
+  try{
+    const r=await api('fu_list',{});
+    S.mitra=r.mitra;S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];
+    document.title='Follow Up Isolir · '+S.mitra;
+    $('mName').textContent='Mitra '+S.mitra;
+    $('boot').hidden=true;
+    showWho();render();
+  }catch(e){fail(e.code==='bad-token'?e.message:('Daftar pelanggan tidak bisa dimuat. '+e.message),true)}
+}
+function fail(msg,retry){
+  $('mName').textContent='Tidak bisa dibuka';
+  $('boot').hidden=false;
+  $('boot').innerHTML=`<b>${esc(msg)}</b>${retry?'<div style="margin-top:12px"><button class="btn sm" id="bRetry">Coba lagi</button></div>':''}`;
+  if(retry)$('bRetry').onclick=()=>{$('boot').innerHTML='<div class="spin"></div>Memuat daftar pelanggan isolir…';load()};
+}
+
+/* ---------- petugas ---------- */
+function showWho(edit){
+  const p=getPic(), need=edit||!p;
+  $('who').hidden=!need;$('whoSum').hidden=need;
+  ['tiles','listCard'].forEach(id=>$(id).hidden=need);
+  if(need){$('wN').value=p?p.n:'';$('wH').value=p?p.h:'';setTimeout(()=>$('wN').focus(),50)}
+  else{$('wsN').textContent=p.n;$('wsH').textContent=p.h}
+}
+$('wOk').onclick=()=>{
+  const n=$('wN').value.trim(), h=$('wH').value.trim(), e=$('wErr');
+  $('wN').classList.toggle('bad-f',!n);$('wH').classList.toggle('bad-f',h.replace(/\D/g,'').length<9);
+  if(!n||h.replace(/\D/g,'').length<9){e.hidden=false;e.textContent=!n?'Nama petugas wajib diisi.':'Nomor telepon tidak valid (minimal 9 angka).';return}
+  e.hidden=true;lsSet(picKey,JSON.stringify({n,h}));showWho();render();
+};
+$('wEdit').onclick=()=>showWho(true);
+
+/* ---------- daftar ---------- */
+function render(){
+  const st=S.rows.map(r=>({r,s:stateOf(r)}));
+  const done=st.filter(x=>x.s.cur.length).length;
+  $('tiles').innerHTML=`<div class="tile"><span>Pelanggan isolir</span><b>${nf(S.rows.length)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(S.rows.length-done)}</b></div>`;
+  const C=[['','Semua',st.length],['todo','Belum dilaporkan',S.rows.length-done],['done','Sudah dilaporkan',done],['lanjut','Bersedia lanjut',st.filter(x=>x.s.last&&x.s.last.status==='lanjut').length],['tidak','Tidak bersedia',st.filter(x=>x.s.last&&x.s.last.status==='tidak').length],['norespon','Tidak merespon',st.filter(x=>x.s.last&&x.s.last.status==='norespon').length]];
+  $('chips').innerHTML=C.filter(c=>c[0]===''||c[0]==='todo'||c[0]==='done'||c[2]).map(([k,l,n])=>`<button data-f="${k}" class="${S.f===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('');
+  $('chips').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.f=b.dataset.f;render()});
+  const q=S.q.toLowerCase();
+  const list=st.filter(({r,s})=>(!q||(r[0]+' '+r[1]+' '+r[2]+' '+r[3]).toLowerCase().includes(q))&&(S.f===''||(S.f==='todo'&&!s.cur.length)||(S.f==='done'&&s.cur.length)||(s.last&&s.last.status===S.f)));
+  let h='',prev=null;
+  const cnt={};list.forEach(x=>{cnt[x.r[0]]=(cnt[x.r[0]]||0)+1});
+  list.forEach(({r,s})=>{
+    if(r[0]!==prev){h+=`<div class="stg"><span>${esc(r[0])}</span><span>${nf(cnt[r[0]])}</span></div>`;prev=r[0]}
+    const right=s.last?`<span class="pill p-${s.last.status}">${STL[s.last.status]}</span><small>Follow up ke-${s.n} · ${s.cur.length} laporan</small>`
+      :`<span class="pill p-todo">Belum dilaporkan</span><small>${s.all.length?'Follow up ke-'+s.n+' (pernah '+s.all.length+'x sebelumnya)':'Follow up ke-'+s.n}</small>`;
+    h+=`<button class="it" data-c="${esc(r[1])}"><span class="l"><b>${esc(r[2]||'(tanpa nama)')}</b><span>${esc(r[1])} · ${esc(r[3])}</span><span>Isolir sejak ${fmtD(r[5])}</span></span><span class="r">${right}</span></button>`;
+  });
+  $('list').innerHTML=h||'<div class="empty">Tidak ada pelanggan yang cocok</div>';
+  $('list').querySelectorAll('.it').forEach(b=>b.onclick=()=>openSheet(S.rows.find(r=>r[1]===b.dataset.c)));
+}
+$('q').oninput=e=>{S.q=e.target.value.trim();render()};
+$('reload').onclick=()=>{$('reload').disabled=true;api('fu_list',{}).then(r=>{S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];render();toast('Daftar diperbarui')}).catch(e=>toast(e.message)).finally(()=>{$('reload').disabled=false})};
+
+/* ---------- formulir ---------- */
+function openSheet(row){
+  if(!row)return;
+  if(!getPic()){showWho(true);return}
+  S.cur=row;S.files={};S.up={};
+  const s=stateOf(row);
+  $('sT').textContent=row[2]||'(tanpa nama)';
+  $('sInfo').innerHTML=[['Kode pelanggan',esc(row[1])],['Nomor HP',waNum(row[3]).length>=9?`<a class="wa" href="https://wa.me/${waNum(row[3])}" target="_blank" rel="noopener">${esc(row[3])}</a>`:esc(row[3])],['Stasiun',esc(row[0])],['Tanggal isolir',fmtD(row[5])]].map(([a,b])=>`<div><span>${a}</span>${b}</div>`).join('');
+  $('sCyc').textContent=`Follow up ke-${s.n}`+(s.cur.length?` · laporan ke-${s.cur.length+1} di periode isolir ini`:'');
+  $('sHist').innerHTML=s.all.length?`<div class="hist"><h4>Riwayat follow up (${s.all.length})</h4>${s.all.slice().reverse().map(r=>`<div class="he"><span class="pill p-${r.status}">${STL[r.status]||r.status}</span> <b>Ke-${cycleNo(row[1],r.iso)}</b> · ${fmtTs(r.ts)} · ${esc(r.pic)}<div>${esc(r.remark)}</div>${r.alasan?`<div class="foot">Alasan: ${esc(r.alasan)}</div>`:''}</div>`).join('')}</div>`:'';
+  ['chat','selfie','rumah'].forEach(k=>setPh(k,null));
+  $('fSt').value='';$('fAl').value='';$('fRm').value='';$('alWrap').hidden=true;
+  ['eChat','eSt','eAl','eRm'].forEach(id=>$(id).hidden=true);['fSt','fAl','fRm'].forEach(id=>$(id).classList.remove('bad-f'));
+  $('prog').hidden=true;$('sGo').disabled=false;
+  $('sheet').hidden=false;document.body.style.overflow='hidden';$('sheet').querySelector('.sh').scrollTop=0;
+}
+function closeSheet(){if(S.busy)return;$('sheet').hidden=true;document.body.style.overflow='';S.cur=null}
+$('sX').onclick=closeSheet;$('sCancel').onclick=closeSheet;
+$('sheet').addEventListener('click',e=>{if(e.target===$('sheet'))closeSheet()});
+$('fSt').onchange=()=>{$('alWrap').hidden=$('fSt').value!=='tidak';$('eSt').hidden=true;$('fSt').classList.remove('bad-f')};
+function setPh(k,file){
+  const box=$('p'+k);
+  box.querySelectorAll('img,.rm').forEach(x=>x.remove());
+  if(S.files[k]&&S.files[k].url)URL.revokeObjectURL(S.files[k].url);
+  delete S.files[k];delete S.up[k];
+  box.classList.toggle('has',!!file);box.classList.remove('bad-f');
+  box.querySelector('input').value='';
+  if(!file)return;
+  const url=URL.createObjectURL(file);S.files[k]={file,url};
+  const img=document.createElement('img');img.src=url;img.alt='';box.appendChild(img);
+  const rm=document.createElement('button');rm.type='button';rm.className='rm';rm.textContent='✕';rm.setAttribute('aria-label','Hapus foto');
+  rm.onclick=e=>{e.preventDefault();e.stopPropagation();setPh(k,null)};box.appendChild(rm);
+  if(k==='chat')$('eChat').hidden=true;
+}
+document.querySelectorAll('.ph input').forEach(inp=>inp.onchange=()=>{const f=inp.files&&inp.files[0];if(!f)return;if(!/^image\//.test(f.type)&&!/\.(jpe?g|png|webp|heic|heif)$/i.test(f.name)){toast('File harus berupa gambar');inp.value='';return}setPh(inp.dataset.k,f)});
+
+/* kecilkan foto di HP sebelum diunggah (sisi terpanjang maks. 1600 px, JPEG) */
+async function shrink(file,max,q){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>no(new Error('Foto tidak bisa dibaca. Coba pilih foto lain (format JPG/PNG).'));i.src=url});
+    let w=img.naturalWidth,h=img.naturalHeight;const s=Math.min(1,max/Math.max(w,h));w=Math.max(1,Math.round(w*s));h=Math.max(1,Math.round(h*s));
+    const cv=document.createElement('canvas');cv.width=w;cv.height=h;const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(img,0,0,w,h);
+    return cv.toDataURL('image/jpeg',q).split(',')[1];
+  }finally{URL.revokeObjectURL(url)}
+}
+function prog(t,bad){const p=$('prog');p.hidden=false;p.className='prog'+(bad?' bad':'');p.innerHTML=(bad?'':'<span class="spin"></span>')+`<span>${esc(t)}</span>`}
+$('sGo').onclick=async()=>{
+  if(S.busy||!S.cur)return;
+  const st=$('fSt').value, al=$('fAl').value.trim(), rm=$('fRm').value.trim();
+  let bad=null;
+  const flag=(id,f,on)=>{$(id).hidden=!on;if(f)$(f).classList.toggle('bad-f',on);if(on&&!bad)bad=f||id};
+  flag('eChat',null,!S.files.chat);$('pchat').classList.toggle('bad-f',!S.files.chat);
+  flag('eSt','fSt',!st);flag('eAl','fAl',st==='tidak'&&!al);flag('eRm','fRm',!rm);
+  if(!S.files.chat&&!bad)bad='pchat';
+  if(bad){const el=$(bad)||$('pchat');el.scrollIntoView({behavior:'smooth',block:'center'});prog('Lengkapi isian yang ditandai merah.',true);return}
+  const pic=getPic();if(!pic){closeSheet();showWho(true);return}
+  S.busy=true;$('sGo').disabled=true;$('sCancel').disabled=true;
+  const row=S.cur, kinds=['chat','selfie','rumah'].filter(k=>S.files[k]);
+  try{
+    for(let i=0;i<kinds.length;i++){
+      const k=kinds[i];if(S.up[k])continue;
+      prog(`Mengunggah foto ${i+1} dari ${kinds.length}…`);
+      const b64=await shrink(S.files[k].file,1600,k==='chat'?.82:.72);
+      const r=await api('fu_photo',{kind:k,code:row[1],mime:'image/jpeg',b64});
+      S.up[k]=r.id;
+    }
+    prog('Menyimpan laporan…');
+    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up}},1);
+    S.recs.push(r.rec);
+    S.busy=false;$('sCancel').disabled=false;closeSheet();render();
+    toast('Laporan tersimpan. Terima kasih!');
+  }catch(e){
+    S.busy=false;$('sGo').disabled=false;$('sCancel').disabled=false;
+    prog('Gagal mengirim: '+e.message+' Tekan Kirim laporan untuk mencoba lagi.',true);
+  }
+};
+load();
+</script>
+</body>
+</html>

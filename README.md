@@ -14,7 +14,12 @@ Menu ada di sidebar kiri (di HP dibuka lewat tombol ☰). **Report Broadcast Sta
 | **Report Broadcast Starlite & IRA** | Analisa data broadcast apa adanya dari CSV, tanpa mencocokkan data isolir. Dibagi dua kategori produk berdasarkan channel: **FWA IRA** (IRA - Internet Rakyat, Internet Rakyat, Internet Rakyat Support) dan **FTTH Starlite** (channel lainnya). Angka utama adalah **nomor WhatsApp unik** (satu nomor bisa punya beberapa room; dipakai hasil terbaik). Berisi ringkasan per kategori, **timeline broadcast per hari** dengan **filter tanggal broadcast** untuk seluruh halaman, tabel Hasil Broadcast per Tag (Jumlah dan % dari Total per kategori), kartu **kesimpulan Tag Lain (Layanan)** (tema, jumlah nomor, yang belum selesai, dan saran tindak lanjut), status room, channel, room per jam, agen, dan daftar room. Klik kartu atau angka tabel untuk membuka jendela pop up detail. |
 | **Status Broadcast FTTH** | Mencocokkan pelanggan isolir dengan room broadcast lewat nomor telepon. Kartu ringkasan menampilkan semua status pelanggan yang terjangkau broadcast, lalu ada timeline broadcast per hari, tabel respon per tag dan tanggal broadcast (jumlah dan % dari total per batch), dan daftar follow-up pelanggan **mau lanjut yang masih berstatus isolir**. Klik kartu, hari timeline, atau angka tabel untuk membuka jendela pop up berisi daftar pelanggannya. Semua tabel bisa diunduh sebagai Excel. |
 
-Alamat langsung tiap menu: `#blast`, `#isolir`, `#pencocokan`.
+| **Kirim Reminder ke Mitra** | Pesan WhatsApp per mitra berisi rincian hasil broadcast, link unduhan Excel, dan **link form laporan follow up** khusus mitra itu. |
+| **Hasil Follow Up Mitra** | Laporan follow up yang diisi mitra: success rate terverifikasi (pelanggan benar-benar aktif kembali), rate klaim mitra (bersedia lanjut), tabel per mitra, daftar laporan dengan foto, riwayat follow up ke-1, ke-2, dan seterusnya. |
+
+Alamat langsung tiap menu: `#blast`, `#isolir`, `#pencocokan`, `#reminder`, `#followup`, `#unggah`.
+
+**`form.html`** adalah halaman form untuk mitra (dibuka dari link di pesan WhatsApp, `form.html?t=TOKEN`). Unggah file ini ke repositori bersama `index.html`. Setiap mitra punya token rahasia sendiri. Daftar pelanggannya disaring oleh Apps Script, jadi mitra hanya melihat pelanggan isolir miliknya.
 
 ## Pasang di GitHub Pages
 
