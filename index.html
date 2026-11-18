@@ -161,6 +161,9 @@ td.mono{font-family:var(--mono);font-size:12px}
 header{background:linear-gradient(120deg,var(--hero),var(--hero2));color:#fff;border-radius:12px;padding:22px 26px;align-items:center;box-shadow:0 1px 2px rgba(29,90,136,.25)}
 header h1{color:#fff;font-size:28px;letter-spacing:-.015em}
 .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.stsel{appearance:none;-webkit-appearance:none;border:0;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237a869c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center/14px;color:#334155;border-radius:999px;padding:10px 34px 10px 18px;font:600 13px inherit;font-family:inherit;box-shadow:0 2px 8px rgba(18,48,107,.08);width:230px;cursor:pointer}
+.stsel:hover{color:#1d4ed8}.stsel.on{background-color:#e6eefe;color:#1d4ed8}
+@media(max-width:560px){.stsel{flex:1 1 100%;width:100%}}
 .pill{display:inline-flex;align-items:center;background:rgba(255,255,255,.16);color:#fff;border-radius:999px;padding:3px 13px;font-size:12.5px;font-variant-numeric:tabular-nums}
 .pill.on::before,.pill.off::before{content:"";width:8px;height:8px;border-radius:50%;margin-right:8px;background:#7ee8b0}
 .pill.off::before{background:#fbc365}
@@ -870,7 +873,7 @@ a.wa{color:#15803d;font-weight:600;text-decoration:none;border-bottom:1.5px dott
 .rmnoc{font-size:11.5px;color:#94a3b8;font-style:italic;padding:5px 0}
 .rmbtns{display:flex;flex-wrap:wrap;gap:5px}
 .rmbtns button,.rmmact button{font:inherit;font-size:11.5px;font-weight:700;border-radius:8px;padding:5px 10px;cursor:pointer;border:1.5px solid #cbd5e1;background:#fff;color:#334155}
-.rmbtns .rmV{border-color:#2563eb;color:#1d4ed8}.rmbtns .rmX,.rmmact #rmMX{border-color:#15803d;color:#15803d}.rmbtns .rmB{border-color:#7c3aed;color:#6d28d9}
+.rmbtns .rmV{border-color:#2563eb;color:#1d4ed8}.rmbtns .rmX,.rmmact #rmMX{border-color:#15803d;color:#15803d}.rmbtns .rmCsv{border-color:#0f766e;color:#0f766e}.rmbtns .rmCsv:disabled{opacity:.45;cursor:not-allowed}.rmbtns .rmB{border-color:#7c3aed;color:#6d28d9}
 .rmbtns .rmS,.rmmact .rmS{background:#16a34a;border-color:#15803d;color:#fff}.rmbtns .rmS:disabled,.rmmact .rmS:disabled{background:#e5e7eb;border-color:#d1d5db;color:#9ca3af;cursor:not-allowed}
 .rmbtns .rmS,.rmmact .rmS{display:inline-flex;align-items:center;gap:6px;overflow:hidden}
 .sendic{width:14px;height:14px;flex:none;animation:sendmv 1.3s ease-in-out infinite}
@@ -994,6 +997,62 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
 .fwatt svg{width:16px;height:16px}
 #fwMT td:first-child,#fwT td:first-child,#fwMT th:first-child,#fwT th:first-child{width:1%;text-align:center}
 .fwatt:hover{background:#dbe7ff}
+.mtscroll{max-height:520px;overflow-y:auto;overflow-x:hidden;margin-top:8px}
+.mtl{display:flex;flex-direction:column}
+.mrh,.mrw{display:grid;grid-template-columns:30px minmax(150px,1fr) 128px 58px 54px 62px 66px 62px 62px;gap:0 8px;align-items:center;padding:0 8px}
+.mrh{position:sticky;top:0;z-index:1;background:#eef3fb;border-radius:8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#52607a;height:28px;line-height:1.1}
+.mrh .n{text-align:right}
+.mrw{min-height:34px;border-bottom:1px solid #e8edf5;font-size:12.5px}
+.mrw.click{cursor:pointer}.mrw.click:hover{background:#f4f8ff}.mrw.sel{background:#e6eefe;box-shadow:inset 3px 0 0 #2563eb}
+.mrw .c-at{text-align:center}.mrw .fwatt{width:24px;height:22px;border-radius:6px}.mrw .fwatt svg{width:13px;height:13px}
+.mrw .c-nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrw .c-cv{display:flex;align-items:center;gap:6px;font-size:11px;color:#52607a;font-variant-numeric:tabular-nums}
+.mrw .c-cv i{flex:1;height:5px;background:#e6eaf0;border-radius:99px;overflow:hidden;display:block;min-width:30px}.mrw .c-cv u{display:block;height:100%;background:#2563eb;text-decoration:none}
+.mrw .c-cv span{white-space:nowrap}
+.mrw .c-n,.mrw .c-sr{text-align:right;font-variant-numeric:tabular-nums}
+.mrw .gd{color:#15803d}.mrw .rd{color:#b91c1c}.mrw .c-sr{font-weight:800;color:#0f1b3d}
+@media(max-width:820px){
+  .mrh{display:none}
+  .mrw{display:flex;flex-wrap:wrap;align-items:center;padding:8px;gap:4px 12px}
+  .mrw .c-at{width:30px}.mrw .c-nm{flex:1 1 0;min-width:0;white-space:normal}.mrw .c-sr{margin-left:auto}
+  .mrw .c-cv{flex:1 1 100%}
+  .mrw .c-n{text-align:left;font-size:12px}
+  .mrw .c-n::before,.mrw .c-sr::before{content:attr(data-l) ": ";color:#64748b;font-weight:400;font-size:11px}
+}button.fwr{font:inherit;text-align:left;cursor:pointer;background:none;border:0;padding:6px 8px;margin:-6px -8px;border-radius:10px}
+button.fwr:hover{background:rgba(37,99,235,.08)}
+.fwtiles button.rmk:hover{box-shadow:0 2px 10px rgba(18,48,107,.18);transform:translateY(-1px)}
+.tp3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:8px}
+.tpc{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;font:inherit;cursor:pointer;border:1.5px solid #d5dce8;border-radius:14px;padding:12px 14px;background:#fff}
+.tpc:hover{box-shadow:0 2px 10px rgba(18,48,107,.18)}
+.tpc em{font-style:normal;font-weight:800;font-size:18px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#e6eaf0;color:#475569}
+.tpc.t1{background:linear-gradient(180deg,#fffbea,#fdf0c2);border-color:#e9c95a}.tpc.t1 em{background:#f5c518;color:#5a4300}
+.tpc.t2{background:linear-gradient(180deg,#fafbfc,#eceff3);border-color:#c3cad6}.tpc.t2 em{background:#c3cad6;color:#2f3b4d}
+.tpc.tp3{background:linear-gradient(180deg,#fff8f2,#fbe6d4);border-color:#e3b58f}.tpc.t3 em{background:#d99a62;color:#4a2a0c}
+.tpb{min-width:0;display:flex;flex-direction:column;gap:3px}.tpn{font-size:14px;overflow-wrap:anywhere;line-height:1.25}
+.tpb span{font-size:11.5px;color:#52607a}
+.tpb i{display:block;height:6px;border-radius:99px;background:rgba(15,27,61,.12);overflow:hidden}.tpb u{display:block;height:100%;background:#16a34a;text-decoration:none;border-radius:99px}
+.tpc strong{font-size:26px;line-height:1;color:#15803d;text-align:center}.tpc strong small{display:block;font-size:10.5px;font-weight:600;color:#52607a;margin-top:3px}.tpb span b{color:#0f1b3d}
+#fwP .mhead .ctl input{min-width:200px}
+.pl{display:flex;flex-direction:column;gap:8px}
+.pr{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1.3fr) auto;gap:6px 14px;align-items:start;border:1.5px solid #d5dce8;border-radius:12px;padding:9px 12px;background:#fff}
+.pr.click{cursor:pointer}.pr.click:hover{border-color:#2563eb;background:#f7faff}
+.pr .pm,.pr .pk{display:flex;flex-direction:column;gap:2px;min-width:0;font-size:12px;color:#52607a}.pr .pm b{font-size:13.5px;color:#0f1b3d;overflow-wrap:anywhere}
+.pr .pk>div{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2px}
+.pr .pt{font-size:12.5px;line-height:1.4;overflow-wrap:anywhere}.pr .pt small{display:block;color:#b91c1c}
+.pr .pa{min-width:30px;text-align:center}
+.pr.cv{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}.cvb{display:flex;align-items:center;gap:10px}.cvb i{flex:1;height:8px;background:#e6eaf0;border-radius:99px;overflow:hidden;display:block}.cvb u{display:block;height:100%;background:#2563eb;text-decoration:none}
+@media(max-width:760px){.pr{grid-template-columns:minmax(0,1fr) auto}.pr .pt{grid-column:1/-1}.pr .pk{grid-column:1}.pr.cv{grid-template-columns:minmax(0,1fr)}}
+/* pratinjau foto di dalam dashboard */
+#fwLb{position:fixed;inset:0;z-index:3000;background:rgba(8,14,30,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px}
+#fwLb[hidden]{display:none}
+#fwLb .lbm{max-width:min(96vw,1100px);max-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center;min-height:120px}
+#fwLb img{max-width:100%;max-height:calc(100vh - 120px);border-radius:10px;background:#1b2542;object-fit:contain}
+#fwLb .lbc{color:#fff;margin-top:10px;text-align:center;font-size:13px;max-width:96vw}
+#fwLb .lbc a{color:#9ec1ff}
+#fwLb button{position:absolute;background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:999px;cursor:pointer;font-size:20px;line-height:1;width:42px;height:42px}
+#fwLb button:hover{background:rgba(255,255,255,.3)}
+#fwLb .lbx{top:14px;right:14px}#fwLb .lbp{left:12px;top:50%}#fwLb .lbn{right:12px;top:50%}
+#fwLb .lbw{color:#c6d3ee;position:absolute}
 .fwgeo{display:block;font-size:10.5px;font-weight:700;color:#15803d;text-decoration:none;margin-top:2px;white-space:nowrap}
 .fwgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
 .fwgc{border:1.5px solid #d5dce8;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -1052,11 +1111,11 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
     <button id="btnMenu" class="menubtn" aria-label="Buka menu" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="hl">
       <h1 id="hTitle">Dashboard Isolir FTTH</h1>
-      <div class="meta"><span class="pill" id="hRange"></span><span class="pill" id="hCount"></span><span class="pill off" id="hLive">Memuat…</span></div>
+      <div class="meta"><span class="pill" id="hRange"></span><span class="pill" id="hCount"></span><span class="pill off" id="hLive">Memuatâ€¦</span></div>
     </div>
     <div class="hr"><span class="foot" id="rfMsg" role="status"></span><button id="btnRefresh">Perbarui data</button></div>
   </header>
-  <div id="boot" class="boot" role="status">Memuat data isolir…</div>
+  <div id="boot" class="boot" role="status">Memuat data isolirâ€¦</div>
   <div class="view vcol" id="v-isolir">
 
   <section class="searchbar" id="i-cari" aria-label="Cari per mitra dan stasiun">
@@ -1072,6 +1131,7 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
         <div class="mfl" id="mfList" role="listbox" aria-label="Filter dashboard per mitra"></div>
       </div>
     </div>
+    <select id="stSel" class="stsel" aria-label="Filter status pelanggan" title="Filter status pelanggan"></select>
     <button id="eGo" class="go">Cari</button>
     <button id="fReset" class="rst">Reset</button>
     <div class="chips" id="chips"></div>
@@ -1107,7 +1167,7 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
     <div class="tw"><table id="tCustT"><thead><tr><th>Tanggal Isolir</th><th>Jam</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Aktif sejak</th><th class="num">Lama aktif (hari)</th></tr></thead><tbody></tbody></table></div>
     <div class="pager"><button id="pPrev">Sebelumnya</button><span id="pInfo"></span><button id="pNext">Berikutnya</button></div>
   </section>
-  <p class="note">Data ini adalah foto kondisi saat ini: hanya pelanggan yang masih berstatus suspend. Pelanggan yang sudah diaktifkan kembali tidak ada di data, sehingga timeline menunjukkan isolir yang masih berlaku, bukan semua isolir yang pernah terjadi.</p>
+  <p class="note">Data ini adalah foto kondisi saat ini: hanya pelanggan yang saat ini berstatus suspend atau ready-to-dismantle (RTD); gunakan tombol status di bagian atas untuk memilih salah satunya. Tanggal pada timeline adalah tanggal terakhir status pelanggan berubah (customer_updated_at). Pelanggan yang sudah diaktifkan kembali tidak ada di data, sehingga timeline menunjukkan kondisi yang masih berlaku, bukan semua kejadian yang pernah terjadi.</p>
   </div>
   <div class="view vcol" id="v-blast" hidden></div>
   <div class="view vcol" id="v-match" hidden></div>
@@ -1169,11 +1229,11 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
 /* ============ PENGATURAN: ubah bagian ini sesuai kebutuhan ============ */
 window.APP_CONFIG = {
   // Alamat CSV dari Google Sheets: File > Bagikan > Publikasikan ke web > pilih sheet > format CSV.
-  csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbhCzQ-etZt_rMYk3WCXbldcP78vI9iasSKhYp02hZxngDA0cVgDDIfcoAJsZbQnAUb0nDUolvJvjH/pub?gid=0&single=true&output=csv',
+  csvUrl: 'https://data.110-239-85-120.sslip.io/isolir.csv?key=cbbd1fbb50c4e895837b138dbf115a05cd636316c8091c84',
   // Cadangan: file CSV dengan kolom yang sama, diletakkan di folder yang sama dengan index.html (boleh dikosongkan).
   dataFile: 'data.csv',
   // Alamat CSV pelanggan berstatus aktif (Google Sheets > Publikasikan ke web > CSV). Dipakai untuk Output Broadcast FTTH Starlite.
-  aktifUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbhCzQ-etZt_rMYk3WCXbldcP78vI9iasSKhYp02hZxngDA0cVgDDIfcoAJsZbQnAUb0nDUolvJvjH/pub?gid=640192908&single=true&output=csv',
+  aktifUrl: 'https://data.110-239-85-120.sslip.io/aktif.csv?key=cbbd1fbb50c4e895837b138dbf115a05cd636316c8091c84',
   // Alamat web app Google Apps Script (database bersama, berakhiran /exec). Kosong = pakai link CSV saja.
   apiUrl: 'https://script.google.com/macros/s/AKfycbz-DqYj9vS-bT6jbe71Dvp7Zs-NcMIlQUb5UthJGSoY26QzhxTaYUYqMd5JdU-ZKuQ0ow/exec',
   // Muat ulang data otomatis tiap sekian menit. Isi 0 untuk mematikan.
@@ -1205,15 +1265,41 @@ const dt=s=>new Date(s+'T00:00:00Z'), dayName=s=>HARI[dt(s).getUTCDay()];
 const fmtD=s=>{if(!s)return '-';const [y,m,d]=s.split('-');return `${+d} ${BULAN[+m-1]} ${y}`};
 const diffDays=(a,b)=>Math.round((dt(b)-dt(a))/864e5);
 const addDays=(s,n)=>{const x=dt(s);x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10)};
+/* status pelanggan yang dipantau: s = suspend (isolir), d = ready-to-dismantle. Filter status disimpan di browser. */
+let SFILT='all',LASTD=null,LASTLIVE=false,SCNT={s:0,d:0},RFULL=[],EXFULL=[];
+try{SFILT=localStorage.getItem('isoStatus')||'all'}catch(e){}
+if(!['all','s','d'].includes(SFILT))SFILT='all';
+const KLBL={s:'Suspend',d:'Ready to dismantle'};
+const kPill=x=>SFILT!=='all'?'':(x.k==='d'?' <span class="gp" style="--c:#7c2d92;--bg:#f3e1fa">Ready to dismantle</span>':' <span class="gp" style="--c:#b45309;--bg:#fdecd0">Suspend</span>');
+const kName=()=>SFILT==='d'?'ready to dismantle':SFILT==='s'?'suspend':'suspend + ready to dismantle';
 function setData(D,live){
-ST=D.st;MI=D.mi;R=D.rows.map(r=>({s:r[0],m:r[1],code:r[2],name:r[3],ph:r[4],act:r[5],d:r[6],t:r[7]}));
+  LASTD=D;LASTLIVE=live;
+  const all=D.rows.map(r=>({s:r[0],m:r[1],code:r[2],name:r[3],ph:r[4],act:r[5],d:r[6],t:r[7],k:r[8]==='d'?'d':'s'}));
+  const allEx=(D.ex||[]).map(x=>({s:x[1],m:x[2],code:x[3],name:x[4],ph:x[0],act:x[5],d:x[6]||'',t:'-',life:0,nd:true,k:x[7]==='d'?'d':'s'}));
+  SCNT={s:all.filter(r=>r.k==='s').length+allEx.filter(r=>r.k==='s').length,d:all.filter(r=>r.k==='d').length+allEx.filter(r=>r.k==='d').length};
+  RFULL=all;EXFULL=allEx;
+  const keep=r=>SFILT==='all'||r.k===SFILT;
+  ST=D.st;MI=D.mi;R=all.filter(keep);
   R.forEach(r=>r.life=Math.max(0,diffDays(r.act,r.d)));
   minD=R.reduce((a,r)=>r.d<a?r.d:a,'9999');maxD=R.reduce((a,r)=>r.d>a?r.d:a,'');
-  
+
   ISOLIVE=live;
-  ISOEXL=(D.ex||[]).map(x=>({s:x[1],m:x[2],code:x[3],name:x[4],ph:x[0],act:x[5],d:x[6]||'',t:'-',life:0,nd:true}));
+  ISOEXL=allEx.filter(keep);
   buildIndex();buildMatch();updateHeader();
+  fillSeg();
 }
+function fillSeg(){
+  const el=$('stSel');if(!el)return;
+  el.innerHTML=[['all','Semua status',SCNT.s+SCNT.d],['s','Suspend',SCNT.s],['d','Ready to dismantle',SCNT.d]].map(([k,l,n])=>`<option value="${k}"${SFILT===k?' selected':''}>${l} (${nf(n)})</option>`).join('');
+  el.classList.toggle('on',SFILT!=='all');
+}
+document.addEventListener('change',e=>{
+  const b=e.target;if(!b||b.id!=='stSel'||!LASTD)return;
+  SFILT=b.value;try{localStorage.setItem('isoStatus',SFILT)}catch(x){}
+  setData(LASTD,LASTLIVE);
+  if(typeof F!=='undefined'){F.page=0;if(F.date&&!R.some(r=>r.d===F.date))F.date=null}
+  if(typeof render==='function')render();
+});
 const F={from:'',to:'',st:null,mi:null,date:null,q:'',gran:'day',page:0};
 const PS=25;
 
@@ -1244,7 +1330,7 @@ function renderKpis(rows,S){
   const best=(key,names)=>{const t=topN(count(rows,key),names,1)[0];return t?[t.name,`${nf(t.c)} pelanggan · ${(t.c/tot*100).toFixed(1).replace('.',',')}% dari total`]:['-','tidak ada data']};
   const bs=best('s',ST), bm=best('m',MI);
   const k=[
-    ['Total terisolir',nf(rows.length),`${nf(new Set(rows.map(r=>r.s)).size)} stasiun · ${nf(new Set(rows.map(r=>r.m)).size)} mitra`,''],
+    [SFILT==='d'?'Total ready to dismantle':SFILT==='s'?'Total terisolir (suspend)':'Total suspend + RTD',nf(rows.length),`${nf(new Set(rows.map(r=>r.s)).size)} stasiun · ${nf(new Set(rows.map(r=>r.m)).size)} mitra`,''],
     ['Rata-rata aging isolir',nf(Math.round(avgAge)),'hari dari aktif sampai isolir',''],
     ['Stasiun paling banyak isolir',esc(bs[0]),bs[1],'txt'],
     ['Mitra paling banyak isolir',esc(bm[0]),bm[1],'txt']
@@ -1419,7 +1505,7 @@ function renderDayTable(){
   const pages=Math.max(1,Math.ceil(r.length/MPS));M.page=Math.min(M.page,pages-1);
   const sl=r.slice(M.page*MPS,M.page*MPS+MPS), off=M.page*MPS;
   $('dyTbl').innerHTML=`<div class="tw"><table><thead><tr><th class="num">No</th><th>Jam isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Tanggal aktif</th><th class="num">Aging isolir</th></tr></thead><tbody>${
-    sl.map((x,k)=>`<tr><td class="num">${off+k+1}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num"><span class="ag">${nf(x.life)} hari</span></td></tr>`).join('')||'<tr><td colspan="9" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map((x,k)=>`<tr><td class="num">${off+k+1}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}${kPill(x)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num"><span class="ag">${nf(x.life)} hari</span></td></tr>`).join('')||'<tr><td colspan="9" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody></table></div><div class="pager"><button id="mPrev"${M.page===0?' disabled':''}>Sebelumnya</button><span>${nf(r.length)} pelanggan · halaman ${M.page+1} dari ${nf(pages)}</span><button id="mNext"${M.page>=pages-1?' disabled':''}>Berikutnya</button></div>`;
   $('mPrev').onclick=()=>{M.page--;renderDayTable()};$('mNext').onclick=()=>{M.page++;renderDayTable()};
 }
@@ -1435,7 +1521,7 @@ function custRows(rows){
 function renderCust(rows){
   const r=custRows(rows), pages=Math.max(1,Math.ceil(r.length/PS));F.page=Math.min(F.page,pages-1);
   const sl=r.slice(F.page*PS,F.page*PS+PS);
-  $('tCustT').tBodies[0].innerHTML=sl.map(x=>`<tr><td>${fmtD(x.d)}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num">${nf(x.life)}</td></tr>`).join('')||'<tr><td colspan="9" class="empty">Tidak ada pelanggan yang cocok</td></tr>';
+  $('tCustT').tBodies[0].innerHTML=sl.map(x=>`<tr><td>${fmtD(x.d)}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}${kPill(x)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num">${nf(x.life)}</td></tr>`).join('')||'<tr><td colspan="9" class="empty">Tidak ada pelanggan yang cocok</td></tr>';
   $('pInfo').textContent=`${nf(r.length)} pelanggan · halaman ${F.page+1} dari ${nf(pages)}`;
   $('pPrev').disabled=F.page===0;$('pNext').disabled=F.page>=pages-1;
   $('tCust').textContent=F.date?`Pelanggan isolir ${fmtD(F.date)}`:'Daftar pelanggan';
@@ -1621,7 +1707,7 @@ function renderETable(){
   const pages=Math.max(1,Math.ceil(r.length/EPS));E.page=Math.min(E.page,pages-1);
   const sl=r.slice(E.page*EPS,E.page*EPS+EPS), off=E.page*EPS;
   $('eTbl').innerHTML=`<div class="tw"><table><thead><tr><th class="num">No</th><th>Tanggal Isolir</th><th>Jam</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Tanggal aktif</th><th class="num">Aging isolir</th></tr></thead><tbody>${
-    sl.map((x,k)=>`<tr><td class="num">${off+k+1}</td><td>${fmtD(x.d)}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num"><span class="ag">${nf(x.life)} hari</span></td></tr>`).join('')||'<tr><td colspan="10" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map((x,k)=>`<tr><td class="num">${off+k+1}</td><td>${fmtD(x.d)}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}${kPill(x)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num"><span class="ag">${nf(x.life)} hari</span></td></tr>`).join('')||'<tr><td colspan="10" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody></table></div><div class="pager"><button id="ePrev"${E.page===0?' disabled':''}>Sebelumnya</button><span>${nf(r.length)} pelanggan · halaman ${E.page+1} dari ${nf(pages)}</span><button id="eNext"${E.page>=pages-1?' disabled':''}>Berikutnya</button></div>`;
   $('ePrev').onclick=()=>{E.page--;renderETable()};$('eNext').onclick=()=>{E.page++;renderETable()};
 }
@@ -1687,7 +1773,7 @@ function renderPTable(){
   const pages=Math.max(1,Math.ceil(r.length/PPS));P.page=Math.min(P.page,pages-1);
   const sl=r.slice(P.page*PPS,P.page*PPS+PPS), off=P.page*PPS;
   $('pTbl').innerHTML=`<div class="tw"><table><thead><tr><th class="num">No</th><th>Tanggal Isolir</th><th>Jam</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Tanggal aktif</th><th class="num">Aging isolir</th></tr></thead><tbody>${
-    sl.map((x,k)=>`<tr><td class="num">${off+k+1}</td><td>${fmtD(x.d)}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num"><span class="ag">${nf(x.life)} hari</span></td></tr>`).join('')||'<tr><td colspan="10" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map((x,k)=>`<tr><td class="num">${off+k+1}</td><td>${fmtD(x.d)}</td><td class="mono">${x.t}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}${kPill(x)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td><td>${fmtD(x.act)}</td><td class="num"><span class="ag">${nf(x.life)} hari</span></td></tr>`).join('')||'<tr><td colspan="10" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody></table></div><div class="pager"><button id="pPrev"${P.page===0?' disabled':''}>Sebelumnya</button><span>${nf(r.length)} pelanggan · halaman ${P.page+1} dari ${nf(pages)}</span><button id="pNext"${P.page>=pages-1?' disabled':''}>Berikutnya</button></div>`;
   $('pPrev').onclick=()=>{P.page--;renderPTable()};$('pNext').onclick=()=>{P.page++;renderPTable()};
 }
@@ -1831,7 +1917,7 @@ function updateHeader(){
   const liveTxt=(l,name)=>l?`${name} langsung · ${fmtWhen(l)}`:`${name} tersimpan`;
   if(CUR==='isolir'){
     if(!R){setPills('','','Memuat…',false);return}
-    setPills(`${fmtD(minD)} – ${fmtD(maxD)}`,`${nf(R.length)} pelanggan suspend`,liveTxt(ISOLIVE,'Data'),!!ISOLIVE);
+    setPills(`${fmtD(minD)} – ${fmtD(maxD)}`,`${nf(R.length)} pelanggan${SFILT==='all'?'':' '+kName()}`,liveTxt(ISOLIVE,'Data'),!!ISOLIVE);
   }else if(CUR==='blast'){
     if(!BREADY){setPills('','',BERR?'Data broadcast gagal dimuat':'Memuat data broadcast…',false);return}
     const ts=BL.map(b=>b.at).sort();
@@ -1889,7 +1975,7 @@ let ISOBY=new Map();
 const isoOf=o=>{const a=ISOBY.get(o.pn);if(!a||!a.length)return {st:'',mi:''};const u=f=>[...new Set(a.map(f))].join(' / ');return {st:u(c=>ST[c.s]),mi:u(c=>MI[c.m])}};
 const isoPairsDay=d=>{const m=numMap(BL.filter(b=>b.pr==='ftth'&&dayOfB(b)===d));return [...m.values()].flatMap(o=>(ISOBY.get(o.pn)||[]).map(c=>({o,c})))};
 const isoPill='<span class="gp" style="--c:#b91c1c;--bg:#fde2e2">Masih isolir</span>';
-const isoCells=o=>{const x=isoOf(o);return x.st||x.mi?`<td>${esc(x.st)}</td><td>${esc(x.mi)}</td><td>${isoPill}</td>`:'<td class="foot">-</td><td class="foot">-</td><td class="foot">-</td>'};
+const isoCells=o=>{let x=isoOf(o);if(!x.st&&!x.mi)x=othOf(o);return `<td>${x.st?esc(x.st):'<span class="foot">-</span>'}</td><td>${x.mi?esc(x.mi):'<span class="foot">-</span>'}</td><td>${stPill(o)}</td>`};
 let CHPR={};const chPr=i=>CHPR[i]||prodOf(BCH[i]);
 let BL=[], BCH=[], BAG=[], BREADY=false, BPH=0, BC=[], BCBY=new Map();
 const BCS={read:{l:'Dibaca',c:'#15803d',bg:'#dcf5e5'},delivered:{l:'Terkirim',c:'#1d4ed8',bg:'#e3ecfe'},sent:{l:'Dikirim',c:'#475569',bg:'#e6eaf0'},failed:{l:'Gagal',c:'#b91c1c',bg:'#fde2e2'}};
@@ -2017,7 +2103,7 @@ function buildMatch(){
   const rmBy=new Map();
   RM=[...byPhone.entries()].map(([pn,a])=>{
     const f=a.slice().sort((x,y)=>(x.nd?1:0)-(y.nd?1:0)||(x.d<y.d?-1:x.d>y.d?1:0))[0];
-    const m={s:f.s,m:f.m,code:a.map(c=>c.code).join(' / '),name:[...new Set(a.map(c=>c.name).filter(Boolean))].join(' / '),ph:f.ph,act:f.act,d:f.d,t:f.t||'-',life:Math.max(...a.map(c=>c.life||0)),pn,nd:a.every(c=>c.nd),n:a.length,rooms:[],g:'none',lanjut:[],paid:false,last:null};
+    const m={k:a.every(c=>c.k==='d')?'d':'s',s:f.s,m:f.m,code:a.map(c=>c.code).join(' / '),name:[...new Set(a.map(c=>c.name).filter(Boolean))].join(' / '),ph:f.ph,act:f.act,d:f.d,t:f.t||'-',life:Math.max(...a.map(c=>c.life||0)),pn,nd:a.every(c=>c.nd),n:a.length,rooms:[],g:'none',lanjut:[],paid:false,last:null};
     rmBy.set(pn,m);return m;
   });
   let ncust=0,nroom=0;
@@ -2310,11 +2396,52 @@ function stackBars(list,W,H){
 const legendH=()=>`<span><i style="width:12px;height:10px;background:${PROD.ftth.line};border-radius:2px"></i>FTTH Starlite</span><span><i style="width:12px;height:10px;background:${PROD.fwa.line};border-radius:2px"></i>FWA IRA</span>`;
 
 /* ---------- output broadcast FTTH Starlite: Aktif / Masih isolir / Tidak ditemukan ---------- */
-const AKT={set:null,state:'idle',at:0,err:'',n:0};
+const AKT={set:null,state:'idle',at:0,err:'',n:0,oth:undefined,othBusy:false};
+/* status lain di database (dismantled, waiting-for-installation, dst.) untuk menamai nomor yang tidak ada di data aktif maupun isolir */
+const STN={'dismantled':'Dismantled','dismantling':'Dismantling','waiting-for-installation':'Waiting for installation','waiting-first-payment':'Waiting first payment','inactive':'Inactive','canceled-instalation':'Canceled installation'};
+const stName=s=>STN[s]||String(s||'').replace(/-/g,' ').replace(/^./,c=>c.toUpperCase());
+const STPRI=['dismantling','dismantled','waiting-first-payment','waiting-for-installation','inactive','canceled-instalation'];
+const othUrl=()=>{const u=activeUrl();return /\/aktif\.csv/.test(u)?u.replace('/aktif.csv','/lain.csv'):''};
+async function loadOther(){
+  const url=othUrl();if(!url||AKT.othBusy)return;
+  AKT.othBusy=true;
+  try{
+    const res=await fetch(url+(url.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const map=new Map(),rank=s=>{const i=STPRI.indexOf(s);return i<0?99:i};
+    let iP=-1,iS=-1,iT=-1,iM=-1,head=true;
+    const feed=line=>{
+      if(!line||line==='\r')return;
+      const f=line.indexOf('"')>=0?parseCsv(line)[0]:line.replace(/\r$/,'').split(',');
+      if(head){head=false;const h=f.map(x=>String(x).trim());iP=h.indexOf('phone_number');iS=h.indexOf('customer_status');iT=h.indexOf('stasiun');iM=h.indexOf('mitra');if(iP<0||iS<0)throw new Error('kolom CSV status lain tidak lengkap');return}
+      const p=normPhone(f[iP]);if(!p)return;
+      const st=String(f[iS]||'').trim().toLowerCase(),old=map.get(p);
+      if(!old||rank(st)<rank(old.st))map.set(p,{st,s:String(f[iT]||'').trim(),m:String(f[iM]||'').trim()});
+    };
+    if(res.body&&res.body.getReader){
+      const rd=res.body.getReader(),td=new TextDecoder();let buf='';
+      for(;;){const {done,value}=await rd.read();if(done)break;buf+=td.decode(value,{stream:true});let i,s=0;while((i=buf.indexOf('\n',s))>=0){feed(buf.slice(s,i));s=i+1}buf=buf.slice(s)}
+      buf+=td.decode();feed(buf);
+    }else{(await res.text()).split('\n').forEach(feed)}
+    AKT.oth=map;
+  }catch(e){AKT.oth=null;AKT.othErr=(e&&e.message)||String(e)}
+  AKT.othBusy=false;
+}
+/* nama status pelanggan sebuah nomor: Suspend / Ready to dismantle (data isolir), Active, status lain dari database, atau tidak ada di database */
+function custStatus(o){
+  const a=ISOBY.get(o.pn);
+  if(a&&a.length){const d=a.some(c=>c.k==='d'),s=a.some(c=>c.k!=='d');return {l:(s?'Suspend':'')+(s&&d?' / ':'')+(d?'Ready to dismantle':''),t:d&&!s?'d':'s'}}
+  if(AKT.set&&AKT.set.has(o.pn))return {l:'Active',t:'a'};
+  if(AKT.oth===undefined||AKT.othBusy)return {l:'Memeriksa…',t:'u'};
+  const t=AKT.oth&&AKT.oth.get(o.pn);
+  return t?{l:stName(t.st),t:'o'}:{l:AKT.oth?'Tidak ada di database':'Status tidak tersedia',t:'x'};
+}
+const stPill=o=>{const x=custStatus(o),C={s:['#b45309','#fdecd0'],d:['#7c2d92','#f3e1fa'],a:['#15803d','#dcf5e5'],o:['#b91c1c','#fde2e2'],x:['#475569','#e6eaf0'],u:['#475569','#e6eaf0']}[x.t];return `<span class="gp" style="--c:${C[0]};--bg:${C[1]}">${esc(x.l)}</span>`};
+const othOf=o=>{const t=AKT.oth&&AKT.oth.get(o.pn);return t?{st:t.s,mi:t.m}:{st:'',mi:''}};
 const OCLS=[
   {k:'aktif',label:'Aktif kembali',note:'Pelanggan sudah berstatus aktif kembali',c:'#15803d',bg:'#dcf5e5',line:'#16a34a'},
   {k:'iso',label:'Masih isolir',note:'Pelanggan masih berstatus isolir',c:'#b45309',bg:'#fdecd0',line:'#d97706'},
-  {k:'dis',label:'Tidak ditemukan',note:'Nomor tidak ada di data pelanggan aktif maupun isolir',c:'#b91c1c',bg:'#fde2e2',line:'#dc2626'}
+  {k:'dis',label:'Dismantle',note:'Nomor tidak ada di data pelanggan aktif maupun isolir (status dismantle atau tidak ada di database)',c:'#b91c1c',bg:'#fde2e2',line:'#dc2626'}
 ];
 const OCK=Object.fromEntries(OCLS.map(o=>[o.k,o]));
 /* nomor ada di daftar isolir -> Masih isolir; ada di daftar aktif -> Aktif; selain itu -> Tidak ditemukan */
@@ -2344,8 +2471,29 @@ async function loadActive(force){
   AKT.set=set;AKT.at=Date.now();AKT.n=set.size;AKT.state='ok';
   idbSet(key,{at:AKT.at,p:[...set].join(',')});
 }
+/* Status Broadcast FTTH: nomor broadcast FTTH Starlite menurut status pelanggannya sekarang (Masih isolir / Aktif kembali / Dismantle) */
+function fillMStat(){
+  const el=$('mStat');if(!el)return;
+  const head=`<div class="head"><h2>Status pelanggan nomor broadcast FTTH Starlite</h2><span class="foot">Masih isolir (suspend + ready to dismantle), Aktif kembali, dan Dismantle · klik kartu untuk melihat daftar nomor · mengikuti filter tanggal broadcast di menu Report (${BDATE?fmtD(BDATE):'semua tanggal'})</span></div>`;
+  if(!activeUrl()){el.innerHTML=head+'<div class="empty">Alamat CSV pelanggan aktif (aktifUrl) belum diisi.</div>';return}
+  /* ringkasan nomor broadcast (NS) dan jendela detail dibuat oleh menu Report; siapkan bila menu ini dibuka lebih dulu */
+  if(BREADY&&(!BINIT||!NS.ftth)){try{renderBlast()}catch(e){}}
+  if(!NS.ftth||!R){el.innerHTML=head+'<div class="empty">Menunggu data isolir dan broadcast…</div>';return}
+  if(AKT.state==='idle'){kickActive();}
+  if(AKT.state==='idle'||AKT.state==='loading'){el.innerHTML=head+'<div class="empty">Memuat data pelanggan aktif dan dismantle… kunjungan pertama bisa memakan waktu sekitar satu menit.</div>';return}
+  if(AKT.state==='err'){el.innerHTML=head+`<div class="empty">Data pelanggan aktif tidak bisa dimuat. ${esc(AKT.err)} <button id="mStRetry">Coba lagi</button></div>`;$('mStRetry').onclick=()=>kickActive(true);return}
+  const m=NS.ftth,tot=m.size;
+  if(!tot){el.innerHTML=head+'<div class="empty">Belum ada data broadcast FTTH Starlite.</div>';return}
+  const rows={};OCLS.forEach(o=>rows[o.k]={n:0});const kb={iso:{},dis:{}};
+  m.forEach(o=>{const k=clsOf(o);rows[k].n++;if(kb[k]){const l=custStatus(o).l;kb[k][l]=(kb[k][l]||0)+1}});
+  const brk=k=>Object.entries(kb[k]||{}).sort((a,b)=>b[1]-a[1]).map(([l,n])=>`${esc(l)} ${nf(n)}`).join(' · ');
+  const card=(k,l,n,c,bg,line,sub)=>`<button class="oc" data-k="${k}" style="--c:${c};--bg:${bg};--l:${line}"><em>${l}</em><b>${nf(n)}</b><i>${pctS(n,tot)} dari total broadcast</i>${sub?`<u>${sub}</u>`:''}</button>`;
+  el.innerHTML=head+`<div class="ocards" style="margin-top:8px"><div class="oc oc-t" style="--c:#1d4ed8;--bg:#eef4ff;--l:#2563eb"><em>Total nomor broadcast FTTH Starlite</em><b>${nf(tot)}</b><i>nomor WhatsApp unik</i></div>${OCLS.map(o=>card(o.k,o.label,rows[o.k].n,o.c,o.bg,o.line,brk(o.k))).join('')}</div>`;
+  el.querySelectorAll('button.oc[data-k]').forEach(b=>b.onclick=()=>openOut(b.dataset.k,''));
+}
 function kickActive(force){
-  loadActive(force).catch(e=>{AKT.state='err';AKT.err=(e&&e.message)||String(e)}).then(()=>{try{if(typeof fillOut==='function'&&$('bOut')){fillOut();if(AKT.set&&BREADY&&typeof fillBTimeline==='function'&&$('bTl'))fillBTimeline()}}catch(e){}});
+  if(force)AKT.oth=undefined;
+  loadActive(force).catch(e=>{AKT.state='err';AKT.err=(e&&e.message)||String(e)}).then(()=>{try{fillMStat()}catch(e){}if(AKT.state==='ok'&&AKT.oth===undefined&&!AKT.othBusy)loadOther().then(()=>{try{fillMStat()}catch(e){}try{if(typeof fillOut==='function'&&$('bOut'))fillOut();if(typeof renderOut==='function'&&!$('omodal').hidden)renderOut()}catch(e){}});try{if(typeof fillOut==='function'&&$('bOut')){fillOut();if(AKT.set&&BREADY&&typeof fillBTimeline==='function'&&$('bTl'))fillBTimeline()}}catch(e){}});
 }
 function outList(k,g,day){
   const ds=day?new Set(BL.filter(b=>b.pr==='ftth'&&dayOfB(b)===day).map(b=>b.pn)):null;
@@ -2361,20 +2509,21 @@ function fillOut(){
   if(!R||!R.length||!NS.ftth)return msg('Menunggu data isolir dan broadcast…');
   const m=NS.ftth,tot=m.size;
   if(!tot)return msg('Belum ada data broadcast FTTH Starlite untuk tanggal ini.');
-  const rows={};OCLS.forEach(o=>rows[o.k]={n:0,g:{}});let exOnly=0;
-  m.forEach(o=>{const k=clsOf(o),r=rows[k];r.n++;r.g[o.g]=(r.g[o.g]||0)+1;if(k==='iso'&&ISOBY.get(o.pn).every(c=>c.nd))exOnly++});
+  const rows={};OCLS.forEach(o=>rows[o.k]={n:0,g:{}});let exOnly=0;const kb={iso:{},dis:{}};
+  m.forEach(o=>{const k=clsOf(o),r=rows[k];if(kb[k]){const l=custStatus(o).l;kb[k][l]=(kb[k][l]||0)+1}r.n++;r.g[o.g]=(r.g[o.g]||0)+1;if(k==='iso'&&ISOBY.get(o.pn).every(c=>c.nd))exOnly++});
   const sum=OCLS.reduce((a,o)=>a+rows[o.k].n,0);
   const cols=OUT.filter(o=>o.k!=='lain'||OCLS.some(c=>rows[c.k].g.lain));
   const card=(k,l,n,c,bg,line,sub)=>`<button class="oc" data-k="${k}" style="--c:${c};--bg:${bg};--l:${line}"><em>${l}</em><b>${nf(n)}</b><i>${pctS(n,tot)} dari total broadcast</i>${sub?`<u>${sub}</u>`:''}</button>`;
+  const brk=k=>Object.entries(kb[k]||{}).sort((a,b)=>b[1]-a[1]).map(([l,n])=>`${esc(l)} ${nf(n)}`).join(' · ');
   const gtG={};OCLS.forEach(o=>Object.entries(rows[o.k].g).forEach(([g,v])=>{gtG[g]=(gtG[g]||0)+v}));
   el.innerHTML=`<div class="ocards">
     <div class="oc oc-t" style="--c:#1d4ed8;--bg:#eef4ff;--l:#2563eb"><em>Total broadcast FTTH Starlite</em><b>${nf(tot)}</b><i>nomor WhatsApp unik</i></div>
-    ${OCLS.map(o=>card(o.k,o.label,rows[o.k].n,o.c,o.bg,o.line,o.k==='dis'?'tidak ada di data aktif & isolir':'')).join('')}</div>
-    <p class="foot ocheck" style="margin:8px 0">${nf(rows.aktif.n)} Aktif kembali +${nf(rows.iso.n)} Masih isolir + ${nf(rows.dis.n)} Tidak ditemukan = <b>${nf(sum)}</b> ${sum===tot?'✓ sama dengan total broadcast FTTH Starlite':'(tidak sama dengan total broadcast '+nf(tot)+')'}</p>
+    ${OCLS.map(o=>card(o.k,o.label,rows[o.k].n,o.c,o.bg,o.line,brk(o.k))).join('')}</div>
+    <p class="foot ocheck" style="margin:8px 0">${nf(rows.aktif.n)} Aktif kembali +${nf(rows.iso.n)} Masih isolir + ${nf(rows.dis.n)} Dismantle = <b>${nf(sum)}</b> ${sum===tot?'✓ sama dengan total broadcast FTTH Starlite':'(tidak sama dengan total broadcast '+nf(tot)+')'}</p>
     <div class="tw"><table class="rtab" id="bOutT"><thead><tr><th class="rt-first">Status pelanggan</th><th>Nomor</th><th>%</th>${cols.map(o=>`<th style="color:${o.c}">${o.label}</th>`).join('')}</tr></thead><tbody>
-    ${OCLS.map(o=>{const r=rows[o.k];return `<tr class="click" data-k="${o.k}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>${o.k==='dis'?'<div class="foot" style="margin-top:2px">tidak ada di data aktif &amp; isolir</div>':''}</td><td><b>${nf(r.n)}</b></td><td class="gs">${pctS(r.n,tot)}</td>${cols.map(c=>`<td data-g="${c.k}">${nf(r.g[c.k]||0)}</td>`).join('')}</tr>`}).join('')}
+    ${OCLS.map(o=>{const r=rows[o.k];return `<tr class="click" data-k="${o.k}"><td class="rt-first"><span class="gp" style="--c:${o.c};--bg:${o.bg}">${o.label}</span>${brk(o.k)?`<div class="foot" style="margin-top:2px">${brk(o.k)}</div>`:''}</td><td><b>${nf(r.n)}</b></td><td class="gs">${pctS(r.n,tot)}</td>${cols.map(c=>`<td data-g="${c.k}">${nf(r.g[c.k]||0)}</td>`).join('')}</tr>`}).join('')}
     <tr class="r-gt"><td class="rt-first">Total</td><td>${nf(sum)}</td><td class="gs">${pctS(sum,tot)}</td>${cols.map(c=>`<td>${nf(gtG[c.k]||0)}</td>`).join('')}</tr></tbody></table></div>
-    <p class="foot" style="margin:8px 0 0">Pencocokan memakai nomor WhatsApp pelanggan. Nomor yang tidak ditemukan di data aktif maupun isolir otomatis masuk status Tidak ditemukan. Klik baris atau angka untuk melihat daftar nomor.${exOnly?` ${nf(exOnly)} nomor isolir belum punya tanggal isolir valid (kosong atau jadwal mendatang); tetap dihitung Masih isolir dan tampil tanpa tanggal di daftar.`:''}</p>`;
+    <p class="foot" style="margin:8px 0 0">Pencocokan memakai nomor WhatsApp pelanggan. Nomor yang tidak ada di data aktif maupun isolir otomatis masuk status Dismantle; rincian status aslinya (Dismantled, Dismantling, atau tidak ada di database) tampil di bawah angkanya. Klik baris atau angka untuk melihat daftar nomor.${exOnly?` ${nf(exOnly)} nomor isolir belum punya tanggal isolir valid (kosong atau jadwal mendatang); tetap dihitung Masih isolir dan tampil tanpa tanggal di daftar.`:''}</p>`;
   el.querySelectorAll('.oc[data-k]').forEach(b=>b.onclick=()=>openOut(b.dataset.k,''));
   el.querySelectorAll('#bOutT tr.click').forEach(tr=>tr.addEventListener('click',e=>{const td=e.target.closest('td[data-g]');openOut(tr.dataset.k,td?td.dataset.g:'')}));
 }
@@ -2607,7 +2756,7 @@ function numList(m,f){
   if(f.q){const q=f.q.toLowerCase();a=a.filter(o=>o.name.toLowerCase().includes(q)||o.ph.includes(q)||o.tags.some(t=>t.includes(q)))}
   return a.sort((x,y)=>x.last.at<y.last.at?1:x.last.at>y.last.at?-1:0);
 }
-const numHead='<thead><tr><th>Waktu terakhir</th><th>Nama</th><th>Nomor</th><th>Status broadcast</th><th>Stasiun</th><th>Mitra</th><th>Status isolir</th><th>Kontak mitra</th><th>Hasil</th><th>Tag</th><th class="num">Room</th><th>Channel terakhir</th><th>Status</th><th>Agen</th></tr></thead>';
+const numHead='<thead><tr><th>Waktu terakhir</th><th>Nama</th><th>Nomor</th><th>Status broadcast</th><th>Stasiun</th><th>Mitra</th><th>Status pelanggan</th><th>Kontak mitra</th><th>Hasil</th><th>Tag</th><th class="num">Room</th><th>Channel terakhir</th><th>Status</th><th>Agen</th></tr></thead>';
 const numRow=(o,i)=>`<tr class="click" data-i="${i}"><td class="mono">${o.last.at.slice(5,16)}</td><td>${esc(o.name||'(tanpa nama)')}</td><td class="mono">${wa(o.ph)}</td><td>${bcPill(o.bc)}</td>${isoCells(o)}${mitraCell(isoOf(o).mi)}<td>${gp(o.g)}</td><td>${tagChips(o.tags)}</td><td class="num">${nf(o.nr)}</td><td>${esc(chName(BCH[o.last.ch]))}</td><td>${esc(o.st)}</td><td>${o.last.ag>=0?esc(BAG[o.last.ag]):'—'}</td></tr>`;
 function openNumber(o){
   $('nTitle').textContent=o.name||'(tanpa nama)';
@@ -2654,7 +2803,7 @@ function exportIso(){
   $('bPager').innerHTML=pagerH('bp',BF.page,pages,r.length);
   $('bpPrev').onclick=()=>{BF.page--;renderBTable()};$('bpNext').onclick=()=>{BF.page++;renderBTable()};
 }
-const numAoa=r=>[['Nomor','Nama','Kategori produk','Hasil broadcast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Agen (terakhir)','Waktu room terakhir','Respon pertama (detik)','Status broadcast','Stasiun (isolir)','Mitra (isolir)','Status isolir','Kontak mitra'],...r.map(o=>[o.ph,o.name,o.prs.map(k=>PROD[k].label).join(', '),OUTK[o.g].label,o.tags.join('; '),o.nr,chName(BCH[o.last.ch]),o.st,o.last.ag>=0?BAG[o.last.ag]:'',o.last.at,o.last.frs,o.bc?bcLabel(o.bc.st):"",isoOf(o).st,isoOf(o).mi,isoOf(o).mi?"Masih isolir":"",mitraText(isoOf(o).mi)])];
+const numAoa=r=>[['Nomor','Nama','Kategori produk','Hasil broadcast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Agen (terakhir)','Waktu room terakhir','Respon pertama (detik)','Status broadcast','Stasiun (isolir)','Mitra (isolir)','Status pelanggan','Kontak mitra'],...r.map(o=>[o.ph,o.name,o.prs.map(k=>PROD[k].label).join(', '),OUTK[o.g].label,o.tags.join('; '),o.nr,chName(BCH[o.last.ch]),o.st,o.last.ag>=0?BAG[o.last.ag]:'',o.last.at,o.last.frs,o.bc?bcLabel(o.bc.st):"",isoOf(o).st,isoOf(o).mi,custStatus(o).l,mitraText(isoOf(o).mi)])];
 function exportBlast(){const r=numList(numMap(bScoped()),BF);exportSheets('nomor-whatsapp-broadcast.xlsx',[{name:'Nomor WhatsApp',aoa:numAoa(r),cols:[18,24,22,18,40,10,26,12,20,18,12,14,22,22,14]}],r.length)}
 
 /* ---------- kesimpulan tag lain (layanan) ---------- */
@@ -2797,12 +2946,13 @@ const MATCH_HTML=`
 <div id="mMain" class="vcol" hidden>
   <div class="sechead" id="m-ringkasan"><div><div class="eyebrow">Pencocokan</div><h2 class="big">Isolir × Hasil Broadcast</h2></div><span class="meta2">dicocokkan lewat nomor telepon · klik kartu untuk melihat detail</span></div>
   <section class="mhero" id="mHero" aria-label="Ringkasan pencocokan"></section>
+  <section class="card" id="mStat" aria-label="Status pelanggan nomor terjangkau broadcast"></section>
 `;
 const REMIND_HTML=`
 <div id="rEmpty" class="boot" role="status">Memuat data isolir dan broadcast…</div>
 <div id="rMain" class="vcol" hidden>
   <div class="sechead" id="m-reminder"><div><div class="eyebrow">Reminder</div><h2 class="big">Kirim Reminder ke Mitra</h2></div>
-    <div class="ctl"><input type="text" id="rmQ" placeholder="Cari mitra" aria-label="Cari mitra"><select id="rmDay" aria-label="Tanggal broadcast"></select><button id="rmXls" class="xls">Download semua (Excel)</button></div></div>
+    <div class="ctl"><input type="text" id="rmQ" placeholder="Cari mitra" aria-label="Cari mitra"><select id="rmDay" aria-label="Tanggal broadcast"></select><button id="rmCsvAll" class="xls" title="Pilih CSV atau Excel, format template wa reminder untuk blast WhatsApp">Download template WA</button><button id="rmXls" class="xls">Download semua (Excel)</button></div></div>
   <section class="card rmwrap">
     <div id="rmNote"></div>
     <div class="rmlist scrollbox" id="rmL"></div>
@@ -2915,7 +3065,7 @@ function fillMatch(){
   }));
   $('hFu').onclick=()=>openList('Mau lanjut, masih isolir',`${nf(FU.length)} pelanggan dengan tag mau lanjut yang masih berstatus isolir`,FU.map(c=>({c,g:'lanjut'})),'');
   $('hPaid').onclick=()=>openList('Sudah bayar, masih isolir',`${nf(paid.length)} pelanggan bertag sudah bayar yang masih berstatus isolir`,paid.map(c=>({c,g:'bayar'})),'');
-  fillTimeline();fillTags();fillFollow();
+  fillMStat();fillTimeline();fillTags();fillFollow();
   $('mG').innerHTML='<option value="">Semua hasil</option>'+[...OUT,OUTK.none].map(o=>`<option value="${o.k}">${o.label}</option>`).join('');$('mG').value=MF.g;$('mSc').value=MF.scope;
   renderMTable();
 }
@@ -2928,7 +3078,7 @@ function renderRemindView(){
     $('v-remind').innerHTML=REMIND_HTML;RINIT=true;
     $('rmQ').oninput=e=>{RMD.q=e.target.value.trim();renderRemind()};
     $('rmDay').onchange=e=>{RMD.day=e.target.value;renderRemind()};
-    $('rmXls').onclick=exportRemindAll;bindRmPreview();
+    $('rmXls').onclick=exportRemindAll;$('rmCsvAll').onclick=()=>rmCsvDownload(RMD.list||RMD.groups||[]);bindRmPreview();
   }
   const ok=!!R&&BREADY;$('rEmpty').hidden=ok;$('rMain').hidden=!ok;
   if(!ok){$('rEmpty').textContent=BERR||'Memuat data isolir dan broadcast…';return}
@@ -2966,9 +3116,9 @@ function rmRows(){
 function rmGroups(){
   const by=new Map();
   rmRows().forEach(r=>{const k=MI[r.m];let g=by.get(k);if(!g){g={mitra:k,rows:[],gc:{}};by.set(k,g)}g.rows.push(r);g.gc[r.g]=(g.gc[r.g]||0)+1});
-  /* total pelanggan isolir mitra (semua nomor isolir, sudah atau belum di-broadcast) */
-  const tot=new Map();RM.forEach(r=>{const k=MI[r.m];tot.set(k,(tot.get(k)||0)+1)});
-  return [...by.values()].map(g=>{const m=mitraOf(g.mitra);g.total=tot.get(g.mitra)||g.rows.length;g.info=m;g.contacts=m?m.c.filter(c=>waOk(c[2])):[];return g}).sort((a,b)=>b.rows.length-a.rows.length||a.mitra.localeCompare(b.mitra));
+  /* total pelanggan mitra = jumlah pelanggan di data Dashboard Isolir (R), bukan nomor WA unik, agar angkanya sama dengan Dashboard */
+  const tot=new Map(),totK=new Map();R.forEach(r=>{const k=MI[r.m];tot.set(k,(tot.get(k)||0)+1);let o=totK.get(k);if(!o){o={s:0,d:0};totK.set(k,o)}o[r.k==='d'?'d':'s']++});
+  return [...by.values()].map(g=>{const m=mitraOf(g.mitra);g.total=tot.get(g.mitra)||g.rows.length;g.tk=totK.get(g.mitra)||{s:0,d:0};g.info=m;g.contacts=m?m.c.filter(c=>waOk(c[2])):[];return g}).sort((a,b)=>b.rows.length-a.rows.length||a.mitra.localeCompare(b.mitra));
 }
 const rmLbl={bayar:'Sudah bayar (masih isolir, menunggu aktivasi kembali)',lanjut:'Mau lanjut berlangganan',tidak:'Tidak mau lanjut',norespon:'Tidak merespons',reminder:'Reminder tagihan',lain:'Tag lain (layanan)',notag:'Tanpa tag'};
 const tglPanjang=s=>{const [y,m,d]=s.split('-');return `${+d} ${BLN[+m-1]} ${y}`};
@@ -2986,10 +3136,11 @@ function rmText(g,ci,link,mode){
     '',
     'Kami dari *Tim Admin Retensi Starlite*.',
     '',
-    `Berikut kami sampaikan hasil tindak lanjut broadcast CS Starlite kepada pelanggan dengan status *isolir yang belum melakukan pembayaran*, per tanggal *${tglPanjang(todayWib())}*.`,
+    `Berikut kami sampaikan hasil tindak lanjut broadcast CS Starlite kepada pelanggan dengan status *${SFILT==='d'?'ready to dismantle':SFILT==='s'?'isolir (suspend) yang belum melakukan pembayaran':'isolir (suspend) yang belum melakukan pembayaran dan ready to dismantle'}*, per tanggal *${tglPanjang(todayWib())}*.`,
     '',
-    '*Ringkasan pelanggan isolir:*',
-    `- Total pelanggan isolir: *${nf(g.total||g.rows.length)} pelanggan*`,
+    `*Ringkasan pelanggan ${SFILT==='d'?'ready to dismantle':SFILT==='s'?'isolir':'isolir dan ready to dismantle'}:*`,
+    `- Total pelanggan: *${nf(g.total||g.rows.length)} pelanggan*`,
+    ...(SFILT==='all'&&g.tk?[`- Isolir (suspend): *${nf(g.tk.s)} pelanggan*`,`- Ready to dismantle: *${nf(g.tk.d)} pelanggan*`]:[]),
     `- Sudah di-broadcast CS: *${nf(g.rows.length)} pelanggan*`,
     '',
     '*Rincian hasil broadcast CS:*',
@@ -3005,8 +3156,8 @@ function rmText(g,ci,link,mode){
   ].join('\n');
 }/* tampilan pesan ala WhatsApp: *tebal*, _miring_ */
 const waFmt=t=>esc(t).replace(/(https?:\/\/[^\s<]+)/g,'<a class="walink">$1</a>').replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|\s)_([^_\n]+)_/g,'$1<i>$2</i>').replace(/\n/g,'<br>');
-const rmHead=['No','Tanggal isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Aging isolir (hari)','Status broadcast','Hasil broadcast','Tag','Waktu room terakhir'];
-const rmAoaRows=rows=>rows.slice().sort((a,b)=>b.life-a.life).map((r,i)=>{const bl=BCBY.get(r.pn),bc=bl?bl[bl.length-1]:null;return [i+1,r.d||'',r.code,r.name,r.ph,ST[r.s],MI[r.m],r.life,bc?bcLabel(bc.st):'',OUTK[r.g].label,[...new Set(r.rooms.flatMap(b=>b.tags))].join('; '),r.last?r.last.at:'']});
+const rmHead=['No','Tanggal isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Aging isolir (hari)','Status broadcast','Hasil broadcast','Tag','Waktu room terakhir','Status pelanggan'];
+const rmAoaRows=rows=>rows.slice().sort((a,b)=>b.life-a.life).map((r,i)=>{const bl=BCBY.get(r.pn),bc=bl?bl[bl.length-1]:null;return [i+1,r.d||'',r.code,r.name,r.ph,ST[r.s],MI[r.m],r.life,bc?bcLabel(bc.st):'',OUTK[r.g].label,[...new Set(r.rooms.flatMap(b=>b.tags))].join('; '),r.last?r.last.at:'',KLBL[r.k]||'Suspend']});
 const rmFname=g=>`isolir-${g.mitra.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)}-${todayWib().replace(/-/g,'')}.xlsx`;
 const rmSheet=g=>({name:'Masih isolir',aoa:[rmHead,...rmAoaRows(g.rows)],cols:[5,13,16,26,16,18,28,10,14,16,40,18]});
 function exportRemind(g){exportSheets(rmFname(g),[rmSheet(g)],g.rows.length)}
@@ -3123,16 +3274,100 @@ function fillRemind(){
   renderRemind();
 }
 const SENDIC='<svg class="sendic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.2 15 12 3.4 13.8z" fill="currentColor"/></svg>';
-const rmCi=g=>{const v=RMD.sel[g.mitra];return v!=null&&v<g.contacts.length?v:0};
+/* ---- CSV untuk blast WhatsApp (format "template wa remainder": satu baris per mitra, kontak terpilih) ---- */
+const RMCSV_HEAD=['phone_number','v1 Nama','v2 Nama Mitra','v3 tanggal isolir per tanggal','v4 Total pelanggan Isolir','v5 Total BC CS','v6 Mau Lanjut','v7 Tidak Mau Lanjut','v8 Tidak Respon','v9 Link Form'];
+const csvCell=v=>{const s=v==null?'':String(v);return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s};
+function rmCsvRow(g,ci,link){
+  const c=g.contacts[ci]||g.contacts[0];
+  const pic=c&&c[1]?c[1].replace(/^\s*(bapak|bpk\.?|pak|ibu|bu|sdr\.?|sdri\.?)\s+/i,'').trim():'';
+  return [waNum(c[2]),pic||c[0]||'',(g.info&&g.info.n)||g.mitra,tglPanjang(todayWib()),g.total||g.rows.length,g.rows.length,g.gc.lanjut||0,g.gc.tidak||0,g.gc.norespon||0,link||''];
+}
+function downloadText(name,text,mime){
+  const a=document.createElement('a'),u=URL.createObjectURL(new Blob([text],{type:mime||'text/csv;charset=utf-8'}));
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+}
+/* jendela proses unduh CSV: kata sandi -> progres -> hasil / galat (selalu tampil, tidak mengandalkan notifikasi singkat) */
+const CSVP={el:null,list:null,run:0};
+function csvPanel(){
+  if(CSVP.el)return CSVP.el;
+  const w=document.createElement('div');w.className='mback';w.hidden=true;w.id='csvM';
+  w.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="csvT" style="max-width:540px"><div class="mhead"><div><div class="eyebrow">Kirim Reminder ke Mitra</div><h2 id="csvT">Download template WA</h2><div class="foot" id="csvS" style="margin-top:2px"></div></div><div class="ctl"><button id="csvX" aria-label="Tutup">Tutup ✕</button></div></div><div class="mbody" id="csvB"></div></div>';
+  document.body.appendChild(w);CSVP.el=w;
+  const close=()=>{CSVP.run++;w.hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''};
+  w.querySelector('#csvX').onclick=close;w.addEventListener('click',e=>{if(e.target===w)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!w.hidden)close()});
+  return w;
+}
+const csvBody=(html,sub)=>{const w=csvPanel();w.querySelector('#csvB').innerHTML=html;w.querySelector('#csvS').textContent=sub||'';w.hidden=false;document.body.style.overflow='hidden'};
+function csvBuild(gs,withLinks){
+  const rows=gs.map(g=>rmCsvRow(g,rmCi(g),withLinks?fuLink(g.mitra):''));
+  const text=[RMCSV_HEAD,...rows].map(r=>r.map(csvCell).join(',')).join('\r\n')+'\r\n';
+  const d=todayWib().replace(/-/g,'');
+  const name=gs.length===1?`wa-reminder-${gs[0].mitra.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)}-${d}.csv`:`wa-reminder-mitra-${d}.csv`;
+  return {rows,text,name};
+}
+function csvDone(gs,noC,withLinks){
+  const o=csvBuild(gs,withLinks);
+  const noLink=o.rows.filter(r=>!r[9]).length;
+  const href='data:text/csv;charset=utf-8,'+encodeURIComponent(o.text);
+  csvBody(`<div class="ustate ok" style="display:flex;gap:10px;align-items:center"><span class="uic" aria-hidden="true">✓</span><b>Template siap: ${nf(o.rows.length)} baris</b></div>
+    <p class="foot" style="margin:0">Data siap. Pilih format unduhan di bawah (kolom sama dengan template WA). ${noC?`${nf(noC)} mitra tanpa nomor WhatsApp dilewati. `:''}${noLink?`<b style="color:#b45309">${nf(noLink)} baris tanpa link form (kolom v9 kosong).</b>`:'Semua baris memuat link form.'}</p>
+    <p class="foot" style="margin:0">Unduhan CSV tidak mulai? <a href="${href}" download="${esc(o.name)}">Klik di sini</a>.</p>
+    <div class="tw"><table><thead><tr><th>phone_number</th><th>v1 Nama</th><th>v2 Nama Mitra</th><th class="num">v4</th><th class="num">v5</th></tr></thead><tbody>${o.rows.slice(0,5).map(r=>`<tr><td class="mono">${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td class="num">${nf(r[4])}</td><td class="num">${nf(r[5])}</td></tr>`).join('')}</tbody></table></div>
+    ${o.rows.length>5?`<p class="foot" style="margin:0">…dan ${nf(o.rows.length-5)} baris lainnya.</p>`:''}
+    <div class="ctl" style="justify-content:flex-end;flex-wrap:wrap"><button id="csvOk">Selesai</button><button id="csvCsv" class="xls">⬇ Download CSV</button><button id="csvXlsx" class="xls">⬇ Download Excel (.xlsx)</button></div>`,'Template: phone_number, v1 … v9');
+  $('csvCsv').onclick=()=>{downloadText(o.name,o.text);toast('CSV diunduh: '+o.name)};
+  $('csvXlsx').onclick=()=>exportSheets(o.name.replace(/\.csv$/,'.xlsx'),[{name:'template wa',aoa:[RMCSV_HEAD,...o.rows],cols:[16,26,40,26,22,16,12,18,14,70]}],o.rows.length);
+  $('csvOk').onclick=()=>$('csvX').click();
+}
+function csvError(gs,noC,e){
+  console.error('CSV gagal',e);
+  csvBody(`<div class="ustate bad" style="display:flex;gap:10px;align-items:center"><span class="uic" aria-hidden="true">!</span><b>Link form belum bisa diambil</b></div>
+    <p class="foot" style="margin:0">${esc(rmWhy(e))}</p>
+    <p class="foot" style="margin:0">Anda bisa mencoba lagi, atau mengunduh CSV dulu tanpa link form (kolom v9 kosong) dan mengisinya belakangan.</p>
+    <div class="ctl" style="justify-content:flex-end"><button id="csvNoLink">Unduh tanpa link form</button><button id="csvRetry" class="xls">Coba lagi</button></div>`,'');
+  $('csvNoLink').onclick=()=>csvDone(gs,noC,false);
+  $('csvRetry').onclick=()=>rmCsvDownload(CSVP.list||gs);
+}
+async function rmCsvDownload(list){
+  const gs=(list||[]).filter(g=>g.contacts&&g.contacts.length), noC=(list||[]).length-gs.length;
+  CSVP.list=list;const my=++CSVP.run;
+  if(!gs.length){csvBody(`<p class="foot" style="margin:0">${noC?'Mitra ini belum punya nomor WhatsApp terdaftar (lengkapi di data info perseroan).':'Tidak ada mitra untuk diunduh.'}</p>`,'');return}
+  try{
+    const miss=gs.filter(g=>!fuLink(g.mitra));
+    if(miss.length&&fuFormBase()&&apiUrl()){
+      if(!UPKEY){
+        UPKEY=await new Promise(res=>{
+          csvBody('<p class="foot" style="margin:0">Link form follow up tiap mitra diambil dari Apps Script dan perlu kata sandi unggah (sekali saja). Link ini dimasukkan ke kolom <b>v9 Link Form</b>.</p><input type="password" id="pwdIn" placeholder="Kata sandi unggah" autocomplete="off" style="padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit"><div class="ctl" style="justify-content:flex-end"><button id="pwdNo">Unduh tanpa link form</button><button id="pwdOk" class="xls">Lanjut</button></div>','Kata sandi unggah');
+          const inp=$('pwdIn');inp.focus();
+          const ok=()=>{const v=inp.value.trim();if(!v){inp.focus();return}res(v)};
+          $('pwdOk').onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter')ok()};
+          $('pwdNo').onclick=()=>res('');
+        });
+        if(my!==CSVP.run)return;
+        if(!UPKEY){csvDone(gs,noC,false);return}
+      }
+      const t0=Date.now();let tm=null;
+      const paint=()=>csvBody(`<div style="display:flex;gap:12px;align-items:center"><span class="uspin"></span><div><b>Mengambil link form ${nf(miss.length)} mitra…</b><div class="foot">${Math.round((Date.now()-t0)/1000)} detik · mohon tunggu, jangan tutup jendela ini</div></div></div>`,'Memproses');
+      paint();tm=setInterval(()=>{if(my===CSVP.run)paint()},1000);
+      try{
+        await Promise.race([fuEnsureTokens(gs.map(g=>g.mitra)),new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('Apps Script tidak menjawab dalam 90 detik'),{code:'timeout'})),90000))]);
+      }catch(e){if(e&&e.code==='bad-write-key')UPKEY='';clearInterval(tm);if(my!==CSVP.run)return;csvError(gs,noC,e);return}
+      clearInterval(tm);
+      if(my!==CSVP.run)return;
+    }
+    csvDone(gs,noC,true);
+  }catch(e){if(my===CSVP.run)csvError(gs,noC,e)}
+}const rmCi=g=>{const v=RMD.sel[g.mitra];return v!=null&&v<g.contacts.length?v:0};
 const rmSentAt=g=>rmSentGet()[g.mitra+'|'+todayWib()];
 const hhmm=ts=>new Date(ts+7*36e5).toISOString().slice(11,16);
 function renderRemind(){
   const gs=rmGroups();RMD.groups=gs;
   const today=todayWib(), sent=rmSentGet(), isSent=g=>!!sent[g.mitra+'|'+today];
-  const tot=gs.reduce((a,g)=>a+g.rows.length,0), totIso=gs.reduce((a,g)=>a+(g.total||g.rows.length),0), nBayar=gs.reduce((a,g)=>a+(g.gc.bayar||0),0), withC=gs.filter(g=>g.contacts.length), nSent=gs.filter(isSent).length, noC=gs.length-withC.length;
+  const tot=gs.reduce((a,g)=>a+g.rows.length,0), totIso=RMD.q?gs.reduce((a,g)=>a+(g.total||g.rows.length),0):R.length, nBayar=gs.reduce((a,g)=>a+(g.gc.bayar||0),0), withC=gs.filter(g=>g.contacts.length), nSent=gs.filter(isSent).length, noC=gs.length-withC.length;
   const F=[['','Semua mitra',gs.length],['todo','Belum dikirim',withC.filter(g=>!isSent(g)).length],['sent','Sudah dikirim hari ini',nSent],['noc','Tanpa nomor WA',noC]];
   $('rmNote').innerHTML=`<div class="rmsum" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
-     <div class="rmk"><span>Total pelanggan isolir</span><b>${nf(totIso)}</b><i>seluruh pelanggan isolir mitra di daftar ini</i></div>
+     <div class="rmk"><span>Total pelanggan isolir</span><b>${nf(totIso)}</b><i>${RMD.q?'mitra yang cocok dengan pencarian':'sama dengan Total di Dashboard Isolir FTTH'}</i></div>
      <div class="rmk"><span>Sudah di-broadcast CS</span><b>${nf(tot)}</b><i>${pctS(tot,totIso||1)} dari total isolir${nBayar?` · ${nf(nBayar)} sudah bayar (cek aktivasi)`:''}</i></div>
      <div class="rmk"><span>Mitra</span><b>${nf(gs.length)}</b><i>${nf(withC.length)} punya nomor WhatsApp</i></div>
      <div class="rmk rmk-ok"><span>Sudah dikirim hari ini</span><b>${nf(nSent)}</b><i>dari ${nf(withC.length)} mitra</i></div>
@@ -3153,12 +3388,14 @@ function renderRemind(){
       <div class="rmc-l"><span class="rmrank">${gs.indexOf(g)+1}</span><div class="rmname"><b>${esc(g.mitra)}</b>${g.info&&g.info.n&&mkey(g.info.n)!==mkey(g.mitra)?`<small>${esc(g.info.n)}</small>`:''}${st?`<span class="rmOk">✓ Terkirim ${hhmm(st)}</span>`:''}</div></div>
       <div class="rmc-m"><div class="rmbig"><b>${nf(n)}</b><span>di-broadcast CS · dari <b style="font-size:inherit">${nf(g.total||n)}</b> total pelanggan isolir</span></div><div class="rmbar">${bar}</div><div class="rmchips">${chips}</div></div>
       <div class="rmc-r"><label class="rmlab">Kirim ke</label>${sel}
-        <div class="rmbtns"><button class="rmV" data-i="${i}">👁 Lihat pesan</button>${RMBZ[g.mitra]?`<button class="rmS busy" data-i="${i}" disabled><span class="uspin sm"></span><span class="rmbt">Membuat link… 0 dtk</span></button>`:`<button class="rmS" data-i="${i}"${g.contacts.length?'':' disabled'}>${SENDIC}Kirim WA</button>`}<button class="rmX" data-i="${i}" title="Download Excel pelanggan (untuk arsip internal)">⬇ Excel</button></div></div>
+        <div class="rmbtns"><button class="rmV" data-i="${i}">👁 Lihat pesan</button>${RMBZ[g.mitra]?`<button class="rmS busy" data-i="${i}" disabled><span class="uspin sm"></span><span class="rmbt">Membuat link… 0 dtk</span></button>`:`<button class="rmS" data-i="${i}"${g.contacts.length?'':' disabled'}>${SENDIC}Kirim WA</button>`}<button class="rmX" data-i="${i}" title="Download Excel pelanggan (untuk arsip internal)">⬇ Excel</button><button class="rmCsv" data-i="${i}" title="Download template WA (CSV atau Excel) untuk mitra ini"${g.contacts.length?'':' disabled'}>⬇ Template WA</button></div></div>
     </article>`}).join('')||'<div class="empty">Tidak ada mitra yang cocok</div>';
   $('rmL').querySelectorAll('.rmC').forEach(s=>s.onchange=()=>{RMD.sel[gs[+s.dataset.i].mitra]=+s.value});
   $('rmL').querySelectorAll('.rmV').forEach(b=>b.onclick=()=>openRmPreview(gs[+b.dataset.i]));
   $('rmL').querySelectorAll('.rmS').forEach(b=>b.onclick=()=>{const g=gs[+b.dataset.i];sendRemind(g,rmCi(g))});
   $('rmL').querySelectorAll('.rmX').forEach(b=>b.onclick=()=>exportRemind(gs[+b.dataset.i]));
+  $('rmL').querySelectorAll('.rmCsv').forEach(b=>b.onclick=()=>rmCsvDownload([gs[+b.dataset.i]]));
+  RMD.list=list;
 }
 /* ---- jendela preview pesan ---- */
 let RMG=null;
@@ -3222,7 +3459,7 @@ function galMore(){
   const sl=GAL.recs.slice(GAL.shown,GAL.shown+GALPS);GAL.shown+=sl.length;
   $('fwGL').insertAdjacentHTML('beforeend',sl.map(r=>`<article class="fwgc">
     <div class="fwgh"><div><b>${esc(r.name||r.code)}</b><span class="foot">${esc(r.code)} · ${esc(r.mitra)}${r.st?' · '+esc(r.st):''}</span></div>${fwPill(FWST[r.status])}</div>
-    <div class="fwgp">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k])=>`<figure><a href="${fwView(r.p[k])}" target="_blank" rel="noopener noreferrer" title="Buka ukuran penuh"><img src="${fwImg(r.p[k]).replace('sz=w400','sz=w800')}" alt="${FWPHL[k]}" loading="lazy" referrerpolicy="no-referrer"></a><figcaption><b>${FWPHL[k]}</b>${r.geo&&r.geo[k]?fwGeoA(r.geo[k]):''}</figcaption></figure>`).join('')}</div>
+    <div class="fwgp">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k])=>`<figure><a href="${fwView(r.p[k])}" data-lb="${esc(r.p[k])}" data-cap="${esc(FWPHL[k])} · ${esc(r.name||r.code)}" title="Perbesar foto"><img src="${fwImg(r.p[k]).replace('sz=w400','sz=w800')}" alt="${FWPHL[k]}" loading="lazy" referrerpolicy="no-referrer"></a><figcaption><b>${FWPHL[k]}</b>${r.geo&&r.geo[k]?fwGeoA(r.geo[k]):''}</figcaption></figure>`).join('')}</div>
     <div class="fwgf"><span>${fwTs(r.ts)} · ${esc(r.pic)} ${wa(r.picHp)}</span><span class="fwrm">${esc(r.remark)}${r.alasan?`<small>Alasan: ${esc(r.alasan)}</small>`:''}</span></div>
   </article>`).join(''));
   const rest=GAL.recs.length-GAL.shown;
@@ -3231,6 +3468,92 @@ function galMore(){
   if(!GAL.recs.length)$('fwGL').innerHTML='<div class="empty">Belum ada lampiran</div>';
 }
 function closeGal(){$('fwG').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+/* jendela pop up detail kartu ringkasan follow up */
+let FWCTX=null;
+const FWPOP={kind:'',mitra:'',q:'',shown:0,list:[]}, FWPN=30;
+const FWPT={all:['Pelanggan di-follow up','semua pelanggan yang sudah dilaporkan mitra'],aktif:['Aktif kembali','pelanggan yang di-follow up lalu terverifikasi aktif kembali'],lanjut:['Bersedia lanjut','status terakhir dari mitra: bersedia lanjut'],tidak:['Tidak bersedia','status terakhir dari mitra: tidak bersedia lanjut, beserta alasannya'],norespon:['Tidak merespon','status terakhir dari mitra: tidak merespon'],cov:['Cakupan isolir saat ini','pelanggan isolir (suspend + ready to dismantle) per mitra: yang sudah dan belum dilaporkan']};
+function fwPopList(kind,mitra){
+  const X=FWCTX;if(!X)return [];
+  const base=mitra?X.inPer.filter(c=>c.mitra===mitra):X.C;
+  if(kind==='all')return base;
+  if(kind==='aktif')return base.filter(c=>c.now==='aktif');
+  return base.filter(c=>c.last.status===kind);
+}
+function openPop(kind,mitra){
+  if(!FWCTX)return;
+  FWPOP.kind=kind;FWPOP.mitra=mitra||'';FWPOP.q='';FWPOP.shown=0;
+  const t=FWPT[kind]||['Detail',''];
+  $('fwPTt').textContent=t[0]+(mitra?' · '+mitra:'');
+  $('fwPQ2').value='';$('fwPQ2').hidden=kind==='cov';
+  $('fwP').hidden=false;document.body.style.overflow='hidden';
+  renderPop();$('fwPB').scrollTop=0;$('fwPX').focus();
+}
+function closePop(){$('fwP').hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+const fwScope=()=>`${FWPOP.mitra||FWF.mi||'semua mitra'} · ${FWF.per?BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):'semua periode laporan'}`;
+const popRow=c=>{const L=c.last;return `<div class="pr click" data-code="${esc(c.code)}" role="button" tabindex="0">
+  <div class="pm"><b>${esc(L.name||'-')}</b><span>${esc(c.code)} · ${wa(L.ph)}</span><span>${esc(L.st||'-')} · ${esc(c.mitra)}</span></div>
+  <div class="pk"><div>${fwPill(FWST[L.status])} ${fwPill(FWNOW[c.now],c.again?'Aktif kembali (lalu isolir lagi)':'')}</div><span>Follow up ke-${c.n} · isolir ${fmtD(c.iso)}</span><span>${fwTs(L.ts)} · ${esc(L.pic||'')}</span></div>
+  <div class="pt">${esc(L.remark||'')}${L.alasan?`<small>Alasan: ${esc(L.alasan)}</small>`:''}</div>
+  <div class="pa">${fwAttBtn(c.recs,'data-pc="'+esc(c.code)+'"')}</div></div>`};
+function renderPop(){
+  const X=FWCTX,body=$('fwPB'),kind=FWPOP.kind,t=FWPT[kind]||['',''];
+  if(!X)return;
+  if(kind==='cov'){
+    const rs=X.rows.filter(r=>r.iso>0&&(!FWF.mi||r.m===FWF.mi)).map(r=>Object.assign({},r,{belum:r.iso-r.done})).sort((a,b)=>b.belum-a.belum||a.m.localeCompare(b.m,'id'));
+    const iso=rs.reduce((a,r)=>a+r.iso,0),done=rs.reduce((a,r)=>a+r.done,0);
+    FWPOP.list=rs;
+    $('fwPS').textContent=`${t[1]} · ${FWF.mi||'semua mitra'} · ${nf(done)} dari ${nf(iso)} sudah dilaporkan (${iso?pctS(done,iso):'-'})`;
+    body.innerHTML=rs.length?`<div class="pl">${rs.map(r=>`<div class="pr cv click" data-m="${esc(r.m)}" role="button" tabindex="0" title="Filter dashboard ke mitra ini"><div class="pm"><b>${esc(r.m)}</b><span>${nf(r.iso)} pelanggan isolir · ${nf(r.done)} sudah dilaporkan · <b style="color:#b45309">${nf(r.belum)} belum</b></span></div><div class="pk" style="grid-column:span 2"><div class="cvb"><i><u style="width:${Math.min(100,r.done/r.iso*100).toFixed(1)}%"></u></i><b>${pctS(r.done,r.iso)}</b></div></div></div>`).join('')}</div>`:'<div class="empty">Belum ada data isolir.</div>';
+    body.querySelectorAll('.pr.cv').forEach(e=>e.onclick=()=>{FWF.mi=e.dataset.m;FWF.page=0;closePop();fillFu()});
+    return;
+  }
+  const all=fwPopList(kind,FWPOP.mitra),q=FWPOP.q;
+  const l=q?all.filter(c=>[c.code,c.last.name,c.last.ph,c.mitra,c.last.st,c.last.pic,c.last.remark,c.last.alasan].join(' ').toLowerCase().includes(q)):all;
+  FWPOP.list=l;
+  $('fwPS').textContent=`${t[1]} · ${fwScope()} · ${nf(l.length)} pelanggan${q?' (hasil pencarian)':''}`;
+  const sl=l.slice(0,FWPOP.shown+FWPN);FWPOP.shown=Math.max(0,sl.length-FWPN);
+  body.innerHTML=sl.length?`<div class="pl">${sl.map(popRow).join('')}</div>${l.length>sl.length?`<div style="text-align:center"><button id="fwPMore">Tampilkan ${nf(Math.min(FWPN,l.length-sl.length))} lagi (sisa ${nf(l.length-sl.length)})</button></div>`:''}`:`<div class="empty">${q?'Tidak ada pelanggan yang cocok.':'Belum ada pelanggan pada kategori ini.'}</div>`;
+  body.querySelectorAll('.pr.click').forEach(e=>{e.onclick=()=>openFw(e.dataset.code);e.onkeydown=ev=>{if((ev.key==='Enter'||ev.key===' ')&&ev.target===e){ev.preventDefault();openFw(e.dataset.code)}}});
+  body.querySelectorAll('.fwatt').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const c=l.find(x=>x.code===b.dataset.pc);if(c)openGal(c.last.name||c.code,`${c.code} · ${c.mitra} · follow up ke-${c.n} · ${c.recs.length} laporan`,c.recs)});
+  const more=$('fwPMore');if(more)more.onclick=()=>{FWPOP.shown+=FWPN;renderPop()};
+}
+function exportPop(){
+  const l=FWPOP.list,kind=FWPOP.kind,d=todayWib().replace(/-/g,'');
+  if(kind==='cov'){exportSheets(`cakupan-isolir-per-mitra-${d}.xlsx`,[{name:'Cakupan',aoa:[['Mitra','Pelanggan isolir (suspend + RTD)','Sudah dilaporkan','Belum dilaporkan','Cakupan'],...l.map(r=>[r.m,r.iso,r.done,r.belum,r.iso?+(r.done/r.iso).toFixed(4):0])],cols:[34,16,16,16,10]}],l.length);return}
+  const head=['Waktu laporan terakhir (WIB)','Mitra','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Tanggal isolir','Follow up ke','Jumlah laporan','Status hasil follow up','Alasan tidak bersedia','Remark','Petugas','Telepon petugas','Status pelanggan sekarang'];
+  exportSheets(`follow-up-${kind}-${d}.xlsx`,[{name:(FWPT[kind]||['Daftar'])[0].slice(0,30),aoa:[head,...l.map(c=>{const L=c.last;return [fwTs(L.ts),c.mitra,c.code,L.name||'',L.ph||'',L.st||'',c.iso||'',c.n,c.recs.length,FWST[L.status]?FWST[L.status].l:L.status,L.alasan||'',L.remark||'',L.pic||'',L.picHp||'',FWNOW[c.now].l]})],cols:[17,28,14,24,15,18,12,8,8,18,30,50,20,15,18]}],l.length);
+}
+/* pratinjau foto lampiran di dalam dashboard (tanpa pindah tab) */
+const LB={list:[],i:0};
+function lbEl(){
+  let el=document.getElementById('fwLb');if(el)return el;
+  el=document.createElement('div');el.id='fwLb';el.hidden=true;el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Pratinjau foto');
+  el.innerHTML='<button class="lbx" aria-label="Tutup">✕</button><button class="lbp" aria-label="Foto sebelumnya">‹</button><button class="lbn" aria-label="Foto berikutnya">›</button><div class="lbm"><span class="lbw" id="lbW">Memuat foto…</span><img id="lbI" alt=""></div><div class="lbc" id="lbC"></div>';
+  document.body.appendChild(el);
+  el.addEventListener('click',e=>{if(e.target===el||e.target.closest('.lbx'))lbClose();else if(e.target.closest('.lbp'))lbGo(-1);else if(e.target.closest('.lbn'))lbGo(1)});
+  document.addEventListener('keydown',e=>{if(el.hidden)return;if(e.key==='Escape'){e.stopPropagation();lbClose()}else if(e.key==='ArrowLeft')lbGo(-1);else if(e.key==='ArrowRight')lbGo(1)},true);
+  return el;
+}
+function lbShow(){
+  const el=lbEl(),x=LB.list[LB.i],im=document.getElementById('lbI'),w=document.getElementById('lbW');
+  w.hidden=false;w.textContent='Memuat foto…';im.style.visibility='hidden';
+  im.onload=()=>{w.hidden=true;im.style.visibility='visible'};
+  im.onerror=()=>{w.textContent='Foto tidak bisa ditampilkan di sini.'};
+  im.referrerPolicy='no-referrer';im.alt=x.cap;im.src=`https://drive.google.com/thumbnail?id=${encodeURIComponent(x.id)}&sz=w1600`;
+  document.getElementById('lbC').innerHTML=`${esc(x.cap)}${LB.list.length>1?` · ${LB.i+1}/${LB.list.length}`:''} · <a href="${fwView(x.id)}" target="_blank" rel="noopener noreferrer">Buka di Google Drive</a>`;
+  el.querySelector('.lbp').hidden=el.querySelector('.lbn').hidden=LB.list.length<2;
+}
+function lbGo(d){LB.i=(LB.i+d+LB.list.length)%LB.list.length;lbShow()}
+function lbClose(){const el=document.getElementById('fwLb');if(el){el.hidden=true;document.getElementById('lbI').src=''}}
+document.addEventListener('click',e=>{
+  const a=e.target.closest&&e.target.closest('a[data-lb]');if(!a)return;
+  if(e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
+  e.preventDefault();
+  const root=a.closest('.mbody')||document;
+  LB.list=[...root.querySelectorAll('a[data-lb]')].map(x=>({id:x.dataset.lb,cap:x.dataset.cap||''}));
+  LB.i=Math.max(0,[...root.querySelectorAll('a[data-lb]')].indexOf(a));
+  lbEl().hidden=false;lbShow();
+});
 const FWF={mi:'',per:'',st:'',now:'',q:'',page:0}, FWPS=20;
 let FWINIT=false, FWCUR=[];
 async function fwLoad(force){
@@ -3243,9 +3566,9 @@ async function fwLoad(force){
 }
 /* pelanggan isolir saat ini per kode pelanggan (data isolir terbaru) */
 function fwIsoIdx(){
-  if(FW.idx&&FW.idxFor===R)return FW.idx;
-  const m=new Map();(R||[]).concat(ISOEXL||[]).forEach(r=>{if(r.code&&!m.has(r.code))m.set(r.code,r)});
-  FW.idx=m;FW.idxFor=R;return m;
+  if(FW.idx&&FW.idxFor===RFULL)return FW.idx;
+  const m=new Map();(RFULL||[]).concat(EXFULL||[]).forEach(r=>{if(r.code&&!m.has(r.code))m.set(r.code,r)});
+  FW.idx=m;FW.idxFor=RFULL;return m;
 }
 /* satu siklus = satu pelanggan pada satu periode isolir (tanggal isolir). Follow up ke-N = urutan periode itu.
    Hasil dihitung dari laporan terakhir pada periode tersebut. */
@@ -3276,9 +3599,10 @@ const FU_HTML=`
   <div class="sechead"><div><div class="eyebrow">Follow up mitra</div><h2 class="big">Hasil Follow Up Mitra</h2></div>
     <div class="ctl"><select id="fwMi" aria-label="Filter mitra"></select><select id="fwPer" aria-label="Periode laporan"></select><button id="fwRf">Muat ulang</button><button id="fwXls" class="xls">Download Excel</button></div></div>
   <section class="fwhero" id="fwHero" aria-label="Ringkasan follow up"></section>
+  <section class="card" id="fwRank" aria-label="Peringkat mitra"></section>
   <section class="card">
-    <div class="head"><h2>Hasil per mitra</h2><span class="foot">klik baris untuk memfilter mitra · cakupan = pelanggan isolir saat ini yang sudah dilaporkan pada periode isolirnya</span></div>
-    <div class="tw scrollbox" style="max-height:360px"><table id="fwMT"></table></div>
+    <div class="head"><h2>Hasil per mitra</h2><span class="foot">klik kartu untuk memfilter mitra · cakupan = pelanggan isolir saat ini yang sudah dilaporkan pada periode isolirnya</span></div>
+    <div class="mtscroll"><div id="fwMT" class="mtl"></div></div>
   </section>
   <section class="card">
     <div class="head"><h2>Petugas follow up mitra</h2>
@@ -3292,6 +3616,12 @@ const FU_HTML=`
     <div class="tw"><table id="fwT"></table></div><div id="fwPager"></div>
   </section>
   <p class="note">Laporan diisi mitra melalui link form yang dikirim bersama pesan Kirim Reminder ke Mitra. Riwayat tidak pernah dihapus: bila pelanggan isolir lagi pada periode berikutnya, laporannya tercatat sebagai follow up ke-2 dan seterusnya. <b>Success rate terverifikasi</b> = pelanggan yang di-follow up lalu benar-benar aktif kembali (keluar dari data isolir periode itu, atau ada di data pelanggan aktif). <b>Rate klaim mitra</b> = status "Bersedia lanjut" yang dipilih mitra.</p>
+</div>
+<div class="mback" id="fwP" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fwPTt">
+    <div class="mhead"><div><div class="eyebrow">Detail follow up</div><h2 id="fwPTt"></h2><div class="foot" id="fwPS" style="margin-top:2px"></div></div><div class="ctl"><input type="text" id="fwPQ2" placeholder="Cari nama, kode, nomor, remark" aria-label="Cari di daftar"><button id="fwPXls" class="xls">Download Excel</button><button id="fwPX" aria-label="Tutup">Tutup ✕</button></div></div>
+    <div class="mbody" id="fwPB"></div>
+  </div>
 </div>
 <div class="mback" id="fwM" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fwMT2">
@@ -3317,9 +3647,11 @@ function renderFu(){
     $('fwXls').onclick=exportFu;
     $('fwPQ').oninput=e=>{FWP.q=e.target.value.trim().toLowerCase();fillPetugas()};
     $('fwPH').onchange=e=>{FWP.showHidden=e.target.checked;fillPetugas()};
+    $('fwPX').onclick=closePop;$('fwP').addEventListener('click',e=>{if(e.target===$('fwP'))closePop()});$('fwPXls').onclick=exportPop;
+    $('fwPQ2').oninput=e=>{FWPOP.q=e.target.value.trim().toLowerCase();FWPOP.shown=0;renderPop()};
     $('fwMX').onclick=closeFw;
     $('fwM').addEventListener('click',e=>{if(e.target===$('fwM'))closeFw()});
-    document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('fwG')&&!$('fwG').hidden)closeGal();else if($('fwM')&&!$('fwM').hidden)closeFw()});
+    document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('fwG')&&!$('fwG').hidden)closeGal();else if($('fwM')&&!$('fwM').hidden)closeFw();else if($('fwP')&&!$('fwP').hidden)closePop()});
     $('fwGX').onclick=closeGal;
     $('fwG').addEventListener('click',e=>{if(e.target===$('fwG'))closeGal()});
   }
@@ -3354,21 +3686,20 @@ function fillFu(){
   const bar=[['lanjut',nL],['tidak',nT],['norespon',nN]].map(([k,v])=>v?`<i style="width:${v/n*100}%;background:${FWST[k].line}" title="${FWST[k].l}: ${nf(v)}"></i>`:'').join('');
   $('fwHero').innerHTML=`
     <div class="fwrate">
-      <div class="fwr ok"><span>Success rate terverifikasi</span><b>${n?pctS(nAkt,n):'-'}</b><i>${nf(nAkt)} dari ${nf(n)} pelanggan yang di-follow up sudah <b>aktif kembali</b></i></div>
-      <div class="fwr"><span>Rate klaim mitra</span><b>${n?pctS(nL,n):'-'}</b><i>${nf(nL)} pelanggan dilaporkan <b>bersedia lanjut</b>${nL?` · ${pctS(nLA,nL)} di antaranya sudah aktif`:''}</i></div>
+      <button class="fwr ok" data-pop="aktif" title="Lihat daftar pelanggan"><span>Success rate terverifikasi ›</span><b>${n?pctS(nAkt,n):'-'}</b><i>${nf(nAkt)} dari ${nf(n)} pelanggan yang di-follow up sudah <b>aktif kembali</b></i></button>
+      <button class="fwr" data-pop="lanjut" title="Lihat daftar pelanggan"><span>Rate klaim mitra ›</span><b>${n?pctS(nL,n):'-'}</b><i>${nf(nL)} pelanggan dilaporkan <b>bersedia lanjut</b>${nL?` · ${pctS(nLA,nL)} di antaranya sudah aktif`:''}</i></button>
       <div class="fwrbar" role="img" aria-label="Komposisi status hasil follow up">${bar}</div>
       <div class="fwleg">${Object.keys(FWST).map(k=>fwPill(FWST[k],`${FWST[k].l} ${nf(cnt(k))}`)).join('')}</div>
     </div>
     <div class="fwtiles">
-      <div class="rmk"><span>Di-follow up</span><b>${nf(n)}</b><i>pelanggan · ${nf(nRec)} laporan</i></div>
-      <div class="rmk rmk-w"><span>Cakupan isolir saat ini</span><b>${isoN?pctS(isoDone,isoN):'-'}</b><i>${nf(isoDone)} dari ${nf(isoN)} pelanggan isolir</i></div>
-      <button class="rmk rmk-ok${FWF.now==='aktif'?' sel':''}" data-now="aktif"><span>Aktif kembali</span><b>${nf(nAkt)}</b><i>terverifikasi data pelanggan</i></button>
-      <button class="rmk rmk-ok${FWF.st==='lanjut'?' sel':''}" data-st="lanjut"><span>Bersedia lanjut</span><b>${nf(nL)}</b><i>${pctS(nL,n||1)} dari di-follow up</i></button>
-      <button class="rmk rmk-bad${FWF.st==='tidak'?' sel':''}" data-st="tidak"><span>Tidak bersedia</span><b>${nf(nT)}</b><i>${pctS(nT,n||1)} · wajib ada alasan</i></button>
-      <button class="rmk rmk-mut${FWF.st==='norespon'?' sel':''}" data-st="norespon"><span>Tidak merespon</span><b>${nf(nN)}</b><i>${pctS(nN,n||1)} dari di-follow up</i></button>
+      <button class="rmk" data-pop="all"><span>Di-follow up ›</span><b>${nf(n)}</b><i>pelanggan · ${nf(nRec)} laporan</i></button>
+      <button class="rmk rmk-w" data-pop="cov"><span>Cakupan isolir saat ini ›</span><b>${isoN?pctS(isoDone,isoN):'-'}</b><i>${nf(isoDone)} dari ${nf(isoN)} pelanggan isolir</i></button>
+      <button class="rmk rmk-ok" data-pop="aktif"><span>Aktif kembali</span><b>${nf(nAkt)}</b><i>terverifikasi data pelanggan</i></button>
+      <button class="rmk rmk-ok" data-pop="lanjut"><span>Bersedia lanjut</span><b>${nf(nL)}</b><i>${pctS(nL,n||1)} dari di-follow up</i></button>
+      <button class="rmk rmk-bad" data-pop="tidak"><span>Tidak bersedia</span><b>${nf(nT)}</b><i>${pctS(nT,n||1)} · wajib ada alasan</i></button>
+      <button class="rmk rmk-mut" data-pop="norespon"><span>Tidak merespon</span><b>${nf(nN)}</b><i>${pctS(nN,n||1)} dari di-follow up</i></button>
     </div>`;
-  $('fwHero').querySelectorAll('button[data-st]').forEach(b=>b.onclick=()=>{FWF.st=FWF.st===b.dataset.st?'':b.dataset.st;FWF.page=0;fillFu()});
-  $('fwHero').querySelectorAll('button[data-now]').forEach(b=>b.onclick=()=>{FWF.now=FWF.now===b.dataset.now?'':b.dataset.now;FWF.page=0;fillFu()});
+  $('fwHero').querySelectorAll('button[data-pop]').forEach(b=>b.onclick=()=>openPop(b.dataset.pop));
   /* tabel per mitra (mengikuti periode, tidak mengikuti filter mitra) */
   const by=new Map();
   inPer.forEach(c=>{let o=by.get(c.mitra);if(!o){o={c:[],rec:0,last:''};by.set(c.mitra,o)}o.c.push(c);o.rec+=c.recs.length;if(c.last.ts>o.last)o.last=c.last.ts});
@@ -3377,10 +3708,28 @@ function fillFu(){
     return {m,iso:s.size,done,n:o.c.length,rec:o.rec,l:k('lanjut'),t:k('tidak'),r:k('norespon'),akt,last:o.last,recs:o.c.flatMap(c=>c.recs)};
   }).sort((a,b)=>b.n-a.n||b.iso-a.iso||a.m.localeCompare(b.m,'id'));
   const tot=rows.reduce((a,r)=>{['iso','done','n','rec','l','t','r','akt'].forEach(k=>a[k]+=r[k]);return a},{iso:0,done:0,n:0,rec:0,l:0,t:0,r:0,akt:0});
-  const tr=(r,cls,lab)=>`<tr class="${cls}"${cls==='click'?` data-m="${esc(r.m)}"`:''}><td>${cls==='tot'?'':fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</td><td>${lab||esc(r.m)}</td><td class="num">${nf(r.iso)}</td><td class="num">${nf(r.done)} <span class="foot">${r.iso?pctS(r.done,r.iso,0):''}</span></td><td class="num">${nf(r.n)}</td><td class="num">${nf(r.rec)}</td><td class="num">${nf(r.l)}</td><td class="num">${nf(r.t)}</td><td class="num">${nf(r.r)}</td><td class="num">${nf(r.akt)}</td><td class="num">${r.n?pctS(r.l,r.n):'-'}</td><td class="num"><b>${r.n?pctS(r.akt,r.n):'-'}</b></td><td>${r.last?fwTs(r.last):cls==='tot'?'':'<span class="foot">belum ada</span>'}</td></tr>`;
-  $('fwMT').innerHTML=`<thead><tr><th>Lampiran</th><th>Mitra</th><th class="num">Isolir saat ini</th><th class="num">Sudah dilaporkan</th><th class="num">Di-follow up</th><th class="num">Laporan</th><th class="num">Bersedia</th><th class="num">Tidak bersedia</th><th class="num">Tidak merespon</th><th class="num">Aktif kembali</th><th class="num">Rate klaim</th><th class="num">Success rate</th><th>Laporan terakhir</th></tr></thead><tbody>${rows.map(r=>tr(r,'click'+(r.m===FWF.mi?' sel':''))).join('')}${tr(Object.assign(tot,{last:''}),'tot','Total')}</tbody>`;
-  $('fwMT').querySelectorAll('tr.click').forEach(t=>t.onclick=()=>{FWF.mi=FWF.mi===t.dataset.m?'':t.dataset.m;FWF.page=0;fillFu()});
+  const tr=(r,cls)=>{
+    const cov=r.iso?Math.min(100,r.done/r.iso*100):0, sr=r.n?pctS(r.akt,r.n):'-';
+    return `<div class="mrw ${cls}" data-m="${esc(r.m)}" role="button" tabindex="0" title="${r.last?'Laporan terakhir '+fwTs(r.last)+' · ':''}${nf(r.rec)} laporan · klik untuk memfilter mitra">
+      <div class="c-at">${fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</div>
+      <div class="c-nm">${esc(r.m)}</div>
+      <div class="c-cv" data-l="Cakupan"><i><u style="width:${cov.toFixed(1)}%"></u></i><span>${nf(r.done)}/${nf(r.iso)}</span></div>
+      <div class="c-n" data-l="Di-follow up">${nf(r.n)}</div>
+      <div class="c-n gd" data-l="Bersedia">${nf(r.l)}</div>
+      <div class="c-n rd" data-l="Tdk bersedia">${nf(r.t)}</div>
+      <div class="c-n" data-l="Tdk merespon">${nf(r.r)}</div>
+      <div class="c-n gd" data-l="Aktif kembali"><b>${nf(r.akt)}</b></div>
+      <div class="c-sr" data-l="Success rate">${sr}</div>
+    </div>`};
+  $('fwMT').innerHTML=`<div class="mrh"><div></div><div>Mitra</div><div>Cakupan isolir</div><div class="n">Follow up</div><div class="n">Bersedia</div><div class="n">Tdk bersedia</div><div class="n">Tdk merespon</div><div class="n">Aktif kembali</div><div class="n">Success rate</div></div>`+rows.map(r=>tr(r,'click'+(r.m===FWF.mi?' sel':''))).join('');
+  $('fwMT').querySelectorAll('.mrw.click').forEach(t=>{const go=()=>{FWF.mi=FWF.mi===t.dataset.m?'':t.dataset.m;FWF.page=0;fillFu()};t.onclick=go;t.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===t){e.preventDefault();go()}}});
+
   $('fwMT').querySelectorAll('.fwatt').forEach(b=>b.onclick=e=>{e.stopPropagation();const r=rows.find(x=>x.m===b.dataset.m);if(r)openGal(r.m,`${nf(r.rec)} laporan follow up${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}`,r.recs)});
+  FWCTX={C,inPer,isoBy,curSet,rows};
+  /* peringkat 3 besar mitra: diurutkan menurut KUANTITAS pelanggan aktif kembali; success rate dan jumlah di-follow up sebagai pembanding/penentu seri */
+  const top=rows.filter(r=>r.n>0).slice().sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n).slice(0,3);
+  $('fwRank').innerHTML=`<div class="head"><h2>Peringkat 3 besar mitra</h2><span class="foot">diurutkan dari jumlah pelanggan aktif kembali terbanyak (seri: success rate lebih tinggi)${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}</span></div>`+
+    (top.length?`<div class="tp3">${top.map((r,i)=>`<button class="tpc t${i+1}" data-rk="${esc(r.m)}" title="Lihat pelanggan aktif kembali"><em>${i+1}</em><div class="tpb"><b class="tpn">${esc(r.m)}</b><span>dari ${nf(r.n)} pelanggan di-follow up · success rate <b>${pctS(r.akt,r.n)}</b></span><i><u style="width:${Math.min(100,r.akt/r.n*100).toFixed(1)}%"></u></i></div><strong>${nf(r.akt)}<small>aktif kembali</small></strong></button>`).join('')}</div>`:'<div class="empty">Belum ada mitra dengan pelanggan yang di-follow up pada periode ini.</div>');  $('fwRank').querySelectorAll('button[data-rk]').forEach(b=>b.onclick=()=>openPop('aktif',b.dataset.rk));
   FWCUR=C;renderFwTable();fillPetugas();
 }
 /* ---------- petugas follow up mitra (dari laporan) ---------- */
@@ -3451,9 +3800,9 @@ function renderFwModal(){
   cs.map(c=>`<div class="fwcyc"><h4>Follow up ke-${c.n} · periode isolir ${fmtD(c.iso)} ${fwPill(FWNOW[c.now],c.again?'Aktif kembali (lalu isolir lagi)':'')}</h4>${c.recs.slice().reverse().map(r=>`<div class="fwrec"><div>
       <div>${fwPill(FWST[r.status])} <b>${fwTs(r.ts)}</b> · ${esc(r.pic)} ${wa(r.picHp)}</div>
       <p>${esc(r.remark)}</p>${r.alasan?`<p style="color:#b91c1c"><b>Alasan tidak bersedia:</b> ${esc(r.alasan)}</p>`:''}
-      <div class="fwthumbs">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k,l])=>`<div style="max-width:120px"><a href="${fwView(r.p[k])}" target="_blank" rel="noopener noreferrer"><img src="${fwImg(r.p[k])}" alt="Foto ${l}" loading="lazy" referrerpolicy="no-referrer"><span>${FWPHL[k]}</span></a>${r.geo&&r.geo[k]?fwGeoA(r.geo[k]).replace('class="fwgeo"','class="fwgeo" style="white-space:normal"'):''}</div>`).join('')}</div>
+      <div class="fwthumbs">${FWPH.filter(([k])=>r.p&&r.p[k]).map(([k,l])=>`<div style="max-width:120px"><a href="${fwView(r.p[k])}" data-lb="${esc(r.p[k])}" data-cap="${esc(FWPHL[k])} · ${esc(L.name||FWCODE)}" title="Perbesar foto"><img src="${fwImg(r.p[k])}" alt="Foto ${l}" loading="lazy" referrerpolicy="no-referrer"><span>${FWPHL[k]}</span></a>${r.geo&&r.geo[k]?fwGeoA(r.geo[k]).replace('class="fwgeo"','class="fwgeo" style="white-space:normal"'):''}</div>`).join('')}</div>
     </div><div><button class="fwdel" data-id="${esc(r.id)}">Hapus</button></div></div>`).join('')}</div>`).join('')+
-  `<p class="foot" style="margin-top:10px">Foto tersimpan di Google Drive (folder Foto Follow Up). Klik foto untuk membuka ukuran penuh. Tombol Hapus hanya untuk laporan uji coba atau salah isi dan memerlukan kata sandi unggah.</p>`;
+  `<p class="foot" style="margin-top:10px">Foto tersimpan di Google Drive (folder Foto Follow Up). Klik foto untuk memperbesarnya di sini. Tombol Hapus hanya untuk laporan uji coba atau salah isi dan memerlukan kata sandi unggah.</p>`;
   $('fwMB').querySelectorAll('.fwdel').forEach(b=>b.onclick=()=>fwDel(b));
 }
 async function fwDel(b){
@@ -3588,7 +3937,7 @@ function renderLTable(){
   const r=lRows(),pages=Math.max(1,Math.ceil(r.length/LPS));L.page=Math.min(L.page,pages-1);
   const sl=r.slice(L.page*LPS,L.page*LPS+LPS), off=L.page*LPS;
   $('lTbl').innerHTML=`<thead><tr><th class="num">No</th><th>Tanggal Isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Kontak mitra</th><th class="num">Aging</th><th>Status</th><th>Tag</th><th class="num">Room</th><th>Broadcast terakhir</th><th class="num">Hari menunggu</th></tr></thead><tbody>${
-    sl.map((x,k)=>{const c=x.c,tg=[...new Set(c.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${RM.indexOf(c)}"><td class="num">${off+k+1}</td><td>${fmtD(c.d)}</td><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(ST[c.s])}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td class="num">${nf(c.life)} hari</td><td>${gp(x.g)}</td><td>${tagChips(tg)}</td><td class="num">${nf(c.rooms.length)}</td><td class="mono">${c.last?c.last.at.slice(5,16):'—'}</td><td class="num">${c.lanjut.length?`<span class="ag${c.wait>=3?' new':''}">${nf(c.wait||0)} hari</span>`:'—'}</td></tr>`}).join('')||'<tr><td colspan="14" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map((x,k)=>{const c=x.c,tg=[...new Set(c.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${RM.indexOf(c)}"><td class="num">${off+k+1}</td><td>${fmtD(c.d)}</td><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}${kPill(c)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(ST[c.s])}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td class="num">${nf(c.life)} hari</td><td>${gp(x.g)}</td><td>${tagChips(tg)}</td><td class="num">${nf(c.rooms.length)}</td><td class="mono">${c.last?c.last.at.slice(5,16):'—'}</td><td class="num">${c.lanjut.length?`<span class="ag${c.wait>=3?' new':''}">${nf(c.wait||0)} hari</span>`:'—'}</td></tr>`}).join('')||'<tr><td colspan="14" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody>`;
   $('lTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(RM[+tr.dataset.i])));
   $('lPager').innerHTML=pagerH('lp',L.page,pages,r.length);
@@ -3596,8 +3945,8 @@ function renderLTable(){
 }
 function exportList(){
   const r=lRows();
-  const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Kontak mitra','Aging isolir (hari)','Status','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)','Hari menunggu (mau lanjut)'];
-  const aoa=[head,...r.map(x=>{const c=x.c,l=c.last;return [c.d,c.code,c.name,c.ph,ST[c.s],MI[c.m],mitraText(MI[c.m]),c.life,OUTK[x.g].label,[...new Set(c.rooms.flatMap(b=>b.tags))].join('; '),c.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'',c.lanjut.length?(c.wait||0):'']})];
+  const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Kontak mitra','Aging isolir (hari)','Status','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)','Hari menunggu (mau lanjut)','Status pelanggan'];
+  const aoa=[head,...r.map(x=>{const c=x.c,l=c.last;return [c.d,c.code,c.name,c.ph,ST[c.s],MI[c.m],mitraText(MI[c.m]),c.life,OUTK[x.g].label,[...new Set(c.rooms.flatMap(b=>b.tags))].join('; '),c.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'',c.lanjut.length?(c.wait||0):'',KLBL[c.k]||'Suspend']})];
   exportSheets('detail-pelanggan-pencocokan.xlsx',[{name:'Pelanggan',aoa,cols:[14,16,26,16,20,28,60,10,18,44,8,26,12,18,20,12]}],r.length);
 }
 
@@ -3620,7 +3969,7 @@ function renderFuTable(){
   const r=fuRows(),pages=Math.max(1,Math.ceil(r.length/FPS));FF.page=Math.min(FF.page,pages-1);
   const sl=r.slice(FF.page*FPS,FF.page*FPS+FPS);
   $('fuT').innerHTML=`<thead><tr><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Mitra</th><th>Kontak mitra</th><th>Stasiun</th><th>Tanggal Isolir</th><th class="num">Aging isolir</th><th>Mau lanjut sejak</th><th class="num">Hari menunggu</th><th>Status room</th><th>Agen</th><th class="num">Room</th></tr></thead><tbody>${
-    sl.map(c=>{const l=c.lanjut[0],last=c.last;return `<tr class="click" data-i="${RM.indexOf(c)}"><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td>${esc(ST[c.s])}</td><td>${fmtD(c.d)}</td><td class="num">${nf(c.life)} hari</td><td class="mono">${l.at.slice(5,16)}</td><td class="num"><span class="ag${c.wait>=3?' new':''}">${nf(c.wait)} hari</span></td><td>${esc(last.st)}</td><td>${last.ag>=0?esc(BAG[last.ag]):'—'}</td><td class="num">${nf(c.rooms.length)}</td></tr>`}).join('')||'<tr><td colspan="13" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map(c=>{const l=c.lanjut[0],last=c.last;return `<tr class="click" data-i="${RM.indexOf(c)}"><td class="mono">${esc(c.code)}</td><td>${esc(c.name)}${kPill(c)}</td><td class="mono">${wa(c.ph)}</td><td>${esc(MI[c.m])}</td>${mitraCell(MI[c.m])}<td>${esc(ST[c.s])}</td><td>${fmtD(c.d)}</td><td class="num">${nf(c.life)} hari</td><td class="mono">${l.at.slice(5,16)}</td><td class="num"><span class="ag${c.wait>=3?' new':''}">${nf(c.wait)} hari</span></td><td>${esc(last.st)}</td><td>${last.ag>=0?esc(BAG[last.ag]):'—'}</td><td class="num">${nf(c.rooms.length)}</td></tr>`}).join('')||'<tr><td colspan="13" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody>`;
   $('fuT').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(RM[+tr.dataset.i])));
   $('fuPager').innerHTML=pagerH('fp',FF.page,pages,r.length);
@@ -3628,8 +3977,8 @@ function renderFuTable(){
 }
 function exportFollow(){
   const r=fuRows();
-  const head=['Kode pelanggan','Nama pelanggan','Nomor HP','Mitra','Stasiun','Tanggal Isolir','Aging isolir (hari)','Waktu tag mau lanjut (terbaru)','Hari menunggu','Status room (terakhir)','Agen (terakhir)','Channel (terakhir)','Tag','Jumlah room'];
-  const aoa=[head,...r.map(c=>[c.code,c.name,c.ph,MI[c.m],ST[c.s],c.d,c.life,c.lanjut[0].at,c.wait,c.last.st,c.last.ag>=0?BAG[c.last.ag]:'',chName(BCH[c.last.ch]),[...new Set(c.rooms.flatMap(b=>b.tags))].join('; '),c.rooms.length])];
+  const head=['Kode pelanggan','Nama pelanggan','Nomor HP','Mitra','Stasiun','Tanggal Isolir','Aging isolir (hari)','Waktu tag mau lanjut (terbaru)','Hari menunggu','Status room (terakhir)','Agen (terakhir)','Channel (terakhir)','Tag','Jumlah room','Status pelanggan'];
+  const aoa=[head,...r.map(c=>[c.code,c.name,c.ph,MI[c.m],ST[c.s],c.d,c.life,c.lanjut[0].at,c.wait,c.last.st,c.last.ag>=0?BAG[c.last.ag]:'',chName(BCH[c.last.ch]),[...new Set(c.rooms.flatMap(b=>b.tags))].join('; '),c.rooms.length,KLBL[c.k]||'Suspend'])];
   exportSheets('followup-mau-lanjut-masih-isolir.xlsx',[{name:'Follow-up',aoa,cols:[16,26,16,28,20,14,10,18,10,12,20,26,44,8]}],r.length);
 }
 
@@ -3645,7 +3994,7 @@ function renderMTable(){
   const r=mFiltered(),pages=Math.max(1,Math.ceil(r.length/MPS2));MF.page=Math.min(MF.page,pages-1);
   const sl=r.slice(MF.page*MPS2,MF.page*MPS2+MPS2);
   $('mTbl').innerHTML=`<thead><tr><th>Tanggal Isolir</th><th>Kode</th><th>Nama</th><th>Nomor HP</th><th>Stasiun</th><th>Mitra</th><th>Kontak mitra</th><th class="num">Aging</th><th>Hasil broadcast</th><th>Tag</th><th class="num">Room</th><th>Waktu broadcast terakhir</th></tr></thead><tbody>${
-    sl.map(x=>{const tg=[...new Set(x.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${RM.indexOf(x)}"><td>${fmtD(x.d)}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td>${mitraCell(MI[x.m])}<td class="num">${nf(x.life)} hari</td><td>${gp(x.g)}</td><td>${x.rooms.length?tagChips(tg):'<span class="foot">—</span>'}</td><td class="num">${x.rooms.length?nf(x.rooms.length):'—'}</td><td class="mono">${x.last?x.last.at.slice(5,16):'—'}</td></tr>`}).join('')||'<tr><td colspan="12" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
+    sl.map(x=>{const tg=[...new Set(x.rooms.flatMap(b=>b.tags))];return `<tr class="click" data-i="${RM.indexOf(x)}"><td>${fmtD(x.d)}</td><td class="mono">${esc(x.code)}</td><td>${esc(x.name)}${kPill(x)}</td><td class="mono">${wa(x.ph)}</td><td>${esc(ST[x.s])}</td><td>${esc(MI[x.m])}</td>${mitraCell(MI[x.m])}<td class="num">${nf(x.life)} hari</td><td>${gp(x.g)}</td><td>${x.rooms.length?tagChips(tg):'<span class="foot">—</span>'}</td><td class="num">${x.rooms.length?nf(x.rooms.length):'—'}</td><td class="mono">${x.last?x.last.at.slice(5,16):'—'}</td></tr>`}).join('')||'<tr><td colspan="12" class="empty">Tidak ada pelanggan yang cocok</td></tr>'
   }</tbody>`;
   $('mTbl').querySelectorAll('tr.click').forEach(tr=>tr.addEventListener('click',()=>openCust(RM[+tr.dataset.i])));
   $('mPager').innerHTML=pagerH('mp',MF.page,pages,r.length);
@@ -3665,8 +4014,8 @@ function openCust(c){
 }
 function exportMatch(){
   const r=mFiltered();
-  const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Kontak mitra','Aging isolir (hari)','Hasil broadcast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)'];
-  const aoa=[head,...r.map(x=>{const l=x.last;return [x.d,x.code,x.name,x.ph,ST[x.s],MI[x.m],mitraText(MI[x.m]),x.life,OUTK[x.g].label,[...new Set(x.rooms.flatMap(b=>b.tags))].join('; '),x.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'']})];
+  const head=['Tanggal Isolir','Kode pelanggan','Nama pelanggan','Nomor HP','Stasiun','Mitra','Kontak mitra','Aging isolir (hari)','Hasil broadcast','Tag','Jumlah room','Channel (terakhir)','Status room (terakhir)','Waktu room terakhir','Agen (terakhir)','Status pelanggan'];
+  const aoa=[head,...r.map(x=>{const l=x.last;return [x.d,x.code,x.name,x.ph,ST[x.s],MI[x.m],mitraText(MI[x.m]),x.life,OUTK[x.g].label,[...new Set(x.rooms.flatMap(b=>b.tags))].join('; '),x.rooms.length,l?chName(BCH[l.ch]):'',l?l.st:'',l?l.at:'',l&&l.ag>=0?BAG[l.ag]:'',KLBL[x.k]||'Suspend']})];
   const gc=count(RM,'g');
   const ring=[['Hasil broadcast','Jumlah pelanggan isolir'],...[...OUT,OUTK.none].map(o=>[o.label,gc.get(o.k)||0]),[],['Total pelanggan isolir',RM.length],['Terjangkau broadcast',MS.cust],['Room broadcast cocok',MS.rooms]];
   exportSheets('pencocokan-isolir-broadcast.xlsx',[{name:'Pencocokan',aoa,cols:[14,16,26,16,20,28,60,10,18,44,8,26,12,18,20]},{name:'Ringkasan',aoa:ring,cols:[30,22]}],r.length);
@@ -3703,16 +4052,19 @@ function csvToData(txt){
   const exAdd=(r,dd)=>{
     const a=(r[I.s]||'').trim()||'(Tanpa stasiun)', b=(r[I.m]||'').trim()||'(Tanpa mitra)';
     if(!sh.has(a)){sh.set(a,sl.length);sl.push(a)}if(!mh.has(b)){mh.set(b,ml.length);ml.push(b)}
-    ex.push([r[I.p],sh.get(a),mh.get(b),r[I.c],(r[I.n]||'').trim(),String(r[I.a]||'').slice(0,10),dd||'']);
+    ex.push([r[I.p],sh.get(a),mh.get(b),r[I.c],(r[I.n]||'').trim(),String(r[I.a]||'').slice(0,10),dd||'',kOf(r)]);
   };
+  /* status yang dipantau: suspend (s) dan ready-to-dismantle (d); status lain diabaikan */
+  const kOf=r=>(r[I.st]||'').trim().toLowerCase()==='ready-to-dismantle'?'d':'s';
   for(const r of t){
-    if(r.length<h.length||(r[I.st]||'').trim().toLowerCase()!=='suspend')continue;
+    const sv=(r[I.st]||'').trim().toLowerCase();
+    if(r.length<h.length||(sv!=='suspend'&&sv!=='ready-to-dismantle'))continue;
     if(!r[I.u]||!r[I.a]){exAdd(r);continue}
     const a=(r[I.s]||'').trim()||'(Tanpa stasiun)', b=(r[I.m]||'').trim()||'(Tanpa mitra)';
     if(!sh.has(a)){sh.set(a,sl.length);sl.push(a)}if(!mh.has(b)){mh.set(b,ml.length);ml.push(b)}
     const [d,tm]=toWib(r[I.u]), [ad]=toWib(r[I.a]);
     if(d>todayW){exAdd(r,d);continue}
-    rows.push([sh.get(a),mh.get(b),r[I.c],(r[I.n]||'').trim(),r[I.p],ad,d,tm]);
+    rows.push([sh.get(a),mh.get(b),r[I.c],(r[I.n]||'').trim(),r[I.p],ad,d,tm,kOf(r)]);
   }
   return {st:sl,mi:ml,rows,ex};
 }
@@ -3982,26 +4334,51 @@ const UP={data:null};
 const SLOTS=['FB','FT','IB','IT'];
 const SLOT_LABEL={FB:'Data Broadcast WA FTTH',FT:'Data Tag Broadcast FTTH',IB:'Data BC IRA (FWA)',IT:'Hasil Tag IRA (FWA)'};
 const PAIR={main:{},mod:{}};
-const utcToWib=s=>new Date(new Date(String(s).trim().replace(' ','T')+'Z').getTime()+7*36e5).toISOString().slice(0,19).replace('T',' ');
-const serialToStr=n=>new Date(Math.round((+n-25569)*86400)*1000).toISOString().slice(0,19).replace('T',' ');
+/* Waktu dari file ekspor bisa berformat macam-macam. normTs mengembalikan 'YYYY-MM-DD HH:mm:ss' atau '' bila tidak dikenali (tidak pernah melempar error). */
+const MON3={jan:1,feb:2,mar:3,apr:4,mei:5,may:5,jun:6,jul:7,agu:8,ags:8,aug:8,sep:9,okt:10,oct:10,nov:11,des:12,dec:12};
+function normTs(v){
+  if(v===null||v===undefined||v==='')return '';
+  if(typeof v==='number'){
+    if(!isFinite(v)||v<20000||v>80000)return '';
+    const d=new Date(Math.round((v-25569)*86400)*1000);return isNaN(d)?'':d.toISOString().slice(0,19).replace('T',' ');
+  }
+  if(v instanceof Date)return isNaN(v)?'':v.toISOString().slice(0,19).replace('T',' ');
+  let s=String(v).trim().replace(/\s*(UTC|GMT|Z)$/i,'').replace(/(\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?)\s*[+-]\d{2}:?\d{2}$/,'$1').replace(/(\d{1,2}:\d{2}:\d{2})\.\d+$/,'$1').trim();
+  if(!s)return '';
+  const P=(y,mo,d,h,mi,se)=>{y=+y;mo=+mo;d=+d;h=+(h||0);mi=+(mi||0);se=+(se||0);
+    if(!(y>=2000&&y<=2100&&mo>=1&&mo<=12&&d>=1&&d<=31&&h<=23&&mi<=59&&se<=59))return '';
+    const z=n=>String(n).padStart(2,'0');return `${y}-${z(mo)}-${z(d)} ${z(h)}:${z(mi)}:${z(se)}`};
+  const TM='(?:[ T,]+(\\d{1,2})[:.](\\d{2})(?:[:.](\\d{2}))?)?$';
+  let m;
+  if(m=new RegExp('^(\\d{4})[-/](\\d{1,2})[-/](\\d{1,2})'+TM).exec(s))return P(m[1],m[2],m[3],m[4],m[5],m[6]);
+  if(m=new RegExp('^(\\d{1,2})[/.-](\\d{1,2})[/.-](\\d{4})'+TM).exec(s))return P(m[3],m[2],m[1],m[4],m[5],m[6]);
+  if(m=new RegExp('^(\\d{1,2})[ -]([A-Za-z]{3,9})\\.?[ ,-]+(\\d{4})'+TM).exec(s)){const mo=MON3[m[2].slice(0,3).toLowerCase()];return mo?P(m[3],mo,m[1],m[4],m[5],m[6]):''}
+  if(m=new RegExp('^([A-Za-z]{3,9})\\.? (\\d{1,2}),? (\\d{4})'+TM).exec(s)){const mo=MON3[m[1].slice(0,3).toLowerCase()];return mo?P(m[3],mo,m[2],m[4],m[5],m[6]):''}
+  if(/^\d{10}(\.\d+)?$/.test(s)||/^\d{13}$/.test(s)){const n=+s,d=new Date(s.length>=13?n:n*1000);return isNaN(d)?'':d.toISOString().slice(0,19).replace('T',' ')}
+  if(/^\d+(\.\d+)?$/.test(s))return normTs(+s);
+  return '';
+}
+const utcToWib=s=>{const n=normTs(s);if(!n)return '';const d=new Date(n.replace(' ','T')+'Z');return isNaN(d)?'':new Date(d.getTime()+7*36e5).toISOString().slice(0,19).replace('T',' ')};
+const serialToStr=n=>normTs(+n);
 const dec=buf=>new TextDecoder('utf-8').decode(buf).replace(/^﻿/,'');
 const rkOf=s=>({read:0,delivered:1,sent:2,failed:3}[s]??4);
 function readBroadcast(txt,spec){
   const recs=csvRecs(txt), h=(recs.shift()||[]).map(x=>String(x).trim()), ix=n=>h.indexOf(n);
   const I={n:ix(spec.n),p:ix(spec.p),s:ix(spec.s),e:ix(spec.e),c:ix(spec.c)};
   if(Object.values(I).some(v=>v<0))throw new Error(`${spec.label} tidak sesuai (kolom ${[spec.n,spec.p,spec.s,spec.e,spec.c].join(', ')} tidak lengkap).`);
-  const bm=new Map();let skipped=0;
+  const bm=new Map();let skipped=0,sample='';
   recs.forEach(r=>{
     if(r.length<h.length)return;
-    const pn=normPhone(r[I.p]), t=String(r[I.c]||'').replace(/\s*UTC$/,'').trim();
-    if(!pn||!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(t)){skipped++;return}
+    const pn=normPhone(r[I.p]), t=normTs(r[I.c]);
+    if(!pn||!t){skipped++;if(!sample&&r[I.c])sample=String(r[I.c]);return}
     const wib=spec.utc?utcToWib(t):t;
+    if(!wib){skipped++;return}
     const e={name:(r[I.n]||'').trim(),ph:String(r[I.p]).trim().replace(/^\+/,''),pn,st:String(r[I.s]||'sent').trim().toLowerCase(),err:String(r[I.e]||'').trim(),wib};
     const o=bm.get(pn);
     if(!o)bm.set(pn,e);
     else{const best=rkOf(e.st)<rkOf(o.st)?e:o;best.wib=wib<o.wib?wib:o.wib;bm.set(pn,best)}
   });
-  if(!bm.size)throw new Error(`Tidak ada baris broadcast yang valid pada ${spec.label}.`);
+  if(!bm.size)throw new Error(`Tidak ada baris broadcast yang valid pada ${spec.label}.${sample?` Format waktu pada kolom ${spec.c} tidak dikenali (contoh nilai: "${sample}").`:''}`);
   return {bm,skipped};
 }
 async function readIraTags(file){
@@ -4014,16 +4391,17 @@ async function readIraTags(file){
   const h=(rows.shift()||[]).map(x=>String(x).trim()), ix=n=>h.indexOf(n);
   const I={id:ix('Room ID'),c:ix('Customer ID'),n:ix('Customer Name'),ch:ix('Channel Name'),t:ix('Tag'),s:ix('Conversation Started At')};
   if(Object.values(I).some(v=>v<0))throw new Error('File Hasil Tag IRA tidak sesuai (kolom Room ID, Customer ID, Customer Name, Channel Name, Tag, Conversation Started At tidak lengkap).');
-  const rooms=new Map();
+  const rooms=new Map();let badIra=0,sampleIra='';
   rows.forEach(r=>{
     const id=String(r[I.id]||'').trim();if(!id)return;
     const cid=String(r[I.c]||'').trim().replace(/^\+/,'');if(!/^\d{8,15}$/.test(cid))return; // bukan nomor telepon (email/webchat)
-    const sv=r[I.s], st=typeof sv==='number'?serialToStr(sv):String(sv||'').trim();
-    if(!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(st))return;
+    const sv=r[I.s], st=normTs(sv);
+    if(!st){badIra++;if(!sampleIra&&sv)sampleIra=String(sv);return}
     let o=rooms.get(id);if(!o){o={id,ph:cid,pn:normPhone(cid),name:String(r[I.n]||'').trim(),ch:String(r[I.ch]||'').trim(),start:st,tags:new Set()};rooms.set(id,o)}
     const tg=String(r[I.t]||'').trim().toLowerCase();if(tg)o.tags.add(tg);
   });
-  return {rooms:[...rooms.values()],truncated:rows.length+1>=1000};
+  if(!rooms.size&&badIra)throw new Error(`Format waktu pada kolom Conversation Started At di File Hasil Tag IRA tidak dikenali (contoh nilai: "${sampleIra}").`);
+  return {rooms:[...rooms.values()],truncated:rows.length+1>=1000,bad:badIra};
 }
 async function buildDayData(P){
   const need=SLOTS.filter(s=>!P[s]);if(need.length)throw new Error('Unggah keempat file: belum ada '+need.map(s=>SLOT_LABEL[s]).join(', ')+'.');
@@ -4037,11 +4415,12 @@ async function buildDayData(P){
   const bcF=chi('wa_cloud [Starlite Broadcast]'), bcI=chi('IRA Broadcast');
   bF.bm.forEach(e=>{const [g,i]=grp(e.wib.slice(0,10),'ftth');g.push([e.name,e.ph,bcF,e.st,e.wib,'',e.err==='n/a'?'':e.err,-1,null,null,null,'bc-'+e.pn,'B']);i.bc++;i.st[e.st]=(i.st[e.st]||0)+1});
   bI.bm.forEach(e=>{const [g,i]=grp(e.wib.slice(0,10),'fwa');g.push([e.name,e.ph,bcI,e.st,e.wib,'',e.err,-1,null,null,null,'bc-ira-'+e.pn,'B',null,'fwa']);i.bc++;i.st[e.st]=(i.st[e.st]||0)+1});
-  let ignored=0;
+  let ignored=0,badT=0,sampleT='';
   tF.rows.forEach(r=>{
-    const pn=normPhone(r[1]), e=bF.bm.get(pn), rutc=String(r[4]);
-    if(!e||FWA_CH.includes(chName(tF.ch[r[2]]).trim())||utcToWib(rutc)<e.wib){ignored++;return}
-    const x=r.slice();x[4]=utcToWib(rutc);x[12]='';if(!x[11])x[11]=pn+'-'+x[4];
+    const pn=normPhone(r[1]), e=bF.bm.get(pn), wr=utcToWib(r[4]);
+    if(!wr){badT++;if(!sampleT&&r[4])sampleT=String(r[4]);return}
+    if(!e||FWA_CH.includes(chName(tF.ch[r[2]]).trim())||wr<e.wib){ignored++;return}
+    const x=r.slice();x[4]=wr;x[12]='';if(!x[11])x[11]=pn+'-'+x[4];
     const [g,i]=grp(e.wib.slice(0,10),'ftth');g.push(x);i.rooms++;i.nums.add(pn);
   });
   tI.rooms.forEach(o=>{
@@ -4050,7 +4429,8 @@ async function buildDayData(P){
     const [g,i]=grp(e.wib.slice(0,10),'fwa');
     g.push([o.name,o.ph,chi(o.ch),'unknown',o.start,[...o.tags].join(','),'',-1,null,null,null,'ira-'+o.id,'',null,'fwa']);i.rooms++;i.nums.add(o.pn);
   });
-  return {groups,info,ch,ag:tF.ag,skipped:bF.skipped+bI.skipped,ignored,truncated:tI.truncated};
+  if(badT&&badT===tF.rows.length)throw new Error(`Format waktu pada kolom created_at di File Data Tag Broadcast FTTH tidak dikenali (contoh nilai: "${sampleT}"). Hubungi admin dashboard agar formatnya ditambahkan.`);
+  return {groups,info,ch,ag:tF.ag,skipped:bF.skipped+bI.skipped,ignored,truncated:tI.truncated,badTime:badT+(tI.bad||0)};
 }
 function dayPreview(data,existing,onlyDate){
   const ex=new Map((existing||[]).map(d=>[d.date,d]));
@@ -4058,7 +4438,7 @@ function dayPreview(data,existing,onlyDate){
   const cell=(i,k)=>nf(i.st[k]||0);
   const PL={ftth:'FTTH Starlite',fwa:'FWA IRA'};
   const body=ds.flatMap(d=>['ftth','fwa'].map(pr=>{const i=data.info.get(d+'|'+pr);if(!i)return '';const old=ex.get(d);return `<tr><td>${fmtD(d)}</td><td>${PL[pr]}</td><td class="num">${nf(i.bc)}</td><td class="num">${cell(i,'read')}</td><td class="num">${nf((i.st.delivered||0)+(i.st.sent||0))}</td><td class="num">${cell(i,'failed')}</td><td class="num">${nf(i.rooms)}</td><td class="num">${nf(i.nums.size)}</td><td>${pr==='ftth'?(old?`<span class="up-rep">Ganti data lama${old.rows!=null?` (${nf(old.rows)} baris)`:''}</span>`:'<span class="up-new">Tanggal baru</span>'):''}</td></tr>`})).join('');
-  return `<div class="tw"><table><thead><tr><th>Tanggal</th><th>Kategori</th><th class="num">Broadcast</th><th class="num">Dibaca</th><th class="num">Terkirim</th><th class="num">Gagal</th><th class="num">Room cocok</th><th class="num">Nomor membalas</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div><p class="foot" style="margin:6px 0 0">Hanya room yang dibuat setelah waktu kirim broadcast nomor itu yang dicocokkan (${nf(data.ignored)} baris room lain diabaikan${data.skipped?`, ${nf(data.skipped)} baris broadcast tanpa nomor/waktu valid dilewati`:''}). Nomor tanpa room dihitung Tidak respon.</p>${data.truncated?'<p class="foot" style="margin:6px 0 0;color:#b45309;font-weight:600">Peringatan: file Hasil Tag IRA memuat tepat 1.000 baris (batas ekspor), kemungkinan ada tag yang terpotong. Ekspor ulang dengan rentang lebih kecil bila perlu.</p>':''}`;
+  return `<div class="tw"><table><thead><tr><th>Tanggal</th><th>Kategori</th><th class="num">Broadcast</th><th class="num">Dibaca</th><th class="num">Terkirim</th><th class="num">Gagal</th><th class="num">Room cocok</th><th class="num">Nomor membalas</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div><p class="foot" style="margin:6px 0 0">Hanya room yang dibuat setelah waktu kirim broadcast nomor itu yang dicocokkan (${nf(data.ignored)} baris room lain diabaikan${data.skipped?`, ${nf(data.skipped)} baris broadcast tanpa nomor/waktu valid dilewati`:''}${data.badTime?`, ${nf(data.badTime)} baris room dengan waktu tidak valid dilewati`:''}). Nomor tanpa room dihitung Tidak respon.</p>${data.truncated?'<p class="foot" style="margin:6px 0 0;color:#b45309;font-weight:600">Peringatan: file Hasil Tag IRA memuat tepat 1.000 baris (batas ekspor), kemungkinan ada tag yang terpotong. Ekspor ulang dengan rentang lebih kecil bila perlu.</p>':''}`;
 }
 function upStatus(msg,bad){const s=$('upStatus');if(!s)return;s.textContent=msg||'';s.className='upst'+(bad?' bad':'')}
 function bindPair(key,ids,onChange){
@@ -4080,7 +4460,7 @@ async function upRecalc(){
   const my=++upSeq;UP.data=null;const p=PAIR.main, n=SLOTS.filter(s=>p[s]).length;
   if(n<SLOTS.length){renderPreview();upStatus(n?`Baru ${n} dari ${SLOTS.length} file. Data harus lengkap (keempat file) sebelum bisa disimpan.`:'',!!n);return}
   upStatus('Membaca file…');
-  try{const d=await buildDayData(p);if(my!==upSeq)return;UP.data=d;upStatus('')}catch(e){if(my!==upSeq)return;upStatus(e.message||String(e),true)}
+  try{const d=await buildDayData(p);if(my!==upSeq)return;UP.data=d;upStatus('')}catch(e){if(my!==upSeq)return;const m=(e&&e.message)||String(e);upStatus(/invalid time value/i.test(m)?'Format waktu pada salah satu file tidak dikenali. Pastikan file asli hasil ekspor (belum dibuka dan disimpan ulang di Excel), lalu coba lagi.':m,true)}
   renderPreview();
 }
 function renderPreview(){
@@ -4223,9 +4603,9 @@ async function fetchFirst(list){
 }
 let firstLoad=true;
 async function loadIso(){
-  const {text,at}=await fetchFirst([[CFG.csvUrl,'Google Sheets (isolir)'],[CFG.dataFile,CFG.dataFile]]);
+  const {text,at}=await fetchFirst([[CFG.csvUrl,'Layanan data (view_customer_clean)'],[CFG.dataFile,CFG.dataFile]]);
   const D2=csvToData(text);
-  if(!D2.rows.length)throw new Error('tidak ada baris berstatus suspend');
+  if(!D2.rows.length)throw new Error('tidak ada baris berstatus suspend atau ready-to-dismantle');
   const sn=(!firstLoad&&F.st!==null)?ST[F.st]:null, mn=(!firstLoad&&F.mi!==null)?MI[F.mi]:null;
   setData(D2,at);
   const si=sn===null?-1:ST.indexOf(sn), mi=mn===null?-1:MI.indexOf(mn);

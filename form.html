@@ -58,6 +58,32 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);bo
 .it .l span{display:block;font-size:12px;color:var(--ink2)}
 .it .r{text-align:right;flex:none;max-width:48%}
 .pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;background:var(--bg2,#e6eaf0);color:var(--c,#475569);white-space:nowrap}
+.kp{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700;white-space:nowrap;vertical-align:middle}
+/* ---- rapikan kecil: sejajar, sama tinggi, jarak seragam ---- */
+.dash{gap:14px}
+.hero{align-items:stretch;gap:16px}
+.hero .ring{align-self:center}
+.rates{align-items:stretch}
+.rate{display:flex;flex-direction:column;justify-content:center;gap:2px}
+.dash .grid2{align-items:stretch;gap:14px}
+.dash .grid2>.card{display:flex;flex-direction:column}
+.dh{margin-bottom:2px}
+.prg>div{display:flex;flex-direction:column;justify-content:center}
+.rkq{padding:8px 12px}
+.t td,.t th{padding:8px 10px}
+@media(max-width:760px){.hero{grid-template-columns:minmax(0,1fr);justify-items:center}.rates{grid-template-columns:minmax(0,1fr);width:100%}.dash .grid2{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){.prg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rkl{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.rkq{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;border:1.5px solid #d5dce8;border-radius:12px;padding:9px 12px;background:#fff}
+.rkq em{font-style:normal;font-weight:800;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#e6eaf0;color:#475569}
+.rkl .rkq:nth-child(1) em{background:#f5c518;color:#5a4300}.rkl .rkq:nth-child(2) em{background:#c3cad6;color:#2f3b4d}.rkl .rkq:nth-child(3) em{background:#d99a62;color:#4a2a0c}
+.rkq div{min-width:0;display:flex;flex-direction:column;gap:2px}.rkq b{font-size:13.5px;overflow-wrap:anywhere}.rkq span{font-size:11.5px;color:#52607a}.rkq span b{color:#0f1b3d;font-size:inherit}
+.rkq i{display:block;height:6px;border-radius:99px;background:#e6eaf0;overflow:hidden}.rkq u{display:block;height:100%;background:#16a34a;text-decoration:none}
+.rkq strong{font-size:24px;line-height:1;color:#15803d;text-align:center}.rkq strong small{display:block;font-size:10px;font-weight:600;color:#52607a;margin-top:3px}
+.rkq.me{border-color:#2563eb;background:#eef4ff;box-shadow:0 0 0 2px #bcd0fb}.rkq b .you{color:#fff;font-size:10px}.you{display:inline-block;margin-left:6px;font-size:10px;font-weight:800;color:#fff;background:#2563eb;border-radius:99px;padding:1px 7px;vertical-align:middle}
+.rkme{margin-top:10px;border-top:1px dashed #cbd5e1;padding-top:8px}.rkme>span{display:block;font-size:11.5px;color:#52607a;margin-bottom:6px}
+.kp.ks{background:#fdecd0;color:#b45309}.kp.kd{background:#f3e1fa;color:#7c2d92}.kp.kx{background:#fde2e2;color:#b91c1c}.kp.ky{background:#ffe8d2;color:#9a3412}
+#kchips{margin-bottom:6px}
 .p-lanjut{--c:var(--ok);--bg2:var(--okbg)}.p-tidak{--c:var(--bad);--bg2:var(--badbg)}.p-norespon{--c:var(--mut);--bg2:var(--mutbg)}.p-todo{--c:var(--warn);--bg2:var(--warnbg)}
 .it .r small{display:block;font-size:11px;color:var(--ink2);margin-top:2px}
 .empty{text-align:center;color:var(--ink2);padding:24px 10px}
@@ -203,7 +229,7 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
 <body>
 <header class="top">
   <small>Tim Admin Retensi Starlite</small>
-  <h1>Laporan Follow Up Pelanggan Isolir</h1>
+  <h1>Laporan Follow Up Pelanggan Isolir &amp; Ready to Dismantle</h1>
   <span class="mn" id="mName">Memuat…</span>
 </header>
 <main>
@@ -218,7 +244,7 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
     </button>
     <button class="menu" data-go="petugas">
       <span class="mi mi-p" aria-hidden="true"></span>
-      <span class="mt"><b>Petugas Follow Up</b><span>Pilih stasiun, pilih pelanggan, lalu isi laporan follow up beserta foto. Riwayat follow up tiap pelanggan bisa dilihat di sini.</span><span class="mk" id="hkP"></span></span>
+      <span class="mt"><b>Petugas Follow Up</b><span>Pilih kategori (isolir atau dismantle) dan stasiun, pilih pelanggan, lalu isi laporan follow up beserta foto. Riwayat follow up tiap pelanggan bisa dilihat di sini.</span><span class="mk" id="hkP"></span></span>
       <span class="ma" aria-hidden="true">›</span>
     </button>
   </section>
@@ -247,8 +273,9 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
   <section class="tiles" id="tiles" hidden></section>
 
   <section class="card" id="stCard" hidden>
-    <div class="row" style="justify-content:space-between"><h2 style="margin:0">Langkah 1 · Pilih stasiun</h2><button class="btn sec sm" id="reload2">Muat ulang</button></div>
-    <p class="foot" style="margin:4px 0 8px">Pilih stasiun pelanggan yang akan di-follow up.</p>
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0">Langkah 1 · Pilih kategori dan stasiun</h2><button class="btn sec sm" id="reload2">Muat ulang</button></div>
+    <div class="chips" id="catTabs" style="margin:8px 0"></div>
+    <p class="foot" id="stHint" style="margin:4px 0 8px">Pilih stasiun pelanggan yang akan di-follow up.</p>
     <input type="search" id="sq" placeholder="Cari stasiun" aria-label="Cari stasiun">
     <div class="stl" id="stList"></div>
   </section>
@@ -258,6 +285,7 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
     <div class="row" style="justify-content:space-between;margin-top:10px"><h2 style="margin:0">Langkah 2 · Pilih pelanggan</h2><button class="btn sec sm" id="reload">Muat ulang</button></div>
     <p class="foot" style="margin:4px 0 8px">Stasiun <b id="stName"></b>. Ketuk pelanggan untuk mengisi laporan atau melihat riwayat follow up.</p>
     <input type="search" id="q" placeholder="Cari nama, kode, nomor HP, stasiun" aria-label="Cari pelanggan">
+    <div class="chips" id="kchips" aria-label="Filter status pelanggan"></div>
     <div class="chips" id="chips"></div>
     <div id="list"></div>
   </section>
@@ -345,7 +373,7 @@ async function api(action,data,tries){
 }
 
 /* ---------- data ---------- */
-const S={mitra:'',rows:[],recs:[],f:'',q:'',cur:null,files:{},up:{},busy:false};
+const S={mitra:'',rows:[],dis:[],disOff:false,cat:'iso',recs:[],f:'',q:'',cur:null,files:{},up:{},busy:false};
 const picKey='fuPic.'+T.slice(0,10);
 const getPic=()=>{try{return JSON.parse(lsGet(picKey)||'null')}catch(e){return null}};
 let RIDX=null,RIDXN=-1,RIDXR=null;
@@ -365,7 +393,7 @@ async function load(){
   if(!T){fail('Link tidak lengkap. Buka link yang dikirim Tim Admin Retensi Starlite melalui WhatsApp.');return}
   try{
     const r=await api('fu_list',{});
-    S.mitra=r.mitra;S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];S.petugas=r.petugas||[];
+    S.mitra=r.mitra;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];
     document.title='Follow Up Isolir · '+S.mitra;
     $('mName').textContent='Mitra '+S.mitra;
     $('boot').hidden=true;S.at=r.at||Date.now();
@@ -396,25 +424,38 @@ function showWho(edit){
   }
   else{$('wsN').textContent=p.n;$('wsH').textContent=p.h;renderFu()}
 }
+/* status pelanggan dari server: r[7] = 'd' ready-to-dismantle, selain itu suspend (isolir) */
+const kOf=r=>{const k=r&&r[7];return k==='d'||k==='x'||k==='y'?k:'s'};
+const KLB={s:'Suspend',d:'Ready to dismantle',x:'Dismantled',y:'Dismantling'};
+const kLong=r=>({s:'Suspend (isolir)',d:'Ready to dismantle',x:'Dismantled',y:'Dismantling'})[kOf(r)];
+const kPill=r=>{const k=kOf(r);return `<span class="kp k${k}">${KLB[k]}</span>`};
+const isDis=k=>k==='x'||k==='y';
+const catRows=()=>S.cat==='dis'?S.dis:S.rows;
+const rowOf=code=>S.rows.find(r=>r[1]===code)||S.dis.find(r=>r[1]===code);
+const rowSort=(a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id');
 /* petugas: langkah 1 pilih stasiun, langkah 2 pilih pelanggan */
-function stRows(){return S.stn?S.rows.filter(r=>r[0]===S.stn):S.rows}
+function stRows(){const b=catRows();return S.stn?b.filter(r=>r[0]===S.stn):b}
 function renderFu(){
   const pick=!S.stn;
   $('stCard').hidden=!pick;$('listCard').hidden=pick;$('tiles').hidden=false;
   if(pick)renderStations();else render();
 }
 function renderStations(){
+  const CR=catRows(), dis=S.cat==='dis', K2=dis?['x','y']:['s','d'], KN=dis?['dismantled','dismantling']:['suspend','RTD'];
+  $('catTabs').innerHTML=S.disOff?'':[['iso','Isolir & Ready to dismantle',S.rows.length],['dis','Dismantle (ajak berlangganan kembali)',S.dis.length]].map(([k,l,n])=>`<button data-cat="${k}" class="${S.cat===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('');
+  $('catTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{location.hash=b.dataset.cat==='dis'?'#petugas/dismantle':'#petugas'});
+  $('stHint').textContent=dis?'Pelanggan yang sudah dismantle. Hubungi dan ajak berlangganan kembali.':'Pilih stasiun pelanggan yang akan di-follow up.';
   const m=new Map();
-  S.rows.forEach(r=>{let o=m.get(r[0]);if(!o)m.set(r[0],o={k:r[0],n:0,d:0});o.n++;if(stateOf(r).cur.length)o.d++});
+  CR.forEach(r=>{let o=m.get(r[0]);if(!o)m.set(r[0],o={k:r[0],n:0,d:0,a:0,b:0});o.n++;o[kOf(r)===K2[0]?'a':'b']++;if(stateOf(r).cur.length)o.d++});
   const all=[...m.values()].sort((a,b)=>a.k.localeCompare(b.k,'id'));
-  const tot=S.rows.length, done=all.reduce((s,o)=>s+o.d,0);
-  $('tiles').innerHTML=`<div class="tile"><span>Pelanggan isolir</span><b>${nf(tot)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(tot-done)}</b></div>`;
+  const tot=CR.length, done=all.reduce((s,o)=>s+o.d,0);
+  $('tiles').innerHTML=`<div class="tile"><span>${dis?'Dismantle':'Suspend + RTD'}</span><b>${nf(tot)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(tot-done)}</b></div>`;
   const q=(S.sq||'').toLowerCase(), L=all.filter(o=>!q||o.k.toLowerCase().includes(q));
-  $('stList').innerHTML=L.length?L.map(o=>`<button class="sti${o.d===o.n?' done':''}" data-s="${esc(o.k)}"><b>${esc(o.k)}</b><span>${nf(o.n)} pelanggan isolir · <b style="display:inline;font-size:12px;color:${o.n-o.d?'var(--warn)':'var(--ok)'}">${nf(o.n-o.d)} belum dilaporkan</b></span>${bar([['Sudah dilaporkan',o.d,'var(--ok)']],o.n)}</button>`).join(''):'<div class="empty">Stasiun tidak ditemukan</div>';
-  $('stList').querySelectorAll('.sti').forEach(b=>b.onclick=()=>{location.hash='#petugas/'+encodeURIComponent(b.dataset.s)});
+  $('stList').innerHTML=L.length?L.map(o=>`<button class="sti${o.d===o.n?' done':''}" data-s="${esc(o.k)}"><b>${esc(o.k)}</b><span>${nf(o.n)} pelanggan (${nf(o.a)} ${KN[0]} · ${nf(o.b)} ${KN[1]}) · <b style="display:inline;font-size:12px;color:${o.n-o.d?'var(--warn)':'var(--ok)'}">${nf(o.n-o.d)} belum dilaporkan</b></span>${bar([['Sudah dilaporkan',o.d,'var(--ok)']],o.n)}</button>`).join(''):'<div class="empty">Stasiun tidak ditemukan</div>';
+  $('stList').querySelectorAll('.sti').forEach(b=>b.onclick=()=>{location.hash='#petugas/'+(S.cat==='dis'?'dismantle/':'')+encodeURIComponent(b.dataset.s)});
 }
 $('sq').oninput=e=>{S.sq=e.target.value.trim();renderStations()};
-$('stBack').onclick=()=>{location.hash='#petugas'};
+$('stBack').onclick=()=>{location.hash=S.cat==='dis'?'#petugas/dismantle':'#petugas'};
 $('wOk').onclick=()=>{
   const sel=(document.querySelector('input[name=pk]:checked')||{}).value;
   if(sel!==undefined&&sel!=='new'){const x=S.petugas[+sel];if(x){lsSet(picKey,JSON.stringify({n:x.n,h:x.h}));showWho();return}}
@@ -430,26 +471,29 @@ function render(){
   if(!S.stn){renderStations();return}
   const R=stRows(), st=R.map(r=>({r,s:stateOf(r)}));
   const done=st.filter(x=>x.s.cur.length).length;
-  $('stName').textContent=S.stn;
-  $('tiles').innerHTML=`<div class="tile"><span>Isolir di stasiun ini</span><b>${nf(R.length)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(R.length-done)}</b></div>`;
+  $('stName').textContent=(S.cat==='dis'?'Dismantle · ':'')+S.stn;
+  $('tiles').innerHTML=`<div class="tile"><span>${S.cat==='dis'?'Dismantle di stasiun ini':'Suspend + RTD di stasiun ini'}</span><b>${nf(R.length)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(R.length-done)}</b></div>`;
   const C=[['','Semua',st.length],['todo','Belum dilaporkan',R.length-done],['done','Sudah dilaporkan',done],['lanjut','Bersedia lanjut',st.filter(x=>x.s.last&&x.s.last.status==='lanjut').length],['tidak','Tidak bersedia',st.filter(x=>x.s.last&&x.s.last.status==='tidak').length],['norespon','Tidak merespon',st.filter(x=>x.s.last&&x.s.last.status==='norespon').length]];
   $('chips').innerHTML=C.filter(c=>c[0]===''||c[0]==='todo'||c[0]==='done'||c[2]).map(([k,l,n])=>`<button data-f="${k}" class="${S.f===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('');
   $('chips').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.f=b.dataset.f;render()});
+  const KK=S.cat==='dis'?['x','y']:['s','d'], nS=R.filter(r=>kOf(r)===KK[0]).length, nD=R.length-nS;
+  $('kchips').innerHTML=nD&&nS?[['','Semua status',R.length],[KK[0],KLB[KK[0]],nS],[KK[1],KLB[KK[1]],nD]].map(([k,l,n])=>`<button data-k="${k}" class="${(S.k||'')===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join(''):'';
+  $('kchips').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.k=b.dataset.k;render()});
   const q=S.q.toLowerCase();
-  const list=st.filter(({r,s})=>(!q||(r[0]+' '+r[1]+' '+r[2]+' '+r[3]).toLowerCase().includes(q))&&(S.f===''||(S.f==='todo'&&!s.cur.length)||(S.f==='done'&&s.cur.length)||(s.last&&s.last.status===S.f)));
+  const list=st.filter(({r,s})=>(!S.k||kOf(r)===S.k)&&(!q||(r[0]+' '+r[1]+' '+r[2]+' '+r[3]).toLowerCase().includes(q))&&(S.f===''||(S.f==='todo'&&!s.cur.length)||(S.f==='done'&&s.cur.length)||(s.last&&s.last.status===S.f)));
   let h='';
   list.forEach(({r,s})=>{
     const right=s.last?`<span class="pill p-${s.last.status}">${STL[s.last.status]}</span><small>Follow up ke-${s.n} · ${s.cur.length} laporan${s.all.length>1?' · lihat riwayat':''}</small>`
       :`<span class="pill p-todo">Belum dilaporkan</span><small>${s.all.length?'Follow up ke-'+s.n+' (pernah '+s.all.length+'x sebelumnya)':'Follow up ke-'+s.n}</small>`;
-    h+=`<button class="it" data-c="${esc(r[1])}"><span class="l"><b>${esc(r[2]||'(tanpa nama)')}</b><span>${esc(r[1])} · ${esc(r[3])}</span><span>Isolir sejak ${fmtD(r[5])}</span></span><span class="r">${right}</span></button>`;
+    h+=`<button class="it" data-c="${esc(r[1])}"><span class="l"><b>${esc(r[2]||'(tanpa nama)')}</b><span>${esc(r[1])} · ${esc(r[3])}</span><span>${kPill(r)} sejak ${fmtD(r[5])}</span></span><span class="r">${right}</span></button>`;
   });
   $('list').innerHTML=h||'<div class="empty">Tidak ada pelanggan yang cocok</div>';
-  $('list').querySelectorAll('.it').forEach(b=>b.onclick=()=>openSheet(S.rows.find(r=>r[1]===b.dataset.c)));
+  $('list').querySelectorAll('.it').forEach(b=>b.onclick=()=>openSheet(rowOf(b.dataset.c)));
 }
 $('q').oninput=e=>{S.q=e.target.value.trim();render()};
 function reloadAll(btn){
   if(btn)btn.disabled=true;
-  return api('fu_list',{}).then(r=>{S.rows=(r.rows||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id'));S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();
+  return api('fu_list',{}).then(r=>{S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();
     route(true);toast('Data diperbarui');V.tries=0;loadStats()}).catch(e=>toast(e.message)).finally(()=>{if(btn)btn.disabled=false});
 }
 $('reload').onclick=()=>reloadAll($('reload'));
@@ -461,8 +505,12 @@ function route(keep){
   if(!S.mitra)return;
   const h=decodeURIComponent(location.hash.replace(/^#/,'')), i=h.indexOf('/'), v=i<0?h:h.slice(0,i);
   S.view=v==='dashboard'?'dash':v==='petugas'?'fu':'home';
-  S.stn=S.view==='fu'&&i>=0?h.slice(i+1):'';
-  if(S.stn&&!S.rows.some(r=>r[0]===S.stn))S.stn='';
+  let rest=S.view==='fu'&&i>=0?h.slice(i+1):'';
+  S.cat='iso';
+  if(rest==='dismantle'||rest.indexOf('dismantle/')===0){S.cat='dis';rest=rest.slice(9).replace(/^\//,'')}
+  if(S.prevCat!==S.cat){S.k='';S.f='';S.prevCat=S.cat}
+  S.stn=rest;
+  if(S.stn&&!catRows().some(r=>r[0]===S.stn))S.stn='';
   $('home').hidden=S.view!=='home';$('vbar').hidden=S.view==='home';$('dash').hidden=S.view!=='dash';
   ['who','whoSum','tiles','stCard','listCard'].forEach(id=>$(id).hidden=true);
   if(S.view==='home')renderHome();
@@ -477,14 +525,14 @@ function renderHome(){
   const all=cycles(), fu=all.length, A=all.filter(c=>c.now==='aktif').length;
   const tot=S.rows.length, done=S.rows.filter(r=>stateOf(r).cur.length).length;
   $('hkD').innerHTML=fu?`<em>Success rate ${V.state==='ok'?pf(pc(A,fu)):'…'}</em><em>${nf(fu)} pelanggan di-follow up</em>`:'<em>Belum ada laporan</em>';
-  $('hkP').innerHTML=`<em>${nf(tot)} pelanggan isolir</em><em>${nf(tot-done)} belum dilaporkan</em>`;
+  $('hkP').innerHTML=`<em>${nf(tot)} pelanggan isolir + RTD</em>${S.dis.length?`<em>${nf(S.dis.length)} pelanggan dismantle</em>`:''}<em>${nf(tot-done)} belum dilaporkan</em>`;
 }
 
 /* ---------- ringkasan hasil follow up (untuk mitra & direksi mitra) ----------
  * Satu siklus = pelanggan + tanggal isolir; laporan terakhir di siklus itu yang dihitung.
  * Status sekarang: masih ada di daftar isolir dengan tanggal yang sama = masih isolir;
  * isolir lagi dengan tanggal lebih baru = sempat aktif kembali; tidak lagi isolir = dicek ke data pelanggan aktif. */
-const V={act:null,at:0,state:'idle',err:'',tries:0};
+const V={act:null,at:0,state:'idle',err:'',tries:0,rank:null};
 async function loadStats(){
   if(V.state==='loading')return;
   V.state='loading';
@@ -493,34 +541,35 @@ async function loadStats(){
     if(r.pending){V.state='pending';if(++V.tries<10)setTimeout(loadStats,15000)}
     else if(r.off)V.state='off';
     else if(r.err){V.state='err';V.err=r.err}
-    else{V.act=new Set(r.act||[]);V.at=r.at||Date.now();V.state='ok'}
+    else{V.act=new Set(r.act||[]);V.at=r.at||Date.now();V.rank=r.rank||null;V.state='ok'}
   }catch(e){V.state=e.code==='bad-action'?'old':'err';V.err=e.message}
   if(S.view==='dash')renderDash();else if(S.view==='home')renderHome();
 }
-const NOWL={aktif:'Aktif kembali',iso:'Masih isolir',dis:'Tidak aktif',unk:'Menunggu verifikasi'};
-const NOWC={aktif:'var(--teal)',iso:'var(--amber)',dis:'var(--slate)',unk:'var(--pend)'};
+const NOWL={aktif:'Aktif kembali',iso:'Masih isolir / RTD',dm:'Belum berlangganan',dis:'Tidak aktif',unk:'Menunggu verifikasi'};
+const NOWC={aktif:'var(--teal)',iso:'var(--amber)',dm:'#b91c1c',dis:'var(--slate)',unk:'var(--pend)'};
 const STC={lanjut:'#16a34a',tidak:'#dc2626',norespon:'#94a3b8'};
 const pc=(a,b)=>b?a/b*100:0;
 const pf=x=>x.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';
 const wibDay=ts=>new Date(Date.parse(ts)+7*36e5).toISOString().slice(0,10);
 const hm=ms=>{const d=new Date(ms+7*36e5).toISOString();return fmtD(d.slice(0,10))+' '+d.slice(11,16)+' WIB'};
 function cycles(){
-  const isoBy=new Map(S.rows.map(r=>[r[1],r])), m=new Map();
+  const isoBy=new Map(S.rows.map(r=>[r[1],r])), disBy=new Map(S.dis.map(r=>[r[1],r])), m=new Map();
   S.recs.forEach(r=>{const k=r.code+'|'+(r.iso||'');let c=m.get(k);if(!c)m.set(k,c={code:r.code,iso:r.iso||'',recs:[]});c.recs.push(r)});
   return [...m.values()].map(c=>{
     c.recs.sort((a,b)=>a.ts<b.ts?-1:1);
-    const last=c.recs[c.recs.length-1], row=isoBy.get(c.code);
+    const last=c.recs[c.recs.length-1], dm=isDis(last.k), row=dm?disBy.get(c.code):isoBy.get(c.code);
     let now;
-    if(row)now=(row[5]||'')>c.iso?'aktif':'iso';
+    if(dm){now=V.state==='ok'?(V.act.has(c.code)?'aktif':(Date.parse(last.ts)>V.at?'unk':'dm')):'unk'}
+    else if(row)now=(row[5]||'')>c.iso?'aktif':'iso';
     else if(V.state==='ok')now=V.act.has(c.code)?'aktif':(Date.parse(last.ts)>V.at?'unk':'dis');
     else now='unk';
-    return Object.assign(c,{last,first:c.recs[0],now,st:last.st||(row&&row[0])||'(Tanpa stasiun)',name:last.name||(row&&row[2])||'',n:cycleNo(c.code,c.iso)});
+    return Object.assign(c,{last,k:last.k||'s',first:c.recs[0],now,st:last.st||(row&&row[0])||'(Tanpa stasiun)',name:last.name||(row&&row[2])||'',n:cycleNo(c.code,c.iso)});
   });
 }
 function bar(parts,tot){return `<div class="bar">${parts.filter(p=>p[1]).map(p=>`<i style="--c:${p[2]};width:${pc(p[1],tot)}%" title="${esc(p[0])}: ${nf(p[1])}"></i>`).join('')}</div>`}
 function legend(parts,tot){return `<div class="lg">${parts.map(p=>`<div><span style="--c:${p[2]}">${esc(p[0])}</span><b>${nf(p[1])}<small>${pf(pc(p[1],tot))}</small></b></div>`).join('')}</div>`}
 function srCell(a,b){return b?`<span class="sr">${pf(pc(a,b))}<span class="mini"><i style="width:${pc(a,b)}%"></i></span></span>`:'<span class="foot">-</span>'}
-function lrow(c){return `<div class="it ro lk" data-hc="${esc(c.code)}" role="button" tabindex="0" title="Lihat riwayat dan lampiran"><span class="l"><b>${esc(c.name||'(tanpa nama)')}</b><span>${esc(c.code)} · ${esc(c.st)}</span><span>Isolir ${fmtD(c.iso)} · follow up ke-${c.n}</span></span><span class="r"><span class="pill p-${c.last.status}">${STL[c.last.status]||c.last.status}</span><small>${fmtTs(c.last.ts)} · ${esc(c.last.pic||'')}</small></span></div>`}
+function lrow(c){return `<div class="it ro lk" data-hc="${esc(c.code)}" role="button" tabindex="0" title="Lihat riwayat dan lampiran"><span class="l"><b>${esc(c.name||'(tanpa nama)')}</b><span>${esc(c.code)} · ${esc(c.st)}</span><span>${isDis(c.k)?'Dismantle':'Isolir'} ${fmtD(c.iso)} · follow up ke-${c.n}</span></span><span class="r"><span class="pill p-${c.last.status}">${STL[c.last.status]||c.last.status}</span><small>${fmtTs(c.last.ts)} · ${esc(c.last.pic||'')}</small></span></div>`}
 function listBlock(id,arr,empty){
   if(!arr.length)return `<div class="empty">${empty}</div>`;
   const open=S.open&&S.open[id], show=open?arr:arr.slice(0,8);
@@ -533,7 +582,7 @@ function renderDash(){
   const all=cycles(), F=all.filter(c=>!from||Date.parse(c.first.ts)>=from);
   const cnt=f=>F.filter(f).length, fu=F.length;
   const L=cnt(c=>c.last.status==='lanjut'), Tk=cnt(c=>c.last.status==='tidak'), N=cnt(c=>c.last.status==='norespon');
-  const A=cnt(c=>c.now==='aktif'), I=cnt(c=>c.now==='iso'), D=cnt(c=>c.now==='dis'), U=cnt(c=>c.now==='unk');
+  const A=cnt(c=>c.now==='aktif'), I=cnt(c=>c.now==='iso'), D=cnt(c=>c.now==='dis'), U=cnt(c=>c.now==='unk'), DM=cnt(c=>c.now==='dm');
   const LA=cnt(c=>c.last.status==='lanjut'&&c.now==='aktif');
   const nRep=F.reduce((s,c)=>s+c.recs.length,0);
   const tot=S.rows.length, done=S.rows.filter(r=>stateOf(r).cur.length).length;
@@ -564,7 +613,21 @@ function renderDash(){
   const actList=F.filter(c=>c.now==='aktif').sort((a,b)=>a.last.ts<b.last.ts?1:-1);
   const todoList=F.filter(c=>c.last.status==='lanjut'&&c.now==='iso').sort((a,b)=>a.last.ts<b.last.ts?1:-1);
   const resP=[['Bersedia lanjut',L,STC.lanjut],['Tidak bersedia lanjut',Tk,STC.tidak],['Tidak merespon',N,STC.norespon]];
-  const nowP=[['Aktif kembali',A,NOWC.aktif],['Masih isolir',I,NOWC.iso],['Tidak aktif',D,NOWC.dis]].concat(U?[['Menunggu verifikasi',U,NOWC.unk]]:[]);
+  const nowP=[['Aktif kembali',A,NOWC.aktif],['Masih isolir / RTD',I,NOWC.iso]].concat(DM?[['Belum berlangganan (dismantle)',DM,NOWC.dm]]:[]).concat([['Tidak aktif',D,NOWC.dis]]).concat(U?[['Menunggu verifikasi',U,NOWC.unk]]:[]);
+  /* peringkat 5 besar semua mitra (urut jumlah pelanggan aktif kembali) */
+  const RK=V.rank;
+  const rkRow=(o,i,me)=>`<div class="rkq${me?' me':''}"><em>${i}</em><div><b>${esc(o.m)}${me?' <span class="you">Mitra Anda</span>':''}</b><span>dari ${nf(o.n)} pelanggan di-follow up · success rate <b>${pf(pc(o.akt,o.n))}</b></span><i><u style="width:${Math.min(100,pc(o.akt,o.n)).toFixed(1)}%"></u></i></div><strong>${nf(o.akt)}<small>aktif kembali</small></strong></div>`;
+  let rankHtml='';
+  if(V.state==='ok'&&RK&&RK.top&&RK.top.length){
+    const meIn=RK.top.some(o=>o.m===S.mitra), fifth=RK.top[RK.top.length-1];
+    const gap=RK.me&&!meIn&&RK.top.length>=5?Math.max(1,fifth.akt-RK.me.akt+1):0;
+    rankHtml=`<section class="card"><h2>Peringkat 5 besar mitra</h2><p class="sub">Diurutkan dari jumlah pelanggan yang kembali berlangganan terbanyak (isolir yang aktif kembali dan dismantle yang berlangganan lagi). Ayo naikkan peringkat mitra Anda dengan follow up lebih banyak!</p>
+      <div class="rkl">${RK.top.map((o,i)=>rkRow(o,i+1,o.m===S.mitra)).join('')}</div>
+      ${RK.me&&!meIn?`<div class="rkme"><span>Posisi mitra Anda dari ${nf(RK.total)} mitra yang sudah follow up</span>${rkRow(RK.me,RK.me.rank,true)}${gap?`<p class="sub" style="margin-top:6px">Butuh sekitar <b>${nf(gap)}</b> pelanggan aktif kembali lagi untuk masuk 5 besar.</p>`:''}</div>`:''}
+      ${!RK.me?`<p class="sub" style="margin-top:8px">Mitra Anda belum masuk peringkat karena belum ada laporan follow up. Mulai dari menu Petugas Follow Up.</p>`:''}</section>`;
+  }else if(V.state==='loading'||V.state==='pending'||V.state==='idle'){
+    rankHtml=`<section class="card"><h2>Peringkat 5 besar mitra</h2><p class="sub"><span class="spin" style="display:inline-block;width:12px;height:12px;border-width:2px;vertical-align:-2px"></span> Memuat peringkat…</p></section>`;
+  }
   el.innerHTML=`
   <section class="card">
     <div class="dh"><div><h2>Ringkasan hasil follow up</h2><p class="sub">Mitra ${esc(S.mitra)} · ${perL}</p></div>
@@ -575,20 +638,21 @@ function renderDash(){
         <div class="rate" style="--c:#16a34a"><span>Bersedia lanjut</span><b>${pf(pc(L,fu))}</b><small>${nf(L)} dari ${nf(fu)} pelanggan (klaim mitra)</small></div>
         <div class="rate" style="--c:var(--teal)"><span>Bersedia lanjut → aktif</span><b>${L?pf(pc(LA,L)):'-'}</b><small>${nf(LA)} dari ${nf(L)} yang bersedia sudah aktif</small></div>
         <div class="rate" style="--c:var(--blue)"><span>Pelanggan di-follow up</span><b>${nf(fu)}</b><small>${nf(nRep)} laporan · ${nf(pR.length)} petugas</small></div>
-      </div></div>`:`<div class="empty">Belum ada laporan follow up pada periode ini.</div>`}
-    <p class="note">Success rate = pelanggan yang di-follow up lalu <b>benar-benar aktif kembali</b> ÷ seluruh pelanggan yang di-follow up. ${vnote}</p>
+      </div></div>`:`<div class="empty">Belum ada laporan follow up pada periode ini.</div>`}    <p class="note">Success rate = pelanggan yang di-follow up lalu <b>benar-benar aktif kembali</b> ÷ seluruh pelanggan yang di-follow up. ${vnote}</p>
   </section>
+
+  ${rankHtml}
 
   <section class="card">
     <div class="dh"><h2>Progres follow up isolir saat ini</h2><button class="btn sm" id="dGo">Isi laporan follow up</button></div>
     ${bar([['Sudah dilaporkan',done,'var(--ok)']],tot)}
-    <div class="prg"><div><span>Pelanggan isolir</span><b>${nf(tot)}</b></div><div><span>Sudah dilaporkan</span><b style="color:var(--ok)">${nf(done)}</b></div><div><span>Belum dilaporkan</span><b style="color:var(--warn)">${nf(tot-done)}</b></div><div><span>Cakupan</span><b>${pf(pc(done,tot))}</b></div></div>
-    <p class="sub" style="margin-top:8px">Data isolir per ${hm(S.at||Date.now())}.</p>
+    <div class="prg"><div><span>Pelanggan isolir + RTD</span><b>${nf(tot)}</b></div><div><span>Sudah dilaporkan</span><b style="color:var(--ok)">${nf(done)}</b></div><div><span>Belum dilaporkan</span><b style="color:var(--warn)">${nf(tot-done)}</b></div><div><span>Cakupan</span><b>${pf(pc(done,tot))}</b></div></div>
+    <p class="sub" style="margin-top:8px">${(()=>{const ks=S.rows.filter(r=>kOf(r)==='s'),kd=S.rows.filter(r=>kOf(r)==='d'),dn=a=>a.filter(r=>stateOf(r).cur.length).length;return `<span class="kp ks">Suspend</span> ${nf(ks.length)} pelanggan (${nf(dn(ks))} sudah dilaporkan) · <span class="kp kd">Ready to dismantle</span> ${nf(kd.length)} pelanggan (${nf(dn(kd))} sudah dilaporkan)${S.dis.length?` · <span class="kp kx">Dismantle</span> ${nf(S.dis.length)} pelanggan (${nf(dn(S.dis))} sudah dilaporkan)`:''}`})()}<br>Data per ${hm(S.at||Date.now())}.</p>
   </section>
 
   <div class="grid2">
     <section class="card"><h2>Hasil follow up (klaim mitra)</h2>${bar(resP,fu)}${legend(resP,fu)}</section>
-    <section class="card"><h2>Status pelanggan sekarang</h2>${bar(nowP,fu)}${legend(nowP,fu)}<p class="sub" style="margin-top:8px">Tidak aktif = tidak ada di daftar isolir maupun pelanggan aktif (misalnya berhenti berlangganan).</p></section>
+    <section class="card"><h2>Status pelanggan sekarang</h2>${bar(nowP,fu)}${legend(nowP,fu)}<p class="sub" style="margin-top:8px">Tidak aktif = tidak ada di daftar isolir maupun pelanggan aktif (misalnya berhenti berlangganan). Pelanggan dismantle dinilai berlangganan kembali bila nomor HP-nya muncul di data pelanggan aktif.</p></section>
   </div>
 
   <section class="card"><h2>Tren follow up 14 hari terakhir</h2><p class="sub">Jumlah pelanggan yang di-follow up per hari, menurut hasil terakhir.</p>${trend}${legend(resP.map(p=>[p[0],dayList.reduce((s,d)=>s+((byDay[d]||{})[p[0]==='Bersedia lanjut'?'lanjut':p[0]==='Tidak merespon'?'norespon':'tidak']||0),0),p[2]]),dayList.reduce((s,d)=>s+((byDay[d]||{}).n||0),0))}</section>
@@ -628,7 +692,7 @@ function histHtml(code,all){
     const ph=['chat','selfie','rumah'].filter(k=>r.p&&r.p[k]);
     const geo=['selfie','rumah'].filter(k=>r.geo&&r.geo[k]&&r.geo[k].lat!=null);
     return `<div class="he"><span class="pill p-${r.status}">${STL[r.status]||esc(r.status)}</span> <b>Follow up ke-${cycleNo(code,r.iso)}</b> · ${fmtTs(r.ts)} · ${esc(r.pic||'')}
-      <div class="foot">Periode isolir ${fmtD(r.iso)}</div>
+      <div class="foot">${isDis(r.k)?'Tanggal dismantle':'Periode isolir'} ${fmtD(r.iso)}</div>
       <div>${esc(r.remark)}</div>${r.alasan?`<div class="foot">Alasan: ${esc(r.alasan)}</div>`:''}
       ${ph.length?`<div class="hph">${ph.map(k=>`<a href="${viewUrl(r.p[k])}" target="_blank" rel="noopener" title="Buka foto ${PHL[k]}"><img src="${thumb(r.p[k])}" alt="${PHL[k]}" loading="lazy" referrerpolicy="no-referrer"><span>${PHL[k]}</span></a>`).join('')}</div>`:'<div class="foot">Tanpa lampiran</div>'}
       ${geo.length?`<div class="geo">${geo.map(k=>`<a href="https://www.google.com/maps?q=${r.geo[k].lat},${r.geo[k].lng}" target="_blank" rel="noopener">📍 Lokasi ${PHL[k].toLowerCase()}</a>`).join('')}</div>`:''}
@@ -637,10 +701,10 @@ function histHtml(code,all){
 /* hanya lihat riwayat (dari Dashboard Summary) */
 function openHist(code){
   const all=recsOf(code);if(!all.length)return;
-  const last=all[all.length-1], row=S.rows.find(r=>r[1]===code);
+  const last=all[all.length-1], row=rowOf(code);
   S.cur=null;
   $('sT').textContent=last.name||(row&&row[2])||'(tanpa nama)';
-  $('sInfo').innerHTML=[['Kode pelanggan',esc(code)],['Nomor HP',esc(last.ph||(row&&row[3])||'-')],['Stasiun',esc(last.st||(row&&row[0])||'-')],['Status isolir',row?'Masih isolir sejak '+fmtD(row[5]):'Tidak lagi isolir']].map(([a,b])=>`<div><span>${a}</span>${b}</div>`).join('');
+  $('sInfo').innerHTML=[['Kode pelanggan',esc(code)],['Nomor HP',esc(last.ph||(row&&row[3])||'-')],['Stasiun',esc(last.st||(row&&row[0])||'-')],['Status pelanggan',row?kLong(row)+' sejak '+fmtD(row[5]):'Tidak lagi isolir / RTD / dismantle']].map(([a,b])=>`<div><span>${a}</span>${b}</div>`).join('');
   $('sCyc').textContent=`${all.length} laporan · ${new Set(all.map(r=>r.iso||'')).size} periode isolir`;
   $('sHist').innerHTML=histHtml(code,all);
   $('sForm').hidden=true;
@@ -652,7 +716,7 @@ function openSheet(row){
   S.cur=row;S.files={};S.up={};$('sForm').hidden=false;
   const s=stateOf(row);
   $('sT').textContent=row[2]||'(tanpa nama)';
-  $('sInfo').innerHTML=[['Kode pelanggan',esc(row[1])],['Nomor HP',waNum(row[3]).length>=9?`<a class="wa" href="https://wa.me/${waNum(row[3])}" target="_blank" rel="noopener">${esc(row[3])}</a>`:esc(row[3])],['Stasiun',esc(row[0])],['Tanggal isolir',fmtD(row[5])]].map(([a,b])=>`<div><span>${a}</span>${b}</div>`).join('');
+  $('sInfo').innerHTML=[['Kode pelanggan',esc(row[1])],['Nomor HP',waNum(row[3]).length>=9?`<a class="wa" href="https://wa.me/${waNum(row[3])}" target="_blank" rel="noopener">${esc(row[3])}</a>`:esc(row[3])],['Stasiun',esc(row[0])],['Status pelanggan',kPill(row)],[isDis(kOf(row))?'Tanggal dismantle':kOf(row)==='d'?'Tanggal RTD':'Tanggal isolir',fmtD(row[5])]].map(([a,b])=>`<div><span>${a}</span>${b}</div>`).join('');
   $('sCyc').textContent=`Follow up ke-${s.n}`+(s.cur.length?` · laporan ke-${s.cur.length+1} di periode isolir ini`:'');
   $('sHist').innerHTML=histHtml(row[1],s.all);
   $('sFh').textContent=s.all.length?'Isi laporan follow up baru':'Isi laporan follow up';
@@ -793,7 +857,7 @@ $('sGo').onclick=async()=>{
       S.up[k]=r.id;
     }
     prog('Menyimpan laporan…');
-    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
+    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],k:kOf(row),pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
     S.recs.push(r.rec);
     if(!(S.petugas||[]).some(x=>hpK(x.h)===hpK(pic.h)))(S.petugas=S.petugas||[]).push({n:pic.n,h:pic.h});
     S.busy=false;$('sCancel').disabled=false;closeSheet();render();

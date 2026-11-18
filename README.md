@@ -19,7 +19,7 @@ Menu ada di sidebar kiri (di HP dibuka lewat tombol ☰). **Report Broadcast Sta
 
 Alamat langsung tiap menu: `#blast`, `#isolir`, `#pencocokan`, `#reminder`, `#followup`, `#unggah`.
 
-**`form.html`** adalah halaman form untuk mitra (dibuka dari link di pesan WhatsApp, `form.html?t=TOKEN`). Unggah file ini ke repositori bersama `index.html`. Setiap mitra punya token rahasia sendiri. Daftar pelanggannya disaring oleh Apps Script, jadi mitra hanya melihat pelanggan isolir miliknya. Form dibuka dengan dua menu besar: **Dashboard Summary** (hanya untuk memantau: success rate aktif kembali, rate bersedia lanjut, progres isolir, tren 14 hari, hasil per stasiun dan petugas, alasan menolak, daftar pelanggan aktif kembali; ketuk pelanggan untuk melihat riwayat dan lampiran) dan **Petugas Follow Up** (pilih stasiun, pilih pelanggan, isi laporan; riwayat follow up dan foto lampiran tampil di atas formulir). Status aktif kembali diverifikasi Apps Script dari CSV pelanggan aktif (`aktifUrl`, dikirim ke server saat link form dibuat).
+**`form.html`** adalah halaman form untuk mitra (dibuka dari link di pesan WhatsApp, `form.html?t=TOKEN`). Unggah file ini ke repositori bersama `index.html`. Setiap mitra punya token rahasia sendiri. Daftar pelanggannya disaring oleh Apps Script, jadi mitra hanya melihat pelanggan isolir miliknya. Form dibuka dengan dua menu besar: **Dashboard Summary** (hanya untuk memantau: success rate aktif kembali, rate bersedia lanjut, progres isolir, tren 14 hari, hasil per stasiun dan petugas, alasan menolak, daftar pelanggan aktif kembali; ketuk pelanggan untuk melihat riwayat dan lampiran) dan **Petugas Follow Up** (pilih kategori Isolir & Ready to dismantle atau Dismantle, pilih stasiun, pilih pelanggan, isi laporan; riwayat follow up dan foto lampiran tampil di atas formulir). Dashboard Summary form juga menampilkan peringkat 5 besar mitra menurut jumlah pelanggan aktif kembali. Status aktif kembali diverifikasi Apps Script dari CSV pelanggan aktif (`aktifUrl`, dikirim ke server saat link form dibuat).
 
 ## Pasang di GitHub Pages
 
@@ -56,12 +56,12 @@ window.APP_CONFIG = {
 };
 ```
 
-- **`csvUrl`**: alamat CSV data isolir (**File → Bagikan → Publikasikan ke web**, pilih sheet, format **CSV**).
+- **`csvUrl`** dan **`aktifUrl`**: sumber data pelanggan. Sekarang keduanya berasal dari tabel `view_customer_clean` di Postgres lewat layanan CSV di server (`https://data.110-239-85-120.sslip.io/isolir.csv?key=…` dan `…/aktif.csv?key=…`, lihat bagian G di `apps-script/PETUNJUK.md`). `isolir.csv` berisi pelanggan berstatus **suspend** dan **ready-to-dismantle**; `aktif.csv` berisi pelanggan berstatus active. Layanan menyegarkan data dari database tiap 10 menit.
 - **`dataFile`**: cadangan data isolir berupa file CSV di folder yang sama. Dipakai bila alamat di atas gagal. Boleh dikosongkan (`''`).
 - **`apiUrl`**: alamat web app Google Apps Script (database bersama, berakhiran `/exec`). Bila diisi, data broadcast dibaca dari database dan ada menu **Unggah Data Broadcast** di bawah sidebar (dikunci dengan kata sandi = `WRITE_KEY` di Script properties); hasil unggahan terlihat oleh semua pengunjung. Bila database masih kosong, dipakai `blastCsvUrl`; setelah data dipindahkan `blastCsvUrl` boleh dihapus. Petunjuk pemasangan ada di `apps-script/PETUNJUK.md` (kode di `apps-script/Code.gs`).
 - **`refreshMinutes`**: jeda muat ulang otomatis. Isi `0` untuk mematikan. Tombol **Perbarui data** di header memuat ulang kedua data kapan saja.
 
-Kolom CSV isolir: `stasiun`, `mitra`, `customer_code`, `customer_name`, `phone_number`, `customer_status`, `active_at`, `customer_updated_at`. Hanya baris `customer_status = suspend` yang dihitung. `customer_updated_at` ditampilkan sebagai **Tanggal Isolir** dalam waktu WIB (UTC+7).
+Kolom CSV: `stasiun`, `mitra`, `customer_code`, `customer_name`, `phone_number`, `customer_status`, `active_at`, `customer_updated_at`, `customer_id`. Baris berstatus `suspend` dan `ready-to-dismantle` dihitung; tombol **Semua / Suspend / Ready to dismantle** di bagian atas dashboard memilih salah satunya (pilihan diingat browser). `customer_updated_at` (tanggal saja) ditampilkan sebagai **Tanggal Isolir**, yaitu tanggal terakhir status pelanggan berubah.
 
 Kolom CSV broadcast: `name`, `handler` (nomor telepon), `channel`, `agents`, `status`, `created_at`, `tag`, `note`, `first_response_time_in_seconds`, `resolved_time_in_seconds`, `first_response_time_in_seconds_by_agent`. Format dengan setiap baris dibungkus tanda kutip (seperti ekspor asli) juga terbaca.
 
