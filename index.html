@@ -2948,7 +2948,7 @@ const fuLink=m=>FUTOK[m]&&fuFormBase()?fuFormBase()+'?t='+FUTOK[m]:'';
 async function fuEnsureTokens(names){
   const need=[...new Set(names)].filter(n=>n&&!FUTOK[n]);if(!need.length)return;
   if(!UPKEY)throw Object.assign(new Error('Perlu kata sandi unggah'),{code:'bad-write-key'});
-  const r=await apiCall('fu_tokens',{wkey:UPKEY,mitras:need,csvUrl:isoCsvUrl()});
+  const r=await apiCall('fu_tokens',{wkey:UPKEY,mitras:need,csvUrl:isoCsvUrl(),aktUrl:activeUrl()});
   Object.assign(FUTOK,r.tokens||{});FUERR=null;
 }
 const fuTokFor=g=>fuEnsureTokens([g.mitra,...(RMD.groups||[]).map(x=>x.mitra)]).catch(e=>{FUERR=e;console.warn('Token form follow up gagal',e)});

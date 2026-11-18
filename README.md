@@ -19,7 +19,7 @@ Menu ada di sidebar kiri (di HP dibuka lewat tombol ☰). **Report Broadcast Sta
 
 Alamat langsung tiap menu: `#blast`, `#isolir`, `#pencocokan`, `#reminder`, `#followup`, `#unggah`.
 
-**`form.html`** adalah halaman form untuk mitra (dibuka dari link di pesan WhatsApp, `form.html?t=TOKEN`). Unggah file ini ke repositori bersama `index.html`. Setiap mitra punya token rahasia sendiri. Daftar pelanggannya disaring oleh Apps Script, jadi mitra hanya melihat pelanggan isolir miliknya.
+**`form.html`** adalah halaman form untuk mitra (dibuka dari link di pesan WhatsApp, `form.html?t=TOKEN`). Unggah file ini ke repositori bersama `index.html`. Setiap mitra punya token rahasia sendiri. Daftar pelanggannya disaring oleh Apps Script, jadi mitra hanya melihat pelanggan isolir miliknya. Form dibuka dengan dua menu besar: **Dashboard Summary** (hanya untuk memantau: success rate aktif kembali, rate bersedia lanjut, progres isolir, tren 14 hari, hasil per stasiun dan petugas, alasan menolak, daftar pelanggan aktif kembali; ketuk pelanggan untuk melihat riwayat dan lampiran) dan **Petugas Follow Up** (pilih stasiun, pilih pelanggan, isi laporan; riwayat follow up dan foto lampiran tampil di atas formulir). Status aktif kembali diverifikasi Apps Script dari CSV pelanggan aktif (`aktifUrl`, dikirim ke server saat link form dibuat).
 
 ## Pasang di GitHub Pages
 
