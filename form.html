@@ -8,252 +8,283 @@
 <title>Laporan Follow Up Isolir</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2312306b%27/%3E%3Cpath d=%27M9 16l5 5 9-10%27 stroke=%27%23fff%27 stroke-width=%273.4%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
 <style>
-:root{--bg:#f3f6fb;--surface:#fff;--ink:#0f1b3d;--ink2:#52607a;--line:#d5dce8;--navy:#12306b;--blue:#2563eb;--ok:#15803d;--okbg:#dcf5e5;--bad:#b91c1c;--badbg:#fde2e2;--warn:#b45309;--warnbg:#fdecd0;--mut:#475569;--mutbg:#e6eaf0}
+/* ===== Laporan follow up mitra: tampilan formal, bersih, modern ===== */
+:root{--bg:#f4f6f9;--surface:#fff;--ink:#0f172a;--ink2:#5b6475;--ink3:#8a93a3;--line:#aeb7c4;--line2:#dde2e9;--navy:#0f2a5c;--blue:#1d4ed8;--blue2:#e8eefc;
+--ok:#15803d;--okbg:#e6f4ea;--bad:#b42318;--badbg:#fdecea;--warn:#b45309;--warnbg:#fdf3e4;--mut:#475569;--mutbg:#eef1f5;
+--teal:#0f766e;--amber:#d97706;--slate:#64748b;--pend:#cbd5e1;
+--cs:#b45309;--csb:#fdf3e4;--cr:#6d28d9;--crb:#f1ebfd;--cx:#b42318;--cxb:#fdecea;--ca:#0f2a5c;--cab:#e8eefc;
+--side:256px;--r:10px}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
-.top{background:linear-gradient(135deg,#0f2557,#1d4ed8);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 18px}
-.top small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;font-weight:700}
-.top h1{margin:2px 0 4px;font-size:19px;line-height:1.25}
-.top .mn{font-size:14px;font-weight:700;background:rgba(255,255,255,.14);display:inline-block;padding:3px 10px;border-radius:999px}
-main{max-width:980px;margin:0 auto;padding:12px 12px calc(30px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
-.card{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 4px 12px rgba(18,48,107,.05)}
-.card h2{margin:0 0 8px;font-size:15px;color:var(--navy)}
+a{color:var(--blue)}
+/* ---- kerangka: menu samping + konten ---- */
+.side{position:fixed;inset:0 auto 0 0;width:var(--side);background:linear-gradient(180deg,#12306b,#0e2452);border-right:0;color:#fff;overflow-y:auto;display:flex;flex-direction:column;z-index:10}
+.brand{display:flex;flex-direction:column;gap:8px;align-items:center;padding:18px 16px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,.14)}
+.blogo{background:#fff;border-radius:12px;padding:8px 16px;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.blogo img{display:block;width:84px;height:auto}
+.logo{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;flex:none}
+.logo svg{width:18px;height:18px}
+.brand small{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.75);font-weight:700}
+.brand b{display:block;font-size:13.5px;color:#fff;line-height:1.3;letter-spacing:.01em}
+.mitra{margin:12px 14px 4px;padding:10px 12px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:rgba(255,255,255,.08)}
+.mitra span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:rgba(212,225,250,.75);font-weight:700}
+.mitra b{display:block;font-size:13.5px;color:#fff;overflow-wrap:anywhere}
+.nav{display:flex;flex-direction:column;gap:2px;padding:10px}
+.nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;color:#d4e1fa;text-decoration:none;font-weight:600;font-size:13.5px;position:relative}
+.nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav a.on{background:#fff;color:#12306b;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.nav a.on::before{content:"";position:absolute;left:-10px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:transparent}
+.nav a .lbl{flex:1;min-width:0;line-height:1.3}
+.nav a em{font-style:normal;font-size:11px;font-weight:700;color:#fff;background:rgba(255,255,255,.16);border-radius:999px;padding:0 7px}
+.nav a.on em{background:#e8eefc;color:#12306b}
+.nav .sep{height:1px;background:rgba(255,255,255,.14);margin:8px 4px}
+.nav .grp{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:rgba(212,225,250,.7);font-weight:700;padding:8px 10px 4px}
+.ico{width:18px;height:18px;flex:none;display:inline-grid;place-items:center}
+.ico svg{width:18px;height:18px}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;margin:0 5px;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.sidefoot{margin:auto 14px 14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.14);font-size:11.5px;color:rgba(212,225,250,.7);line-height:1.45}
+.content{margin-left:var(--side);min-height:100vh;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:8;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line);color:var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar h1{margin:0;font-size:18px;color:var(--ink);letter-spacing:-.01em}
+.topbar .sub{margin:2px 0 0}
+.barm{display:none}
+.barlogo{display:none}
+main{width:100%;max-width:1120px;margin:0 auto;padding:20px 24px calc(40px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+.tabbar{display:none}
+@media(max-width:900px){
+  .side{display:none}
+  .content{margin-left:0}
+  .topbar{padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  .topbar h1{font-size:16px}
+  .barlogo{display:block;width:38px;height:40px;object-fit:contain;flex:none}
+  .barm{display:block;font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  main{padding:14px 12px calc(84px + env(safe-area-inset-bottom,0px));gap:12px}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:12;background:#fff;border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+  .tabbar a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:8px;text-decoration:none;color:var(--ink3);font-size:10.5px;font-weight:700;text-align:center;line-height:1.15}
+  .tabbar a.on{color:var(--navy);background:var(--blue2)}
+  .topbar{background:#fff}
+  .tabbar .ico svg{width:20px;height:20px}
+}
+/* ---- komponen umum ---- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.card h2{margin:0 0 4px;font-size:15px;color:var(--ink);letter-spacing:-.005em}
+.card h2+.sub{margin-bottom:10px}
 .foot{color:var(--ink2);font-size:12px}
-label.f{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin:10px 0 4px}
+.sub{color:var(--ink2);font-size:12.5px;margin:2px 0 0}
+label.f{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin:12px 0 5px}
 label.f em{color:var(--bad);font-style:normal}
-label.f i{font-style:normal;font-weight:500;color:#8a96ab}
-input[type=text],input[type=tel],input[type=search],select,textarea{width:100%;border:1.5px solid #c3cddd;border-radius:10px;padding:10px 11px;background:#fff;font-size:15px}
+label.f i{font-style:normal;font-weight:500;color:var(--ink3)}
+input[type=text],input[type=tel],input[type=search],select,textarea{width:100%;border:1px solid #cfd6e1;border-radius:8px;padding:9px 11px;background:#fff;font-size:14.5px}
 textarea{min-height:84px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,78,216,.14)}
 .err{color:var(--bad);font-size:12px;font-weight:600;margin-top:4px}
 .bad-f{border-color:var(--bad)!important}
-.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff;font-size:15px}
+.btn{border:1px solid var(--blue);border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer;background:var(--blue);color:#fff;font-size:14px}
 .btn:disabled{opacity:.55;cursor:not-allowed}
-.btn.sec{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
-.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn.sec{background:#fff;color:var(--ink);border-color:#cfd6e1}
+.btn.sec:hover{border-color:var(--ink3)}
+.btn.sm{padding:6px 12px;font-size:13px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.who{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.who b{display:block;font-size:15px}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.tile{background:#fff;border:1.5px solid #c7d6f5;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column}
-.tile span{font-size:10.5px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.03em}
-.tile b{font-size:21px;font-weight:800}
-.tile.ok{border-color:#a7e3bd}.tile.ok span{color:var(--ok)}
-.tile.w{border-color:#f5c7a1}.tile.w span{color:var(--warn)}
-.pk{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;margin-top:8px;cursor:pointer}
-.pk input{width:18px;height:18px;accent-color:var(--blue);flex:none;margin:0}
-.pk b{display:block;font-size:14.5px}.pk span{font-size:12px;color:var(--ink2)}
-.pk:has(input:checked){border-color:var(--blue);background:#eef4ff}
-.pkh{font-size:12px;font-weight:700;color:var(--ink2);margin:10px 0 0}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.chips button{border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
-.chips button.sel{background:var(--blue);border-color:var(--blue);color:#fff}
-.stg{position:sticky;top:0;z-index:2;background:#e8eefa;color:var(--navy);font-weight:800;font-size:12px;letter-spacing:.03em;text-transform:uppercase;padding:7px 10px;border-radius:8px;margin:12px 0 6px;display:flex;justify-content:space-between}
-.it{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;cursor:pointer}
-.it:hover{border-color:#9db6ea}
+.who{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px}
+.who b{display:block;font-size:14.5px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column}
+.tile span{font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.tile b{font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.tile.ok b{color:var(--ok)}.tile.w b{color:var(--warn)}
+.pk{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-top:8px;cursor:pointer}
+.pk input{width:17px;height:17px;accent-color:var(--blue);flex:none;margin:0}
+.pk b{display:block;font-size:14px}.pk span{font-size:12px;color:var(--ink2)}
+.pk:has(input:checked){border-color:var(--blue);background:var(--blue2)}
+.pkh{font-size:12px;font-weight:700;color:var(--ink2);margin:12px 0 0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chips button{border:1px solid #cfd6e1;background:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--ink2)}
+.chips button b{color:var(--ink)}
+.chips button.sel{background:var(--navy);border-color:var(--navy);color:#fff}.chips button.sel b{color:#fff}
+.it{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer}
+.it:hover{border-color:#b9c3d3;background:#fcfdfe}
 .it .l{flex:1;min-width:0}
-.it .l b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it .l b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .it .l span{display:block;font-size:12px;color:var(--ink2)}
 .it .r{text-align:right;flex:none;max-width:48%}
-.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;background:var(--bg2,#e6eaf0);color:var(--c,#475569);white-space:nowrap}
-.kp{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700;white-space:nowrap;vertical-align:middle}
-/* ---- rapikan kecil: sejajar, sama tinggi, jarak seragam ---- */
-.dash{gap:14px}
-.hero{align-items:stretch;gap:16px}
-.hero .ring{align-self:center}
-.rates{align-items:stretch}
-.rate{display:flex;flex-direction:column;justify-content:center;gap:2px}
-.dash .grid2{align-items:stretch;gap:14px}
-.dash .grid2>.card{display:flex;flex-direction:column}
-.dh{margin-bottom:2px}
-.prg>div{display:flex;flex-direction:column;justify-content:center}
-.rkq{padding:8px 12px}
-.t td,.t th{padding:8px 10px}
-@media(max-width:760px){.hero{grid-template-columns:minmax(0,1fr);justify-items:center}.rates{grid-template-columns:minmax(0,1fr);width:100%}.dash .grid2{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:560px){.prg{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.rkl{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.rkq{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;border:1.5px solid #d5dce8;border-radius:12px;padding:9px 12px;background:#fff}
-.rkq em{font-style:normal;font-weight:800;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#e6eaf0;color:#475569}
-.rkl .rkq:nth-child(1) em{background:#f5c518;color:#5a4300}.rkl .rkq:nth-child(2) em{background:#c3cad6;color:#2f3b4d}.rkl .rkq:nth-child(3) em{background:#d99a62;color:#4a2a0c}
-.rkq div{min-width:0;display:flex;flex-direction:column;gap:2px}.rkq b{font-size:13.5px;overflow-wrap:anywhere}.rkq span{font-size:11.5px;color:#52607a}.rkq span b{color:#0f1b3d;font-size:inherit}
-.rkq i{display:block;height:6px;border-radius:99px;background:#e6eaf0;overflow:hidden}.rkq u{display:block;height:100%;background:#16a34a;text-decoration:none}
-.rkq strong{font-size:24px;line-height:1;color:#15803d;text-align:center}.rkq strong small{display:block;font-size:10px;font-weight:600;color:#52607a;margin-top:3px}
-.rkq.me{border-color:#2563eb;background:#eef4ff;box-shadow:0 0 0 2px #bcd0fb}.rkq b .you{color:#fff;font-size:10px}.you{display:inline-block;margin-left:6px;font-size:10px;font-weight:800;color:#fff;background:#2563eb;border-radius:99px;padding:1px 7px;vertical-align:middle}
-.rkme{margin-top:10px;border-top:1px dashed #cbd5e1;padding-top:8px}.rkme>span{display:block;font-size:11.5px;color:#52607a;margin-bottom:6px}
-.kp.ks{background:#fdecd0;color:#b45309}.kp.kd{background:#f3e1fa;color:#7c2d92}.kp.kx{background:#fde2e2;color:#b91c1c}.kp.ky{background:#ffe8d2;color:#9a3412}
-#kchips{margin-bottom:6px}
+.it .r small{display:block;font-size:11px;color:var(--ink2);margin-top:3px}
+.it.ro{cursor:default}.it.ro.lk{cursor:pointer}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:600;background:var(--bg2,#eef1f5);color:var(--c,#475569);white-space:nowrap}
 .p-lanjut{--c:var(--ok);--bg2:var(--okbg)}.p-tidak{--c:var(--bad);--bg2:var(--badbg)}.p-norespon{--c:var(--mut);--bg2:var(--mutbg)}.p-todo{--c:var(--warn);--bg2:var(--warnbg)}
-.it .r small{display:block;font-size:11px;color:var(--ink2);margin-top:2px}
+.p-aktif{--c:var(--teal);--bg2:#e1f4f1}.p-iso{--c:var(--amber);--bg2:var(--warnbg)}.p-dis{--c:var(--slate);--bg2:var(--mutbg)}.p-dm{--c:var(--bad);--bg2:var(--badbg)}
+.kp{display:inline-block;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:600;white-space:nowrap;vertical-align:middle}
+.kp.ks{background:var(--csb);color:var(--cs)}.kp.kd{background:var(--crb);color:var(--cr)}.kp.ky{background:#f6eefe;color:#7c3aed}.kp.kx{background:var(--cxb);color:var(--cx)}
 .empty{text-align:center;color:var(--ink2);padding:24px 10px}
-.sheet{position:fixed;inset:0;z-index:20;background:rgba(15,27,61,.5);display:flex;align-items:flex-end;justify-content:center}
-.sheet[hidden]{display:none}
-.sh{background:#fff;width:100%;max-width:760px;max-height:94vh;overflow:auto;border-radius:18px 18px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px))}
-@media(min-width:700px){.sheet{align-items:center}.sh{border-radius:18px;max-height:90vh}}
-.shh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:sticky;top:-14px;background:#fff;padding:4px 0 8px;z-index:1}
+.boot{text-align:center;padding:36px 14px}
+.boot .spin{margin:0 auto 10px;width:26px;height:26px}
+a.wa{color:var(--ok);font-weight:600;text-decoration:none}
+.more{margin-top:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f172a;color:#fff;border-radius:8px;padding:10px 16px;font-weight:600;z-index:40;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+@media(max-width:900px){.toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid #c9d6f5;border-top-color:var(--blue);animation:sp .8s linear infinite;flex:none}@keyframes sp{to{transform:rotate(360deg)}}
+/* ---- daftar follow up: kepala kategori, stasiun ---- */
+.cathead{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-left:4px solid var(--cc)}
+.cathead h2{margin:0;font-size:16px}
+.cathead p{margin:3px 0 0;color:var(--ink2);font-size:13px}
+.stl{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:12px}
+.sti{text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
+.sti:hover{border-color:#b9c3d3}
+.sti b{display:block;font-size:14px}
+.sti span{display:block;font-size:12px;color:var(--ink2);margin-top:2px}
+.sti .bar{height:5px;margin-top:10px}
+.sti.done{border-color:#bfe3cb}
+/* ---- ringkasan ---- */
+.dash{display:flex;flex-direction:column;gap:16px}
+.dh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dh h2{margin:0}
+.dh .chips{margin-top:0}
+.ov{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;margin-top:16px}
+.ring{width:148px;height:148px;border-radius:50%;background:conic-gradient(var(--rc,var(--teal)) calc(var(--p)*1%),#e8ecf2 0);display:grid;place-items:center}
+.ring>div{width:120px;height:120px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring b{font-size:30px;font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.02em}
+.ring span{font-size:10px;color:var(--ink2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;line-height:1.25}
+.ring small{font-size:11.5px;color:var(--ink2)}
+.kv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kv>div{padding:12px 14px;border-left:1px solid var(--line)}
+.kv>div:first-child{border-left:0}
+.kv span{display:block;font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.kv b{display:block;font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kv small{display:block;font-size:12px;color:var(--ink2)}
+.rkline{margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:#fafbfc;border:1px solid var(--line2);border-radius:8px;padding:9px 12px;font-size:13px}
+.rkline a{font-weight:600;text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.cc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;border-top:3px solid var(--cc)}
+.cc .h{display:flex;flex-direction:column;gap:1px}
+.cc .h b{font-size:14px}
+.cc .h small{font-size:11.5px;color:var(--ink3)}
+.cc .big{display:flex;align-items:baseline;gap:8px}
+.cc .big strong{font-size:30px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.cc .big span{font-size:12px;color:var(--ink2)}
+.cc .meter{height:6px;border-radius:99px;background:#eef1f5;overflow:hidden}.cc .meter i{display:block;height:100%;background:var(--cc)}
+.cc dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:5px 10px;font-size:13px}
+.cc dt{color:var(--ink2)}.cc dd{margin:0;text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.cc .go{margin-top:auto;align-self:flex-start;font-size:13px;font-weight:600;text-decoration:none;color:var(--blue)}
+.note{font-size:12px;color:var(--ink2);background:#fafbfc;border:1px solid var(--line2);border-radius:8px;padding:9px 12px;margin:14px 0 0}
+.bar{height:10px;border-radius:999px;background:#eef1f5;overflow:hidden;display:flex;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--c)}
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px 16px;margin-top:12px;font-size:13px}
+.lg div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line2);padding-bottom:5px}
+.lg div span::before{content:'';display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c);margin-right:7px;vertical-align:0}
+.lg div b small{font-weight:500;color:var(--ink2);margin-left:4px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.grid2>.card{display:flex;flex-direction:column}
+.trend{display:flex;align-items:flex-end;gap:5px;height:140px;margin-top:12px;border-bottom:1px solid var(--line)}
+.trend .d{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.trend .d i{display:block;background:var(--c);min-height:0}
+.trend .d i:first-of-type{border-radius:3px 3px 0 0}
+.trend .d em{position:absolute;left:0;right:0;text-align:center;font-style:normal;font-size:10.5px;font-weight:700;color:var(--ink2)}
+.tx{display:flex;gap:5px;margin-top:4px}.tx span{flex:1;min-width:0;text-align:center;font-size:9.5px;color:var(--ink3);white-space:nowrap;overflow:hidden}
+.tw{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+table.t{width:100%;border-collapse:collapse;font-size:13px}
+.t th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:#fafbfc;font-weight:700}
+.t td{padding:9px 10px;border-bottom:1px solid var(--line2);white-space:nowrap}
+.t .n{text-align:right;font-variant-numeric:tabular-nums}
+.t tr.tot td{font-weight:700;background:#fafbfc}
+.sr{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
+.mini{display:inline-block;width:54px;height:5px;background:#eef1f5;border-radius:9px;overflow:hidden}.mini i{display:block;height:100%;background:var(--teal)}
+.al{list-style:none;margin:8px 0 0;padding:0}
+.al li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.al li b{flex:none}
+/* ---- peringkat ---- */
+.rkl{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.rkq{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:12px 16px;background:#fff}
+.rkq em{font-style:normal;font-weight:700;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#eef1f5;color:var(--ink2);font-size:14px}
+.rkl .rkq:nth-child(1) em{background:#c9a227;color:#fff}.rkl .rkq:nth-child(2) em{background:#9aa4b2;color:#fff}.rkl .rkq:nth-child(3) em{background:#b07a4a;color:#fff}
+.rkq div{min-width:0;display:flex;flex-direction:column;gap:3px}.rkq b{font-size:14px;overflow-wrap:anywhere}.rkq span{font-size:12px;color:var(--ink2)}.rkq span b{color:var(--ink);font-size:inherit}
+.rkq i{display:block;height:5px;border-radius:99px;background:#eef1f5;overflow:hidden;max-width:420px}.rkq u{display:block;height:100%;background:var(--teal);text-decoration:none}
+.rkq strong{font-size:22px;line-height:1;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}.rkq strong small{display:block;font-size:10.5px;font-weight:600;color:var(--ink2);margin-top:4px}
+.rkq.me{border-color:var(--blue);background:#f6f8fe;box-shadow:0 0 0 1px var(--blue)}
+.you{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;color:#fff;background:var(--blue);border-radius:4px;padding:1px 6px;vertical-align:middle}
+.rkq b .you{color:#fff}
+.rkme{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}.rkme>span{display:block;font-size:12px;color:var(--ink2);margin-bottom:8px}
+/* ---- lembar laporan ---- */
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}
+.sh{background:#fff;width:100%;max-width:760px;max-height:94vh;overflow:auto;border-radius:14px 14px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+@media(min-width:700px){.sheet{align-items:center}.sh{border-radius:14px;max-height:90vh}}
+.shh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:sticky;top:-16px;background:#fff;padding:4px 0 10px;z-index:1;border-bottom:1px solid var(--line2);margin-bottom:12px}
 .shh h3{margin:0;font-size:17px}
-.x{border:1.5px solid #cbd5e1;background:#fff;border-radius:9px;padding:5px 10px;cursor:pointer;font-weight:700}
-.cinfo{background:#f3f7ff;border:1.5px solid #c7d6f5;border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;font-size:13px}
-.cinfo span{display:block;font-size:10.5px;color:var(--ink2);text-transform:uppercase;font-weight:700;letter-spacing:.03em}
-.cyc{margin:10px 0 0;background:#12306b;color:#fff;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px}
-.hist{margin-top:10px;border:1.5px dashed #c3cddd;border-radius:12px;padding:8px 10px}
-.hist h4{margin:0 0 6px;font-size:12px;color:var(--ink2);text-transform:uppercase;letter-spacing:.03em}
-.he{border-top:1px solid #e5eaf2;padding:6px 0;font-size:12.5px}.he:first-of-type{border-top:0}
+.x{border:1px solid #cfd6e1;background:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;font-weight:600}
+.cinfo{background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;font-size:13px}
+.cinfo span{display:block;font-size:10.5px;color:var(--ink2);text-transform:uppercase;font-weight:700;letter-spacing:.04em}
+.cyc{margin:10px 0 0;background:var(--navy);color:#fff;border-radius:8px;padding:8px 12px;font-weight:600;font-size:13px}
+.hist{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.hist h4{margin:2px 0 6px;font-size:11px;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em}
+.he{border-top:1px solid var(--line2);padding:8px 0;font-size:12.5px}.he:first-of-type{border-top:0}
 .he b{font-size:12px}
+.nbx{margin-top:4px;background:var(--okbg);border-radius:6px;padding:5px 8px;font-size:12px;color:#14532d}
+.fh{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line);font-weight:700;color:var(--ink);font-size:14px}
+.hph{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.hph a{position:relative;width:84px;height:84px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#eef1f5;display:block}
+.hph img{width:100%;height:100%;object-fit:cover;display:block}
+.hph a span{position:absolute;left:0;right:0;bottom:0;background:rgba(15,23,42,.7);color:#fff;font-size:10px;font-weight:600;text-align:center;padding:2px}
+.geo{font-size:11.5px;margin-top:4px}.geo a{color:var(--blue);font-weight:600;text-decoration:none;margin-right:10px}
+.nbw{margin-top:12px;border:1px solid #bfe3cb;background:#f6fbf7;border-radius:10px;padding:4px 14px 14px}
+.nbw h4{margin:10px 0 2px;font-size:13px;color:#14532d}
+.nbw p{margin:0;font-size:12px;color:var(--ink2)}
 .up{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
-.ph{position:relative;border:1.5px dashed #9db6ea;border-radius:12px;background:#f7faff;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;cursor:pointer;overflow:hidden}
+.ph{position:relative;border:1px dashed #a9b8d6;border-radius:10px;background:#fafbff;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;cursor:pointer;overflow:hidden}
 .ph input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .ph b{font-size:12px}.ph small{font-size:10.5px;color:var(--ink2)}
-.ph em{font-style:normal;font-size:10px;font-weight:800;border-radius:999px;padding:1px 7px;margin-bottom:4px}
+.ph em{font-style:normal;font-size:10px;font-weight:700;border-radius:4px;padding:1px 6px;margin-bottom:4px}
 .ph em.req{background:var(--badbg);color:var(--bad)}.ph em.opt{background:var(--mutbg);color:var(--mut)}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ph.has{border-style:solid;border-color:var(--ok)}
-.ph .rm{position:absolute;top:4px;right:4px;z-index:2;border:0;border-radius:999px;background:rgba(15,27,61,.75);color:#fff;width:24px;height:24px;font-weight:800;cursor:pointer}
+.ph .rm{position:absolute;top:4px;right:4px;z-index:2;border:0;border-radius:999px;background:rgba(15,23,42,.75);color:#fff;width:24px;height:24px;font-weight:700;cursor:pointer}
 .ph.bad-f{border-color:var(--bad)}
-.prog{margin-top:12px;background:#eef4ff;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:var(--navy);display:flex;gap:10px;align-items:center}
+.prog{margin-top:12px;background:var(--blue2);border-radius:8px;padding:10px 12px;font-size:13px;font-weight:600;color:var(--navy);display:flex;gap:10px;align-items:center}
 .prog.bad{background:var(--badbg);color:var(--bad)}
-.spin{width:18px;height:18px;border-radius:50%;border:3px solid #bfd3fb;border-top-color:var(--blue);animation:sp .8s linear infinite;flex:none}@keyframes sp{to{transform:rotate(360deg)}}
-.acts{display:flex;gap:8px;margin-top:14px}.acts .btn{flex:1}
-.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f1b3d;color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;z-index:40;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.boot{text-align:center;padding:30px 14px}
-.boot .spin{margin:0 auto 10px;width:26px;height:26px}
-a.wa{color:#15803d;font-weight:700;text-decoration:none}
-.camic{width:30px;height:30px;margin-bottom:4px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h3l2-3h6l2 3h3v11H4z'/%3E%3Ccircle cx='12' cy='13' r='3.5'/%3E%3C/svg%3E")}
+.acts{display:flex;gap:8px;margin-top:16px}.acts .btn{flex:1}
+.camic{width:30px;height:30px;margin-bottom:4px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d4ed8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h3l2-3h6l2 3h3v11H4z'/%3E%3Ccircle cx='12' cy='13' r='3.5'/%3E%3C/svg%3E")}
 .ph[data-cam]{cursor:pointer}
 .cam{position:fixed;inset:0;z-index:30;background:#05080f;color:#fff;display:flex;flex-direction:column}
-.cam[hidden]{display:none}
 .camh{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px}
 .camh .x{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
 .camv{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .camv video,.camv img{max-width:100%;max-height:100%;object-fit:contain}
 .camv video.mir{transform:scaleX(-1)}
-.camgeo{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(0,0,0,.6);border-radius:10px;padding:7px 10px;font-size:12.5px;font-weight:600;line-height:1.4}
-.camgeo.bad{background:rgba(185,28,28,.85)}.camgeo.ok{background:rgba(21,128,61,.8)}
+.camgeo{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(0,0,0,.6);border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600;line-height:1.4}
+.camgeo.bad{background:rgba(180,35,24,.85)}.camgeo.ok{background:rgba(21,128,61,.8)}
 .camerr{background:#7f1d1d;color:#fff;font-size:13px;padding:8px 12px}
 .camb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px))}
-.cbtn{background:rgba(255,255,255,.14);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:9px 12px;font-weight:700;cursor:pointer;min-width:96px;text-align:center}
+.cbtn{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:9px 12px;font-weight:600;cursor:pointer;min-width:96px;text-align:center}
 .cbtn.ghost{visibility:hidden}
 .shot{width:70px;height:70px;border-radius:50%;border:5px solid #fff;background:#fff;box-shadow:inset 0 0 0 4px #05080f;cursor:pointer;flex:none}
 .shot:disabled{opacity:.4;cursor:not-allowed}
-/* tab & ringkasan (dashboard mitra) */
-:root{--teal:#0f766e;--amber:#d97706;--slate:#64748b;--pend:#cbd5e1}
-.tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;background:var(--bg);padding:6px 0 2px}
-.tabs button{flex:1;border:1.5px solid #c3cddd;background:#fff;border-radius:11px;padding:10px;font-weight:700;cursor:pointer;color:var(--ink2);font-size:14px}
-.tabs button.sel{background:var(--navy);border-color:var(--navy);color:#fff}
-.dash{display:flex;flex-direction:column;gap:12px}
-.dh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.dh h2{margin:0}
-.dh .chips{margin-top:0}
-.sub{color:var(--ink2);font-size:12.5px;margin:2px 0 0}
-.hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;margin-top:12px}
-.ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--teal) calc(var(--p)*1%),#e3e9f2 0);display:grid;place-items:center}
-.ring>div{width:118px;height:118px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.ring b{font-size:30px;font-weight:800;color:var(--teal);line-height:1.1}
-.ring span{font-size:10px;color:var(--ink2);font-weight:800;text-transform:uppercase;letter-spacing:.04em;line-height:1.25}
-.ring small{font-size:11.5px;color:var(--ink2)}
-.rates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.rate{border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;border-left:5px solid var(--c,var(--blue))}
-.rate span{display:block;font-size:10.5px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:.03em}
-.rate b{display:block;font-size:22px;font-weight:800;color:var(--c,var(--ink))}
-.rate small{display:block;font-size:12px;color:var(--ink2)}
-.note{font-size:12px;color:var(--ink2);background:#f3f7ff;border-radius:10px;padding:8px 10px;margin:12px 0 0}
-.note.w{background:var(--warnbg);color:#7c3d06}
-.bar{height:14px;border-radius:999px;background:#e3e9f2;overflow:hidden;display:flex;margin-top:8px}
-.bar i{display:block;height:100%;background:var(--c)}
-.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 14px;margin-top:10px;font-size:13px}
-.lg div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed #e3e9f2;padding-bottom:4px}
-.lg div span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:7px;vertical-align:-1px}
-.lg div b small{font-weight:600;color:var(--ink2);margin-left:4px}
-.prg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
-.prg div{background:#f6f8fc;border-radius:10px;padding:8px 10px}
-.prg span{display:block;font-size:10.5px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:.03em}
-.prg b{font-size:19px;font-weight:800}
-.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
-.trend{display:flex;align-items:flex-end;gap:4px;height:140px;margin-top:10px;border-bottom:1.5px solid var(--line)}
-.trend .d{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
-.trend .d i{display:block;background:var(--c);min-height:0}
-.trend .d i:first-of-type{border-radius:4px 4px 0 0}
-.trend .d em{position:absolute;left:0;right:0;text-align:center;font-style:normal;font-size:10.5px;font-weight:800;color:var(--ink2)}
-.tx{display:flex;gap:4px;margin-top:4px}.tx span{flex:1;min-width:0;text-align:center;font-size:9.5px;color:var(--ink2);white-space:nowrap;overflow:hidden}
-.tw{overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
-table.t{width:100%;border-collapse:collapse;font-size:13px}
-.t th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink2);padding:7px 8px;border-bottom:1.5px solid var(--line);white-space:nowrap;background:#f6f8fc}
-.t td{padding:7px 8px;border-bottom:1px solid #edf1f7;white-space:nowrap}
-.t .n{text-align:right;font-variant-numeric:tabular-nums}
-.t tr.tot td{font-weight:800;background:#f6f8fc}
-.sr{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
-.mini{display:inline-block;width:54px;height:6px;background:#e3e9f2;border-radius:9px;overflow:hidden}.mini i{display:block;height:100%;background:var(--teal)}
-.al{list-style:none;margin:8px 0 0;padding:0}
-.al li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #edf1f7;font-size:13px}
-.al li b{flex:none}
-.it.ro{cursor:default}.it.ro:hover{border-color:var(--line)}
-.p-aktif{--c:var(--teal);--bg2:#d5f3ee}.p-iso{--c:var(--amber);--bg2:var(--warnbg)}.p-dis{--c:var(--slate);--bg2:var(--mutbg)}
-.more{margin-top:6px}
-/* menu utama */
-.home{display:flex;flex-direction:column;gap:12px;padding-top:4px}
-.hq{margin:4px 2px 0;font-size:13px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em}
-.menu{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:18px;padding:22px 20px;cursor:pointer;box-shadow:0 6px 18px rgba(18,48,107,.07);transition:border-color .15s,transform .15s}
-.menu:hover{border-color:var(--blue);transform:translateY(-1px)}
-.mi{flex:none;width:64px;height:64px;border-radius:16px;background:#e8efff no-repeat center/34px}
-.mi-d{background-color:#d5f3ee;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f766e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3v18h18'/%3E%3Cpath d='M7 15l4-4 3 3 5-6'/%3E%3C/svg%3E")}
-.mi-p{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='4' width='14' height='17' rx='2'/%3E%3Cpath d='M9 4h6v3H9z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E")}
-.mt{flex:1;min-width:0}
-.mt b{display:block;font-size:19px;color:var(--navy)}
-.mt>span{display:block;font-size:13px;color:var(--ink2);margin-top:3px}
-.mt .mk{margin-top:8px;font-weight:700;color:var(--ink);font-size:13px}
-.mk em{font-style:normal;display:inline-block;background:#f1f5fb;border-radius:999px;padding:2px 10px;margin:2px 4px 0 0}
-.ma{flex:none;font-size:34px;color:#9db6ea;line-height:1}
-.vbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;background:var(--bg);padding:6px 0 4px}
-.vbar b{font-size:16px;color:var(--navy)}
-/* pilih stasiun */
-.stl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:10px}
-.sti{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;cursor:pointer}
-.sti:hover{border-color:#9db6ea}
-.sti b{display:block;font-size:15px}
-.sti span{display:block;font-size:12px;color:var(--ink2);margin-top:2px}
-.sti .bar{height:7px;margin-top:8px}
-.sti.done{border-color:#a7e3bd}
-/* riwayat + lampiran */
-.fh{margin:16px 0 0;padding-top:12px;border-top:2px solid #e5eaf2;font-weight:800;color:var(--navy);font-size:14px}
-.hph{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.hph a{position:relative;width:86px;height:86px;border-radius:9px;overflow:hidden;border:1.5px solid var(--line);background:#eef2f8;display:block}
-.hph img{width:100%;height:100%;object-fit:cover;display:block}
-.hph a span{position:absolute;left:0;right:0;bottom:0;background:rgba(15,27,61,.72);color:#fff;font-size:10px;font-weight:700;text-align:center;padding:2px}
-.geo{font-size:11.5px;margin-top:4px}.geo a{color:var(--blue);font-weight:600;text-decoration:none;margin-right:10px}
-.it.ro.lk{cursor:pointer}.it.ro.lk:hover{border-color:#9db6ea}
-@media(max-width:700px){.hero{grid-template-columns:1fr;justify-items:center}.rates{grid-template-columns:1fr;width:100%}.grid2{grid-template-columns:1fr}.prg{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:420px){.tile b{font-size:18px}.up{gap:6px}.ph{min-height:100px}}
+@media(max-width:1100px){.cats{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.kv{grid-template-columns:repeat(2,minmax(0,1fr))}.kv>div:nth-child(3){border-left:0}.kv>div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:900px){.cats{grid-template-columns:minmax(0,1fr)}.grid2{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){.ov{grid-template-columns:minmax(0,1fr);justify-items:center}.ov .kv{width:100%}.tiles{gap:8px}.tile{padding:10px}.tile b{font-size:19px}.card{padding:14px}.up{gap:6px}.ph{min-height:100px}.rkq{padding:10px 12px;gap:10px}}
 </style>
 </head>
 <body>
-<header class="top">
-  <small>Tim Admin Retensi Starlite</small>
-  <h1>Laporan Follow Up Pelanggan Isolir &amp; Ready to Dismantle</h1>
-  <span class="mn" id="mName">Memuat…</span>
-</header>
-<main>
-  <div class="card boot" id="boot"><div class="spin"></div>Memuat daftar pelanggan isolir…</div>
-
-  <section class="home" id="home" hidden>
-    <p class="hq">Pilih menu</p>
-    <button class="menu" data-go="dashboard">
-      <span class="mi mi-d" aria-hidden="true"></span>
-      <span class="mt"><b>Dashboard Summary</b><span>Pantau hasil follow up: success rate, pelanggan aktif kembali, progres per stasiun dan petugas. Hanya untuk melihat.</span><span class="mk" id="hkD"></span></span>
-      <span class="ma" aria-hidden="true">›</span>
-    </button>
-    <button class="menu" data-go="petugas">
-      <span class="mi mi-p" aria-hidden="true"></span>
-      <span class="mt"><b>Petugas Follow Up</b><span>Pilih kategori (isolir atau dismantle) dan stasiun, pilih pelanggan, lalu isi laporan follow up beserta foto. Riwayat follow up tiap pelanggan bisa dilihat di sini.</span><span class="mk" id="hkP"></span></span>
-      <span class="ma" aria-hidden="true">›</span>
-    </button>
-  </section>
-  <nav class="vbar" id="vbar" hidden><button class="btn sec sm" id="vBack">‹ Menu utama</button><b id="vT"></b></nav>
+<aside class="side" aria-label="Menu">
+  <div class="brand"><div class="blogo"><img src="data:image/png;base64,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" alt="Starlite" width="240" height="252"></div><b>Laporan Follow Up Pelanggan</b></div>
+  <div class="mitra"><span>Mitra</span><b id="mName">Memuat…</b></div>
+  <nav class="nav" id="nav"></nav>
+  <p class="sidefoot">Link ini khusus untuk mitra Anda. Mohon tidak dibagikan ke pihak lain.</p>
+</aside>
+<div class="content">
+  <header class="topbar">
+    <img class="barlogo" id="barLogo" alt="Starlite">
+    <div style="flex:1;min-width:0"><span class="barm" id="mName2"></span><h1 id="vT">Dashboard Summary</h1><p class="sub" id="vS"></p></div>
+    <button class="btn sec sm" id="reloadTop">Muat ulang</button>
+  </header>
+  <main>
+  <div class="card boot" id="boot"><div class="spin"></div>Memuat data pelanggan…</div>
   <div class="dash" id="dash" hidden></div>
+  <div class="dash" id="rank" hidden></div>
+
+  <section class="card cathead" id="catHead" hidden></section>
 
   <section class="card" id="who" hidden>
     <h2>Data petugas follow up</h2>
-    <p class="foot" style="margin:0">Wajib diisi sebelum melaporkan. Tersimpan di HP ini untuk laporan berikutnya.</p>
+    <p class="foot" style="margin:0">Wajib diisi sebelum melaporkan. Tersimpan di perangkat ini untuk laporan berikutnya.</p>
     <div id="wList"></div>
     <div id="wNew">
       <label class="f" for="wN">Nama petugas <em>*</em></label>
@@ -267,30 +298,30 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
 
   <section class="card who" id="whoSum" hidden>
     <div><span class="foot">Petugas follow up</span><b id="wsN"></b><span class="foot" id="wsH"></span></div>
-    <button class="btn sec sm" id="wEdit">Ubah</button>
+    <button class="btn sec sm" id="wEdit">Ganti petugas</button>
   </section>
 
   <section class="tiles" id="tiles" hidden></section>
 
   <section class="card" id="stCard" hidden>
-    <div class="row" style="justify-content:space-between"><h2 style="margin:0">Langkah 1 · Pilih kategori dan stasiun</h2><button class="btn sec sm" id="reload2">Muat ulang</button></div>
-    <div class="chips" id="catTabs" style="margin:8px 0"></div>
-    <p class="foot" id="stHint" style="margin:4px 0 8px">Pilih stasiun pelanggan yang akan di-follow up.</p>
+    <h2>Langkah 1 · Pilih stasiun</h2>
+    <p class="sub" id="stHint">Pilih stasiun pelanggan yang akan di-follow up.</p>
     <input type="search" id="sq" placeholder="Cari stasiun" aria-label="Cari stasiun">
     <div class="stl" id="stList"></div>
   </section>
 
   <section class="card" id="listCard" hidden>
     <button class="btn sec sm" id="stBack">‹ Ganti stasiun</button>
-    <div class="row" style="justify-content:space-between;margin-top:10px"><h2 style="margin:0">Langkah 2 · Pilih pelanggan</h2><button class="btn sec sm" id="reload">Muat ulang</button></div>
-    <p class="foot" style="margin:4px 0 8px">Stasiun <b id="stName"></b>. Ketuk pelanggan untuk mengisi laporan atau melihat riwayat follow up.</p>
-    <input type="search" id="q" placeholder="Cari nama, kode, nomor HP, stasiun" aria-label="Cari pelanggan">
+    <h2 style="margin-top:12px">Langkah 2 · Pilih pelanggan</h2>
+    <p class="sub">Stasiun <b id="stName"></b>. Ketuk pelanggan untuk mengisi laporan atau melihat riwayat follow up.</p>
+    <input type="search" id="q" placeholder="Cari nama, kode, nomor HP" aria-label="Cari pelanggan">
     <div class="chips" id="kchips" aria-label="Filter status pelanggan"></div>
     <div class="chips" id="chips"></div>
-    <div id="list"></div>
+    <div id="list" style="margin-top:12px"></div>
   </section>
-  <p class="foot" style="text-align:center">Link ini khusus untuk mitra Anda. Mohon tidak dibagikan ke pihak lain.</p>
-</main>
+  </main>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="Menu"></nav>
 
 <div class="sheet" id="sheet" hidden>
   <div class="sh" role="dialog" aria-modal="true" aria-labelledby="sT">
@@ -320,6 +351,19 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
       <div class="err" id="eAl" hidden>Alasan wajib diisi.</div>
     </div>
 
+    <div class="nbw" id="nbWrap" hidden>
+      <h4>Identitas pelanggan baru</h4>
+      <p>Pelanggan dismantled berlangganan kembali dengan identitas baru. Dinilai berhasil bila ID atau nomor telepon ini terdeteksi sebagai pelanggan aktif.</p>
+      <label class="f" for="nbN">Nama pelanggan <em>*</em></label>
+      <input type="text" id="nbN" maxlength="120" autocomplete="off" placeholder="Nama sesuai pendaftaran baru">
+      <div class="err" id="enbN" hidden>Nama pelanggan baru wajib diisi.</div>
+      <label class="f" for="nbI">ID pelanggan <i>(opsional, isi bila sudah terdaftar)</i></label>
+      <input type="text" id="nbI" maxlength="40" autocomplete="off" placeholder="Contoh: STL1234567890">
+      <label class="f" for="nbP">Nomor telepon <em>*</em></label>
+      <input type="tel" id="nbP" maxlength="30" inputmode="tel" autocomplete="off" placeholder="08xxxxxxxxxx">
+      <div class="err" id="enbP" hidden>Nomor telepon pelanggan baru wajib diisi (minimal 9 angka).</div>
+    </div>
+
     <label class="f" for="fRm">Remark hasil follow up <em>*</em></label>
     <textarea id="fRm" maxlength="2000" placeholder="Ceritakan hasil follow up, misalnya waktu dihubungi dan tanggapan pelanggan"></textarea>
     <div class="err" id="eRm" hidden>Remark wajib diisi.</div>
@@ -347,6 +391,7 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
 <script>
 const API='https://script.google.com/macros/s/AKfycbz-DqYj9vS-bT6jbe71Dvp7Zs-NcMIlQUb5UthJGSoY26QzhxTaYUYqMd5JdU-ZKuQ0ow/exec';
 const T=(new URLSearchParams(location.search).get('t')||'').trim();
+(()=>{const l=document.querySelector('.blogo img'),b=document.getElementById('barLogo');if(l&&b)b.src=l.src})();
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nf=n=>Number(n||0).toLocaleString('id-ID');
@@ -373,7 +418,7 @@ async function api(action,data,tries){
 }
 
 /* ---------- data ---------- */
-const S={mitra:'',rows:[],dis:[],disOff:false,cat:'iso',recs:[],f:'',q:'',cur:null,files:{},up:{},busy:false};
+const S={mitra:'',rows:[],dis:[],disOff:false,cat:'s',L:null,hc:null,recs:[],f:'',q:'',cur:null,files:{},up:{},busy:false};
 const picKey='fuPic.'+T.slice(0,10);
 const getPic=()=>{try{return JSON.parse(lsGet(picKey)||'null')}catch(e){return null}};
 let RIDX=null,RIDXN=-1,RIDXR=null;
@@ -393,15 +438,16 @@ async function load(){
   if(!T){fail('Link tidak lengkap. Buka link yang dikirim Tim Admin Retensi Starlite melalui WhatsApp.');return}
   try{
     const r=await api('fu_list',{});
-    S.mitra=r.mitra;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];
-    document.title='Follow Up Isolir · '+S.mitra;
-    $('mName').textContent='Mitra '+S.mitra;
+    S.mitra=r.mitra;S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];
+    buildLists();
+    document.title='Laporan Follow Up · '+S.mitra;
+    $('mName').textContent=S.mitra;$('mName2').textContent='Mitra '+S.mitra;
     $('boot').hidden=true;S.at=r.at||Date.now();
     route();loadStats();
   }catch(e){fail(e.code==='bad-token'?e.message:('Daftar pelanggan tidak bisa dimuat. '+e.message),true)}
 }
 function fail(msg,retry){
-  $('mName').textContent='Tidak bisa dibuka';
+  $('mName').textContent='Tidak bisa dibuka';$('mName2').textContent='';
   $('boot').hidden=false;
   $('boot').innerHTML=`<b>${esc(msg)}</b>${retry?'<div style="margin-top:12px"><button class="btn sm" id="bRetry">Coba lagi</button></div>':''}`;
   if(retry)$('bRetry').onclick=()=>{$('boot').innerHTML='<div class="spin"></div>Memuat daftar pelanggan isolir…';load()};
@@ -424,38 +470,6 @@ function showWho(edit){
   }
   else{$('wsN').textContent=p.n;$('wsH').textContent=p.h;renderFu()}
 }
-/* status pelanggan dari server: r[7] = 'd' ready-to-dismantle, selain itu suspend (isolir) */
-const kOf=r=>{const k=r&&r[7];return k==='d'||k==='x'||k==='y'?k:'s'};
-const KLB={s:'Suspend',d:'Ready to dismantle',x:'Dismantled',y:'Dismantling'};
-const kLong=r=>({s:'Suspend (isolir)',d:'Ready to dismantle',x:'Dismantled',y:'Dismantling'})[kOf(r)];
-const kPill=r=>{const k=kOf(r);return `<span class="kp k${k}">${KLB[k]}</span>`};
-const isDis=k=>k==='x'||k==='y';
-const catRows=()=>S.cat==='dis'?S.dis:S.rows;
-const rowOf=code=>S.rows.find(r=>r[1]===code)||S.dis.find(r=>r[1]===code);
-const rowSort=(a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id');
-/* petugas: langkah 1 pilih stasiun, langkah 2 pilih pelanggan */
-function stRows(){const b=catRows();return S.stn?b.filter(r=>r[0]===S.stn):b}
-function renderFu(){
-  const pick=!S.stn;
-  $('stCard').hidden=!pick;$('listCard').hidden=pick;$('tiles').hidden=false;
-  if(pick)renderStations();else render();
-}
-function renderStations(){
-  const CR=catRows(), dis=S.cat==='dis', K2=dis?['x','y']:['s','d'], KN=dis?['dismantled','dismantling']:['suspend','RTD'];
-  $('catTabs').innerHTML=S.disOff?'':[['iso','Isolir & Ready to dismantle',S.rows.length],['dis','Dismantle (ajak berlangganan kembali)',S.dis.length]].map(([k,l,n])=>`<button data-cat="${k}" class="${S.cat===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('');
-  $('catTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{location.hash=b.dataset.cat==='dis'?'#petugas/dismantle':'#petugas'});
-  $('stHint').textContent=dis?'Pelanggan yang sudah dismantle. Hubungi dan ajak berlangganan kembali.':'Pilih stasiun pelanggan yang akan di-follow up.';
-  const m=new Map();
-  CR.forEach(r=>{let o=m.get(r[0]);if(!o)m.set(r[0],o={k:r[0],n:0,d:0,a:0,b:0});o.n++;o[kOf(r)===K2[0]?'a':'b']++;if(stateOf(r).cur.length)o.d++});
-  const all=[...m.values()].sort((a,b)=>a.k.localeCompare(b.k,'id'));
-  const tot=CR.length, done=all.reduce((s,o)=>s+o.d,0);
-  $('tiles').innerHTML=`<div class="tile"><span>${dis?'Dismantle':'Suspend + RTD'}</span><b>${nf(tot)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(tot-done)}</b></div>`;
-  const q=(S.sq||'').toLowerCase(), L=all.filter(o=>!q||o.k.toLowerCase().includes(q));
-  $('stList').innerHTML=L.length?L.map(o=>`<button class="sti${o.d===o.n?' done':''}" data-s="${esc(o.k)}"><b>${esc(o.k)}</b><span>${nf(o.n)} pelanggan (${nf(o.a)} ${KN[0]} · ${nf(o.b)} ${KN[1]}) · <b style="display:inline;font-size:12px;color:${o.n-o.d?'var(--warn)':'var(--ok)'}">${nf(o.n-o.d)} belum dilaporkan</b></span>${bar([['Sudah dilaporkan',o.d,'var(--ok)']],o.n)}</button>`).join(''):'<div class="empty">Stasiun tidak ditemukan</div>';
-  $('stList').querySelectorAll('.sti').forEach(b=>b.onclick=()=>{location.hash='#petugas/'+(S.cat==='dis'?'dismantle/':'')+encodeURIComponent(b.dataset.s)});
-}
-$('sq').oninput=e=>{S.sq=e.target.value.trim();renderStations()};
-$('stBack').onclick=()=>{location.hash=S.cat==='dis'?'#petugas/dismantle':'#petugas'};
 $('wOk').onclick=()=>{
   const sel=(document.querySelector('input[name=pk]:checked')||{}).value;
   if(sel!==undefined&&sel!=='new'){const x=S.petugas[+sel];if(x){lsSet(picKey,JSON.stringify({n:x.n,h:x.h}));showWho();return}}
@@ -466,24 +480,97 @@ $('wOk').onclick=()=>{
 };
 $('wEdit').onclick=()=>showWho(true);
 
-/* ---------- daftar ---------- */
+/* ---------- kategori pelanggan ----------
+ * Status baris dari server (r[7]): s = suspend, d = ready-to-dismantle (daftar isolir); y = dismantling, x = dismantled (daftar dismantle).
+ * Menu: Suspend = s · Ready to Dismantle = d + y · Dismantled = x (berlangganan lagi wajib dengan identitas pelanggan baru). */
+const kOf=r=>{const k=r&&r[7];return k==='d'||k==='x'||k==='y'?k:'s'};
+const KLB={s:'Suspend',d:'Ready to dismantle',x:'Dismantled',y:'Dismantling'};
+const kLong=r=>({s:'Suspend (isolir)',d:'Ready to dismantle',x:'Dismantled',y:'Dismantling'})[kOf(r)];
+const kPill=r=>{const k=kOf(r);return `<span class="kp k${k}">${KLB[k]}</span>`};
+const isDis=k=>k==='x'||k==='y';
+const catOfK=k=>k==='d'||k==='y'?'r':k==='x'?'x':'s';
+const CATS={
+  s:{l:'Suspend',nav:'Follow up Suspend',short:'Suspend',hash:'suspend',c:'#b45309',hint:'Pelanggan isolir (suspend). Ajak pelanggan membayar tagihan agar layanan aktif kembali.'},
+  r:{l:'Ready to Dismantle',nav:'Follow up Ready to Dismantle',short:'RTD',hash:'rtd',c:'#6d28d9',hint:'Pelanggan ready to dismantle dan dismantling. Ajak pelanggan membayar sebelum perangkat dicabut.'},
+  x:{l:'Dismantled',nav:'Follow up Dismantled',short:'Dismantled',hash:'dismantled',c:'#b42318',hint:'Perangkat pelanggan sudah dicabut, sehingga tidak bisa berlangganan lagi dengan identitas lama. Bila bersedia berlangganan kembali, catat identitas pelanggan baru (nama, ID pelanggan bila sudah ada, dan nomor telepon).'}
+};
+const stLbl=(st,k)=>st==='lanjut'&&k==='x'?'Bersedia berlangganan kembali':(STL[st]||st);
+const rowSort=(a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id');
+function buildLists(){
+  S.L={s:S.rows.filter(r=>kOf(r)==='s'),r:S.rows.filter(r=>kOf(r)==='d').concat(S.dis.filter(r=>kOf(r)==='y')).sort(rowSort),x:S.dis.filter(r=>kOf(r)==='x')};
+}
+const catRows=()=>(S.L&&S.L[S.cat])||[];
+const rowOf=code=>S.rows.find(r=>r[1]===code)||S.dis.find(r=>r[1]===code);
+const doneOf=list=>list.filter(r=>stateOf(r).cur.length).length;
+
+/* ---------- menu samping & tab bawah (HP) ---------- */
+const IC={
+  sum:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>',
+  rank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
+  fu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12l2 2 4-4"/></svg>'
+};
+const NAVS=[
+  {v:'sum',hash:'ringkasan',l:'Dashboard Summary',short:'Ringkasan',ic:IC.sum},
+  {grp:'Follow up pelanggan'},
+  {v:'fu',cat:'s',hash:'suspend',l:CATS.s.nav,short:'Suspend',dot:CATS.s.c},
+  {v:'fu',cat:'r',hash:'rtd',l:CATS.r.nav,short:'RTD',dot:CATS.r.c},
+  {v:'fu',cat:'x',hash:'dismantled',l:CATS.x.nav,short:'Dismantled',dot:CATS.x.c},
+  {sep:1},
+  {v:'rank',hash:'peringkat',l:'Peringkat Mitra',short:'Peringkat',ic:IC.rank}
+];
+function renderNav(){
+  const on=n=>n.v===S.view&&(n.v!=='fu'||n.cat===S.cat);
+  const cnt=n=>n.cat&&S.L?`<em title="pelanggan belum dilaporkan">${nf(S.L[n.cat].length-doneOf(S.L[n.cat]))}</em>`:'';
+  const ico=n=>n.ic?`<span class="ico">${n.ic}</span>`:`<span class="ico"><span class="dot" style="background:${n.dot}"></span></span>`;
+  $('nav').innerHTML=NAVS.map(n=>n.grp?`<div class="grp">${n.grp}</div>`:n.sep?'<div class="sep"></div>':`<a href="#${n.hash}" class="${on(n)?'on':''}"${on(n)?' aria-current="page"':''}>${ico(n)}<span class="lbl">${esc(n.l)}</span>${cnt(n)}</a>`).join('');
+  $('tabbar').innerHTML=NAVS.filter(n=>n.v).map(n=>`<a href="#${n.hash}" class="${on(n)?'on':''}">${n.ic?`<span class="ico">${n.ic}</span>`:`<span class="ico">${IC.fu.replace('currentColor',on(n)?n.dot:'currentColor')}</span>`}<span>${esc(n.short)}</span></a>`).join('');
+}
+
+/* ---------- follow up per kategori: langkah 1 pilih stasiun, langkah 2 pilih pelanggan ---------- */
+function stRows(){const b=catRows();return S.stn?b.filter(r=>r[0]===S.stn):b}
+function renderFu(){
+  const pick=!S.stn;
+  $('stCard').hidden=!pick;$('listCard').hidden=pick;$('tiles').hidden=false;
+  if(pick)renderStations();else render();
+}
+function catHead(){
+  const C=CATS[S.cat], L=catRows(), d=doneOf(L);
+  const el=$('catHead');el.hidden=false;el.style.setProperty('--cc',C.c);
+  el.innerHTML=`<div style="flex:1"><h2>${esc(C.nav)}</h2><p>${esc(C.hint)}</p></div><div style="text-align:right;flex:none"><b style="font-size:20px">${nf(L.length)}</b><div class="foot">pelanggan · ${nf(L.length-d)} belum dilaporkan</div></div>`;
+}
+function renderStations(){
+  const CR=catRows(), C=CATS[S.cat];
+  const m=new Map();
+  CR.forEach(r=>{let o=m.get(r[0]);if(!o)m.set(r[0],o={k:r[0],n:0,d:0,y:0});o.n++;if(kOf(r)==='y')o.y++;if(stateOf(r).cur.length)o.d++});
+  const all=[...m.values()].sort((a,b)=>(b.n-b.d)-(a.n-a.d)||a.k.localeCompare(b.k,'id'));
+  const tot=CR.length, done=all.reduce((s,o)=>s+o.d,0);
+  $('tiles').innerHTML=`<div class="tile"><span>${esc(C.l)}</span><b>${nf(tot)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(tot-done)}</b></div>`;
+  $('stHint').textContent=tot?'Pilih stasiun pelanggan yang akan di-follow up. Stasiun dengan pelanggan belum dilaporkan terbanyak tampil paling atas.':'Tidak ada pelanggan pada kategori ini.';
+  const q=(S.sq||'').toLowerCase(), L=all.filter(o=>!q||o.k.toLowerCase().includes(q));
+  $('stList').innerHTML=L.length?L.map(o=>`<button class="sti${o.d===o.n?' done':''}" data-s="${esc(o.k)}"><b>${esc(o.k)}</b><span>${nf(o.n)} pelanggan${S.cat==='r'?` (${nf(o.n-o.y)} RTD · ${nf(o.y)} dismantling)`:''} · <b style="display:inline;font-size:12px;color:${o.n-o.d?'var(--warn)':'var(--ok)'}">${nf(o.n-o.d)} belum dilaporkan</b></span>${bar([['Sudah dilaporkan',o.d,'var(--ok)']],o.n)}</button>`).join(''):`<div class="empty">${tot?'Stasiun tidak ditemukan':'Belum ada pelanggan '+esc(C.l.toLowerCase())+'.'}</div>`;
+  $('stList').querySelectorAll('.sti').forEach(b=>b.onclick=()=>{location.hash='#'+C.hash+'/'+encodeURIComponent(b.dataset.s)});
+}
+$('sq').oninput=e=>{S.sq=e.target.value.trim();renderStations()};
+$('stBack').onclick=()=>{location.hash='#'+CATS[S.cat].hash};
+
+/* ---------- daftar pelanggan ---------- */
 function render(){
   if(!S.stn){renderStations();return}
-  const R=stRows(), st=R.map(r=>({r,s:stateOf(r)}));
+  const R=stRows(), st=R.map(r=>({r,s:stateOf(r)})), x=S.cat==='x';
   const done=st.filter(x=>x.s.cur.length).length;
-  $('stName').textContent=(S.cat==='dis'?'Dismantle · ':'')+S.stn;
-  $('tiles').innerHTML=`<div class="tile"><span>${S.cat==='dis'?'Dismantle di stasiun ini':'Suspend + RTD di stasiun ini'}</span><b>${nf(R.length)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(R.length-done)}</b></div>`;
-  const C=[['','Semua',st.length],['todo','Belum dilaporkan',R.length-done],['done','Sudah dilaporkan',done],['lanjut','Bersedia lanjut',st.filter(x=>x.s.last&&x.s.last.status==='lanjut').length],['tidak','Tidak bersedia',st.filter(x=>x.s.last&&x.s.last.status==='tidak').length],['norespon','Tidak merespon',st.filter(x=>x.s.last&&x.s.last.status==='norespon').length]];
+  $('stName').textContent=S.stn;
+  $('tiles').innerHTML=`<div class="tile"><span>Di stasiun ini</span><b>${nf(R.length)}</b></div><div class="tile ok"><span>Sudah dilaporkan</span><b>${nf(done)}</b></div><div class="tile w"><span>Belum dilaporkan</span><b>${nf(R.length-done)}</b></div>`;
+  const C=[['','Semua',st.length],['todo','Belum dilaporkan',R.length-done],['done','Sudah dilaporkan',done],['lanjut',x?'Bersedia berlangganan kembali':'Bersedia lanjut',st.filter(x=>x.s.last&&x.s.last.status==='lanjut').length],['tidak','Tidak bersedia',st.filter(x=>x.s.last&&x.s.last.status==='tidak').length],['norespon','Tidak merespon',st.filter(x=>x.s.last&&x.s.last.status==='norespon').length]];
   $('chips').innerHTML=C.filter(c=>c[0]===''||c[0]==='todo'||c[0]==='done'||c[2]).map(([k,l,n])=>`<button data-f="${k}" class="${S.f===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join('');
   $('chips').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.f=b.dataset.f;render()});
-  const KK=S.cat==='dis'?['x','y']:['s','d'], nS=R.filter(r=>kOf(r)===KK[0]).length, nD=R.length-nS;
-  $('kchips').innerHTML=nD&&nS?[['','Semua status',R.length],[KK[0],KLB[KK[0]],nS],[KK[1],KLB[KK[1]],nD]].map(([k,l,n])=>`<button data-k="${k}" class="${(S.k||'')===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join(''):'';
+  const nD=R.filter(r=>kOf(r)==='d').length, nY=R.filter(r=>kOf(r)==='y').length;
+  $('kchips').innerHTML=S.cat==='r'&&nD&&nY?[['','Semua status',R.length],['d','Ready to dismantle',nD],['y','Dismantling',nY]].map(([k,l,n])=>`<button data-k="${k}" class="${(S.k||'')===k?'sel':''}">${l} <b>${nf(n)}</b></button>`).join(''):'';
   $('kchips').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.k=b.dataset.k;render()});
   const q=S.q.toLowerCase();
   const list=st.filter(({r,s})=>(!S.k||kOf(r)===S.k)&&(!q||(r[0]+' '+r[1]+' '+r[2]+' '+r[3]).toLowerCase().includes(q))&&(S.f===''||(S.f==='todo'&&!s.cur.length)||(S.f==='done'&&s.cur.length)||(s.last&&s.last.status===S.f)));
   let h='';
   list.forEach(({r,s})=>{
-    const right=s.last?`<span class="pill p-${s.last.status}">${STL[s.last.status]}</span><small>Follow up ke-${s.n} · ${s.cur.length} laporan${s.all.length>1?' · lihat riwayat':''}</small>`
+    const right=s.last?`<span class="pill p-${s.last.status}">${stLbl(s.last.status,kOf(r))}</span><small>Follow up ke-${s.n} · ${s.cur.length} laporan${s.all.length>1?' · lihat riwayat':''}</small>`
       :`<span class="pill p-todo">Belum dilaporkan</span><small>${s.all.length?'Follow up ke-'+s.n+' (pernah '+s.all.length+'x sebelumnya)':'Follow up ke-'+s.n}</small>`;
     h+=`<button class="it" data-c="${esc(r[1])}"><span class="l"><b>${esc(r[2]||'(tanpa nama)')}</b><span>${esc(r[1])} · ${esc(r[3])}</span><span>${kPill(r)} sejak ${fmtD(r[5])}</span></span><span class="r">${right}</span></button>`;
   });
@@ -493,60 +580,54 @@ function render(){
 $('q').oninput=e=>{S.q=e.target.value.trim();render()};
 function reloadAll(btn){
   if(btn)btn.disabled=true;
-  return api('fu_list',{}).then(r=>{S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();
-    route(true);toast('Data diperbarui');V.tries=0;loadStats()}).catch(e=>toast(e.message)).finally(()=>{if(btn)btn.disabled=false});
+  return api('fu_list',{}).then(r=>{S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();buildLists();
+    route(true);toast('Data diperbarui');V.tries=0;V.state='idle';loadStats()}).catch(e=>toast(e.message)).finally(()=>{if(btn)btn.disabled=false});
 }
-$('reload').onclick=()=>reloadAll($('reload'));
-$('reload2').onclick=()=>reloadAll($('reload2'));
+$('reloadTop').onclick=()=>reloadAll($('reloadTop'));
 
-/* ---------- menu utama & navigasi (#dashboard, #petugas, #petugas/<stasiun>; tombol kembali HP ikut bekerja) ---------- */
-S.view='home';
+/* ---------- navigasi (#ringkasan, #suspend[/stasiun], #rtd[/stasiun], #dismantled[/stasiun], #peringkat) ---------- */
+S.view='sum';
 function route(keep){
   if(!S.mitra)return;
-  const h=decodeURIComponent(location.hash.replace(/^#/,'')), i=h.indexOf('/'), v=i<0?h:h.slice(0,i);
-  S.view=v==='dashboard'?'dash':v==='petugas'?'fu':'home';
-  let rest=S.view==='fu'&&i>=0?h.slice(i+1):'';
-  S.cat='iso';
-  if(rest==='dismantle'||rest.indexOf('dismantle/')===0){S.cat='dis';rest=rest.slice(9).replace(/^\//,'')}
-  if(S.prevCat!==S.cat){S.k='';S.f='';S.prevCat=S.cat}
-  S.stn=rest;
+  const h=decodeURIComponent(location.hash.replace(/^#/,'')), i=h.indexOf('/');
+  let v=i<0?h:h.slice(0,i), rest=i<0?'':h.slice(i+1);
+  /* alamat lama tetap berlaku */
+  if(v==='dashboard')v='ringkasan';
+  if(v==='petugas'){if(rest==='dismantle'||rest.indexOf('dismantle/')===0){v='dismantled';rest=rest.slice(9).replace(/^\//,'')}else v='suspend'}
+  const cat=Object.keys(CATS).find(k=>CATS[k].hash===v);
+  S.view=cat?'fu':v==='peringkat'?'rank':'sum';
+  if(cat){if(S.cat!==cat){S.k='';S.f='';S.q='';$('q').value=''}S.cat=cat}
+  S.stn=cat?rest:'';
   if(S.stn&&!catRows().some(r=>r[0]===S.stn))S.stn='';
-  $('home').hidden=S.view!=='home';$('vbar').hidden=S.view==='home';$('dash').hidden=S.view!=='dash';
+  $('dash').hidden=S.view!=='sum';$('rank').hidden=S.view!=='rank';$('catHead').hidden=S.view!=='fu';
   ['who','whoSum','tiles','stCard','listCard'].forEach(id=>$(id).hidden=true);
-  if(S.view==='home')renderHome();
-  else if(S.view==='dash'){$('vT').textContent='Dashboard Summary';renderDash()}
-  else{$('vT').textContent='Petugas Follow Up';showWho()}
+  if(S.view==='sum'){$('vT').textContent='Dashboard Summary';$('vS').textContent='Ringkasan hasil follow up semua kategori pelanggan';renderDash()}
+  else if(S.view==='rank'){$('vT').textContent='Peringkat Mitra';$('vS').textContent='Urutan mitra menurut jumlah pelanggan yang kembali berlangganan';renderRank()}
+  else{$('vT').textContent=CATS[S.cat].nav;$('vS').textContent=S.stn?'Stasiun '+S.stn:'Langkah 1 · pilih stasiun';catHead();showWho()}
+  renderNav();
   if(!keep)window.scrollTo({top:0});
 }
 window.addEventListener('hashchange',()=>{if(!$('sheet').hidden&&!S.busy)closeSheet();route()});
-document.querySelectorAll('.menu').forEach(b=>b.onclick=()=>{location.hash='#'+b.dataset.go});
-$('vBack').onclick=()=>{location.hash=''};
-function renderHome(){
-  const all=cycles(), fu=all.length, A=all.filter(c=>c.now==='aktif').length;
-  const tot=S.rows.length, done=S.rows.filter(r=>stateOf(r).cur.length).length;
-  $('hkD').innerHTML=fu?`<em>Success rate ${V.state==='ok'?pf(pc(A,fu)):'…'}</em><em>${nf(fu)} pelanggan di-follow up</em>`:'<em>Belum ada laporan</em>';
-  $('hkP').innerHTML=`<em>${nf(tot)} pelanggan isolir + RTD</em>${S.dis.length?`<em>${nf(S.dis.length)} pelanggan dismantle</em>`:''}<em>${nf(tot-done)} belum dilaporkan</em>`;
-}
 
 /* ---------- ringkasan hasil follow up (untuk mitra & direksi mitra) ----------
- * Satu siklus = pelanggan + tanggal isolir; laporan terakhir di siklus itu yang dihitung.
- * Status sekarang: masih ada di daftar isolir dengan tanggal yang sama = masih isolir;
- * isolir lagi dengan tanggal lebih baru = sempat aktif kembali; tidak lagi isolir = dicek ke data pelanggan aktif. */
+ * Satu siklus = pelanggan + tanggal status (isolir / RTD / dismantle); laporan terakhir di siklus itu yang dihitung.
+ * Suspend & RTD: masih di daftar dengan tanggal yang sama = belum aktif; status berganti tanggal lebih baru = sempat aktif;
+ * keluar dari daftar = dicek ke data pelanggan aktif (kode sama). Dismantled: aktif bila identitas pelanggan baru terdeteksi aktif. */
 const V={act:null,at:0,state:'idle',err:'',tries:0,rank:null};
 async function loadStats(){
   if(V.state==='loading')return;
   V.state='loading';
   try{
     const r=await api('fu_stats',{},1);
-    if(r.pending){V.state='pending';if(++V.tries<10)setTimeout(loadStats,15000)}
+    if(r.pending){V.state='pending';if(++V.tries<10)setTimeout(()=>{V.state='idle';loadStats()},15000)}
     else if(r.off)V.state='off';
     else if(r.err){V.state='err';V.err=r.err}
     else{V.act=new Set(r.act||[]);V.at=r.at||Date.now();V.rank=r.rank||null;V.state='ok'}
   }catch(e){V.state=e.code==='bad-action'?'old':'err';V.err=e.message}
-  if(S.view==='dash')renderDash();else if(S.view==='home')renderHome();
+  if(S.view==='sum')renderDash();else if(S.view==='rank')renderRank();
 }
-const NOWL={aktif:'Aktif kembali',iso:'Masih isolir / RTD',dm:'Belum berlangganan',dis:'Tidak aktif',unk:'Menunggu verifikasi'};
-const NOWC={aktif:'var(--teal)',iso:'var(--amber)',dm:'#b91c1c',dis:'var(--slate)',unk:'var(--pend)'};
+const NOWL={aktif:'Aktif kembali',iso:'Masih suspend / RTD',dm:'Belum berlangganan lagi',dis:'Tidak aktif',unk:'Menunggu verifikasi'};
+const NOWC={aktif:'var(--teal)',iso:'var(--amber)',dm:'#b42318',dis:'var(--slate)',unk:'var(--pend)'};
 const STC={lanjut:'#16a34a',tidak:'#dc2626',norespon:'#94a3b8'};
 const pc=(a,b)=>b?a/b*100:0;
 const pf=x=>x.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';
@@ -555,21 +636,24 @@ const hm=ms=>{const d=new Date(ms+7*36e5).toISOString();return fmtD(d.slice(0,10
 function cycles(){
   const isoBy=new Map(S.rows.map(r=>[r[1],r])), disBy=new Map(S.dis.map(r=>[r[1],r])), m=new Map();
   S.recs.forEach(r=>{const k=r.code+'|'+(r.iso||'');let c=m.get(k);if(!c)m.set(k,c={code:r.code,iso:r.iso||'',recs:[]});c.recs.push(r)});
+  const late=last=>Date.parse(last.ts)>V.at;
   return [...m.values()].map(c=>{
     c.recs.sort((a,b)=>a.ts<b.ts?-1:1);
-    const last=c.recs[c.recs.length-1], dm=isDis(last.k), row=dm?disBy.get(c.code):isoBy.get(c.code);
+    const last=c.recs[c.recs.length-1], k=last.k||'s';
+    const row=isDis(k)?disBy.get(c.code):isoBy.get(c.code);
     let now;
-    if(dm){now=V.state==='ok'?(V.act.has(c.code)?'aktif':(Date.parse(last.ts)>V.at?'unk':'dm')):'unk'}
+    if(k==='x')now=V.state==='ok'?(V.act.has(c.code)?'aktif':(late(last)?'unk':'dm')):'unk';
+    else if(k==='y'){if(V.state==='ok'&&V.act.has(c.code))now='aktif';else if(row)now='iso';else now=V.state==='ok'?(late(last)?'unk':'dis'):'unk'}
     else if(row)now=(row[5]||'')>c.iso?'aktif':'iso';
-    else if(V.state==='ok')now=V.act.has(c.code)?'aktif':(Date.parse(last.ts)>V.at?'unk':'dis');
+    else if(V.state==='ok')now=V.act.has(c.code)?'aktif':(late(last)?'unk':'dis');
     else now='unk';
-    return Object.assign(c,{last,k:last.k||'s',first:c.recs[0],now,st:last.st||(row&&row[0])||'(Tanpa stasiun)',name:last.name||(row&&row[2])||'',n:cycleNo(c.code,c.iso)});
+    return Object.assign(c,{last,k,cat:catOfK(k),first:c.recs[0],now,st:last.st||(row&&row[0])||'(Tanpa stasiun)',name:last.name||(row&&row[2])||'',n:cycleNo(c.code,c.iso)});
   });
 }
 function bar(parts,tot){return `<div class="bar">${parts.filter(p=>p[1]).map(p=>`<i style="--c:${p[2]};width:${pc(p[1],tot)}%" title="${esc(p[0])}: ${nf(p[1])}"></i>`).join('')}</div>`}
 function legend(parts,tot){return `<div class="lg">${parts.map(p=>`<div><span style="--c:${p[2]}">${esc(p[0])}</span><b>${nf(p[1])}<small>${pf(pc(p[1],tot))}</small></b></div>`).join('')}</div>`}
 function srCell(a,b){return b?`<span class="sr">${pf(pc(a,b))}<span class="mini"><i style="width:${pc(a,b)}%"></i></span></span>`:'<span class="foot">-</span>'}
-function lrow(c){return `<div class="it ro lk" data-hc="${esc(c.code)}" role="button" tabindex="0" title="Lihat riwayat dan lampiran"><span class="l"><b>${esc(c.name||'(tanpa nama)')}</b><span>${esc(c.code)} · ${esc(c.st)}</span><span>${isDis(c.k)?'Dismantle':'Isolir'} ${fmtD(c.iso)} · follow up ke-${c.n}</span></span><span class="r"><span class="pill p-${c.last.status}">${STL[c.last.status]||c.last.status}</span><small>${fmtTs(c.last.ts)} · ${esc(c.last.pic||'')}</small></span></div>`}
+function lrow(c){return `<div class="it ro lk" data-hc="${esc(c.code)}" role="button" tabindex="0" title="Lihat riwayat dan lampiran"><span class="l"><b>${esc(c.name||'(tanpa nama)')}</b><span>${esc(c.code)} · ${esc(c.st)}</span><span><span class="kp k${c.k}">${KLB[c.k]||'Suspend'}</span> ${fmtD(c.iso)} · follow up ke-${c.n}</span></span><span class="r"><span class="pill p-${c.last.status}">${stLbl(c.last.status,c.k)}</span><small>${fmtTs(c.last.ts)} · ${esc(c.last.pic||'')}</small></span></div>`}
 function listBlock(id,arr,empty){
   if(!arr.length)return `<div class="empty">${empty}</div>`;
   const open=S.open&&S.open[id], show=open?arr:arr.slice(0,8);
@@ -580,87 +664,81 @@ function renderDash(){
   S.per=S.per||'all';S.open=S.open||{};
   const days=S.per==='all'?0:+S.per, from=days?Date.now()-days*864e5:0;
   const all=cycles(), F=all.filter(c=>!from||Date.parse(c.first.ts)>=from);
-  const cnt=f=>F.filter(f).length, fu=F.length;
+  const cnt=(f,arr)=>(arr||F).filter(f).length, fu=F.length;
   const L=cnt(c=>c.last.status==='lanjut'), Tk=cnt(c=>c.last.status==='tidak'), N=cnt(c=>c.last.status==='norespon');
   const A=cnt(c=>c.now==='aktif'), I=cnt(c=>c.now==='iso'), D=cnt(c=>c.now==='dis'), U=cnt(c=>c.now==='unk'), DM=cnt(c=>c.now==='dm');
-  const LA=cnt(c=>c.last.status==='lanjut'&&c.now==='aktif');
   const nRep=F.reduce((s,c)=>s+c.recs.length,0);
-  const tot=S.rows.length, done=S.rows.filter(r=>stateOf(r).cur.length).length;
   const perL={all:'semua waktu','30':'30 hari terakhir','7':'7 hari terakhir'}[S.per];
   const vnote=V.state==='ok'?`Status aktif diverifikasi dari data pelanggan aktif per ${hm(V.at)}.`
-    :V.state==='off'?'Verifikasi pelanggan aktif belum tersambung. Pelanggan yang sudah keluar dari daftar isolir tampil sebagai "Menunggu verifikasi".'
+    :V.state==='off'?'Verifikasi pelanggan aktif belum tersambung; pelanggan yang keluar dari daftar tampil sebagai "Menunggu verifikasi".'
     :V.state==='old'?'Server belum diperbarui untuk verifikasi aktif kembali. Hubungi Tim Admin Retensi Starlite.'
     :V.state==='err'?'Verifikasi aktif kembali gagal: '+esc(V.err)
     :'<span class="spin" style="display:inline-block;width:12px;height:12px;border-width:2px;vertical-align:-2px"></span> Memverifikasi status pelanggan aktif…';
-  /* tren 14 hari: pelanggan yang di-follow up per hari (laporan pertama), per hasil */
+  /* per kategori */
+  const catCard=k=>{
+    const C=CATS[k], Fc=F.filter(c=>c.cat===k), n=Fc.length, a=cnt(c=>c.now==='aktif',Fc), l=cnt(c=>c.last.status==='lanjut',Fc), Lc=S.L[k], d=doneOf(Lc);
+    return `<div class="cc" style="--cc:${C.c}"><div class="h"><b>${esc(C.l)}</b><small>${k==='r'?'termasuk dismantling':k==='x'?'identitas pelanggan baru':'isolir'}</small></div>
+      <div class="big"><strong>${n?pf(pc(a,n)):'-'}</strong><span>success rate</span></div>
+      <div class="meter"><i style="width:${Math.min(100,pc(a,n))}%"></i></div>
+      <dl><dt>Aktif kembali</dt><dd>${nf(a)} dari ${nf(n)}</dd><dt>${k==='x'?'Bersedia berlangganan':'Bersedia lanjut'}</dt><dd>${nf(l)}</dd><dt>Pelanggan saat ini</dt><dd>${nf(Lc.length)}</dd><dt>Sudah dilaporkan</dt><dd>${nf(d)} <span class="foot">(${pf(pc(d,Lc.length))})</span></dd></dl>
+      <a class="go" href="#${C.hash}">Buka ${esc(C.nav.toLowerCase())} ›</a></div>`;
+  };
+  /* tren 14 hari */
   const dayList=[];for(let i=13;i>=0;i--)dayList.push(new Date(Date.now()+7*36e5-i*864e5).toISOString().slice(0,10));
   const byDay={};all.forEach(c=>{const d=wibDay(c.first.ts);(byDay[d]=byDay[d]||{lanjut:0,tidak:0,norespon:0,n:0});byDay[d][c.last.status]=(byDay[d][c.last.status]||0)+1;byDay[d].n++});
   const mx=Math.max(1,...dayList.map(d=>(byDay[d]||{n:0}).n));
   const trend=`<div class="trend">${dayList.map(d=>{const o=byDay[d]||{n:0};return `<div class="d" title="${fmtD(d)}: ${nf(o.n)} pelanggan">${o.n?`<em style="bottom:calc(${pc(o.n,mx)}% + 2px)">${o.n}</em>`:''}${['lanjut','tidak','norespon'].filter(k=>o[k]).map(k=>`<i style="--c:${STC[k]};height:${pc(o[k],mx)}%"></i>`).join('')}</div>`}).join('')}</div><div class="tx">${dayList.map(d=>`<span>${+d.slice(8)}/${+d.slice(5,7)}</span>`).join('')}</div>`;
   /* per stasiun */
-  const stM=new Map(), stG=k=>{let o=stM.get(k);if(!o)stM.set(k,o={k,iso:0,todo:0,fu:0,l:0,a:0});return o};
-  S.rows.forEach(r=>{const o=stG(r[0]);o.iso++;if(!stateOf(r).cur.length)o.todo++});
-  F.forEach(c=>{const o=stG(c.st);o.fu++;if(c.last.status==='lanjut')o.l++;if(c.now==='aktif')o.a++});
-  const stR=[...stM.values()].sort((a,b)=>b.fu-a.fu||b.iso-a.iso||a.k.localeCompare(b.k,'id'));
-  /* per petugas (petugas laporan terakhir) */
+  const stM=new Map(), stG=k=>{let o=stM.get(k);if(!o)stM.set(k,o={k,s:0,r:0,x:0,todo:0,fu:0,a:0});return o};
+  ['s','r','x'].forEach(k=>S.L[k].forEach(r=>{const o=stG(r[0]);o[k]++;if(!stateOf(r).cur.length)o.todo++}));
+  F.forEach(c=>{const o=stG(c.st);o.fu++;if(c.now==='aktif')o.a++});
+  const stR=[...stM.values()].sort((a,b)=>b.fu-a.fu||(b.s+b.r+b.x)-(a.s+a.r+a.x)||a.k.localeCompare(b.k,'id'));
+  const stT=stR.reduce((t,o)=>{['s','r','x','todo'].forEach(k=>t[k]+=o[k]);return t},{s:0,r:0,x:0,todo:0});
+  /* per petugas */
   const pM=new Map();
   F.forEach(c=>{const k=hpK(c.last.picHp)||c.last.pic;let o=pM.get(k);if(!o)pM.set(k,o={n:c.last.pic,h:c.last.picHp,fu:0,l:0,a:0,ts:''});o.fu++;if(c.last.status==='lanjut')o.l++;if(c.now==='aktif')o.a++;if(c.last.ts>o.ts){o.ts=c.last.ts;o.n=c.last.pic}});
   const pR=[...pM.values()].sort((a,b)=>b.fu-a.fu);
-  /* alasan tidak bersedia */
   const aM=new Map();
   F.filter(c=>c.last.status==='tidak').forEach(c=>{const t=String(c.last.alasan||'').trim();const k=t.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim()||'(tanpa alasan)';let o=aM.get(k);if(!o)aM.set(k,o={t:t||'(tanpa alasan)',n:0});o.n++});
   const aR=[...aM.values()].sort((a,b)=>b.n-a.n).slice(0,8);
   const actList=F.filter(c=>c.now==='aktif').sort((a,b)=>a.last.ts<b.last.ts?1:-1);
-  const todoList=F.filter(c=>c.last.status==='lanjut'&&c.now==='iso').sort((a,b)=>a.last.ts<b.last.ts?1:-1);
-  const resP=[['Bersedia lanjut',L,STC.lanjut],['Tidak bersedia lanjut',Tk,STC.tidak],['Tidak merespon',N,STC.norespon]];
-  const nowP=[['Aktif kembali',A,NOWC.aktif],['Masih isolir / RTD',I,NOWC.iso]].concat(DM?[['Belum berlangganan (dismantle)',DM,NOWC.dm]]:[]).concat([['Tidak aktif',D,NOWC.dis]]).concat(U?[['Menunggu verifikasi',U,NOWC.unk]]:[]);
-  /* peringkat 5 besar semua mitra (urut jumlah pelanggan aktif kembali) */
-  const RK=V.rank;
-  const rkRow=(o,i,me)=>`<div class="rkq${me?' me':''}"><em>${i}</em><div><b>${esc(o.m)}${me?' <span class="you">Mitra Anda</span>':''}</b><span>dari ${nf(o.n)} pelanggan di-follow up · success rate <b>${pf(pc(o.akt,o.n))}</b></span><i><u style="width:${Math.min(100,pc(o.akt,o.n)).toFixed(1)}%"></u></i></div><strong>${nf(o.akt)}<small>aktif kembali</small></strong></div>`;
-  let rankHtml='';
-  if(V.state==='ok'&&RK&&RK.top&&RK.top.length){
-    const meIn=RK.top.some(o=>o.m===S.mitra), fifth=RK.top[RK.top.length-1];
-    const gap=RK.me&&!meIn&&RK.top.length>=5?Math.max(1,fifth.akt-RK.me.akt+1):0;
-    rankHtml=`<section class="card"><h2>Peringkat 5 besar mitra</h2><p class="sub">Diurutkan dari jumlah pelanggan yang kembali berlangganan terbanyak (isolir yang aktif kembali dan dismantle yang berlangganan lagi). Ayo naikkan peringkat mitra Anda dengan follow up lebih banyak!</p>
-      <div class="rkl">${RK.top.map((o,i)=>rkRow(o,i+1,o.m===S.mitra)).join('')}</div>
-      ${RK.me&&!meIn?`<div class="rkme"><span>Posisi mitra Anda dari ${nf(RK.total)} mitra yang sudah follow up</span>${rkRow(RK.me,RK.me.rank,true)}${gap?`<p class="sub" style="margin-top:6px">Butuh sekitar <b>${nf(gap)}</b> pelanggan aktif kembali lagi untuk masuk 5 besar.</p>`:''}</div>`:''}
-      ${!RK.me?`<p class="sub" style="margin-top:8px">Mitra Anda belum masuk peringkat karena belum ada laporan follow up. Mulai dari menu Petugas Follow Up.</p>`:''}</section>`;
-  }else if(V.state==='loading'||V.state==='pending'||V.state==='idle'){
-    rankHtml=`<section class="card"><h2>Peringkat 5 besar mitra</h2><p class="sub"><span class="spin" style="display:inline-block;width:12px;height:12px;border-width:2px;vertical-align:-2px"></span> Memuat peringkat…</p></section>`;
-  }
+  const todoList=F.filter(c=>c.last.status==='lanjut'&&(c.now==='iso'||c.now==='dm')).sort((a,b)=>a.last.ts<b.last.ts?1:-1);
+  const resP=[['Bersedia lanjut / berlangganan',L,STC.lanjut],['Tidak bersedia',Tk,STC.tidak],['Tidak merespon',N,STC.norespon]];
+  const nowP=[['Aktif kembali',A,NOWC.aktif],['Masih suspend / RTD',I,NOWC.iso]].concat(DM?[['Dismantled, belum berlangganan lagi',DM,NOWC.dm]]:[]).concat([['Tidak aktif',D,NOWC.dis]]).concat(U?[['Menunggu verifikasi',U,NOWC.unk]]:[]);
+  const me=V.rank&&V.rank.me, HC=hcStats();
   el.innerHTML=`
   <section class="card">
-    <div class="dh"><div><h2>Ringkasan hasil follow up</h2><p class="sub">Mitra ${esc(S.mitra)} · ${perL}</p></div>
-      <div class="row"><div class="chips">${[['all','Semua'],['30','30 hari'],['7','7 hari']].map(([k,l])=>`<button data-per="${k}" class="${S.per===k?'sel':''}">${l}</button>`).join('')}</div><button class="btn sec sm" id="dReload">Muat ulang</button></div></div>
-    ${fu?`<div class="hero">
-      <div class="ring" style="--p:${pc(A,fu)}"><div><span>Success rate<br>aktif kembali</span><b>${pf(pc(A,fu))}</b><small>${nf(A)} dari ${nf(fu)}</small></div></div>
-      <div class="rates">
-        <div class="rate" style="--c:#16a34a"><span>Bersedia lanjut</span><b>${pf(pc(L,fu))}</b><small>${nf(L)} dari ${nf(fu)} pelanggan (klaim mitra)</small></div>
-        <div class="rate" style="--c:var(--teal)"><span>Bersedia lanjut → aktif</span><b>${L?pf(pc(LA,L)):'-'}</b><small>${nf(LA)} dari ${nf(L)} yang bersedia sudah aktif</small></div>
-        <div class="rate" style="--c:var(--blue)"><span>Pelanggan di-follow up</span><b>${nf(fu)}</b><small>${nf(nRep)} laporan · ${nf(pR.length)} petugas</small></div>
-      </div></div>`:`<div class="empty">Belum ada laporan follow up pada periode ini.</div>`}    <p class="note">Success rate = pelanggan yang di-follow up lalu <b>benar-benar aktif kembali</b> ÷ seluruh pelanggan yang di-follow up. ${vnote}</p>
+    <div class="dh"><div><h2>Semua kategori</h2><p class="sub">Mitra ${esc(S.mitra)} · ${perL}</p></div>
+      <div class="chips">${[['all','Semua waktu'],['30','30 hari'],['7','7 hari']].map(([k,l])=>`<button data-per="${k}" class="${S.per===k?'sel':''}">${l}</button>`).join('')}</div></div>
+    ${fu?`<div class="ov">
+      <div class="ring" style="--p:${pc(A,fu)}"><div><span>Success rate<br>semua</span><b>${pf(pc(A,fu))}</b><small>${nf(A)} dari ${nf(fu)}</small></div></div>
+      <div class="kv">
+        <div><span>Di-follow up</span><b>${nf(fu)}</b><small>${nf(nRep)} laporan · ${nf(pR.length)} petugas</small></div>
+        <div><span>Aktif kembali</span><b style="color:var(--teal)">${nf(A)}</b><small>terverifikasi</small></div>
+        <div><span>Bersedia</span><b style="color:var(--ok)">${nf(L)}</b><small>${pf(pc(L,fu))} klaim mitra</small></div>
+        <div><span>Belum aktif</span><b>${nf(I+DM+D)}</b><small>${U?nf(U)+' menunggu verifikasi':'masih suspend / RTD / dismantled'}</small></div>
+      </div></div>`:`<div class="empty">Belum ada laporan follow up pada periode ini.</div>`}
+    ${me?`<div class="rkline"><span>Peringkat mitra Anda: <b>#${nf(me.rank)}</b> dari ${nf(V.rank.total)} mitra</span><a href="#peringkat">Lihat peringkat ›</a></div>`:''}
+    <p class="note">Success rate = pelanggan yang di-follow up lalu <b>benar-benar aktif kembali</b> ÷ pelanggan yang di-follow up. Dismantled dihitung aktif bila identitas pelanggan baru (ID atau nomor telepon) terdeteksi sebagai pelanggan aktif sesudah laporan dibuat. ${vnote}</p>
   </section>
 
-  ${rankHtml}
+  ${hcHtml(HC)}
 
-  <section class="card">
-    <div class="dh"><h2>Progres follow up isolir saat ini</h2><button class="btn sm" id="dGo">Isi laporan follow up</button></div>
-    ${bar([['Sudah dilaporkan',done,'var(--ok)']],tot)}
-    <div class="prg"><div><span>Pelanggan isolir + RTD</span><b>${nf(tot)}</b></div><div><span>Sudah dilaporkan</span><b style="color:var(--ok)">${nf(done)}</b></div><div><span>Belum dilaporkan</span><b style="color:var(--warn)">${nf(tot-done)}</b></div><div><span>Cakupan</span><b>${pf(pc(done,tot))}</b></div></div>
-    <p class="sub" style="margin-top:8px">${(()=>{const ks=S.rows.filter(r=>kOf(r)==='s'),kd=S.rows.filter(r=>kOf(r)==='d'),dn=a=>a.filter(r=>stateOf(r).cur.length).length;return `<span class="kp ks">Suspend</span> ${nf(ks.length)} pelanggan (${nf(dn(ks))} sudah dilaporkan) · <span class="kp kd">Ready to dismantle</span> ${nf(kd.length)} pelanggan (${nf(dn(kd))} sudah dilaporkan)${S.dis.length?` · <span class="kp kx">Dismantle</span> ${nf(S.dis.length)} pelanggan (${nf(dn(S.dis))} sudah dilaporkan)`:''}`})()}<br>Data per ${hm(S.at||Date.now())}.</p>
-  </section>
+  <div class="cats">${['s','r','x'].map(catCard).join('')}</div>
+
+  ${churnHtml(HC)}
 
   <div class="grid2">
-    <section class="card"><h2>Hasil follow up (klaim mitra)</h2>${bar(resP,fu)}${legend(resP,fu)}</section>
-    <section class="card"><h2>Status pelanggan sekarang</h2>${bar(nowP,fu)}${legend(nowP,fu)}<p class="sub" style="margin-top:8px">Tidak aktif = tidak ada di daftar isolir maupun pelanggan aktif (misalnya berhenti berlangganan). Pelanggan dismantle dinilai berlangganan kembali bila nomor HP-nya muncul di data pelanggan aktif.</p></section>
+    <section class="card"><h2>Hasil follow up</h2><p class="sub">Status terakhir yang dilaporkan mitra</p>${bar(resP,fu)}${legend(resP,fu)}</section>
+    <section class="card"><h2>Status pelanggan sekarang</h2><p class="sub">Hasil verifikasi data pelanggan</p>${bar(nowP,fu)}${legend(nowP,fu)}</section>
   </div>
 
-  <section class="card"><h2>Tren follow up 14 hari terakhir</h2><p class="sub">Jumlah pelanggan yang di-follow up per hari, menurut hasil terakhir.</p>${trend}${legend(resP.map(p=>[p[0],dayList.reduce((s,d)=>s+((byDay[d]||{})[p[0]==='Bersedia lanjut'?'lanjut':p[0]==='Tidak merespon'?'norespon':'tidak']||0),0),p[2]]),dayList.reduce((s,d)=>s+((byDay[d]||{}).n||0),0))}</section>
+  <section class="card"><h2>Tren follow up 14 hari terakhir</h2><p class="sub">Jumlah pelanggan yang di-follow up per hari, menurut hasil terakhir.</p>${trend}${legend(resP.map(p=>[p[0],dayList.reduce((s,d)=>s+((byDay[d]||{})[p===resP[0]?'lanjut':p===resP[2]?'norespon':'tidak']||0),0),p[2]]),dayList.reduce((s,d)=>s+((byDay[d]||{}).n||0),0))}</section>
 
-  <section class="card"><h2>Hasil per stasiun</h2><p class="sub">Kolom isolir dan belum dilaporkan = kondisi saat ini; kolom lain mengikuti periode (${perL}).</p>
-    <div class="tw"><table class="t"><thead><tr><th>Stasiun</th><th class="n">Isolir</th><th class="n">Belum dilaporkan</th><th class="n">Di-follow up</th><th class="n">Bersedia</th><th class="n">Aktif kembali</th><th class="n">Success rate</th></tr></thead><tbody>
-    ${stR.map(o=>`<tr><td>${esc(o.k)}</td><td class="n">${nf(o.iso)}</td><td class="n">${nf(o.todo)}</td><td class="n">${nf(o.fu)}</td><td class="n">${nf(o.l)}</td><td class="n">${nf(o.a)}</td><td class="n">${srCell(o.a,o.fu)}</td></tr>`).join('')}
-    <tr class="tot"><td>Total</td><td class="n">${nf(tot)}</td><td class="n">${nf(tot-done)}</td><td class="n">${nf(fu)}</td><td class="n">${nf(L)}</td><td class="n">${nf(A)}</td><td class="n">${srCell(A,fu)}</td></tr></tbody></table></div>
+  <section class="card"><h2>Hasil per stasiun</h2><p class="sub">Kolom Suspend, RTD, Dismantled, dan Belum dilaporkan = kondisi saat ini; kolom lain mengikuti periode (${perL}).</p>
+    <div class="tw"><table class="t"><thead><tr><th>Stasiun</th><th class="n">Suspend</th><th class="n">RTD</th><th class="n">Dismantled</th><th class="n">Belum dilaporkan</th><th class="n">Di-follow up</th><th class="n">Aktif kembali</th><th class="n">Success rate</th></tr></thead><tbody>
+    ${stR.map(o=>`<tr><td>${esc(o.k)}</td><td class="n">${nf(o.s)}</td><td class="n">${nf(o.r)}</td><td class="n">${nf(o.x)}</td><td class="n">${nf(o.todo)}</td><td class="n">${nf(o.fu)}</td><td class="n">${nf(o.a)}</td><td class="n">${srCell(o.a,o.fu)}</td></tr>`).join('')}
+    <tr class="tot"><td>Total</td><td class="n">${nf(stT.s)}</td><td class="n">${nf(stT.r)}</td><td class="n">${nf(stT.x)}</td><td class="n">${nf(stT.todo)}</td><td class="n">${nf(fu)}</td><td class="n">${nf(A)}</td><td class="n">${srCell(A,fu)}</td></tr></tbody></table></div>
   </section>
 
   <section class="card"><h2>Kinerja petugas follow up</h2>
@@ -669,16 +747,73 @@ function renderDash(){
   </section>
 
   <div class="grid2">
-    <section class="card"><h2>Alasan tidak bersedia lanjut</h2>${aR.length?`<ul class="al">${aR.map(o=>`<li><span>${esc(o.t)}</span><b>${nf(o.n)}</b></li>`).join('')}</ul>`:'<div class="empty">Belum ada.</div>'}</section>
-    <section class="card"><h2>Perlu dikawal: bersedia lanjut, masih isolir</h2><p class="sub">${nf(todoList.length)} pelanggan sudah menyatakan bersedia tetapi belum aktif.</p>${listBlock('todo',todoList,'Tidak ada.')}</section>
+    <section class="card"><h2>Alasan tidak bersedia</h2>${aR.length?`<ul class="al">${aR.map(o=>`<li><span>${esc(o.t)}</span><b>${nf(o.n)}</b></li>`).join('')}</ul>`:'<div class="empty">Belum ada.</div>'}</section>
+    <section class="card"><h2>Perlu dikawal</h2><p class="sub">${nf(todoList.length)} pelanggan sudah menyatakan bersedia tetapi belum aktif.</p>${listBlock('todo',todoList,'Tidak ada.')}</section>
   </div>
 
-  <section class="card"><h2>Pelanggan aktif kembali</h2><p class="sub">${nf(actList.length)} pelanggan yang di-follow up sudah aktif kembali (${perL}).</p>${listBlock('act',actList,V.state==='ok'?'Belum ada pelanggan yang aktif kembali.':'Menunggu verifikasi data pelanggan aktif.')}</section>`;
+  <section class="card"><h2>Pelanggan aktif kembali</h2><p class="sub">${nf(actList.length)} pelanggan yang di-follow up sudah aktif kembali (${perL}).</p>${listBlock('act',actList,V.state==='ok'?'Belum ada pelanggan yang aktif kembali.':'Menunggu verifikasi data pelanggan aktif.')}</section>
+  <p class="foot" style="text-align:center;margin:0">Data pelanggan per ${hm(S.at||Date.now())}.</p>`;
   el.querySelectorAll('[data-per]').forEach(b=>b.onclick=()=>{S.per=b.dataset.per;renderDash()});
   el.querySelectorAll('[data-more]').forEach(b=>b.onclick=()=>{S.open[b.dataset.more]=!S.open[b.dataset.more];renderDash()});
-  $('dGo').onclick=()=>{location.hash='#petugas'};
   el.querySelectorAll('[data-hc]').forEach(b=>b.onclick=()=>openHist(b.dataset.hc));
-  $('dReload').onclick=()=>reloadAll($('dReload'));
+}
+
+/* ---------- status semua homeconnect & churn per stasiun ----------
+ * Homeconnect = pelanggan yang sudah terpasang: active, suspend, ready-to-dismantle, dismantling, dismantled.
+ * Churn rate = (suspend + ready-to-dismantle + dismantling + dismantled) ÷ homeconnect. */
+const HCS=[['active','Aktif','#0f766e'],['suspend','Suspend','#d97706'],['ready-to-dismantle','Ready to dismantle','#6d28d9'],['dismantling','Dismantling','#a855f7'],['dismantled','Dismantled','#b42318']];
+const HCO={'waiting-for-installation':'Menunggu instalasi','waiting-first-payment':'Menunggu pembayaran pertama','inactive':'Inactive','canceled-instalation':'Instalasi dibatalkan'};
+function hcStats(){
+  if(!S.hc)return null;
+  const st=new Map(), tot={}, other={};
+  S.hc.forEach(([stn,k,n])=>{
+    if(HCS.some(x=>x[0]===k)){let o=st.get(stn);if(!o)st.set(stn,o={k:stn});o[k]=(o[k]||0)+n;tot[k]=(tot[k]||0)+n}
+    else other[k]=(other[k]||0)+n;
+  });
+  const hc=o=>HCS.reduce((s,x)=>s+(o[x[0]]||0),0), churn=o=>(o.suspend||0)+(o['ready-to-dismantle']||0)+(o.dismantling||0)+(o.dismantled||0), risk=o=>(o.suspend||0)+(o['ready-to-dismantle']||0)+(o.dismantling||0);
+  const rows=[...st.values()].map(o=>Object.assign(o,{hc:hc(o),ch:churn(o),risk:risk(o)})).filter(o=>o.hc>0);
+  return {tot,other,rows,hc:hc(tot),ch:churn(tot),risk:risk(tot)};
+}
+function hcHtml(H){
+  if(!H)return `<section class="card"><h2>Status homeconnect</h2><p class="sub">Data status semua homeconnect belum tersedia. Pastikan Apps Script sudah diperbarui ke versi terbaru.</p></section>`;
+  const parts=HCS.map(([k,l,c])=>[l,H.tot[k]||0,c]);
+  const oth=Object.entries(H.other).filter(([,n])=>n).map(([k,n])=>`${esc(HCO[k]||k)} ${nf(n)}`).join(' · ');
+  return `<section class="card"><div class="dh"><div><h2>Status homeconnect</h2><p class="sub">Seluruh pelanggan terpasang mitra ${esc(S.mitra)}, termasuk yang aktif</p></div></div>
+    <div class="kv" style="margin-top:14px">
+      <div><span>Total homeconnect</span><b>${nf(H.hc)}</b><small>${nf(H.rows.length)} stasiun</small></div>
+      <div><span>Aktif</span><b style="color:var(--teal)">${nf(H.tot.active||0)}</b><small>${pf(pc(H.tot.active||0,H.hc))} dari homeconnect</small></div>
+      <div><span>Churn rate</span><b style="color:var(--bad)">${pf(pc(H.ch,H.hc))}</b><small>${nf(H.ch)} suspend s.d. dismantled</small></div>
+      <div><span>Perlu follow up</span><b style="color:var(--warn)">${nf(H.risk)}</b><small>suspend, RTD, dismantling</small></div>
+    </div>
+    ${bar(parts,H.hc)}${legend(parts,H.hc)}
+    ${oth?`<p class="foot" style="margin:10px 0 0">Di luar homeconnect (belum terpasang / lainnya): ${oth}.</p>`:''}</section>`;
+}
+function churnHtml(H){
+  if(!H||!H.rows.length)return '';
+  const MIN=20;let pool=H.rows.filter(o=>o.hc>=MIN);const strict=pool.length>=5;if(!strict)pool=H.rows.slice();
+  const top=pool.sort((a,b)=>b.ch/b.hc-a.ch/a.hc||b.risk-a.risk||a.k.localeCompare(b.k,'id')).slice(0,10);
+  const todo=stn=>{const r={s:0,r:0,x:0};['s','r','x'].forEach(k=>S.L[k].forEach(x=>{if(x[0]===stn&&!stateOf(x).cur.length)r[k]++}));return r};
+  return `<section class="card"><h2>Prioritas follow up: stasiun dengan churn rate tertinggi</h2><p class="sub">Churn rate = (suspend + ready to dismantle + dismantling + dismantled) ÷ total homeconnect stasiun.${strict?` Hanya stasiun dengan minimal ${MIN} homeconnect.`:''} Klik Follow up untuk langsung ke daftar pelanggannya.</p>
+    <div class="tw"><table class="t"><thead><tr><th>#</th><th>Stasiun</th><th class="n">Homeconnect</th><th class="n">Aktif</th><th>Churn (suspend · RTD · dismantled)</th><th class="n">Churn rate</th><th class="n">Belum dilaporkan</th></tr></thead><tbody>
+    ${top.map((o,i)=>{const t=todo(o.k),tt=t.s+t.r+t.x,go=t.s>=t.r&&t.s>=t.x?'s':t.r>=t.x?'r':'x';return `<tr><td>${i+1}</td><td><b>${esc(o.k)}</b></td><td class="n">${nf(o.hc)}</td><td class="n">${nf(o.active||0)}</td><td><b>${nf(o.ch)}</b> <span class="foot">(${nf(o.suspend||0)} · ${nf((o['ready-to-dismantle']||0)+(o.dismantling||0))} · ${nf(o.dismantled||0)})</span></td><td class="n"><b style="color:var(--bad)">${pf(pc(o.ch,o.hc))}</b></td><td class="n">${tt?`${nf(tt)} · <a href="#${CATS[go].hash}/${encodeURIComponent(o.k)}">Follow up ›</a>`:'<span class="foot">0</span>'}</td></tr>`}).join('')}
+    </tbody></table></div></section>`;
+}
+/* ---------- peringkat mitra ---------- */
+function renderRank(){
+  const el=$('rank');if(!S.mitra||el.hidden)return;
+  const RK=V.rank;
+  const row=(o,i,me)=>`<div class="rkq${me?' me':''}"><em>${i}</em><div><b>${esc(o.m)}${me?' <span class="you">Mitra Anda</span>':''}</b><span>dari ${nf(o.n)} pelanggan di-follow up · success rate <b>${pf(pc(o.akt,o.n))}</b></span><i><u style="width:${Math.min(100,pc(o.akt,o.n)).toFixed(1)}%"></u></i></div><strong>${nf(o.akt)}<small>aktif kembali</small></strong></div>`;
+  if(V.state!=='ok'||!RK){
+    el.innerHTML=`<section class="card"><h2>Peringkat Mitra</h2><p class="sub">${V.state==='err'||V.state==='old'?esc(V.err||'Peringkat belum tersedia.'):'<span class="spin" style="display:inline-block;width:12px;height:12px;border-width:2px;vertical-align:-2px"></span> Memuat peringkat…'}</p></section>`;return;
+  }
+  const top=RK.top||[], meIn=top.some(o=>o.m===S.mitra), fifth=top[Math.min(4,top.length-1)];
+  const gap=RK.me&&fifth&&RK.me.rank>5?Math.max(1,fifth.akt-RK.me.akt+1):0;
+  el.innerHTML=`<section class="card"><div class="dh"><div><h2>Peringkat Mitra</h2><p class="sub">Diurutkan dari jumlah pelanggan yang kembali berlangganan (suspend dan RTD yang aktif kembali, serta dismantled yang berlangganan dengan identitas baru). Seri: success rate lebih tinggi.</p></div></div>
+    ${top.length?`<div class="rkl">${top.map((o,i)=>row(o,i+1,o.m===S.mitra)).join('')}</div>`:'<div class="empty">Belum ada mitra dengan laporan follow up.</div>'}
+    ${RK.me&&!meIn?`<div class="rkme"><span>Posisi mitra Anda dari ${nf(RK.total)} mitra yang sudah follow up</span>${row(RK.me,RK.me.rank,true)}</div>`:''}
+    ${gap?`<p class="note">Butuh sekitar <b>${nf(gap)}</b> pelanggan aktif kembali lagi untuk masuk 5 besar.</p>`:''}
+    ${!RK.me?`<p class="note">Mitra Anda belum masuk peringkat karena belum ada laporan follow up. Mulai dari menu follow up pelanggan.</p>`:''}
+    <p class="foot" style="margin:12px 0 0">Diperbarui ${hm(V.at)} · ${nf(RK.total)} mitra sudah melakukan follow up.</p></section>`;
 }
 
 /* ---------- formulir ---------- */
@@ -691,9 +826,9 @@ function histHtml(code,all){
   return `<div class="hist"><h4>Riwayat follow up (${all.length} laporan)</h4>${all.slice().reverse().map(r=>{
     const ph=['chat','selfie','rumah'].filter(k=>r.p&&r.p[k]);
     const geo=['selfie','rumah'].filter(k=>r.geo&&r.geo[k]&&r.geo[k].lat!=null);
-    return `<div class="he"><span class="pill p-${r.status}">${STL[r.status]||esc(r.status)}</span> <b>Follow up ke-${cycleNo(code,r.iso)}</b> · ${fmtTs(r.ts)} · ${esc(r.pic||'')}
-      <div class="foot">${isDis(r.k)?'Tanggal dismantle':'Periode isolir'} ${fmtD(r.iso)}</div>
-      <div>${esc(r.remark)}</div>${r.alasan?`<div class="foot">Alasan: ${esc(r.alasan)}</div>`:''}
+    return `<div class="he"><span class="pill p-${r.status}">${stLbl(r.status,r.k)}</span> <b>Follow up ke-${cycleNo(code,r.iso)}</b> · ${fmtTs(r.ts)} · ${esc(r.pic||'')}
+      <div class="foot">${r.k==='x'?'Tanggal dismantled':r.k==='y'?'Tanggal dismantling':r.k==='d'?'Tanggal RTD':'Periode isolir'} ${fmtD(r.iso)}</div>
+      <div>${esc(r.remark)}</div>${r.alasan?`<div class="foot">Alasan: ${esc(r.alasan)}</div>`:''}${r.nb?`<div class="nbx"><b>Identitas pelanggan baru:</b> ${esc(r.nb.name)}${r.nb.id?' · ID '+esc(r.nb.id):''} · ${esc(r.nb.ph)}</div>`:''}
       ${ph.length?`<div class="hph">${ph.map(k=>`<a href="${viewUrl(r.p[k])}" target="_blank" rel="noopener" title="Buka foto ${PHL[k]}"><img src="${thumb(r.p[k])}" alt="${PHL[k]}" loading="lazy" referrerpolicy="no-referrer"><span>${PHL[k]}</span></a>`).join('')}</div>`:'<div class="foot">Tanpa lampiran</div>'}
       ${geo.length?`<div class="geo">${geo.map(k=>`<a href="https://www.google.com/maps?q=${r.geo[k].lat},${r.geo[k].lng}" target="_blank" rel="noopener">📍 Lokasi ${PHL[k].toLowerCase()}</a>`).join('')}</div>`:''}
     </div>`}).join('')}</div>`;
@@ -722,6 +857,9 @@ function openSheet(row){
   $('sFh').textContent=s.all.length?'Isi laporan follow up baru':'Isi laporan follow up';
   ['chat','selfie','rumah'].forEach(k=>setPh(k,null));
   $('fSt').value='';$('fAl').value='';$('fRm').value='';$('alWrap').hidden=true;
+  const isX=kOf(row)==='x';$('fSt').querySelector('option[value=lanjut]').textContent=isX?'Bersedia berlangganan kembali':'Bersedia lanjut';
+  $('fSt').querySelector('option[value=tidak]').textContent=isX?'Tidak bersedia berlangganan':'Tidak bersedia lanjut';
+  $('nbWrap').hidden=true;['nbN','nbI','nbP'].forEach(id=>{$(id).value='';$(id).classList.remove('bad-f')});['enbN','enbP'].forEach(id=>$(id).hidden=true);
   ['eChat','eSt','eAl','eRm'].forEach(id=>$(id).hidden=true);['fSt','fAl','fRm'].forEach(id=>$(id).classList.remove('bad-f'));
   $('prog').hidden=true;$('sGo').disabled=false;
   $('sheet').hidden=false;document.body.style.overflow='hidden';$('sheet').querySelector('.sh').scrollTop=0;
@@ -729,7 +867,7 @@ function openSheet(row){
 function closeSheet(){if(S.busy)return;$('sheet').hidden=true;document.body.style.overflow='';S.cur=null}
 $('sX').onclick=closeSheet;$('sCancel').onclick=closeSheet;
 $('sheet').addEventListener('click',e=>{if(e.target===$('sheet'))closeSheet()});
-$('fSt').onchange=()=>{$('alWrap').hidden=$('fSt').value!=='tidak';$('eSt').hidden=true;$('fSt').classList.remove('bad-f')};
+$('fSt').onchange=()=>{$('alWrap').hidden=$('fSt').value!=='tidak';$('nbWrap').hidden=!(S.cur&&kOf(S.cur)==='x'&&$('fSt').value==='lanjut');$('eSt').hidden=true;$('fSt').classList.remove('bad-f')};
 /* data: File (screenshot dari galeri) atau {b64,url,meta} (foto kamera berstempel) */
 function setPh(k,data){
   const box=$('p'+k);
@@ -842,7 +980,10 @@ $('sGo').onclick=async()=>{
   let bad=null;
   const flag=(id,f,on)=>{$(id).hidden=!on;if(f)$(f).classList.toggle('bad-f',on);if(on&&!bad)bad=f||id};
   flag('eChat',null,!S.files.chat);$('pchat').classList.toggle('bad-f',!S.files.chat);
-  flag('eSt','fSt',!st);flag('eAl','fAl',st==='tidak'&&!al);flag('eRm','fRm',!rm);
+  flag('eSt','fSt',!st);flag('eAl','fAl',st==='tidak'&&!al);
+  const needNb=kOf(S.cur)==='x'&&st==='lanjut', nb={name:$('nbN').value.trim(),id:$('nbI').value.trim(),ph:$('nbP').value.trim()};
+  flag('enbN','nbN',needNb&&!nb.name);flag('enbP','nbP',needNb&&nb.ph.replace(/\D/g,'').length<9);
+  flag('eRm','fRm',!rm);
   if(!S.files.chat&&!bad)bad='pchat';
   if(bad){const el=$(bad)||$('pchat');el.scrollIntoView({behavior:'smooth',block:'center'});prog('Lengkapi isian yang ditandai merah.',true);return}
   const pic=getPic();if(!pic){closeSheet();showWho(true);return}
@@ -857,10 +998,10 @@ $('sGo').onclick=async()=>{
       S.up[k]=r.id;
     }
     prog('Menyimpan laporan…');
-    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],k:kOf(row),pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
+    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],k:kOf(row),pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',remark:rm,photos:S.up,nb:needNb?nb:null,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
     S.recs.push(r.rec);
     if(!(S.petugas||[]).some(x=>hpK(x.h)===hpK(pic.h)))(S.petugas=S.petugas||[]).push({n:pic.n,h:pic.h});
-    S.busy=false;$('sCancel').disabled=false;closeSheet();render();
+    S.busy=false;$('sCancel').disabled=false;closeSheet();render();renderNav();catHead();
     toast('Laporan tersimpan. Terima kasih!');
   }catch(e){
     S.busy=false;$('sGo').disabled=false;$('sCancel').disabled=false;
