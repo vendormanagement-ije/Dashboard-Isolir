@@ -605,11 +605,12 @@ header .hl{flex:1 1 auto;min-width:0}
 .tabbar{display:none}
 @media(max-width:900px){
   .side,.scrim,.menubtn{display:none!important}
-  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;background:linear-gradient(180deg,#12306b,#0e2452);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 18px rgba(15,27,61,.25)}
+  .tabbar{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:2px;position:fixed;left:0;right:0;bottom:0;z-index:20;background:linear-gradient(180deg,#12306b,#0e2452);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 18px rgba(15,27,61,.25)}
   .tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;border-radius:12px;color:#c7d6f3;text-decoration:none;font-size:10.5px;font-weight:700;line-height:1.15;text-align:center;min-width:0}
   .tabbar a svg{width:21px;height:21px}
   .tabbar a.on{background:#fff;color:#12306b}
-  main.wrap{padding-bottom:84px}
+  main.wrap{padding-bottom:78px}
+  .tabbar a span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 }
 @media(prefers-reduced-motion:reduce){.side{transition:none}}
 /* ===== Broadcast dan pencocokan ===== */
@@ -1151,11 +1152,11 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
     <button id="btnMenu" class="menubtn" aria-label="Buka menu" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="hl">
       <h1 id="hTitle">Dashboard Isolir FTTH</h1>
-      <div class="meta"><span class="pill" id="hRange"></span><span class="pill" id="hCount"></span><span class="pill off" id="hLive">Memuatâ€¦</span></div>
+      <div class="meta"><span class="pill" id="hRange"></span><span class="pill" id="hCount"></span><span class="pill off" id="hLive">Memuat&hellip;</span></div>
     </div>
     <div class="hr"><span class="foot" id="rfMsg" role="status"></span><button id="btnRefresh">Perbarui data</button></div>
   </header>
-  <div id="boot" class="boot" role="status">Memuat data isolirâ€¦</div>
+  <div id="boot" class="boot" role="status">Memuat data isolir&hellip;</div>
   <div class="view vcol" id="v-isolir">
 
   <section class="searchbar" id="i-cari" aria-label="Cari per mitra dan stasiun">
@@ -1986,7 +1987,7 @@ function show(v){
   if(PEND){const id=PEND;PEND='';setTimeout(()=>scrollToId(id),80)}
 }
 (function(){
-  const lab={blast:'Report Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',unggah:'Unggah'};
+  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',unggah:'Unggah'};
   $('tabbar').innerHTML=[...document.querySelectorAll('.side .mi')].map(a=>`<a class="ti" href="#${a.dataset.v}" data-v="${a.dataset.v}">${a.querySelector('svg').outerHTML}<span>${lab[a.dataset.v]||''}</span></a>`).join('');
 })();
 function route(){show((location.hash||'').replace(/^#/,''))}
@@ -3662,7 +3663,7 @@ const FU_HTML=`
 <div id="fwEmpty" class="boot" role="status">Memuat laporan follow up…</div>
 <div id="fwMain" class="vcol" hidden>
   <div class="sechead"><div><div class="eyebrow">Follow up mitra</div><h2 class="big">Hasil Follow Up Mitra</h2></div>
-    <div class="ctl"><select id="fwMi" aria-label="Filter mitra"></select><select id="fwPer" aria-label="Periode laporan"></select><button id="fwRf">Muat ulang</button><button id="fwXls" class="xls">Download Excel</button></div></div>
+    <div class="ctl"><select id="fwMi" aria-label="Filter mitra"></select><select id="fwPer" aria-label="Periode laporan"></select><button id="fwAudit" title="Periksa apakah semua stasiun mitra masuk di form">Audit stasiun</button><button id="fwRf">Muat ulang</button><button id="fwXls" class="xls">Download Excel</button></div></div>
   <section class="fwtop" id="fwTop" aria-label="Gambaran pelanggan dan broadcast"></section>
   <section class="fwhero" id="fwHero" aria-label="Ringkasan follow up"></section>
   <section class="card" id="fwRank" aria-label="Peringkat mitra"></section>
@@ -3710,7 +3711,7 @@ function renderFu(){
     $('fwNow').onchange=e=>{FWF.now=e.target.value;FWF.page=0;fillFu()};
     $('fwQ').oninput=e=>{FWF.q=e.target.value.trim().toLowerCase();FWF.page=0;renderFwTable()};
     $('fwRf').onclick=async()=>{$('fwRf').disabled=true;await fwLoad(true);$('fwRf').disabled=false;renderFu();toast(FW.err||'Laporan follow up diperbarui')};
-    $('fwXls').onclick=exportFu;
+    $('fwXls').onclick=exportFu;$('fwAudit').onclick=openAudit;
     $('fwPQ').oninput=e=>{FWP.q=e.target.value.trim().toLowerCase();fillPetugas()};
     $('fwPH').onchange=e=>{FWP.showHidden=e.target.checked;fillPetugas()};
     $('fwPX').onclick=closePop;$('fwP').addEventListener('click',e=>{if(e.target===$('fwP'))closePop()});$('fwPXls').onclick=exportPop;
@@ -3767,6 +3768,68 @@ function fillFwTop(){
     <button class="rmk rmk-ok" data-out="aktif" title="Lihat daftar nomor aktif kembali"><span>Aktif kembali ›</span><b>${ak==null?'…':nf(ak)}</b><i>${ak==null?'memuat data pelanggan aktif…':pctS(ak,bN||1)+' dari yang di-broadcast'}${all}</i></button>`;
   el.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{location.hash=b.dataset.go});
   el.querySelectorAll('[data-out]').forEach(b=>b.onclick=()=>{if(AKT.set)openOut(b.dataset.out,'')});
+}
+/* ---- Audit stasiun form mitra: bandingkan stasiun di database dengan yang diterima form tiap mitra ---- */
+const AU={el:null,run:0,res:null,all:false};
+function auPanel(){
+  if(AU.el)return AU.el;
+  const w=document.createElement('div');w.className='mback';w.hidden=true;w.id='auM';
+  w.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="auT" style="max-width:980px"><div class="mhead"><div><div class="eyebrow">Hasil Follow Up Mitra</div><h2 id="auT">Audit stasiun form mitra</h2><div class="foot" id="auS" style="margin-top:2px"></div></div><div class="ctl"><button id="auX2" class="xls" hidden>Download Excel</button><button id="auX" aria-label="Tutup">Tutup ✕</button></div></div><div class="mbody" id="auB"></div></div>';
+  document.body.appendChild(w);AU.el=w;
+  const close=()=>{AU.run++;w.hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''};
+  w.querySelector('#auX').onclick=close;w.addEventListener('click',e=>{if(e.target===w)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!w.hidden)close()});
+  return w;
+}
+const auBody=(h,s)=>{const w=auPanel();w.querySelector('#auB').innerHTML=h;w.querySelector('#auS').textContent=s||'';w.hidden=false;document.body.style.overflow='hidden'};
+async function openAudit(){
+  const my=++AU.run;
+  if(!apiUrl()){auBody('<p class="foot">Alamat Apps Script belum diisi.</p>');return}
+  if(!UPKEY){
+    UPKEY=await new Promise(res=>{
+      auBody('<p class="foot" style="margin:0">Audit memeriksa daftar stasiun yang diterima form setiap mitra dan membandingkannya dengan database. Perlu kata sandi unggah.</p><input type="password" id="auPw" placeholder="Kata sandi unggah" autocomplete="off" style="padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit"><div class="ctl" style="justify-content:flex-end"><button id="auNo">Batal</button><button id="auOk" class="xls">Mulai audit</button></div>','Kata sandi unggah');
+      const inp=$('auPw');inp.focus();const ok=()=>{const v=inp.value.trim();if(!v){inp.focus();return}res(v)};
+      $('auOk').onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter')ok()};$('auNo').onclick=()=>res('');
+    });
+    if(!UPKEY){$('auX').click();return}
+    if(my!==AU.run)return;
+  }
+  try{
+    auBody('<div style="display:flex;gap:12px;align-items:center"><span class="uspin"></span><b>Memuat data database…</b></div>','Menyiapkan');
+    const u=activeUrl().replace('/aktif.csv','/ringkas.csv'), res=await fetch(u+(u.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error('ringkas.csv HTTP '+res.status);
+    const tb=parseCsv(await res.text()), h=(tb.shift()||[]).map(x=>String(x).trim()), iM=h.indexOf('mitra'), iS=h.indexOf('stasiun'), iT=h.indexOf('customer_status'), iN=h.indexOf('n');
+    const truth=new Map(), cat={suspend:'s','ready-to-dismantle':'r',dismantling:'r',dismantled:'x'};
+    tb.forEach(r=>{const c=cat[String(r[iT]||'').trim().toLowerCase()];if(!c)return;const m=String(r[iM]||'').trim()||'(Tanpa mitra)', st=String(r[iS]||'').trim()||'(Tanpa stasiun)';let a=truth.get(m);if(!a)truth.set(m,a=new Map());let o=a.get(st);if(!o)a.set(st,o={s:0,r:0,x:0});o[c]+=+r[iN]||0});
+    const mitras=[...truth.keys()].sort((a,b)=>a.localeCompare(b,'id')), rows=[];let done=0,src={};
+    for(let i=0;i<mitras.length;i+=6){
+      if(my!==AU.run)return;
+      const part=mitras.slice(i,i+6);
+      auBody(`<div style="display:flex;gap:12px;align-items:center"><span class="uspin"></span><div><b>Memeriksa mitra ${nf(Math.min(i+6,mitras.length))} dari ${nf(mitras.length)}…</b><div class="foot">Mohon tunggu, jangan tutup jendela ini.</div></div></div>`,'Memproses');
+      let r;try{r=await apiCall('fu_audit',{wkey:UPKEY,mitras:part})}catch(e){if(e.code==='bad-write-key')UPKEY='';throw e}
+      part.forEach(m=>{
+        const f=(r.res&&r.res[m])||{st:{},src:'?'};src[f.src]=(src[f.src]||0)+1;
+        truth.get(m).forEach((o,st)=>{const g=f.st[st]||{s:0,r:0,x:0};rows.push({m,st,d:o,f:g,ok:g.s>=o.s*0.98-3&&g.r>=o.r*0.98-3&&g.x>=o.x*0.98-3,none:!f.st[st]})});
+        Object.keys(f.st).forEach(st=>{if(!truth.get(m).has(st))rows.push({m,st,d:{s:0,r:0,x:0},f:f.st[st],ok:true,extra:true})});
+      });
+    }
+    AU.res={rows,src,n:mitras.length};auRender();
+  }catch(e){
+    if(my!==AU.run)return;
+    auBody(`<div class="ustate bad" style="display:flex;gap:10px;align-items:center"><span class="uic">!</span><b>Audit gagal</b></div><p class="foot">${esc(rmWhy?rmWhy(e):((e&&e.message)||e))}</p><div class="ctl" style="justify-content:flex-end"><button id="auRe" class="xls">Coba lagi</button></div>`,'');
+    $('auRe').onclick=openAudit;
+  }
+}
+function auRender(){
+  const R_=AU.res;if(!R_)return;
+  const bad=R_.rows.filter(r=>!r.ok), list=AU.all?R_.rows:bad, mm=new Set(bad.map(r=>r.m)).size, src=Object.entries(R_.src).map(([k,v])=>`${k==='db'?'database':k==='cache'?'cache lama':k} ${nf(v)}`).join(', ');
+  const c=x=>`${nf(x.s)} · ${nf(x.r)} · ${nf(x.x)}`;
+  auBody(`<div class="ustate ${bad.length?'bad':'ok'}" style="display:flex;gap:10px;align-items:center"><span class="uic">${bad.length?'!':'✓'}</span><b>${bad.length?`${nf(bad.length)} stasiun belum lengkap di ${nf(mm)} mitra`:'Semua stasiun sudah masuk di form semua mitra'}</b></div>
+    <p class="foot" style="margin:0">${nf(R_.n)} mitra diperiksa · ${nf(R_.rows.length)} stasiun · sumber data form: ${esc(src)}. Angka = suspend · RTD+dismantling · dismantled. Stasiun dianggap belum lengkap bila jumlah di form lebih rendah dari database.</p>
+    <label class="foot"><input type="checkbox" id="auAll"${AU.all?' checked':''}> tampilkan semua stasiun</label>
+    <div class="tw"><table><thead><tr><th>Mitra</th><th>Stasiun</th><th>Database</th><th>Form mitra</th><th>Status</th></tr></thead><tbody>${list.map(r=>`<tr><td>${esc(r.m)}</td><td>${esc(r.st)}</td><td class="mono">${c(r.d)}</td><td class="mono">${c(r.f)}</td><td>${r.ok?'<span class="gp" style="--c:#15803d;--bg:#dcf5e5">Lengkap</span>':r.none?'<span class="gp" style="--c:#b91c1c;--bg:#fde2e2">Tidak muncul</span>':'<span class="gp" style="--c:#b45309;--bg:#fdecd0">Kurang</span>'}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Tidak ada.</td></tr>'}</tbody></table></div>`,'Audit selesai');
+  $('auAll').onchange=e=>{AU.all=e.target.checked;auRender()};
+  const x=$('auX2');x.hidden=false;x.onclick=()=>exportSheets(`audit-stasiun-form-mitra-${todayWib().replace(/-/g,'')}.xlsx`,[{name:'Audit',aoa:[['Mitra','Stasiun','DB suspend','DB RTD+dismantling','DB dismantled','Form suspend','Form RTD+dismantling','Form dismantled','Status'],...R_.rows.map(r=>[r.m,r.st,r.d.s,r.d.r,r.d.x,r.f.s,r.f.r,r.f.x,r.ok?'Lengkap':r.none?'Tidak muncul':'Kurang'])],cols:[34,26,12,16,14,12,16,14,14]}],R_.rows.length);
 }
 function fillFu(){
   try{fillFwTop()}catch(e){}
