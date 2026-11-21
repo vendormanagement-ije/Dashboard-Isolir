@@ -612,7 +612,22 @@ header .hl{flex:1 1 auto;min-width:0}
   main.wrap{padding-bottom:78px}
   .tabbar a span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 }
-@media(prefers-reduced-motion:reduce){.side{transition:none}}
+/* ===== Seluler: tidak boleh ada konten yang melebihi lebar layar ===== */
+@media(max-width:900px){
+  html,body{max-width:100%;overflow-x:hidden}
+  main.wrap,.view,.card,.sechead,.kpis,.kpi{min-width:0;max-width:100%}
+  .ctl,.sechead .ctl{width:100%;min-width:0}
+  .ctl select,.ctl input[type=text],.ctl input[type=search],.ctl input[type=date],.head select,.vcol .head select,select{max-width:100%;min-width:0;text-overflow:ellipsis}
+  .ctl select,.ctl input[type=text],.ctl input[type=search]{flex:1 1 100%;width:100%}
+  .ctl button{flex:1 1 auto}
+  .head{min-width:0}
+  .head .ctl{width:100%}
+  .tw,.scrollbox,.mtscroll,.ex .tw{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .fwtop,.fwhero{min-width:0}
+  .mback .modal{max-width:100vw}
+  header .hl{flex:1 1 0;min-width:0}
+  header .hr{flex:none;width:auto}
+}@media(prefers-reduced-motion:reduce){.side{transition:none}}
 /* ===== Broadcast dan pencocokan ===== */
 .kpis.kg .kpi:nth-child(n){background:linear-gradient(180deg,#f7fdf9,#e6f8ec);border-color:#16a34a}
 .kpis.kg .kpi:nth-child(n) .l{color:#15803d}
@@ -1109,7 +1124,75 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
 .rkno.r1{background:#f5c518;color:#5a4300}.rkno.r2{background:#c3cad6;color:#2f3b4d}.rkno.r3{background:#d99a62;color:#4a2a0c}
 .pr.rk .pk>span{font-size:11px;color:#64748b}
 .rkn2{text-align:right}.rkn2 b{display:block;font-size:20px;color:#15803d;line-height:1.1}.rkn2 span{font-size:11px;color:#64748b}
-@media(max-width:760px){.pr.rk{grid-template-columns:auto minmax(0,1fr) auto}.pr.rk .pk{grid-column:2/4}}.wrap.loading>*:not(header):not(#boot){display:none}
+@media(max-width:760px){.pr.rk{grid-template-columns:auto minmax(0,1fr) auto}.pr.rk .pk{grid-column:2/4}}
+/* ===== Analisis pelanggan tidak bersedia (modul bersama) ===== */
+.ta{display:flex;flex-direction:column;gap:16px;min-width:0}
+.ta .ta-c{min-width:0}
+.ta h2{margin:0;font-size:17px}
+.ta-sub{margin:4px 0 0;color:#5b6b82;font-size:13px}
+.ta-mut{color:#7a869c;font-size:12px}
+.ta-h{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.ta-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ta-ctl select,.ta-ctl input{font:inherit;font-size:13px;padding:7px 10px;border:1.5px solid #cfd8e6;border-radius:10px;background:#fff;color:inherit;max-width:100%}
+.ta-ctl input{min-width:220px}
+.ta-chips{display:inline-flex;flex-wrap:wrap;gap:4px;background:#eef2f8;border-radius:10px;padding:3px}
+.ta-chips button{font:inherit;font-size:12.5px;font-weight:600;border:0;background:none;padding:5px 10px;border-radius:8px;cursor:pointer;color:#52607a}
+.ta-chips button.on{background:#fff;color:#12306b;box-shadow:0 1px 3px rgba(18,48,107,.15)}
+.ta-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ta-kpi{border:1.5px solid var(--c);background:color-mix(in srgb,var(--c) 7%,#fff);border-radius:14px;padding:12px 14px;min-width:0}
+.ta-kpi span{display:block;font-size:11.5px;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.05em}
+.ta-kpi b{display:block;font-size:28px;line-height:1.15;margin:4px 0 2px;color:#0f1b3d;font-variant-numeric:tabular-nums}
+.ta-kpi b.t{font-size:17px;line-height:1.3;margin:8px 0 4px}
+.ta-kpi small{font-size:12px;color:#52607a}
+.ta-g2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px}
+@media(max-width:900px){.ta-g2{grid-template-columns:minmax(0,1fr)}}
+.ta-hb{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.ta-row{display:grid;grid-template-columns:minmax(150px,230px) minmax(60px,1fr) 78px;gap:10px;align-items:center;width:100%;background:none;border:0;padding:6px;border-radius:9px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.ta-row:hover{background:#f3f6fb}.ta-row.on{background:color-mix(in srgb,var(--c) 10%,#fff);outline:1.5px solid var(--c)}
+.ta-l b{display:block;font-size:13px;font-weight:600}
+.ta-tag{display:inline-block;font-style:normal;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:99px;margin-top:2px}
+.ta-tag.ok{background:#dcfce7;color:#15803d}.ta-tag.no{background:#eef1f5;color:#64748b}
+.ta-track{height:14px;background:#eef2f7;border-radius:7px;overflow:hidden}
+.ta-track i{display:block;height:100%;background:var(--c);border-radius:7px;min-width:3px}
+.ta-v{text-align:right;font-variant-numeric:tabular-nums}.ta-v b{display:block;font-size:14px}.ta-v small{font-size:11.5px;color:#7a869c}
+@media(max-width:560px){.ta-row{grid-template-columns:minmax(0,1fr) 64px}.ta-track{grid-column:1/-1;grid-row:2}}
+.ta-donut{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:10px}
+.ta-donut svg{width:150px;height:150px;flex:none}
+.ta-dn{font-size:22px;font-weight:700;fill:#0f1b3d}.ta-ds{font-size:10px;fill:#7a869c}
+.ta-wb{flex:1;min-width:200px}
+.ta-split{display:flex;height:20px;border-radius:7px;overflow:hidden;background:#eef2f7}
+.ta-split i{display:block;height:100%;background:var(--c)}
+.ta-split.sm{height:10px;border-radius:5px}
+.ta-lg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12.5px;color:#52607a}
+.ta-lg span{display:inline-flex;align-items:center;gap:6px}
+.ta-lg span::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c);flex:none}
+.ta-lg b{color:#0f1b3d}
+.ta-dot{display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--c);margin-right:7px;vertical-align:0}
+.ta-ins ul{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.ta-ins li{position:relative;padding:9px 12px 9px 34px;background:#f6f8fc;border-radius:10px;font-size:13.5px;line-height:1.5}
+.ta-ins li::before{content:"";position:absolute;left:13px;top:15px;width:8px;height:8px;border-radius:50%;background:#2563eb}
+.ta-svg{width:100%;height:auto;margin-top:8px;display:block}
+.ta-gl{stroke:#e4e9f1;stroke-width:1}.ta-ax{font-size:10px;fill:#7a869c}.ta-vl{font-size:10.5px;font-weight:700;fill:#0f1b3d}
+.ta-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.ta-words button{font:inherit;font-size:var(--fs);border:1px solid #d5dce8;background:#f6f8fc;border-radius:99px;padding:3px 11px;cursor:pointer;color:#0f1b3d}
+.ta-words button:hover{background:#e6eefe;border-color:#2563eb}
+.ta-words b{font-size:11px;color:#7a869c;font-weight:600}
+.ta-tw{overflow:auto;max-width:100%}
+.ta-t{width:100%;border-collapse:collapse;font-size:13px}
+.ta-t th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:#52607a;padding:8px;border-bottom:2px solid #dbe3ee;white-space:nowrap}
+.ta-t td{padding:8px;border-bottom:1px solid #e8edf4;vertical-align:top}
+.ta-t .n{text-align:right;font-variant-numeric:tabular-nums}
+.ta-heat td.h{background:rgba(220,38,38,var(--a))}
+.ta-tot td{font-weight:700;border-top:2px solid #dbe3ee}
+.ta-list tbody tr{cursor:pointer}.ta-list tbody tr:hover{background:#f3f6fb}
+.ta-txt{min-width:220px;max-width:420px}
+.ta-nw{white-space:nowrap}
+.ta-pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--c) 14%,#fff);color:color-mix(in srgb,var(--c) 80%,#000);white-space:nowrap}
+.ta-more{display:block;margin:12px auto 0;font:inherit;font-size:13px;font-weight:600;border:1.5px solid #cfd8e6;background:#fff;border-radius:10px;padding:7px 14px;cursor:pointer;color:#12306b}
+.ta-xls{font:inherit;font-size:13px;font-weight:600;border:0;background:#15803d;color:#fff;border-radius:10px;padding:8px 14px;cursor:pointer}
+.ta-empty{color:#7a869c;text-align:center;padding:20px 0;margin:0}
+@media(max-width:560px){.ta-ctl{width:100%}.ta-ctl input{min-width:0;flex:1 1 100%}.ta-ctl select{flex:1 1 100%}.ta-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ta-kpi{padding:10px}.ta-kpi b{font-size:22px}.ta-kpi b.t{font-size:14px}}
+.wrap.loading>*:not(header):not(#boot){display:none}
 .boot{background:#fff;border:1.5px solid #d5dce8;border-radius:14px;padding:22px;text-align:center;color:#52607a;font-size:13.5px;line-height:1.7}
 .boot b{color:#0f1b3d;font-size:15px}
 .boot button{margin-top:10px}
@@ -1136,6 +1219,9 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
       </div>
       <div class="mg">
         <div class="mrow"><a class="mi" href="#followup" data-v="followup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 13l2 2 4-4"/></svg><span>Hasil Follow Up Mitra</span></a></div>
+      </div>
+      <div class="mg">
+        <div class="mrow"><a class="mi" href="#tolak" data-v="tolak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/><circle cx="18" cy="18" r="3"/><path d="M16 20l4-4"/></svg><span>Analisis Pelanggan Tidak Bersedia</span></a></div>
       </div>
     </nav>
     <nav class="menu menu-bottom">
@@ -1214,6 +1300,7 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
   <div class="view vcol" id="v-match" hidden></div>
   <div class="view vcol" id="v-remind" hidden></div>
   <div class="view vcol" id="v-fu" hidden></div>
+  <div class="view vcol" id="v-tolak" hidden></div>
   <div class="view vcol" id="v-unggah" hidden></div>
   <footer class="appfoot">Dashboard Versi V1.0.0<small class="by">Dashboard by Vendor Management</small></footer>
   </main>
@@ -1946,9 +2033,9 @@ $('mfList').addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{if(!e.target.closest('.mfil'))closeMf()});
 
 /* ================== MENU, SIDEBAR, ROUTING ================== */
-const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',reminder:'v-remind',followup:'v-fu',unggah:'v-unggah'};
+const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',reminder:'v-remind',followup:'v-fu',tolak:'v-tolak',unggah:'v-unggah'};
 const FW={recs:null,at:0,err:'',busy:false,idx:null,idxFor:null};
-const VTITLE={isolir:'Dashboard Isolir FTTH',blast:'Report Broadcast Starlite & IRA',pencocokan:'Status Broadcast FTTH',reminder:'Kirim Reminder ke Mitra',followup:'Hasil Follow Up Mitra',unggah:'Unggah Data Broadcast'};
+const VTITLE={isolir:'Dashboard Isolir FTTH',blast:'Report Broadcast Starlite & IRA',pencocokan:'Status Broadcast FTTH',reminder:'Kirim Reminder ke Mitra',followup:'Hasil Follow Up Mitra',tolak:'Analisis Pelanggan Tidak Bersedia Berlangganan Kembali',unggah:'Unggah Data Broadcast'};
 let CUR='blast', ISOLIVE=null, BLIVE=null, BERR='';
 const fmtWhen=l=>l?new Date(l).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
 const pctS=(a,b,d=1)=>(b?a/b*100:0).toFixed(d).replace('.',',')+'%';
@@ -1965,7 +2052,7 @@ function updateHeader(){
     setPills(`${fmtD(ts[0].slice(0,10))} · ${ts[0].slice(11,16)}–${ts[ts.length-1].slice(11,16)}`,`${nf(BPH)} nomor unik · ${nf(BL.filter(b=>!b.syn).length)} room`,liveTxt(BLIVE,'Broadcast'),!!BLIVE);
   }else if(CUR==='unggah'){
     setPills(API_MAN?(API_MAN.length+' tanggal tersimpan'):'Database broadcast','Hanya untuk petugas','Database bersama',!!apiUrl());
-  }else if(CUR==='followup'){
+  }else if(CUR==='followup'||CUR==='tolak'){
     const n=FW.recs?FW.recs.length:0;
     setPills(FW.recs?`${nf(n)} laporan follow up`:'Memuat laporan…',FW.recs?`${nf(new Set(FW.recs.map(r=>r.mitra)).size)} mitra melapor`:'',FW.at?`Database bersama · ${fmtWhen(new Date(FW.at).toISOString())}`:'Database bersama',!!FW.recs);
   }else{
@@ -1973,7 +2060,7 @@ function updateHeader(){
     setPills(`${nf(MS.cust)} nomor isolir terjangkau broadcast`,`${nf(FU.length)} mau lanjut, masih isolir`,`Isolir ${ISOLIVE?'langsung':'tersimpan'} · Broadcast ${BLIVE?'langsung':'tersimpan'}`,!!(ISOLIVE&&BLIVE));
   }
 }
-function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='reminder')renderRemindView();else if(CUR==='followup')renderFu();else if(CUR==='unggah')renderUnggah()}
+function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='reminder')renderRemindView();else if(CUR==='followup')renderFu();else if(CUR==='tolak')renderTolak();else if(CUR==='unggah')renderUnggah()}
 function closeSide(){$('side').classList.remove('open');$('scrim').hidden=true;$('btnMenu').setAttribute('aria-expanded','false')}
 function openSide(){$('side').classList.add('open');$('scrim').hidden=false;$('btnMenu').setAttribute('aria-expanded','true')}
 function show(v){
@@ -1987,7 +2074,7 @@ function show(v){
   if(PEND){const id=PEND;PEND='';setTimeout(()=>scrollToId(id),80)}
 }
 (function(){
-  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',unggah:'Unggah'};
+  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',tolak:'Analisis',unggah:'Unggah'};
   $('tabbar').innerHTML=[...document.querySelectorAll('.side .mi')].map(a=>`<a class="ti" href="#${a.dataset.v}" data-v="${a.dataset.v}">${a.querySelector('svg').outerHTML}<span>${lab[a.dataset.v]||''}</span></a>`).join('');
 })();
 function route(){show((location.hash||'').replace(/^#/,''))}
@@ -3702,6 +3789,192 @@ const FU_HTML=`
     <div class="mbody" id="fwGB"></div>
   </div>
 </div>`;
+/* ================== ANALISIS PELANGGAN TIDAK BERSEDIA BERLANGGANAN KEMBALI ==================
+ * Dipakai dashboard admin dan form mitra. Satu item = satu siklus follow up pelanggan (laporan terakhir dihitung).
+ * Kelompok alasan: kategori pilihan mitra (rec.ak) bila ada; laporan lama dikelompokkan otomatis dari kata kunci
+ * pada teks alasan, lalu remark. Urutan pengecekan kata kunci = TA_ORDER. */
+const TA_CAT=[
+  ['biaya','Biaya / kondisi ekonomi','#d97706',1,/mahal|biaya|ekonomi|keuangan|finansial|\buang\b|duit|\bdana\b|nunggak|tunggak|\bgaji\b|\bphk\b|nganggur|menganggur|kurang mampu|tidak mampu|gak mampu|ga mampu|belum mampu|berat (bayar|membayar)|\bharga\b|\btarif\b|hemat|irit|kebutuhan lain|belum gajian|tagihan|bayar/],
+  ['provider','Pindah ke provider lain','#7c3aed',1,/indihome|indi home|biznet|first ?media|myrep|my republic|iconnet|icon ?plus|\bmnc\b|oxygen|starlink|telkom|xl ?home|xl satu|smartfren|\borbit\b|provider|proveder|proveider|provider|provder|provaider|profider|\bisp\b|wifi lain|pindah (ke )?(wifi|internet|layanan)|wifi tetangga|wifi (dari|punya|milik)|wifi (yang |yg )?lama|pasang (yang|wifi|internet) lain|ganti (wifi|internet|layanan|provider)|(sudah|udah|sdh) (pasang|pakai|pake|ada|punya) (wifi|internet)|nebeng|numpang|wifi kantor|wifi sekolah/],
+  ['kuota','Cukup pakai kuota HP','#0891b2',1,/kuota|paket data|data seluler|hotspot|tethering|pakai hp|pake hp|cukup (hp|handphone)|\bmifi\b|modem/],
+  ['gangguan','Gangguan / kualitas jaringan','#dc2626',1,/gangguan|ganguan|lemot|lambat|lelet|putus|sering mati|mati terus|sering (error|eror|los|down)|\berror\b|\beror\b|\blos\b|sinyal|signal|tidak stabil|ga stabil|gak stabil|koneksi|jaringan (jelek|buruk|lemah|bermasalah)|kecepatan|\bspeed\b|buffering|redaman|tidak (bisa|dapat) (di ?)?(connect|konek|pakai|dipakai|digunakan|gunakan)|\bont\b|\brouter\b|\bpetir\b|kabel (putus|rusak)|(tidak|kurang|gak|ga) (bagus|memuaskan|puas|lancar|kencang|kenceng)|bermasal|trouble|lost|jelek|\bslow\b/],
+  ['layanan','Kecewa pelayanan / penagihan','#db2777',1,/kecewa|pelayanan|teknisi|\bcs\b|customer service|komplain|keluhan|lama (diperbaiki|ditangani|direspon|respon)|tidak (ada|pernah) (respon|tanggapan)|tidak (diperbaiki|ditangani|direspon)|tagihan (tidak sesuai|salah|dobel|double|naik|membengkak)|\bdenda\b|ditagih (terus|padahal)|tidak sesuai janji|janji/],
+  ['tidakbutuh','Tidak butuh / jarang dipakai','#64748b',0,/(tidak|tdk|gak|ga|nggak|ngga|enggak) (butuh|perlu|membutuhkan|memerlukan|terpakai|minat|berminat|tertarik|menggunakan|memakai|makai)|(tidak|tdk|gak|ga|nggak|ngga|enggak) (di ?)?(pakai|pake|pakek|gunakan|digunakan)|jarang (di ?)?(pakai|pake|pakek|gunakan|digunakan)|minim terpakai|anak (sudah|udah|sdh) (lulus|besar|kerja|menikah)|(tidak|gak|ga|nggak) ada yang (pakai|pake|makai|memakai|menggunakan)|cuma (1|satu) orang|lansia/],
+  ['pindah','Pindah rumah / domisili','#2563eb',0,/pindah|pndh|domisili|boyongan|balik kampung|pulang kampung|ikut (suami|istri|anak|orang ?tua|ortu|keluarga)|(sudah|udah) tidak tinggal|tidak tinggal di|ngontrak|kontrakan|\bkos(t|an)?\b|rumah (dijual|terjual|dikontrakkan|disewakan)|\bdijual\b/],
+  ['kosong','Rumah kosong / penghuni merantau','#0d9488',0,/kosong|tidak (di ?)?tempati|jarang (di ?(rumah|rmh)|pulang)|kerja (di )?luar|luar (kota|negeri|pulau|jawa)|merantau|rantau|\btki\b|\btkw\b|\bpmi\b|kuliah|mondok|pesantren|\bdinas\b/],
+  ['meninggal','Pelanggan meninggal dunia','#334155',0,/meninggal|wafat|almarhum|almarhumah|\balm\b|tutup usia|berpulang/],
+  ['idbaru','Sudah pasang ulang dengan ID baru','#0f766e',1,/(pasang|daftar|berlangganan|langganan)( ulang)? (dengan|pakai|pake|menggunakan) (id|akun|nama) (yang |yg )?baru|\bid baru\b/],
+  ['tanpa','Tidak menyebutkan alasan','#cbd5e1',0,/(tidak|tdk|belum|blm) (mau )?(memberitahu|memberitahukan|menyebutkan|menjelaskan|mengatakan|memberikan|memberi|ada jawaban|ada balasan|ada alasan|menjawab|membalas)|alasan ?nya|tidak ada alasan|berhenti|(tidak|tdk|gak|ga) (mau|bersedia|ingin) (lanjut|dilanjut|melanjutkan|berlangganan|langganan|menggunakan kembali)|^(tidak|tdk) (bersedia|mau|lanjut)( lanjut)?( berlangganan| langganan)?$|^no respon/],
+  ['lain','Lainnya / belum terkelompok','#a3a3a3',0,null]
+];
+const TA_CK=Object.fromEntries(TA_CAT.map(c=>[c[0],c]));
+const TA_ORDER=['idbaru','meninggal','provider','pindah','kosong','kuota','gangguan','layanan','biaya','tidakbutuh'];
+const TA_REKO={
+  biaya:'tawarkan paket lebih murah, keringanan atau cicilan tunggakan, dan promo reaktivasi',
+  provider:'siapkan penawaran harga dan kecepatan yang lebih kompetitif dibanding provider pesaing',
+  kuota:'tunjukkan bahwa internet rumah lebih hemat dibanding kuota HP untuk seluruh anggota keluarga',
+  gangguan:'cek riwayat gangguan di stasiun terkait dan pastikan jaringan sudah diperbaiki sebelum menawarkan kembali',
+  layanan:'eskalasi ke tim layanan, sampaikan permintaan maaf, dan tawarkan kompensasi',
+  tidakbutuh:'tawarkan paket dasar dengan kecepatan dan harga paling rendah',
+  pindah:'tawarkan pasang baru di alamat baru bila masih di area layanan Starlite',
+  kosong:'jadwalkan follow up ulang saat penghuni kembali ke rumah',
+  meninggal:'konfirmasi ke keluarga dan tawarkan pengalihan nama bila rumah masih ditempati',
+  idbaru:'cek apakah ID baru sudah aktif; laporan seperti ini seharusnya diisi "Bersedia berlangganan kembali" dengan identitas pelanggan baru',
+  tanpa:'minta petugas menanyakan ulang alasannya dan memilih kelompok alasan di form',
+  lain:'baca alasan lengkapnya dan kelompokkan manual'
+};
+const TA_KL={s:'Suspend',d:'Ready to dismantle',y:'Dismantling',x:'Dismantled'};
+const TA_NOW={aktif:'Aktif kembali',iso:'Masih suspend / RTD',dm:'Belum berlangganan lagi',dis:'Tidak aktif',unk:'Menunggu verifikasi'};
+const TA_STOP=new Set('yang dan di ke dari untuk dengan ini itu sudah udah belum masih karena krn karna sedang lagi mau akan bisa ada tidak tdk gak ga nggak ngga enggak juga saja aja sih kok pun lah kah nya ya iya dia beliau ibu bapak pak bu mas mbak pelanggan customer cust rumah sama atau tapi tetapi namun jadi jika kalau kalo kl sudah sdh blm saat waktu nanti dulu kami kita saya aku kalian mereka orang dalam pada oleh bahwa lebih sangat banget terus selalu hanya cuma kembali lanjut berlangganan langganan wifi internet starlite terlalu bulanan'.split(' '));
+function taNorm(t){return String(t||'').toLowerCase().replace(/[^a-z0-9+]+/g,' ').replace(/\s+/g,' ').trim()}
+function taCls(r){
+  if(r.ak&&TA_CK[r.ak])return {k:r.ak,src:'mitra'};
+  const a=taNorm(r.alasan), b=taNorm(r.remark);
+  for(const t of [a,b]){if(!t)continue;for(const k of TA_ORDER){if(TA_CK[k][4].test(t))return {k,src:'auto'}}}
+  if(!a||TA_CK.tanpa[4].test(a))return {k:'tanpa',src:'auto'};
+  return {k:'lain',src:'auto'};
+}
+const taEsc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const taNf=n=>Number(n||0).toLocaleString('id-ID');
+const taPc=(a,b)=>b?a/b*100:0;
+const taPf=x=>x.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';
+const taDay=ts=>new Date(Date.parse(ts)+7*36e5).toISOString().slice(0,10);
+const TA_BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const taD=s=>{if(!s||!/^\d{4}-\d{2}-\d{2}/.test(s))return '-';const [y,m,d]=s.slice(0,10).split('-');return `${+d} ${TA_BLN[+m-1]} ${y}`};
+const taWeek=d=>{const t=new Date(d+'T00:00:00Z'),w=(t.getUTCDay()+6)%7;return new Date(t.getTime()-w*864e5).toISOString().slice(0,10)};
+const TA={per:'all',mi:'',st:'',cat:'',q:'',shown:25,grp:false};
+/* opt: {admin:bool, el, items:[{code,name,st,mitra,k,ts,status,alasan,remark,ak,pic,now}], hasNow:bool, onOpen(code), onExport(rows)} */
+function taRender(opt){
+  const el=opt.el;if(!el)return;
+  const days=TA.per==='all'?0:+TA.per, from=days?Date.now()-days*864e5:0;
+  const P=opt.items.filter(c=>!from||Date.parse(c.ts)>=from);
+  const mitras=[...new Set(P.map(c=>c.mitra))].sort((a,b)=>a.localeCompare(b,'id'));
+  if(TA.mi&&!mitras.includes(TA.mi))TA.mi='';
+  const PM=P.filter(c=>!TA.mi||c.mitra===TA.mi);
+  const stations=[...new Set(PM.map(c=>c.st))].sort((a,b)=>a.localeCompare(b,'id'));
+  if(TA.st&&!stations.includes(TA.st))TA.st='';
+  const F=PM.filter(c=>!TA.st||c.st===TA.st);
+  const T=F.filter(c=>c.status==='tidak').map(c=>Object.assign(c,{cl:taCls(c)}));
+  const nT=T.length, nF=F.length, nN=F.filter(c=>c.status==='norespon').length;
+  const byCat=new Map(TA_CAT.map(c=>[c[0],[]]));T.forEach(c=>byCat.get(c.cl.k).push(c));
+  const cats=TA_CAT.map(c=>({k:c[0],l:c[1],c:c[2],wb:c[3],n:byCat.get(c[0]).length})).filter(o=>o.n).sort((a,b)=>b.n-a.n||(a.k==='lain')-(b.k==='lain'));
+  const top=cats.find(o=>o.k!=='lain'&&o.k!=='tanpa')||cats[0], wb=T.filter(c=>TA_CK[c.cl.k][3]).length, viaMitra=T.filter(c=>c.cl.src==='mitra').length;
+  const aktT=opt.hasNow?T.filter(c=>c.now==='aktif').length:0;
+  const perL={all:'semua waktu','90':'90 hari terakhir','30':'30 hari terakhir','7':'7 hari terakhir'}[TA.per];
+  const scope=(TA.mi?TA.mi:(opt.admin?'Semua mitra':''))+(TA.st?' · stasiun '+TA.st:'');
+  /* --- grafik 1: kelompok alasan --- */
+  const mxC=Math.max(1,...cats.map(o=>o.n));
+  const hb=cats.length?`<div class="ta-hb">${cats.map(o=>`<button type="button" class="ta-row${TA.cat===o.k?' on':''}" data-tc="${o.k}" style="--c:${o.c}" title="Tampilkan daftar pelanggan dengan alasan ini"><span class="ta-l"><b>${taEsc(o.l)}</b><em class="ta-tag ${o.wb?'ok':'no'}">${o.wb?'peluang win-back':'sulit'}</em></span><span class="ta-track"><i style="width:${taPc(o.n,mxC)}%"></i></span><span class="ta-v"><b>${taNf(o.n)}</b><small>${taPf(taPc(o.n,nT))}</small></span></button>`).join('')}</div>`:'';
+  /* --- grafik 2: peluang win-back (donut) --- */
+  const donut=(()=>{let a=0;const R=54,C=2*Math.PI*R;const seg=cats.map(o=>{const len=C*o.n/Math.max(1,nT),s=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${o.c}" stroke-width="22" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-a}" transform="rotate(-90 70 70)"><title>${taEsc(o.l)}: ${taNf(o.n)}</title></circle>`;a+=len;return s}).join('');
+    return `<div class="ta-donut"><svg viewBox="0 0 140 140" role="img" aria-label="Komposisi alasan">${seg}<text x="70" y="66" text-anchor="middle" class="ta-dn">${taNf(nT)}</text><text x="70" y="84" text-anchor="middle" class="ta-ds">pelanggan</text></svg>
+      <div class="ta-wb"><div class="ta-split"><i style="--c:#16a34a;width:${taPc(wb,nT)}%"></i><i style="--c:#94a3b8;width:${taPc(nT-wb,nT)}%"></i></div>
+      <div class="ta-lg"><span style="--c:#16a34a">Peluang win-back <b>${taNf(wb)}</b> <small>${taPf(taPc(wb,nT))}</small></span><span style="--c:#94a3b8">Sulit dimenangkan <b>${taNf(nT-wb)}</b> <small>${taPf(taPc(nT-wb,nT))}</small></span></div>
+      <p class="ta-sub" style="margin:8px 0 0">Peluang win-back = biaya, provider lain, kuota HP, gangguan jaringan, dan kecewa pelayanan: alasan yang masih bisa dijawab dengan penawaran atau perbaikan.</p></div></div>`;
+  })();
+  /* --- grafik 3: alasan × status pelanggan --- */
+  const ks=['s','d','y','x'].filter(k=>T.some(c=>c.k===k));
+  const mtx=cats.map(o=>({o,v:ks.map(k=>byCat.get(o.k).filter(c=>c.k===k).length)})), mxM=Math.max(1,...mtx.flatMap(r=>r.v));
+  const matrix=ks.length?`<div class="ta-tw"><table class="ta-t ta-heat"><thead><tr><th>Kelompok alasan</th>${ks.map(k=>`<th class="n">${TA_KL[k]}</th>`).join('')}<th class="n">Total</th></tr></thead><tbody>${mtx.map(r=>`<tr><td><span class="ta-dot" style="--c:${r.o.c}"></span>${taEsc(r.o.l)}</td>${r.v.map(v=>`<td class="n h" style="--a:${(v/mxM*0.55).toFixed(3)}">${v?taNf(v):'<span class="ta-mut">-</span>'}</td>`).join('')}<td class="n"><b>${taNf(r.o.n)}</b></td></tr>`).join('')}
+    <tr class="ta-tot"><td>Total</td>${ks.map(k=>`<td class="n">${taNf(T.filter(c=>c.k===k).length)}</td>`).join('')}<td class="n">${taNf(nT)}</td></tr></tbody></table></div>`:'';
+  /* --- grafik 4: tren mingguan (12 minggu terakhir) --- */
+  const wNow=taWeek(taDay(new Date().toISOString())), weeks=[];for(let i=11;i>=0;i--)weeks.push(new Date(Date.parse(wNow+'T00:00:00Z')-i*7*864e5).toISOString().slice(0,10));
+  const wk=new Map(weeks.map(w=>[w,{n:0}]));T.forEach(c=>{const o=wk.get(taWeek(taDay(c.ts)));if(o){o.n++;o[c.cl.k]=(o[c.cl.k]||0)+1}});
+  const wF=new Map(weeks.map(w=>[w,0]));F.forEach(c=>{const w=taWeek(taDay(c.ts));if(wF.has(w))wF.set(w,wF.get(w)+1)});
+  const mxW=Math.max(1,...weeks.map(w=>wk.get(w).n)), W=640,H=210,pl=34,pb=26,bw=(W-pl-8)/weeks.length;
+  const trend=`<svg class="ta-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tren mingguan pelanggan tidak bersedia">
+    ${[0,.5,1].map(f=>{const y=(H-pb)-(H-pb-12)*f;return `<line x1="${pl}" x2="${W-4}" y1="${y}" y2="${y}" class="ta-gl"/><text x="${pl-6}" y="${y+4}" text-anchor="end" class="ta-ax">${Math.round(mxW*f)}</text>`}).join('')}
+    ${weeks.map((w,i)=>{const o=wk.get(w);let y=H-pb;const x=pl+i*bw+bw*.18,ww=bw*.64;
+      const rs=cats.map(c=>{const v=o[c.k]||0;if(!v)return '';const h=(H-pb-12)*v/mxW;y-=h;return `<rect x="${x}" y="${y}" width="${ww}" height="${h}" fill="${c.c}" rx="2"><title>${taEsc(c.l)}: ${v}</title></rect>`}).join('');
+      return `<g>${rs}${o.n?`<text x="${x+ww/2}" y="${y-4}" text-anchor="middle" class="ta-vl">${o.n}</text>`:''}<text x="${x+ww/2}" y="${H-8}" text-anchor="middle" class="ta-ax">${+w.slice(8)}/${+w.slice(5,7)}</text><title>Minggu ${taD(w)}: ${o.n} tidak bersedia dari ${wF.get(w)} di-follow up</title></g>`}).join('')}
+  </svg><div class="ta-lg">${cats.map(o=>`<span style="--c:${o.c}">${taEsc(o.l)}</span>`).join('')}</div>`;
+  /* --- per mitra / per stasiun --- */
+  const gKey=opt.admin&&!TA.mi&&!TA.grp?'mitra':'st', gLbl=gKey==='mitra'?'Mitra':'Stasiun';
+  const gM=new Map();F.forEach(c=>{const k=c[gKey]||'-';let o=gM.get(k);if(!o)gM.set(k,o={k,fu:0,t:0,c:{}});o.fu++;if(c.status==='tidak'){o.t++;o.c[c.cl.k]=(o.c[c.cl.k]||0)+1}});
+  const gR=[...gM.values()].filter(o=>o.t).sort((a,b)=>b.t-a.t||b.fu-a.fu);
+  const gTop=o=>{const e=Object.entries(o.c).sort((a,b)=>b[1]-a[1])[0];return e?TA_CK[e[0]]:null};
+  const grp=gR.length?`<div class="ta-tw"><table class="ta-t"><thead><tr><th>${gLbl}</th><th class="n">Di-follow up</th><th class="n">Tidak bersedia</th><th class="n">Tingkat penolakan</th><th>Alasan utama</th><th style="min-width:150px">Komposisi alasan</th></tr></thead><tbody>
+    ${gR.slice(0,TA.gAll?gR.length:12).map(o=>{const t=gTop(o);return `<tr><td><b>${taEsc(o.k)}</b></td><td class="n">${taNf(o.fu)}</td><td class="n">${taNf(o.t)}</td><td class="n"><b style="color:${taPc(o.t,o.fu)>=50?'#b91c1c':'inherit'}">${taPf(taPc(o.t,o.fu))}</b></td><td>${t?`<span class="ta-dot" style="--c:${t[2]}"></span>${taEsc(t[1])}`:'-'}</td><td><div class="ta-split sm">${cats.map(c=>o.c[c.k]?`<i style="--c:${c.c};width:${taPc(o.c[c.k],o.t)}%" title="${taEsc(c.l)}: ${o.c[c.k]}"></i>`:'').join('')}</div></td></tr>`}).join('')}
+    </tbody></table></div>${gR.length>12?`<button type="button" class="ta-more" data-tg="1">${TA.gAll?'Tampilkan lebih sedikit':'Tampilkan semua ('+taNf(gR.length)+')'}</button>`:''}`:'';
+  /* --- kata kunci --- */
+  const wc=new Map();T.forEach(c=>new Set(taNorm(c.alasan||c.remark).split(' ').filter(w=>w.length>2&&!TA_STOP.has(w)&&!/^\d+$/.test(w))).forEach(w=>wc.set(w,(wc.get(w)||0)+1)));
+  const words=[...wc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,24), mxWd=words.length?words[0][1]:1;
+  const wordH=words.length?`<div class="ta-words">${words.map(([w,n])=>`<button type="button" data-tw="${taEsc(w)}" style="--fs:${(12+8*n/mxWd).toFixed(1)}px" title="Cari kata ini di daftar">${taEsc(w)} <b>${n}</b></button>`).join('')}</div>`:'<p class="ta-sub">Belum ada teks alasan.</p>';
+  /* --- analisis otomatis --- */
+  const ins=[];
+  if(nT){
+    ins.push(`<b>${taNf(nT)}</b> dari ${taNf(nF)} pelanggan yang di-follow up (<b>${taPf(taPc(nT,nF))}</b>) menyatakan tidak bersedia berlangganan kembali${nN?`, sementara ${taNf(nN)} (${taPf(taPc(nN,nF))}) tidak merespon`:''}.`);
+    ins.push(`Tiga alasan terbanyak: ${cats.filter(o=>o.k!=='lain'&&o.k!=='tanpa').slice(0,3).map(o=>`<b>${taEsc(o.l.toLowerCase())}</b> ${taNf(o.n)} (${taPf(taPc(o.n,nT))})`).join(', ')||'-'}.`);
+    if(wb)ins.push(`<b>${taPf(taPc(wb,nT))}</b> penolakan (${taNf(wb)} pelanggan) masih punya <b>peluang win-back</b> karena alasannya bisa dijawab dengan penawaran atau perbaikan layanan.`);
+    cats.filter(o=>o.k!=='lain'&&o.k!=='tanpa').slice(0,3).forEach(o=>ins.push(`Untuk <b>${taEsc(o.l.toLowerCase())}</b> (${taNf(o.n)} pelanggan): ${TA_REKO[o.k]}.`));
+    const hi=gR.filter(o=>o.fu>=10).sort((a,b)=>b.t/b.fu-a.t/a.fu)[0];
+    if(hi)ins.push(`${gLbl} dengan tingkat penolakan tertinggi: <b>${taEsc(hi.k)}</b>, ${taPf(taPc(hi.t,hi.fu))} (${taNf(hi.t)} dari ${taNf(hi.fu)} pelanggan), alasan utama ${taEsc((gTop(hi)||[0,'-'])[1].toLowerCase())}.`);
+    const last4=weeks.slice(-4).reduce((s,w)=>s+wk.get(w).n,0), prev4=weeks.slice(-8,-4).reduce((s,w)=>s+wk.get(w).n,0);
+    if(last4||prev4)ins.push(`Tren: ${taNf(last4)} penolakan dalam 4 minggu terakhir dibanding ${taNf(prev4)} pada 4 minggu sebelumnya${prev4?` (${last4>=prev4?'naik':'turun'} ${taPf(Math.abs(taPc(last4-prev4,prev4)))})`:''}.`);
+    if(opt.hasNow&&aktT)ins.push(`<b>${taNf(aktT)}</b> pelanggan yang sempat menolak ternyata sudah <b>aktif kembali</b>.`);
+    const nl=byCat.get('lain').length;if(nl)ins.push(`${taNf(nl)} alasan (${taPf(taPc(nl,nT))}) belum cocok dengan kelompok mana pun dan perlu dibaca manual.`);
+    ins.push(`${taNf(viaMitra)} laporan memakai kategori alasan yang dipilih petugas; ${taNf(nT-viaMitra)} laporan lama dikelompokkan otomatis dari teks alasan.`);
+  }
+  /* --- daftar --- */
+  const q=TA.q.toLowerCase();
+  const LST=T.filter(c=>(!TA.cat||c.cl.k===TA.cat)&&(!q||[c.name,c.code,c.st,c.mitra,c.alasan,c.remark,c.pic].join(' ').toLowerCase().includes(q))).sort((a,b)=>a.ts<b.ts?1:-1);
+  const lst=LST.length?`<div class="ta-tw"><table class="ta-t ta-list"><thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Stasiun</th>${opt.admin?'<th>Mitra</th>':''}<th>Status</th><th>Kelompok alasan</th><th>Alasan &amp; remark</th><th>Petugas</th>${opt.hasNow?'<th>Sekarang</th>':''}</tr></thead><tbody>
+    ${LST.slice(0,TA.shown).map(c=>{const g=TA_CK[c.cl.k];return `<tr data-to="${taEsc(c.code)}" tabindex="0" title="Lihat riwayat follow up"><td class="ta-nw">${taD(taDay(c.ts))}</td><td><b>${taEsc(c.name||'(tanpa nama)')}</b><div class="ta-mut">${taEsc(c.code)}</div></td><td>${taEsc(c.st)}</td>${opt.admin?`<td>${taEsc(c.mitra)}</td>`:''}<td>${TA_KL[c.k]||'Suspend'}</td><td><span class="ta-pill" style="--c:${g[2]}">${taEsc(g[1])}</span>${c.cl.src==='auto'?'<div class="ta-mut">otomatis</div>':''}</td><td class="ta-txt">${c.alasan?`<b>${taEsc(c.alasan)}</b>`:''}${c.remark?`<div class="ta-mut">${taEsc(c.remark)}</div>`:''}</td><td>${taEsc(c.pic||'-')}</td>${opt.hasNow?`<td>${TA_NOW[c.now]||'-'}</td>`:''}</tr>`}).join('')}
+    </tbody></table></div>${LST.length>TA.shown?`<button type="button" class="ta-more" data-tm="1">Tampilkan 50 berikutnya (${taNf(LST.length-TA.shown)} lagi)</button>`:''}`:`<p class="ta-empty">${nT?'Tidak ada pelanggan yang cocok dengan filter.':'Belum ada pelanggan yang tidak bersedia pada periode ini.'}</p>`;
+  const sel=(id,v,opts,all)=>`<select id="${id}" aria-label="${all}"><option value="">${all}</option>${opts.map(o=>`<option${o===v?' selected':''}>${taEsc(o)}</option>`).join('')}</select>`;
+  el.innerHTML=`<div class="ta">
+  <section class="card ta-c"><div class="ta-h"><div><h2>Analisis pelanggan tidak bersedia berlangganan kembali</h2><p class="ta-sub">${taEsc(scope?scope+' · ':'')}${perL} · berdasarkan hasil follow up terakhir tiap pelanggan</p></div>
+    <div class="ta-ctl">${opt.admin?sel('taMi',TA.mi,mitras,'Semua mitra'):''}${sel('taSt',TA.st,stations,'Semua stasiun')}<span class="ta-chips">${[['all','Semua'],['90','90 hari'],['30','30 hari'],['7','7 hari']].map(([k,l])=>`<button type="button" data-tp="${k}" class="${TA.per===k?'on':''}">${l}</button>`).join('')}</span></div></div>
+    <div class="ta-kpis">
+      <div class="ta-kpi" style="--c:#dc2626"><span>Tidak bersedia</span><b>${taNf(nT)}</b><small>${taPf(taPc(nT,nF))} dari ${taNf(nF)} di-follow up</small></div>
+      <div class="ta-kpi" style="--c:${top?top.c:'#64748b'}"><span>Alasan terbanyak</span><b class="t">${top?taEsc(top.l):'-'}</b><small>${top?taNf(top.n)+' pelanggan · '+taPf(taPc(top.n,nT)):'belum ada data'}</small></div>
+      <div class="ta-kpi" style="--c:#16a34a"><span>Peluang win-back</span><b>${taNf(wb)}</b><small>${taPf(taPc(wb,nT))} alasan masih bisa ditangani</small></div>
+      ${opt.hasNow?`<div class="ta-kpi" style="--c:#0f766e"><span>Sempat menolak, kini aktif</span><b>${taNf(aktT)}</b><small>${taPf(taPc(aktT,nT))} dari yang menolak</small></div>`:`<div class="ta-kpi" style="--c:#64748b"><span>Tidak merespon</span><b>${taNf(nN)}</b><small>${taPf(taPc(nN,nF))} dari di-follow up</small></div>`}
+    </div></section>
+  ${nT?`<div class="ta-g2">
+    <section class="card ta-c"><h2>Kelompok alasan</h2><p class="ta-sub">Klik satu kelompok untuk melihat daftar pelanggannya.</p>${hb}</section>
+    <section class="card ta-c"><h2>Komposisi &amp; peluang win-back</h2>${donut}</section></div>
+  <div class="ta-g2">
+    <section class="card ta-c"><h2>Tren mingguan</h2><p class="ta-sub">Jumlah pelanggan tidak bersedia per minggu (12 minggu terakhir, menurut tanggal laporan), per kelompok alasan.</p>${trend}</section>
+    <section class="card ta-c"><h2>Kata yang paling sering muncul</h2><p class="ta-sub">Dari teks alasan pelanggan. Klik kata untuk mencarinya di daftar.</p>${wordH}</section></div>
+  <section class="card ta-c"><h2>Alasan per status pelanggan</h2><p class="ta-sub">Warna lebih pekat = jumlah lebih banyak.</p>${matrix}</section>
+  <section class="card ta-c"><div class="ta-h"><div><h2>Penolakan per ${gLbl.toLowerCase()}</h2><p class="ta-sub">Tingkat penolakan = tidak bersedia ÷ pelanggan yang di-follow up.</p></div>${opt.admin&&!TA.mi?`<span class="ta-chips"><button type="button" data-tgp="0" class="${!TA.grp?'on':''}">Per mitra</button><button type="button" data-tgp="1" class="${TA.grp?'on':''}">Per stasiun</button></span>`:''}</div>${grp}</section>`:''}
+  <section class="card ta-c" id="taList"><div class="ta-h"><div><h2>Daftar pelanggan tidak bersedia</h2><p class="ta-sub">${taNf(LST.length)} pelanggan${TA.cat?' · '+taEsc(TA_CK[TA.cat][1]):''}. Klik baris untuk melihat riwayat follow up.</p></div>
+    <div class="ta-ctl"><select id="taCat" aria-label="Kelompok alasan"><option value="">Semua kelompok alasan</option>${cats.map(o=>`<option value="${o.k}"${TA.cat===o.k?' selected':''}>${taEsc(o.l)} (${taNf(o.n)})</option>`).join('')}</select><input type="search" id="taQ" placeholder="Cari nama, kode, alasan, petugas" value="${taEsc(TA.q)}" aria-label="Cari di daftar">${opt.onExport?'<button type="button" id="taX" class="ta-xls">Download Excel</button>':''}</div></div>${lst}</section>
+  ${nT?`<section class="card ta-c ta-ins"><h2>Analisis &amp; rekomendasi</h2><ul>${ins.map(t=>`<li>${t}</li>`).join('')}</ul></section>`:''}
+  </div>`;
+  const rr=()=>taRender(opt);
+  el.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{TA.per=b.dataset.tp;TA.shown=25;rr()});
+  el.querySelectorAll('[data-tgp]').forEach(b=>b.onclick=()=>{TA.grp=b.dataset.tgp==='1';TA.gAll=false;rr()});
+  el.querySelectorAll('[data-tc]').forEach(b=>b.onclick=()=>{TA.cat=TA.cat===b.dataset.tc?'':b.dataset.tc;TA.shown=25;rr();const l=document.getElementById('taList');if(l&&TA.cat)l.scrollIntoView({behavior:'smooth',block:'start'})});
+  el.querySelectorAll('[data-tw]').forEach(b=>b.onclick=()=>{TA.q=b.dataset.tw;TA.cat='';TA.shown=25;rr();const l=document.getElementById('taList');if(l)l.scrollIntoView({behavior:'smooth',block:'start'})});
+  el.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{TA.gAll=!TA.gAll;rr()});
+  el.querySelectorAll('[data-tm]').forEach(b=>b.onclick=()=>{TA.shown+=50;rr()});
+  const g=id=>el.querySelector('#'+id);
+  if(g('taMi'))g('taMi').onchange=e=>{TA.mi=e.target.value;TA.st='';TA.shown=25;rr()};
+  if(g('taSt'))g('taSt').onchange=e=>{TA.st=e.target.value;TA.shown=25;rr()};
+  g('taCat').onchange=e=>{TA.cat=e.target.value;TA.shown=25;rr()};
+  g('taQ').oninput=e=>{TA.q=e.target.value;TA.shown=25;clearTimeout(taRender.h);taRender.h=setTimeout(()=>{rr();const i=document.getElementById('taQ');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},250)};
+  if(g('taX'))g('taX').onclick=()=>opt.onExport(LST.map(c=>[taD(taDay(c.ts)),c.code,c.name||'',c.st,c.mitra,TA_KL[c.k]||'Suspend',TA_CK[c.cl.k][1],c.cl.src==='mitra'?'Dipilih petugas':'Otomatis',TA_CK[c.cl.k][3]?'Peluang win-back':'Sulit',c.alasan||'',c.remark||'',c.pic||'',opt.hasNow?(TA_NOW[c.now]||''):'']));
+  el.querySelectorAll('[data-to]').forEach(r=>{const go=()=>opt.onOpen&&opt.onOpen(r.dataset.to);r.onclick=go;r.onkeydown=e=>{if(e.key==='Enter')go()}});
+}
+const TA_XHEAD=['Tanggal laporan','Kode pelanggan','Nama','Stasiun','Mitra','Status pelanggan','Kelompok alasan','Sumber kelompok','Peluang','Alasan','Remark','Petugas','Status sekarang'];
+
+/* menu Analisis Pelanggan Tidak Bersedia (admin): semua mitra, status sekarang dari verifikasi follow up */
+function taOpenAdmin(code){
+  if(!FWINIT)renderFu();
+  ['fwM','fwG','fwP'].forEach(id=>{const e=$(id);if(e&&e.parentNode!==document.body)document.body.appendChild(e)});
+  openFw(code);
+}
+function renderTolak(){
+  const el=$('v-tolak');
+  if(!FW.recs&&!FW.err){el.innerHTML='<div class="boot" role="status">Memuat laporan follow up…</div>';if(!FW.busy)fwLoad().then(()=>{if(CUR==='tolak'){renderTolak();updateHeader()}});return}
+  if(!FW.recs){el.innerHTML=`<div class="boot"><b>${esc(FW.err)}</b></div>`;return}
+  if(!R){el.innerHTML='<div class="boot" role="status">Memuat data isolir…</div>';return}
+  const items=fwCycles().map(c=>({code:c.code,name:c.last.name||'',st:c.last.st||'(Tanpa stasiun)',mitra:c.mitra,k:c.last.k||'s',ts:c.last.ts,status:c.last.status,alasan:c.last.alasan||'',remark:c.last.remark||'',ak:c.last.ak||'',pic:c.last.pic||'',now:c.now}));
+  taRender({el,admin:true,items,hasNow:true,onOpen:taOpenAdmin,onExport:rows=>exportSheets(`analisis-tidak-bersedia-${todayWib().replace(/-/g,'')}.xlsx`,[{name:'Tidak bersedia',aoa:[TA_XHEAD,...rows],cols:[14,16,26,20,30,18,30,16,16,40,40,20,18]}],rows.length)});
+  if(!FW.busy&&Date.now()-FW.at>120000)fwLoad().then(()=>{if(CUR==='tolak')renderTolak()});
+}
 function renderFu(){
   if(!FWINIT){
     $('v-fu').innerHTML=FU_HTML;FWINIT=true;
@@ -3799,7 +4072,7 @@ async function openAudit(){
     const u=activeUrl().replace('/aktif.csv','/ringkas.csv'), res=await fetch(u+(u.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
     if(!res.ok)throw new Error('ringkas.csv HTTP '+res.status);
     const tb=parseCsv(await res.text()), h=(tb.shift()||[]).map(x=>String(x).trim()), iM=h.indexOf('mitra'), iS=h.indexOf('stasiun'), iT=h.indexOf('customer_status'), iN=h.indexOf('n');
-    const truth=new Map(), cat={suspend:'s','ready-to-dismantle':'r',dismantling:'r',dismantled:'x'};
+    const truth=new Map(), cat={suspend:'s','ready-to-dismantle':'r',dismantling:'x',dismantled:'x'};
     tb.forEach(r=>{const c=cat[String(r[iT]||'').trim().toLowerCase()];if(!c)return;const m=String(r[iM]||'').trim()||'(Tanpa mitra)', st=String(r[iS]||'').trim()||'(Tanpa stasiun)';let a=truth.get(m);if(!a)truth.set(m,a=new Map());let o=a.get(st);if(!o)a.set(st,o={s:0,r:0,x:0});o[c]+=+r[iN]||0});
     const mitras=[...truth.keys()].sort((a,b)=>a.localeCompare(b,'id')), rows=[];let done=0,src={};
     for(let i=0;i<mitras.length;i+=6){
@@ -3825,11 +4098,11 @@ function auRender(){
   const bad=R_.rows.filter(r=>!r.ok), list=AU.all?R_.rows:bad, mm=new Set(bad.map(r=>r.m)).size, src=Object.entries(R_.src).map(([k,v])=>`${k==='db'?'database':k==='cache'?'cache lama':k} ${nf(v)}`).join(', ');
   const c=x=>`${nf(x.s)} · ${nf(x.r)} · ${nf(x.x)}`;
   auBody(`<div class="ustate ${bad.length?'bad':'ok'}" style="display:flex;gap:10px;align-items:center"><span class="uic">${bad.length?'!':'✓'}</span><b>${bad.length?`${nf(bad.length)} stasiun belum lengkap di ${nf(mm)} mitra`:'Semua stasiun sudah masuk di form semua mitra'}</b></div>
-    <p class="foot" style="margin:0">${nf(R_.n)} mitra diperiksa · ${nf(R_.rows.length)} stasiun · sumber data form: ${esc(src)}. Angka = suspend · RTD+dismantling · dismantled. Stasiun dianggap belum lengkap bila jumlah di form lebih rendah dari database.</p>
+    <p class="foot" style="margin:0">${nf(R_.n)} mitra diperiksa · ${nf(R_.rows.length)} stasiun · sumber data form: ${esc(src)}. Angka = suspend · RTD · dismantled+dismantling. Stasiun dianggap belum lengkap bila jumlah di form lebih rendah dari database.</p>
     <label class="foot"><input type="checkbox" id="auAll"${AU.all?' checked':''}> tampilkan semua stasiun</label>
     <div class="tw"><table><thead><tr><th>Mitra</th><th>Stasiun</th><th>Database</th><th>Form mitra</th><th>Status</th></tr></thead><tbody>${list.map(r=>`<tr><td>${esc(r.m)}</td><td>${esc(r.st)}</td><td class="mono">${c(r.d)}</td><td class="mono">${c(r.f)}</td><td>${r.ok?'<span class="gp" style="--c:#15803d;--bg:#dcf5e5">Lengkap</span>':r.none?'<span class="gp" style="--c:#b91c1c;--bg:#fde2e2">Tidak muncul</span>':'<span class="gp" style="--c:#b45309;--bg:#fdecd0">Kurang</span>'}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Tidak ada.</td></tr>'}</tbody></table></div>`,'Audit selesai');
   $('auAll').onchange=e=>{AU.all=e.target.checked;auRender()};
-  const x=$('auX2');x.hidden=false;x.onclick=()=>exportSheets(`audit-stasiun-form-mitra-${todayWib().replace(/-/g,'')}.xlsx`,[{name:'Audit',aoa:[['Mitra','Stasiun','DB suspend','DB RTD+dismantling','DB dismantled','Form suspend','Form RTD+dismantling','Form dismantled','Status'],...R_.rows.map(r=>[r.m,r.st,r.d.s,r.d.r,r.d.x,r.f.s,r.f.r,r.f.x,r.ok?'Lengkap':r.none?'Tidak muncul':'Kurang'])],cols:[34,26,12,16,14,12,16,14,14]}],R_.rows.length);
+  const x=$('auX2');x.hidden=false;x.onclick=()=>exportSheets(`audit-stasiun-form-mitra-${todayWib().replace(/-/g,'')}.xlsx`,[{name:'Audit',aoa:[['Mitra','Stasiun','DB suspend','DB RTD','DB dismantled+dismantling','Form suspend','Form RTD','Form dismantled+dismantling','Status'],...R_.rows.map(r=>[r.m,r.st,r.d.s,r.d.r,r.d.x,r.f.s,r.f.r,r.f.x,r.ok?'Lengkap':r.none?'Tidak muncul':'Kurang'])],cols:[34,26,12,16,14,12,16,14,14]}],R_.rows.length);
 }
 function fillFu(){
   try{fillFwTop()}catch(e){}
