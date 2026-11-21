@@ -419,7 +419,67 @@ main>.card>h2::before,.dash>.card>h2::before,.dash .dh h2::before,.grid2>.card>h
   .hl td::before{content:attr(data-l);position:absolute;left:0;top:9px;width:96px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ink2)}
   .hl td[data-l="Laporan"]{border-top:0;padding-right:60px}
   .hl td[data-l="Lampiran"]{position:absolute;right:12px;top:10px;width:auto;padding:0;border:0}.hl td[data-l="Lampiran"]::before{display:none}
-}/* menu Hasil Follow Up */
+}/* tren harian 7 hari: navigasi geser */
+.ta-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 6px}
+.ta-nav button{width:40px;height:40px;border-radius:12px;border:1.5px solid #cfd8e6;background:#fff;font-size:24px;line-height:1;cursor:pointer;color:#12306b;font-family:inherit;flex:none;padding:0 0 3px}
+.ta-nav button:hover:not([disabled]){background:#eef4ff;border-color:#2563eb}
+.ta-nav button[disabled]{opacity:.35;cursor:default}
+.ta-nr{text-align:center;min-width:0}
+.ta-nr b{display:block;font-size:14px;color:#0f1b3d}
+.ta-nr small{display:block;font-size:12px;color:#52607a;margin-top:1px}
+.ta-nr a{color:#1d4ed8;font-weight:700}
+.ta-swipe{touch-action:pan-y;cursor:grab;user-select:none;outline:none;border-radius:10px}
+.ta-swipe:focus-visible{box-shadow:0 0 0 3px rgba(37,99,235,.35)}.np-red{color:#b91c1c;font-weight:700}
+a.np-c{text-decoration:none;color:inherit}
+/* judul kategori: angka di kanan atas, penjelasan memakai lebar penuh (tidak memanjang ke bawah) */
+.cathead{display:block}
+.cathead .ch-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.cathead .ch-n{text-align:right;flex:none}
+.cathead .ch-n b{display:block;font-size:22px;line-height:1.1}
+.cathead .ch-n span{display:block;font-size:12px;color:var(--ink2);max-width:150px;margin-left:auto;line-height:1.3}
+.cathead p{margin:6px 0 0}
+@media(max-width:900px){
+  .tabbar{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tabbar a{flex:1 0 58px}
+}/* ===== menu Instalasi & WO ===== */
+.iw-hero h2{margin:0;font-size:16px}.iw-hero .sub{margin:3px 0 0}
+.iw-seg{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:#e8eef9;border-radius:14px;padding:4px;width:min(100%,520px);margin:0 auto 14px}
+.iw-seg .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/2);background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(18,48,107,.22);transform:translateX(calc(var(--i,0)*100%));transition:transform .28s cubic-bezier(.4,0,.2,1)}
+.iw-seg button{position:relative;z-index:1;border:0;background:none;padding:9px 8px;border-radius:11px;cursor:pointer;color:#52607a;font-weight:700;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0}
+.iw-seg button b{font-size:18px;line-height:1.15;color:inherit;font-variant-numeric:tabular-nums}
+.iw-seg button.on{color:#12306b}
+.iw-pk{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 12px}
+.iw-pk>div{border:1.5px solid #f1cda2;background:#fefaea;border-radius:12px;padding:10px 12px;min-width:0}
+.iw-pk>div.bad{border-color:#fca5a5;background:#fef2f2}
+.iw-pk b{display:block;font-size:26px;line-height:1.1;color:#0f1b3d;font-variant-numeric:tabular-nums}.iw-pk>div.bad b{color:#b91c1c}
+.iw-pk span{font-size:12px;color:#52607a;line-height:1.3;display:block}
+.iw-dh{display:flex;flex-direction:column;gap:6px}
+.iw-dr{display:grid;grid-template-columns:minmax(80px,120px) minmax(0,1fr) 84px 96px;gap:12px;align-items:center;text-align:left;border:1.5px solid transparent;background:color-mix(in srgb,var(--c) 5%,#fff);border-left:6px solid var(--c);border-radius:12px;padding:9px 12px;cursor:pointer;min-width:0}
+.iw-dr:hover{background:color-mix(in srgb,var(--c) 11%,#fff)}.iw-dr.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 13%,#fff)}
+.iw-dr .l{font-size:13px;font-weight:800;color:var(--c)}
+.iw-dr .tr{height:22px;background:#eef2f7;border-radius:8px;overflow:hidden}.iw-dr .tr i{display:block;height:100%;background:var(--c);border-radius:8px;min-width:4px}
+.iw-dr strong{font-size:23px;line-height:1;color:var(--c);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.iw-dr .n{text-align:right;font-weight:700;font-size:13px;color:#0f1b3d}.iw-dr .n small{display:block;font-weight:500;font-size:10.5px;color:#7a869c}
+@media(max-width:700px){.iw-dr{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"l p" "t t" "n n";gap:5px 10px;padding:9px 11px}.iw-dr .l{grid-area:l}.iw-dr strong{grid-area:p;font-size:24px}.iw-dr .tr{grid-area:t;height:14px}.iw-dr .n{grid-area:n;text-align:left}.iw-dr .n small{display:inline;margin-left:5px}}
+.iw-t{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.iw-t th{text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ink2);padding:9px 10px;border-bottom:2px solid var(--line2);background:#f6f8fc;white-space:nowrap}
+.iw-t td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.iw-t .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.iw-t tbody tr{cursor:pointer}.iw-t tbody tr:hover{background:#f3f6fb}.iw-t tbody tr.on{background:#e6eefe}
+.iw-t td:first-child,.iw-t th:first-child{position:sticky;left:0;background:#fff;z-index:1;min-width:130px;box-shadow:1px 0 0 var(--line2)}.iw-t th:first-child{background:#f6f8fc}.iw-t tr.on td:first-child{background:#e6eefe}
+.iw-m{color:#b6bfcc}.iw-v{font-weight:700}
+.iw-more{display:block;margin:12px auto 0}
+.iw-lh{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.iw-lh h2{margin:0}
+.iw-f{display:grid;grid-template-columns:minmax(220px,2fr) repeat(3,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.iw-f input,.iw-f select{width:100%;min-width:0}
+@media(max-width:700px){.iw-f{grid-template-columns:1fr 1fr}.iw-f input{grid-column:1/-1}}
+.iw-it .l span{white-space:normal}
+.iw-it.late{border-left:4px solid #dc2626}
+.iw-pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;background:color-mix(in srgb,var(--c) 13%,#fff);color:color-mix(in srgb,var(--c) 85%,#000)}
+.iw-age{display:inline-block;font-weight:800;font-size:15px;color:var(--c);font-variant-numeric:tabular-nums}
+.iw-need{color:#b91c1c;font-weight:700;margin-top:2px}/* menu Hasil Follow Up */
 .hs-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
 .hs-k div{border:1.5px solid color-mix(in srgb,var(--c) 45%,#fff);background:color-mix(in srgb,var(--c) 6%,#fff);border-radius:12px;padding:10px 12px}
 .hs-k span{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
@@ -438,7 +498,17 @@ main>.card>h2::before,.dash>.card>h2::before,.dash .dh h2::before,.grid2>.card>h
 .lntip div{display:flex;align-items:center;gap:6px;margin-top:3px}.lntip div b{margin-left:auto}.lntip i{width:8px;height:8px;border-radius:2px;flex:none}
 .lnlg{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;font-size:12.5px;color:var(--ink2)}
 .lnlg span{display:inline-flex;align-items:center;gap:6px}.lnlg i{width:14px;height:4px;border-radius:2px;background:var(--c)}.lnlg b{color:var(--ink)}
-.lnlg span.me{font-weight:700;color:var(--ink)}</style>
+.lnlg span.me{font-weight:700;color:var(--ink)}
+/* seluler: manfaatkan lebar layar */
+@media(max-width:900px){
+  html,body{overflow-x:hidden}
+  main{padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
+  .card{padding:10px 11px;border-radius:12px}
+  .topbar{padding-left:12px;padding-right:12px}
+  .tiles{gap:8px}.tile{padding:10px 11px}
+  .it{padding:10px 11px}
+  .mbody,.sheet{padding-left:12px;padding-right:12px}
+}</style>
 </head>
 <body>
 <aside class="side" aria-label="Menu">
@@ -459,6 +529,7 @@ main>.card>h2::before,.dash>.card>h2::before,.dash .dh h2::before,.grid2>.card>h
   <div class="dash" id="rank" hidden></div>
   <div class="dash" id="hasil" hidden></div>
   <div class="dash" id="tolak" hidden></div>
+  <div class="dash" id="inst" hidden></div>
 
   <section class="card cathead" id="catHead" hidden></section>
 
@@ -573,6 +644,7 @@ main>.card>h2::before,.dash>.card>h2::before,.dash .dh h2::before,.grid2>.card>h
 
 <script>
 const API='https://script.google.com/macros/s/AKfycbz-DqYj9vS-bT6jbe71Dvp7Zs-NcMIlQUb5UthJGSoY26QzhxTaYUYqMd5JdU-ZKuQ0ow/exec';
+const FAST_URL='https://data.110-239-85-120.sslip.io';
 const T=(new URLSearchParams(location.search).get('t')||'').trim()||(()=>{try{return localStorage.getItem('fuT')||''}catch(e){return ''}})();
 try{if(/^[a-f0-9]{24,48}$/.test(T))localStorage.setItem('fuT',T)}catch(e){}
 (()=>{const l=document.querySelector('.blogo img'),b=document.getElementById('barLogo');if(l&&b)b.src=l.src})();
@@ -617,17 +689,35 @@ function stateOf(row){
   return {all,cur,last:cur[cur.length-1]||null,n:cycleNo(row[1],row[5])};
 }
 
+/* Daftar pelanggan diambil langsung dari layanan data (terkompresi, dari memori server); laporan dari Apps Script, paralel.
+   Bila jalur cepat tidak tersedia (token belum disinkronkan / server lama), jatuh ke Apps Script seperti sebelumnya. */
+async function fetchFast(){
+  try{
+    const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);
+    const res=await fetch(FAST_URL+'/f/list?t='+encodeURIComponent(T),{signal:ctl.signal});clearTimeout(to);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const j=await res.json();if(!j.ok||!Array.isArray(j.iso)||!Array.isArray(j.dis))throw new Error('format');
+    return j;
+  }catch(e){return null}
+}
+async function fetchAll(){
+  const [recs,list]=await Promise.all([api('fu_recs',{},2).catch(e=>e),fetchFast()]);
+  if(recs&&recs.ok&&list)return {ok:true,mitra:recs.mitra||list.mitra,at:list.at,rows:list.iso,dis:list.dis,disOff:false,hc:list.hc||[],recs:recs.recs||[],petugas:recs.petugas||[],fast:true};
+  if(recs&&!recs.ok&&recs.code==='bad-token')throw recs;
+  return api('fu_list',{});
+}
 async function load(){
   if(!API){fail('Alamat server belum diatur. Hubungi Tim Admin Retensi Starlite.');return}
   if(!T){fail('Link tidak lengkap. Buka link yang dikirim Tim Admin Retensi Starlite melalui WhatsApp.');return}
   try{
-    const r=await api('fu_list',{});
+    loadStats();
+    const r=await fetchAll();
     S.mitra=r.mitra;S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];
     buildLists();
     document.title='Laporan Follow Up · '+S.mitra;
     $('mName').textContent=S.mitra;$('mName2').textContent='Mitra '+S.mitra;
     $('boot').hidden=true;S.at=r.at||Date.now();
-    route();loadStats();renderBell();swInit();
+    route();renderBell();swInit();iwLoad();
     $('bellBtn').onclick=()=>toggleN();
     if(new URLSearchParams(location.search).get('n')==='1')setTimeout(()=>toggleN(true),300);
   }catch(e){fail(e.code==='bad-token'?e.message:('Daftar pelanggan tidak bisa dimuat. '+e.message),true)}
@@ -719,7 +809,8 @@ const taDay=ts=>new Date(Date.parse(ts)+7*36e5).toISOString().slice(0,10);
 const TA_BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const taD=s=>{if(!s||!/^\d{4}-\d{2}-\d{2}/.test(s))return '-';const [y,m,d]=s.slice(0,10).split('-');return `${+d} ${TA_BLN[+m-1]} ${y}`};
 const taWeek=d=>{const t=new Date(d+'T00:00:00Z'),w=(t.getUTCDay()+6)%7;return new Date(t.getTime()-w*864e5).toISOString().slice(0,10)};
-const TA={per:'all',mi:'',st:'',cat:'',q:'',shown:25,grp:false};
+const TA={per:'all',mi:'',st:'',cat:'',q:'',shown:25,grp:false,dOff:0};
+const TA_HR=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
 /* opt: {admin:bool, el, items:[{code,name,st,mitra,k,ts,status,alasan,remark,ak,pic,now}], hasNow:bool, onOpen(code), onExport(rows)} */
 function taRender(opt){
   const el=opt.el;if(!el)return;
@@ -735,37 +826,32 @@ function taRender(opt){
   const nT=T.length, nF=F.length, nN=F.filter(c=>c.status==='norespon').length;
   const byCat=new Map(TA_CAT.map(c=>[c[0],[]]));T.forEach(c=>byCat.get(c.cl.k).push(c));
   const cats=TA_CAT.map(c=>({k:c[0],l:c[1],c:c[2],wb:c[3],n:byCat.get(c[0]).length})).filter(o=>o.n).sort((a,b)=>b.n-a.n||(a.k==='lain')-(b.k==='lain'));
-  const top=cats.find(o=>o.k!=='lain'&&o.k!=='tanpa')||cats[0], wb=T.filter(c=>TA_CK[c.cl.k][3]).length, viaMitra=T.filter(c=>c.cl.src==='mitra').length;
+  const top=cats.find(o=>o.k!=='lain'&&o.k!=='tanpa')||cats[0], viaMitra=T.filter(c=>c.cl.src==='mitra').length;
   const aktT=opt.hasNow?T.filter(c=>c.now==='aktif').length:0;
   const perL={all:'semua waktu','90':'90 hari terakhir','30':'30 hari terakhir','7':'7 hari terakhir'}[TA.per];
   const scope=(TA.mi?TA.mi:(opt.admin?'Semua mitra':''))+(TA.st?' · stasiun '+TA.st:'');
   /* --- grafik 1: kelompok alasan --- */
   const mxC=Math.max(1,...cats.map(o=>o.n));
-  const hb=cats.length?`<div class="ta-hb">${cats.map(o=>`<button type="button" class="ta-row${TA.cat===o.k?' on':''}" data-tc="${o.k}" style="--c:${o.c}" title="Tampilkan daftar pelanggan dengan alasan ini"><span class="ta-l"><b>${taEsc(o.l)}</b><em class="ta-tag ${o.wb?'ok':'no'}">${o.wb?'peluang win-back':'sulit'}</em></span><span class="ta-track"><i style="width:${taPc(o.n,mxC)}%"></i></span><span class="ta-v"><b>${taNf(o.n)}</b><small>${taPf(taPc(o.n,nT))}</small></span></button>`).join('')}</div>`:'';
-  /* --- grafik 2: peluang win-back (donut) --- */
-  const donut=(()=>{let a=0;const R=54,C=2*Math.PI*R;const seg=cats.map(o=>{const len=C*o.n/Math.max(1,nT),s=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${o.c}" stroke-width="22" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-a}" transform="rotate(-90 70 70)"><title>${taEsc(o.l)}: ${taNf(o.n)}</title></circle>`;a+=len;return s}).join('');
-    return `<div class="ta-donut"><svg viewBox="0 0 140 140" role="img" aria-label="Komposisi alasan">${seg}<text x="70" y="66" text-anchor="middle" class="ta-dn">${taNf(nT)}</text><text x="70" y="84" text-anchor="middle" class="ta-ds">pelanggan</text></svg>
-      <div class="ta-wb"><div class="ta-split"><i style="--c:#16a34a;width:${taPc(wb,nT)}%"></i><i style="--c:#94a3b8;width:${taPc(nT-wb,nT)}%"></i></div>
-      <div class="ta-lg"><span style="--c:#16a34a">Peluang win-back <b>${taNf(wb)}</b> <small>${taPf(taPc(wb,nT))}</small></span><span style="--c:#94a3b8">Sulit dimenangkan <b>${taNf(nT-wb)}</b> <small>${taPf(taPc(nT-wb,nT))}</small></span></div>
-      <p class="ta-sub" style="margin:8px 0 0">Peluang win-back = biaya, provider lain, kuota HP, gangguan jaringan, dan kecewa pelayanan: alasan yang masih bisa dijawab dengan penawaran atau perbaikan.</p></div></div>`;
-  })();
+  const hb=cats.length?`<div class="ta-hb">${cats.map(o=>`<button type="button" class="ta-row${TA.cat===o.k?' on':''}" data-tc="${o.k}" style="--c:${o.c}" title="Tampilkan daftar pelanggan dengan alasan ini"><span class="ta-l"><b>${taEsc(o.l)}</b></span><span class="ta-track"><i style="width:${taPc(o.n,mxC)}%"></i></span><span class="ta-v"><b>${taNf(o.n)}</b><small>${taPf(taPc(o.n,nT))}</small></span></button>`).join('')}</div>`:'';
   /* --- grafik 3: alasan × status pelanggan --- */
   const ks=['s','d','y','x'].filter(k=>T.some(c=>c.k===k));
   const mtx=cats.map(o=>({o,v:ks.map(k=>byCat.get(o.k).filter(c=>c.k===k).length)})), mxM=Math.max(1,...mtx.flatMap(r=>r.v));
   const matrix=ks.length?`<div class="ta-tw"><table class="ta-t ta-heat"><thead><tr><th>Kelompok alasan</th>${ks.map(k=>`<th class="n">${TA_KL[k]}</th>`).join('')}<th class="n">Total</th></tr></thead><tbody>${mtx.map(r=>`<tr><td><span class="ta-dot" style="--c:${r.o.c}"></span>${taEsc(r.o.l)}</td>${r.v.map(v=>`<td class="n h" style="--a:${(v/mxM*0.55).toFixed(3)}">${v?taNf(v):'<span class="ta-mut">-</span>'}</td>`).join('')}<td class="n"><b>${taNf(r.o.n)}</b></td></tr>`).join('')}
     <tr class="ta-tot"><td>Total</td>${ks.map(k=>`<td class="n">${taNf(T.filter(c=>c.k===k).length)}</td>`).join('')}<td class="n">${taNf(nT)}</td></tr></tbody></table></div>`:'';
-  /* --- grafik 4: tren mingguan (12 minggu terakhir) --- */
-  const wNow=taWeek(taDay(new Date().toISOString())), weeks=[];for(let i=11;i>=0;i--)weeks.push(new Date(Date.parse(wNow+'T00:00:00Z')-i*7*864e5).toISOString().slice(0,10));
-  const wk=new Map(weeks.map(w=>[w,{n:0}]));T.forEach(c=>{const o=wk.get(taWeek(taDay(c.ts)));if(o){o.n++;o[c.cl.k]=(o[c.cl.k]||0)+1}});
-  const wF=new Map(weeks.map(w=>[w,0]));F.forEach(c=>{const w=taWeek(taDay(c.ts));if(wF.has(w))wF.set(w,wF.get(w)+1)});
-  const mxW=Math.max(1,...weeks.map(w=>wk.get(w).n)), W=640,H=210,pl=34,pb=26,bw=(W-pl-8)/weeks.length;
-  const trend=`<svg class="ta-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tren mingguan pelanggan tidak bersedia">
-    ${[0,.5,1].map(f=>{const y=(H-pb)-(H-pb-12)*f;return `<line x1="${pl}" x2="${W-4}" y1="${y}" y2="${y}" class="ta-gl"/><text x="${pl-6}" y="${y+4}" text-anchor="end" class="ta-ax">${Math.round(mxW*f)}</text>`}).join('')}
-    ${weeks.map((w,i)=>{const o=wk.get(w);let y=H-pb;const x=pl+i*bw+bw*.18,ww=bw*.64;
-      const rs=cats.map(c=>{const v=o[c.k]||0;if(!v)return '';const h=(H-pb-12)*v/mxW;y-=h;return `<rect x="${x}" y="${y}" width="${ww}" height="${h}" fill="${c.c}" rx="2"><title>${taEsc(c.l)}: ${v}</title></rect>`}).join('');
-      return `<g>${rs}${o.n?`<text x="${x+ww/2}" y="${y-4}" text-anchor="middle" class="ta-vl">${o.n}</text>`:''}<text x="${x+ww/2}" y="${H-8}" text-anchor="middle" class="ta-ax">${+w.slice(8)}/${+w.slice(5,7)}</text><title>Minggu ${taD(w)}: ${o.n} tidak bersedia dari ${wF.get(w)} di-follow up</title></g>`}).join('')}
+  /* --- grafik 4: tren harian, jendela 7 hari yang bisa digeser kiri/kanan --- */
+  const dNow=taDay(new Date().toISOString()), dMinD=F.reduce((m,c)=>{const d=taDay(c.ts);return !m||d<m?d:m},''), spanD=dMinD?Math.max(0,Math.round((Date.parse(dNow+'T00:00:00Z')-Date.parse(dMinD+'T00:00:00Z'))/864e5)):0, maxOff=7*Math.floor(spanD/7);
+  TA.dOff=Math.max(0,Math.min(maxOff,TA.dOff||0));
+  const dEnd=new Date(Date.parse(dNow+'T00:00:00Z')-TA.dOff*864e5).toISOString().slice(0,10), dayL=[];for(let i=6;i>=0;i--)dayL.push(new Date(Date.parse(dEnd+'T00:00:00Z')-i*864e5).toISOString().slice(0,10));
+  const dk=new Map(dayL.map(d=>[d,{n:0}]));T.forEach(c=>{const o=dk.get(taDay(c.ts));if(o){o.n++;o[c.cl.k]=(o[c.cl.k]||0)+1}});
+  const dF=new Map(dayL.map(d=>[d,0]));F.forEach(c=>{const d=taDay(c.ts);if(dF.has(d))dF.set(d,dF.get(d)+1)});
+  const mxW=Math.max(4,...dayL.map(d=>dk.get(d).n)), W=640,H=230,pl=34,pb=40,bw=(W-pl-8)/7;
+  const trend=`<svg class="ta-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tren harian pelanggan tidak bersedia, 7 hari">
+    ${[0,.5,1].map(f=>{const y=(H-pb)-(H-pb-18)*f;return `<line x1="${pl}" x2="${W-4}" y1="${y}" y2="${y}" class="ta-gl"/><text x="${pl-6}" y="${y+4}" text-anchor="end" class="ta-ax">${Math.round(mxW*f)}</text>`}).join('')}
+    ${dayL.map((d,i)=>{const o=dk.get(d);let y=H-pb;const x=pl+i*bw+bw*.2,ww=bw*.6,wk=[0,6].includes(new Date(d+'T00:00:00Z').getUTCDay());
+      const rs=cats.map(c=>{const v=o[c.k]||0;if(!v)return '';const h=(H-pb-18)*v/mxW;y-=h;return `<rect x="${x}" y="${y}" width="${ww}" height="${h}" fill="${c.c}" rx="3"><title>${taEsc(c.l)}: ${v}</title></rect>`}).join('');
+      return `<g>${rs}${o.n?`<text x="${x+ww/2}" y="${y-5}" text-anchor="middle" class="ta-vl" style="font-size:12px">${o.n}</text>`:`<text x="${x+ww/2}" y="${H-pb-5}" text-anchor="middle" class="ta-ax">0</text>`}<text x="${x+ww/2}" y="${H-23}" text-anchor="middle" class="ta-ax" style="font-weight:700;${wk?'fill:#b45309':''}">${TA_HR[new Date(d+'T00:00:00Z').getUTCDay()]}</text><text x="${x+ww/2}" y="${H-9}" text-anchor="middle" class="ta-ax">${+d.slice(8)}/${+d.slice(5,7)}</text><title>${taD(d)}: ${o.n} tidak bersedia dari ${dF.get(d)} di-follow up</title></g>`}).join('')}
   </svg><div class="ta-lg">${cats.map(o=>`<span style="--c:${o.c}">${taEsc(o.l)}</span>`).join('')}</div>`;
-  /* --- per mitra / per stasiun --- */
+  const dRange=`${taD(dayL[0]).replace(/ 20\d\d$/,'')} – ${taD(dayL[6])}`, dTot=dayL.reduce((s,d)=>s+dk.get(d).n,0);  /* --- per mitra / per stasiun --- */
   const gKey=opt.admin&&!TA.mi&&!TA.grp?'mitra':'st', gLbl=gKey==='mitra'?'Mitra':'Stasiun';
   const gM=new Map();F.forEach(c=>{const k=c[gKey]||'-';let o=gM.get(k);if(!o)gM.set(k,o={k,fu:0,t:0,c:{}});o.fu++;if(c.status==='tidak'){o.t++;o.c[c.cl.k]=(o.c[c.cl.k]||0)+1}});
   const gR=[...gM.values()].filter(o=>o.t).sort((a,b)=>b.t-a.t||b.fu-a.fu);
@@ -777,21 +863,6 @@ function taRender(opt){
   const wc=new Map();T.forEach(c=>new Set(taNorm(c.alasan||c.remark).split(' ').filter(w=>w.length>2&&!TA_STOP.has(w)&&!/^\d+$/.test(w))).forEach(w=>wc.set(w,(wc.get(w)||0)+1)));
   const words=[...wc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,24), mxWd=words.length?words[0][1]:1;
   const wordH=words.length?`<div class="ta-words">${words.map(([w,n])=>`<button type="button" data-tw="${taEsc(w)}" style="--fs:${(12+8*n/mxWd).toFixed(1)}px" title="Cari kata ini di daftar">${taEsc(w)} <b>${n}</b></button>`).join('')}</div>`:'<p class="ta-sub">Belum ada teks alasan.</p>';
-  /* --- analisis otomatis --- */
-  const ins=[];
-  if(nT){
-    ins.push(`<b>${taNf(nT)}</b> dari ${taNf(nF)} pelanggan yang di-follow up (<b>${taPf(taPc(nT,nF))}</b>) menyatakan tidak bersedia berlangganan kembali${nN?`, sementara ${taNf(nN)} (${taPf(taPc(nN,nF))}) tidak merespon`:''}.`);
-    ins.push(`Tiga alasan terbanyak: ${cats.filter(o=>o.k!=='lain'&&o.k!=='tanpa').slice(0,3).map(o=>`<b>${taEsc(o.l.toLowerCase())}</b> ${taNf(o.n)} (${taPf(taPc(o.n,nT))})`).join(', ')||'-'}.`);
-    if(wb)ins.push(`<b>${taPf(taPc(wb,nT))}</b> penolakan (${taNf(wb)} pelanggan) masih punya <b>peluang win-back</b> karena alasannya bisa dijawab dengan penawaran atau perbaikan layanan.`);
-    cats.filter(o=>o.k!=='lain'&&o.k!=='tanpa').slice(0,3).forEach(o=>ins.push(`Untuk <b>${taEsc(o.l.toLowerCase())}</b> (${taNf(o.n)} pelanggan): ${TA_REKO[o.k]}.`));
-    const hi=gR.filter(o=>o.fu>=10).sort((a,b)=>b.t/b.fu-a.t/a.fu)[0];
-    if(hi)ins.push(`${gLbl} dengan tingkat penolakan tertinggi: <b>${taEsc(hi.k)}</b>, ${taPf(taPc(hi.t,hi.fu))} (${taNf(hi.t)} dari ${taNf(hi.fu)} pelanggan), alasan utama ${taEsc((gTop(hi)||[0,'-'])[1].toLowerCase())}.`);
-    const last4=weeks.slice(-4).reduce((s,w)=>s+wk.get(w).n,0), prev4=weeks.slice(-8,-4).reduce((s,w)=>s+wk.get(w).n,0);
-    if(last4||prev4)ins.push(`Tren: ${taNf(last4)} penolakan dalam 4 minggu terakhir dibanding ${taNf(prev4)} pada 4 minggu sebelumnya${prev4?` (${last4>=prev4?'naik':'turun'} ${taPf(Math.abs(taPc(last4-prev4,prev4)))})`:''}.`);
-    if(opt.hasNow&&aktT)ins.push(`<b>${taNf(aktT)}</b> pelanggan yang sempat menolak ternyata sudah <b>aktif kembali</b>.`);
-    const nl=byCat.get('lain').length;if(nl)ins.push(`${taNf(nl)} alasan (${taPf(taPc(nl,nT))}) belum cocok dengan kelompok mana pun dan perlu dibaca manual.`);
-    ins.push(`${taNf(viaMitra)} laporan memakai kategori alasan yang dipilih petugas; ${taNf(nT-viaMitra)} laporan lama dikelompokkan otomatis dari teks alasan.`);
-  }
   /* --- daftar --- */
   const q=TA.q.toLowerCase();
   const LST=T.filter(c=>(!TA.cat||c.cl.k===TA.cat)&&(!q||[c.name,c.code,c.st,c.mitra,c.alasan,c.remark,c.pic].join(' ').toLowerCase().includes(q))).sort((a,b)=>a.ts<b.ts?1:-1);
@@ -805,26 +876,32 @@ function taRender(opt){
     <div class="ta-kpis">
       <div class="ta-kpi" style="--c:#dc2626"><span>Tidak bersedia</span><b>${taNf(nT)}</b><small>${taPf(taPc(nT,nF))} dari ${taNf(nF)} di-follow up</small></div>
       <div class="ta-kpi" style="--c:${top?top.c:'#64748b'}"><span>Alasan terbanyak</span><b class="t">${top?taEsc(top.l):'-'}</b><small>${top?taNf(top.n)+' pelanggan · '+taPf(taPc(top.n,nT)):'belum ada data'}</small></div>
-      <div class="ta-kpi" style="--c:#16a34a"><span>Peluang win-back</span><b>${taNf(wb)}</b><small>${taPf(taPc(wb,nT))} alasan masih bisa ditangani</small></div>
       ${opt.hasNow?`<div class="ta-kpi" style="--c:#0f766e"><span>Sempat menolak, kini aktif</span><b>${taNf(aktT)}</b><small>${taPf(taPc(aktT,nT))} dari yang menolak</small></div>`:`<div class="ta-kpi" style="--c:#64748b"><span>Tidak merespon</span><b>${taNf(nN)}</b><small>${taPf(taPc(nN,nF))} dari di-follow up</small></div>`}
     </div></section>
-  ${nT?`<div class="ta-g2">
-    <section class="card ta-c"><h2>Kelompok alasan</h2><p class="ta-sub">Klik satu kelompok untuk melihat daftar pelanggannya.</p>${hb}</section>
-    <section class="card ta-c"><h2>Komposisi &amp; peluang win-back</h2>${donut}</section></div>
+  ${nT?`<section class="card ta-c"><h2>Alasan per status pelanggan</h2><p class="ta-sub">Warna lebih pekat = jumlah lebih banyak.</p>${matrix}</section>
+  <section class="card ta-c"><h2>Kelompok alasan</h2><p class="ta-sub">Klik satu kelompok untuk melihat daftar pelanggannya.</p>${hb}</section>
   <div class="ta-g2">
-    <section class="card ta-c"><h2>Tren mingguan</h2><p class="ta-sub">Jumlah pelanggan tidak bersedia per minggu (12 minggu terakhir, menurut tanggal laporan), per kelompok alasan.</p>${trend}</section>
-    <section class="card ta-c"><h2>Kata yang paling sering muncul</h2><p class="ta-sub">Dari teks alasan pelanggan. Klik kata untuk mencarinya di daftar.</p>${wordH}</section></div>
-  <section class="card ta-c"><h2>Alasan per status pelanggan</h2><p class="ta-sub">Warna lebih pekat = jumlah lebih banyak.</p>${matrix}</section>
-  <section class="card ta-c"><div class="ta-h"><div><h2>Penolakan per ${gLbl.toLowerCase()}</h2><p class="ta-sub">Tingkat penolakan = tidak bersedia ÷ pelanggan yang di-follow up.</p></div>${opt.admin&&!TA.mi?`<span class="ta-chips"><button type="button" data-tgp="0" class="${!TA.grp?'on':''}">Per mitra</button><button type="button" data-tgp="1" class="${TA.grp?'on':''}">Per stasiun</button></span>`:''}</div>${grp}</section>`:''}
+    <section class="card ta-c ta-trc"><div class="ta-h" style="margin-bottom:6px"><div><h2>Tren harian</h2><p class="ta-sub">Pelanggan tidak bersedia per hari menurut tanggal laporan. Geser ke kiri atau kanan untuk melihat hari lain.</p></div></div>
+      <div class="ta-nav"><button type="button" data-dn="1" aria-label="7 hari sebelumnya" ${TA.dOff>=maxOff?'disabled':''}>‹</button><div class="ta-nr"><b>${dRange}</b><small>${taNf(dTot)} tidak bersedia dalam 7 hari ini${TA.dOff?' · <a href="#" data-dn="reset">kembali ke hari ini</a>':''}</small></div><button type="button" data-dn="-1" aria-label="7 hari berikutnya" ${TA.dOff<=0?'disabled':''}>›</button></div>
+      <div class="ta-swipe" tabindex="0" aria-label="Grafik tren harian, geser untuk hari lain">${trend}</div></section>
+    <section class="card ta-c"><h2>Kata yang paling sering muncul</h2><p class="ta-sub">Dari teks alasan pelanggan. Klik kata untuk mencarinya di daftar.</p>${wordH}</section></div>  <section class="card ta-c"><div class="ta-h"><div><h2>Penolakan per ${gLbl.toLowerCase()}</h2><p class="ta-sub">Tingkat penolakan = tidak bersedia ÷ pelanggan yang di-follow up.</p></div>${opt.admin&&!TA.mi?`<span class="ta-chips"><button type="button" data-tgp="0" class="${!TA.grp?'on':''}">Per mitra</button><button type="button" data-tgp="1" class="${TA.grp?'on':''}">Per stasiun</button></span>`:''}</div>${grp}</section>`:''}
   <section class="card ta-c" id="taList"><div class="ta-h"><div><h2>Daftar pelanggan tidak bersedia</h2><p class="ta-sub">${taNf(LST.length)} pelanggan${TA.cat?' · '+taEsc(TA_CK[TA.cat][1]):''}. Klik baris untuk melihat riwayat follow up.</p></div>
     <div class="ta-ctl"><select id="taCat" aria-label="Kelompok alasan"><option value="">Semua kelompok alasan</option>${cats.map(o=>`<option value="${o.k}"${TA.cat===o.k?' selected':''}>${taEsc(o.l)} (${taNf(o.n)})</option>`).join('')}</select><input type="search" id="taQ" placeholder="Cari nama, kode, alasan, petugas" value="${taEsc(TA.q)}" aria-label="Cari di daftar">${opt.onExport?'<button type="button" id="taX" class="ta-xls">Download Excel</button>':''}</div></div>${lst}</section>
-  ${nT?`<section class="card ta-c ta-ins"><h2>Analisis &amp; rekomendasi</h2><ul>${ins.map(t=>`<li>${t}</li>`).join('')}</ul></section>`:''}
   </div>`;
   const rr=()=>taRender(opt);
   el.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{TA.per=b.dataset.tp;TA.shown=25;rr()});
   el.querySelectorAll('[data-tgp]').forEach(b=>b.onclick=()=>{TA.grp=b.dataset.tgp==='1';TA.gAll=false;rr()});
   el.querySelectorAll('[data-tc]').forEach(b=>b.onclick=()=>{TA.cat=TA.cat===b.dataset.tc?'':b.dataset.tc;TA.shown=25;rr();const l=document.getElementById('taList');if(l&&TA.cat)l.scrollIntoView({behavior:'smooth',block:'start'})});
   el.querySelectorAll('[data-tw]').forEach(b=>b.onclick=()=>{TA.q=b.dataset.tw;TA.cat='';TA.shown=25;rr();const l=document.getElementById('taList');if(l)l.scrollIntoView({behavior:'smooth',block:'start'})});
+  el.querySelectorAll('[data-dn]').forEach(b=>b.onclick=e=>{e.preventDefault();const v=b.dataset.dn;if(v==='reset')TA.dOff=0;else TA.dOff=Math.max(0,TA.dOff+(+v)*7);rr()});
+  const sw=el.querySelector('.ta-swipe');
+  if(sw){let sx=null,sy=null;
+    sw.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+    sw.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.4){TA.dOff=Math.max(0,TA.dOff+(dx>0?7:-7));rr()}});
+    let mx=null;sw.addEventListener('mousedown',e=>{mx=e.clientX});
+    sw.addEventListener('mouseup',e=>{if(mx===null)return;const dx=e.clientX-mx;mx=null;if(Math.abs(dx)>60){TA.dOff=Math.max(0,TA.dOff+(dx>0?7:-7));rr()}});
+    sw.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){TA.dOff+=7;rr()}else if(e.key==='ArrowRight'){TA.dOff=Math.max(0,TA.dOff-7);rr()}});
+  }
   el.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{TA.gAll=!TA.gAll;rr()});
   el.querySelectorAll('[data-tm]').forEach(b=>b.onclick=()=>{TA.shown+=50;rr()});
   const g=id=>el.querySelector('#'+id);
@@ -832,10 +909,10 @@ function taRender(opt){
   if(g('taSt'))g('taSt').onchange=e=>{TA.st=e.target.value;TA.shown=25;rr()};
   g('taCat').onchange=e=>{TA.cat=e.target.value;TA.shown=25;rr()};
   g('taQ').oninput=e=>{TA.q=e.target.value;TA.shown=25;clearTimeout(taRender.h);taRender.h=setTimeout(()=>{rr();const i=document.getElementById('taQ');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},250)};
-  if(g('taX'))g('taX').onclick=()=>opt.onExport(LST.map(c=>[taD(taDay(c.ts)),c.code,c.name||'',c.st,c.mitra,TA_KL[c.k]||'Suspend',TA_CK[c.cl.k][1],c.cl.src==='mitra'?'Dipilih petugas':'Otomatis',TA_CK[c.cl.k][3]?'Peluang win-back':'Sulit',c.alasan||'',c.remark||'',c.pic||'',opt.hasNow?(TA_NOW[c.now]||''):'']));
+  if(g('taX'))g('taX').onclick=()=>opt.onExport(LST.map(c=>[taD(taDay(c.ts)),c.code,c.name||'',c.st,c.mitra,TA_KL[c.k]||'Suspend',TA_CK[c.cl.k][1],c.cl.src==='mitra'?'Dipilih petugas':'Otomatis',c.alasan||'',c.remark||'',c.pic||'',opt.hasNow?(TA_NOW[c.now]||''):'']));
   el.querySelectorAll('[data-to]').forEach(r=>{const go=()=>opt.onOpen&&opt.onOpen(r.dataset.to);r.onclick=go;r.onkeydown=e=>{if(e.key==='Enter')go()}});
 }
-const TA_XHEAD=['Tanggal laporan','Kode pelanggan','Nama','Stasiun','Mitra','Status pelanggan','Kelompok alasan','Sumber kelompok','Peluang','Alasan','Remark','Petugas','Status sekarang'];
+const TA_XHEAD=['Tanggal laporan','Kode pelanggan','Nama','Stasiun','Mitra','Status pelanggan','Kelompok alasan','Sumber kelompok','Alasan','Remark','Petugas','Status sekarang'];
 
 /* ---------- kategori pelanggan ----------
  * Status baris dari server (r[7]): s = suspend, d = ready-to-dismantle (daftar isolir); y = dismantling, x = dismantled (daftar dismantle).
@@ -852,7 +929,8 @@ const CATS={
   x:{l:'Dismantled',nav:'Follow up Dismantled',short:'Dismantled',hash:'dismantled',c:'#b42318',hint:'Pelanggan dismantling dan dismantled. Pelanggan dismantled tidak bisa berlangganan lagi dengan identitas lama: bila bersedia berlangganan kembali, catat identitas pelanggan baru (nama, ID pelanggan bila sudah ada, dan nomor telepon).'}
 };
 const stLbl=(st,k)=>st==='lanjut'&&k==='x'?'Bersedia berlangganan kembali':(STL[st]||st);
-const rowSort=(a,b)=>a[0].localeCompare(b[0],'id')||a[2].localeCompare(b[2],'id');
+const COL=new Intl.Collator('id');
+const rowSort=(a,b)=>COL.compare(a[0],b[0])||COL.compare(a[2],b[2]);
 function buildLists(){
   S.L={s:S.rows.filter(r=>kOf(r)==='s'),r:S.rows.filter(r=>kOf(r)==='d'),x:S.dis.filter(r=>kOf(r)==='x'||kOf(r)==='y').sort(rowSort)};
 }
@@ -865,6 +943,7 @@ const IC={
   sum:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>',
   rank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
   res:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6l1 1 2-2M3 12l1 1 2-2M3 18l1 1 2-2"/></svg>',
+  wr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>',
   ana:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/></svg>',
   fu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12l2 2 4-4"/></svg>'
 };
@@ -877,11 +956,12 @@ const NAVS=[
   {sep:1},
   {v:'hasil',hash:'hasil',l:'Hasil Follow Up',short:'Hasil',ic:IC.res},
   {v:'tolak',hash:'analisis-tolak',l:'Analisis Tidak Berlangganan',short:'Analisis',ic:IC.ana},
+  {v:'inst',hash:'instalasi',l:'Instalasi & WO',short:'Instalasi',ic:IC.wr},
   {v:'rank',hash:'peringkat',l:'Peringkat Mitra',short:'Peringkat',ic:IC.rank}
 ];
 function renderNav(){
   const on=n=>n.v===S.view&&(n.v!=='fu'||n.cat===S.cat);
-  const cnt=n=>n.cat&&S.L?`<em title="pelanggan belum dilaporkan">${nf(S.L[n.cat].length-doneOf(S.L[n.cat]))}</em>`:'';
+  const cnt=n=>n.v==='inst'?(IW.rows&&IW.rows.length?`<em title="WO open + waiting first payment">${nf(IW.rows.length)}</em>`:''):n.cat&&S.L?`<em title="pelanggan belum dilaporkan">${nf(S.L[n.cat].length-doneOf(S.L[n.cat]))}</em>`:'';
   const ico=n=>n.ic?`<span class="ico">${n.ic}</span>`:`<span class="ico"><span class="dot" style="background:${n.dot}"></span></span>`;
   $('nav').innerHTML=NAVS.map(n=>n.grp?`<div class="grp">${n.grp}</div>`:n.sep?'<div class="sep"></div>':`<a href="#${n.hash}" class="${on(n)?'on':''}"${on(n)?' aria-current="page"':''}>${ico(n)}<span class="lbl">${esc(n.l)}</span>${cnt(n)}</a>`).join('');
   $('tabbar').innerHTML=NAVS.filter(n=>n.v).map(n=>`<a href="#${n.hash}" class="${on(n)?'on':''}">${n.ic?`<span class="ico">${n.ic}</span>`:`<span class="ico">${IC.fu.replace('currentColor',on(n)?n.dot:'currentColor')}</span>`}<span>${esc(n.short)}</span></a>`).join('');
@@ -897,7 +977,7 @@ function renderFu(){
 function catHead(){
   const C=CATS[S.cat], L=catRows(), d=doneOf(L);
   const el=$('catHead');el.hidden=false;el.style.setProperty('--cc',C.c);
-  el.innerHTML=`<div style="flex:1"><h2>${esc(C.nav)}</h2><p>${esc(C.hint)}</p></div><div style="text-align:right;flex:none"><b style="font-size:20px">${nf(L.length)}</b><div class="foot">pelanggan · ${nf(L.length-d)} belum dilaporkan</div></div>`;
+  el.innerHTML=`<div class="ch-top"><h2>${esc(C.nav)}</h2><div class="ch-n"><b>${nf(L.length)}</b><span>pelanggan · ${nf(L.length-d)} belum dilaporkan</span></div></div><p>${esc(C.hint)}</p>`;
 }
 function renderStations(){
   const CR=catRows(), C=CATS[S.cat];
@@ -943,8 +1023,8 @@ function render(){
 $('q').oninput=e=>{S.q=e.target.value.trim();render()};
 function reloadAll(btn){
   if(btn)btn.disabled=true;
-  return api('fu_list',{}).then(r=>{S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();buildLists();
-    route(true);toast('Data diperbarui');V.tries=0;V.state='idle';loadStats();renderBell()}).catch(e=>toast(e.message)).finally(()=>{if(btn)btn.disabled=false});
+  return fetchAll().then(r=>{S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();buildLists();
+    route(true);toast('Data diperbarui');V.tries=0;V.state='idle';loadStats();renderBell();iwLoad(true)}).catch(e=>toast(e.message)).finally(()=>{if(btn)btn.disabled=false});
 }
 $('reloadTop').onclick=()=>reloadAll($('reloadTop'));
 
@@ -958,15 +1038,16 @@ function route(keep){
   if(v==='dashboard')v='ringkasan';
   if(v==='petugas'){if(rest==='dismantle'||rest.indexOf('dismantle/')===0){v='dismantled';rest=rest.slice(9).replace(/^\//,'')}else v='suspend'}
   const cat=Object.keys(CATS).find(k=>CATS[k].hash===v);
-  S.view=cat?'fu':v==='peringkat'?'rank':v==='hasil'?'hasil':v==='analisis-tolak'?'tolak':'sum';
+  S.view=cat?'fu':v==='peringkat'?'rank':v==='hasil'?'hasil':v==='analisis-tolak'?'tolak':v==='instalasi'?'inst':'sum';
   const hs=S.view==='hasil'?rest:'';if(hs!==S.hs){HSF.f='';HSF.q=''}S.hs=hs;
   if(cat){if(S.cat!==cat){S.k='';S.f='';S.q='';$('q').value=''}S.cat=cat}
   S.stn=cat?rest:'';
   if(S.stn&&!catRows().some(r=>r[0]===S.stn))S.stn='';
-  $('dash').hidden=S.view!=='sum';$('rank').hidden=S.view!=='rank';$('hasil').hidden=S.view!=='hasil';$('tolak').hidden=S.view!=='tolak';$('catHead').hidden=S.view!=='fu';
+  $('dash').hidden=S.view!=='sum';$('rank').hidden=S.view!=='rank';$('hasil').hidden=S.view!=='hasil';$('tolak').hidden=S.view!=='tolak';$('inst').hidden=S.view!=='inst';$('catHead').hidden=S.view!=='fu';
   ['who','whoSum','tiles','stCard','listCard'].forEach(id=>$(id).hidden=true);
   if(S.view==='sum'){$('vT').textContent='Dashboard Summary';$('vS').textContent='Ringkasan hasil follow up semua kategori pelanggan';renderDash()}
   else if(S.view==='hasil'){$('vT').textContent='Hasil Follow Up';$('vS').textContent=S.hs?'Stasiun '+S.hs:'Per stasiun dan per pelanggan';renderHasil()}
+  else if(S.view==='inst'){$('vT').textContent='Instalasi & WO';$('vS').textContent='WO open dan Waiting First Payment yang perlu diselesaikan';renderInst()}
   else if(S.view==='tolak'){$('vT').textContent='Analisis Pelanggan Tidak Bersedia';$('vS').textContent='Kelompok alasan pelanggan yang tidak mau berlangganan kembali';renderTolakM()}
   else if(S.view==='rank'){$('vT').textContent='Peringkat Mitra';$('vS').textContent='Urutan mitra menurut jumlah pelanggan yang kembali berlangganan';renderRank()}
   else{$('vT').textContent=CATS[S.cat].nav;$('vS').textContent=S.stn?'Stasiun '+S.stn:'Langkah 1 · pilih stasiun';catHead();showWho()}
@@ -1000,7 +1081,13 @@ const pc=(a,b)=>b?a/b*100:0;
 const pf=x=>x.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';
 const wibDay=ts=>new Date(Date.parse(ts)+7*36e5).toISOString().slice(0,10);
 const hm=ms=>{const d=new Date(ms+7*36e5).toISOString();return fmtD(d.slice(0,10))+' '+d.slice(11,16)+' WIB'};
+let CYM=null;
 function cycles(){
+  const k=CYM;
+  if(k&&k.recs===S.recs&&k.n===S.recs.length&&k.rows===S.rows&&k.dis===S.dis&&k.st===V.state&&k.at===V.at&&k.act===V.act)return k.v;
+  const v=cyclesRaw();CYM={recs:S.recs,n:S.recs.length,rows:S.rows,dis:S.dis,st:V.state,at:V.at,act:V.act,v};return v;
+}
+function cyclesRaw(){
   const isoBy=new Map(S.rows.map(r=>[r[1],r])), disBy=new Map(S.dis.map(r=>[r[1],r])), m=new Map();
   S.recs.forEach(r=>{const k=r.code+'|'+(r.iso||'');let c=m.get(k);if(!c)m.set(k,c={code:r.code,iso:r.iso||'',recs:[]});c.recs.push(r)});
   const late=last=>Date.parse(last.ts)>V.at;
@@ -1282,12 +1369,97 @@ function renderHsList(C){
     const wb=X.utils.book_new(),ws=X.utils.aoa_to_sheet(aoa);ws['!cols']=[18,10,10,16,26,16,20,16,12,22,26,36,40,20,22,40,40,40].map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,'Hasil follow up');X.writeFile(wb,`hasil-follow-up-${S.mitra.replace(/[^A-Za-z0-9]+/g,'-').toLowerCase()}-${new Date(Date.now()+7*36e5).toISOString().slice(0,10).replace(/-/g,'')}.xlsx`);toast(`${nf(L.length)} baris diunduh`)}catch(e){toast(e.message)}};
 }
 
+
+/* ---------- menu Instalasi & WO: WO Open dan Waiting First Payment milik mitra ----------
+ * Data dari layanan data (/f/wo?t=TOKEN). Umur WO open = hari sejak WO dibuat (bila belum ada tanggal WO: sejak registrasi);
+ * umur Waiting First Payment = hari sejak aktivasi. */
+const IW={rows:null,err:'',busy:false,at:0,mode:'p',stn:'',age:'',st:'*',q:'',shown:30,sAll:false};
+const IW_OA=[['0-7',7],['8-30',30],['31-90',90],['91-180',180],['>180',1e9]];
+const IW_PA=[['0-3',3],['4-7',7],['8-14',14],['15-30',30],['>30',1e9]];
+const IW_COL=['#16a34a','#ca8a04','#ea580c','#dc2626','#7f1d1d'];
+const IW_WS={pending:['Pending','#d97706'],assigned:['Assigned','#2563eb'],'on-progress':['On progress','#7c3aed'],rescheduled:['Rescheduled','#db2777']};
+const iwBk=(d,B)=>{if(d==null)return '?';for(const b of B)if(d<=b[1])return b[0];return B[B.length-1][0]};
+const iwDays=(s,td)=>{if(!s||!/^\d{4}-\d{2}-\d{2}/.test(s))return null;return Math.max(0,Math.round((Date.parse(td+'T00:00:00Z')-Date.parse(s.slice(0,10)+'T00:00:00Z'))/864e5))};
+const iwMed=a=>{if(!a.length)return null;const s=a.slice().sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:Math.round((s[m-1]+s[m])/2)};
+const iwThr=m=>m==='p'?7:30, iwB=m=>m==='p'?IW_PA:IW_OA;
+async function iwLoad(force){
+  if(IW.busy||(!force&&IW.rows))return;
+  if(!T){IW.err='Link form tidak lengkap.';return}
+  IW.busy=true;IW.err='';
+  try{
+    const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),20000);
+    const res=await fetch(FAST_URL+'/f/wo?t='+encodeURIComponent(T),{signal:ctl.signal});clearTimeout(to);
+    if(res.status===404)throw new Error('Data instalasi belum tersedia untuk link ini. Hubungi Tim Admin Retensi Starlite.');
+    if(!res.ok)throw new Error('Layanan data belum siap (HTTP '+res.status+'). Coba lagi sebentar lagi.');
+    const j=await res.json();if(!j.ok||!Array.isArray(j.rows))throw new Error('Format data tidak dikenal.');
+    const td=todayWIB();IW.at=j.at||Date.now();
+    IW.rows=j.rows.map(r=>{const k=r[4],base=k==='p'?r[8]:(r[7]?r[7].slice(0,10):r[6]),age=iwDays(base,td),B=iwB(k);return {st:r[0]||'(Tanpa stasiun)',code:r[1],name:r[2],ph:r[3],k,wo:r[5],reg:r[6],woAt:r[7],act:r[8],ikr:r[9],rg:r[10],age,b:iwBk(age,B),basis:k==='p'?'aktivasi':(r[7]?'WO dibuat':'registrasi')}});
+  }catch(e){IW.err=(e&&e.name==='AbortError')?'Koneksi ke layanan data terlalu lama. Coba muat ulang.':((e&&e.message)||String(e))}
+  IW.busy=false;
+  if(S.view==='inst')renderInst();
+  renderNav();renderBell();
+}
+function iwStats(){
+  const R=IW.rows||[],o=R.filter(x=>x.k==='o'),p=R.filter(x=>x.k==='p');
+  return {o,p,o30:o.filter(x=>x.age!=null&&x.age>30).length,p7:p.filter(x=>x.age!=null&&x.age>7).length};
+}
+const iwBars=(arr,B,m,sel)=>{const cnt=B.map((b,i)=>[b[0],arr.filter(x=>x.b===b[0]).length,IW_COL[Math.min(4,Math.round(i*4/Math.max(1,B.length-1)))]]),mx=Math.max(1,...cnt.map(x=>pc(x[1],arr.length)));
+  return `<div class="iw-dh">${cnt.map(([b,n,c])=>`<button class="iw-dr${sel===b?' on':''}" data-iwa="${esc(b)}" style="--c:${c}" title="Klik untuk memfilter daftar pelanggan"><span class="l">${esc(b)} hari</span><span class="tr"><i style="width:${Math.max(.8,pc(n,arr.length)/mx*100).toFixed(1)}%"></i></span><strong>${pf(pc(n,arr.length))}</strong><span class="n">${nf(n)}<small>pelanggan</small></span></button>`).join('')}</div>`};
+function renderInst(){
+  const el=$('inst');if(!S.mitra||el.hidden)return;
+  if(!IW.rows&&!IW.err){el.innerHTML='<section class="card"><h2>Instalasi &amp; WO</h2><p class="sub"><span class="spin" style="display:inline-block;width:12px;height:12px;border-width:2px;vertical-align:-2px"></span> Memuat data WO open dan Waiting First Payment…</p></section>';if(!IW.busy)iwLoad();return}
+  if(!IW.rows){el.innerHTML=`<section class="card"><h2>Instalasi &amp; WO</h2><div class="err" style="display:block">${esc(IW.err)}</div><div class="acts" style="margin-top:10px"><button class="btn sm" id="iwRetry">Coba lagi</button></div></section>`;$('iwRetry').onclick=()=>{IW.err='';iwLoad(true);renderInst()};return}
+  const ST=iwStats(),M=IW.mode,rows=M==='p'?ST.p:ST.o,thr=iwThr(M),B=iwB(M),ages=rows.map(x=>x.age).filter(x=>x!=null),hi=rows.filter(x=>x.age!=null&&x.age>thr).length;
+  if(IW.stn&&!rows.some(x=>x.st===IW.stn))IW.stn='';
+  const idx=M==='p'?1:0;
+  /* per stasiun */
+  const sm=new Map();rows.forEach(x=>{let o=sm.get(x.st);if(!o)sm.set(x.st,o={k:x.st,n:0,b:B.map(()=>0),ages:[]});o.n++;o.b[B.findIndex(b=>b[0]===x.b)]++;if(x.age!=null)o.ages.push(x.age)});
+  const late=o=>o.b[3]+o.b[4], SL=[...sm.values()].sort((a,b)=>late(b)-late(a)||b.n-a.n||a.k.localeCompare(b.k,'id'));
+  const mxc=Math.max(1,...SL.flatMap(o=>o.b));
+  const srow=o=>`<tr data-iws="${esc(o.k)}" class="${IW.stn===o.k?'on':''}" title="Klik untuk memfilter daftar pelanggan"><td><b>${esc(o.k)}</b></td><td class="n"><b>${nf(o.n)}</b></td>${o.b.map((v,i)=>`<td class="n" style="--a:${(v/mxc*.5).toFixed(3)};--c:${IW_COL[i]}">${v?`<span class="iw-v" style="color:${i>=3?IW_COL[i]:'inherit'}">${nf(v)}</span>`:'<span class="iw-m">-</span>'}</td>`).join('')}<td class="n">${iwMed(o.ages)==null?'-':nf(iwMed(o.ages))+' hr'}</td></tr>`;
+  /* daftar */
+  const stOpts=[...sm.keys()].sort((a,b)=>a.localeCompare(b,'id')), wsK=[...new Set(ST.o.map(x=>x.wo))].filter(Boolean);
+  if(M==='p'||(IW.st!=='*'&&!wsK.includes(IW.st)))IW.st='*';
+  const q=IW.q.toLowerCase(), L=rows.filter(x=>(!IW.stn||x.st===IW.stn)&&(!IW.age||x.b===IW.age)&&(M==='p'||IW.st==='*'||x.wo===IW.st)&&(!q||[x.name,x.code,x.ph,x.st,x.ikr].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.age||0)-(a.age||0));
+  const li=x=>{const ws=x.k==='o'?(IW_WS[x.wo]||[x.wo||'WO open','#2563eb']):['Waiting First Payment','#b45309'],w=waNum(x.ph),late=x.age!=null&&x.age>thr;
+    return `<div class="it ro iw-it${late?' late':''}"><span class="l"><b>${esc(x.name||'(tanpa nama)')}</b><span>${esc(x.code)}${x.ph?' · ':''}${x.ph?(w.length>=9?`<a class="wa" href="https://wa.me/${w}" target="_blank" rel="noopener">${esc(x.ph)}</a>`:esc(x.ph)):''}</span><span>${esc(x.st)} · <span class="iw-pill" style="--c:${ws[1]}">${esc(ws[0])}</span>${x.ikr?' · IKR '+esc(x.ikr):''}</span></span><span class="r"><span class="iw-age" style="--c:${late?'#dc2626':'#16a34a'}">${x.age==null?'-':nf(x.age)+' hari'}</span><small>sejak ${x.basis} ${fmtD(x.k==='p'?x.act:(x.woAt?x.woAt.slice(0,10):x.reg))}</small>${late?`<small class="iw-need">${x.k==='p'?'Perlu ditagih':'Perlu diselesaikan'}</small>`:''}</span></div>`};
+  el.innerHTML=`
+  <section class="card iw-hero"><div><h2>Instalasi &amp; WO</h2><p class="sub">WO open dan Waiting First Payment milik ${esc(S.mitra)} yang perlu diselesaikan.</p></div></section>
+  <section class="card">
+    <div class="iw-seg" id="iwSeg" style="--i:${idx}" role="tablist"><i class="thumb"></i><button type="button" role="tab" data-iwm="o" class="${M==='o'?'on':''}"><span>WO Open</span><b>${nf(ST.o.length)}</b></button><button type="button" role="tab" data-iwm="p" class="${M==='p'?'on':''}"><span>Waiting First Payment</span><b>${nf(ST.p.length)}</b></button></div>
+    <h2>Aging ${M==='p'?'Waiting First Payment':'WO Open'}</h2><p class="sub">${M==='p'?'Hari sejak aktivasi. Pelanggan sudah terpasang tetapi belum membayar tagihan pertama, mohon ditagih.':'Hari sejak WO dibuat (atau sejak registrasi bila tanggal WO kosong). WO belum selesai, mohon segera diselesaikan.'}</p>
+    <div class="iw-pk"><div><b>${nf(rows.length)}</b><span>${M==='p'?'pelanggan belum bayar pertama':'WO open'}</span></div><div class="bad"><b>${nf(hi)}</b><span>lebih dari ${thr} hari (${pf(pc(hi,rows.length))})</span></div></div>
+    ${rows.length?iwBars(rows,B,M,IW.age):'<div class="empty">Tidak ada data.</div>'}
+  </section>
+  <section class="card"><h2>Per stasiun</h2><p class="sub">Jumlah pelanggan per kelompok umur. Stasiun dengan umur terlama tampil paling atas. Ketuk baris untuk melihat pelanggannya.</p>
+    ${SL.length?`<div class="tw"><table class="iw-t"><thead><tr><th>Stasiun</th><th class="n">Total</th>${B.map((b,i)=>`<th class="n" style="color:${IW_COL[i]}">${esc(b[0])}</th>`).join('')}<th class="n">Median</th></tr></thead><tbody>${SL.slice(0,IW.sAll?SL.length:15).map(srow).join('')}</tbody></table></div>${SL.length>15?`<button class="btn sec sm iw-more" id="iwSAll">${IW.sAll?'Tampilkan 15 teratas':'Tampilkan semua '+nf(SL.length)+' stasiun'}</button>`:''}`:'<div class="empty">Tidak ada data.</div>'}
+  </section>
+  <section class="card" id="iwList"><div class="iw-lh"><div><h2>Daftar pelanggan</h2><p class="sub" style="margin:2px 0 0">${nf(L.length)} pelanggan${IW.stn?' · stasiun '+esc(IW.stn):''}${IW.age?' · umur '+esc(IW.age)+' hari':''}, paling lama menunggu di atas.</p></div><button class="btn sec sm" id="iwX">⬇ Excel</button></div>
+    <div class="iw-f"><input type="search" id="iwQ" placeholder="Cari nama, kode, nomor HP, stasiun" value="${esc(IW.q)}" aria-label="Cari pelanggan"><select id="iwS" aria-label="Stasiun"><option value="">Semua stasiun</option>${stOpts.map(s=>`<option${IW.stn===s?' selected':''}>${esc(s)}</option>`).join('')}</select><select id="iwA" aria-label="Umur"><option value="">Semua umur</option>${B.map(b=>`<option value="${esc(b[0])}"${IW.age===b[0]?' selected':''}>${esc(b[0])} hari</option>`).join('')}</select>${M==='o'?`<select id="iwW" aria-label="Status WO"><option value="*">Semua status WO</option>${wsK.map(k=>`<option value="${esc(k)}"${IW.st===k?' selected':''}>${esc((IW_WS[k]||[k])[0])}</option>`).join('')}</select>`:''}</div>
+    ${L.length?L.slice(0,IW.shown).map(li).join('')+(L.length>IW.shown?`<button class="btn sec sm more" id="iwMore">Tampilkan 50 berikutnya (${nf(L.length-IW.shown)} lagi)</button>`:''):'<div class="empty">Tidak ada pelanggan yang cocok.</div>'}
+  </section>
+  <p class="foot" style="text-align:center;margin:0">Data per ${hm(IW.at)}. Hanya WO open dan Waiting First Payment; WO yang sudah cancel atau belum dibuat tidak ditampilkan.</p>`;
+  const re=()=>renderInst(), toL=()=>setTimeout(()=>{const l=$('iwList');if(l)l.scrollIntoView({behavior:'smooth',block:'start'})},40);
+  el.querySelectorAll('[data-iwm]').forEach(b=>b.onclick=()=>{if(IW.mode===b.dataset.iwm)return;IW.mode=b.dataset.iwm;IW.age='';IW.stn='';IW.st='*';IW.shown=30;re()});
+  el.querySelectorAll('[data-iwa]').forEach(b=>b.onclick=()=>{IW.age=IW.age===b.dataset.iwa?'':b.dataset.iwa;IW.shown=30;re();toL()});
+  el.querySelectorAll('[data-iws]').forEach(r=>r.onclick=()=>{IW.stn=IW.stn===r.dataset.iws?'':r.dataset.iws;IW.shown=30;re();toL()});
+  if($('iwSAll'))$('iwSAll').onclick=()=>{IW.sAll=!IW.sAll;re()};
+  if($('iwMore'))$('iwMore').onclick=()=>{IW.shown+=50;re()};
+  $('iwS').onchange=e=>{IW.stn=e.target.value;IW.shown=30;re()};$('iwA').onchange=e=>{IW.age=e.target.value;IW.shown=30;re()};
+  if($('iwW'))$('iwW').onchange=e=>{IW.st=e.target.value;IW.shown=30;re()};
+  let h;$('iwQ').oninput=e=>{const v=e.target.value;clearTimeout(h);h=setTimeout(()=>{IW.q=v.trim();IW.shown=30;re();const i=$('iwQ');if(i){i.focus();i.setSelectionRange(v.length,v.length)}},250)};
+  $('iwX').onclick=async()=>{try{const X=await loadXlsx();const head=['Stasiun','Mitra','Kode pelanggan','Nama','Nomor HP','Jenis','Status WO','Tanggal registrasi','WO dibuat','Tanggal aktivasi','Umur (hari)','Umur dihitung sejak','Teknisi (IKR)'];
+    const aoa=[head].concat(L.map(x=>[x.st,S.mitra,x.code,x.name,x.ph,x.k==='p'?'Waiting First Payment':'WO Open',x.k==='o'?(IW_WS[x.wo]||[x.wo])[0]:'',x.reg,x.woAt,x.act,x.age==null?'':x.age,x.basis,x.ikr]));
+    const wb=X.utils.book_new(),ws=X.utils.aoa_to_sheet(aoa);ws['!cols']=[20,28,16,26,16,22,14,14,18,14,10,16,22].map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,M==='p'?'Waiting First Payment':'WO Open');
+    X.writeFile(wb,`instalasi-wo-${M==='p'?'wfp':'open'}-${S.mitra.replace(/[^A-Za-z0-9]+/g,'-').toLowerCase()}-${todayWIB().replace(/-/g,'')}.xlsx`);toast(`${nf(L.length)} baris diunduh`)}catch(e){toast(e.message)}};
+}
+
 /* ---------- menu Analisis Pelanggan Tidak Bersedia (mitra sendiri) ---------- */
 function renderTolakM(){
   const el=$('tolak');if(!S.mitra||el.hidden)return;
   const items=cycles().map(c=>({code:c.code,name:c.name,st:c.st,mitra:S.mitra,k:c.k,ts:c.last.ts,status:c.last.status,alasan:c.last.alasan||'',remark:c.last.remark||'',ak:c.last.ak||'',pic:c.last.pic||'',now:c.now}));
   taRender({el,admin:false,items,hasNow:V.state==='ok',onOpen:openHist,onExport:async rows=>{
-    try{const X=await loadXlsx();const wb=X.utils.book_new(),ws=X.utils.aoa_to_sheet([TA_XHEAD,...rows]);ws['!cols']=[14,16,26,20,30,18,30,16,16,40,40,20,18].map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,'Tidak bersedia');X.writeFile(wb,`analisis-tidak-bersedia-${S.mitra.replace(/[^A-Za-z0-9]+/g,'-').toLowerCase()}-${new Date(Date.now()+7*36e5).toISOString().slice(0,10).replace(/-/g,'')}.xlsx`);toast(`${nf(rows.length)} baris diunduh`)}catch(e){toast(e.message)}
+    try{const X=await loadXlsx();const wb=X.utils.book_new(),ws=X.utils.aoa_to_sheet([TA_XHEAD,...rows]);ws['!cols']=[14,16,26,20,30,18,30,16,40,40,20,18].map(w=>({wch:w}));X.utils.book_append_sheet(wb,ws,'Tidak bersedia');X.writeFile(wb,`analisis-tidak-bersedia-${S.mitra.replace(/[^A-Za-z0-9]+/g,'-').toLowerCase()}-${new Date(Date.now()+7*36e5).toISOString().slice(0,10).replace(/-/g,'')}.xlsx`);toast(`${nf(rows.length)} baris diunduh`)}catch(e){toast(e.message)}
   }});
 }
 
@@ -1349,12 +1521,12 @@ function notifData(){
   const per={};sus.forEach(r=>{const d=String(r[5]||'').slice(0,10);per[d]=(per[d]||0)+1});
   const todo=sus.filter(r=>!stateOf(r).cur.length).length;
   const B=S.recs&&S.recs.length?cycles().filter(c=>c.last.status==='lanjut'&&(c.now==='iso'||c.now==='dm')).sort((a,b)=>a.last.ts<b.last.ts?-1:1):[];
-  return {td,days,per,nToday:per[td]||0,nYest:per[dayAdd(td,-1)]||0,nSus:sus.length,todo,B};
+  return {td,days,per,nToday:per[td]||0,nYest:per[dayAdd(td,-1)]||0,nSus:sus.length,todo,B,W:Object.assign(iwStats(),{loaded:!!IW.rows})};
 }
 function renderBell(){
   const btn=$('bellBtn');if(!btn||!S.mitra)return;
-  const N=notifData(), items=(N.nToday?1:0)+(N.todo?1:0)+(N.B.length?1:0);
-  const sig=N.td+':'+N.nToday+':'+N.todo+':'+N.B.length, seen=lsGet('fuNSeen.'+T.slice(0,12))===sig;
+  const N=notifData(), items=(N.nToday?1:0)+(N.todo?1:0)+(N.B.length?1:0)+(N.W.p.length||N.W.o.length?1:0);
+  const sig=N.td+':'+N.nToday+':'+N.todo+':'+N.B.length+':'+N.W.p.length+':'+N.W.o.length, seen=lsGet('fuNSeen.'+T.slice(0,12))===sig;
   const em=$('bellN');em.hidden=!items||seen;em.textContent=items;
   btn.classList.toggle('ring',!!items&&!seen);
   btn.setAttribute('aria-label',`Notifikasi${items&&!seen?' ('+items+' baru)':''}`);
@@ -1364,6 +1536,7 @@ function renderNPanel(N){
   N=N||notifData();
   const mx=Math.max(1,...N.days.map(d=>N.per[d]||0));
   const spark=`<div class="np-sp">${N.days.map(d=>{const v=N.per[d]||0;return `<div title="${fmtD(d)}: ${nf(v)} pelanggan"><i style="height:${Math.max(v?8:2,v/mx*100)}%"></i><b>${v||''}</b><span>${d===N.td?'Hari ini':+d.slice(8)+'/'+ +d.slice(5,7)}</span></div>`}).join('')}</div>`;
+  const wl=N.W.p.slice().sort((a,b)=>(b.age||0)-(a.age||0)).slice(0,4).map(x=>`<a class="np-c" href="#instalasi" data-nwo="1"><b>${esc(x.name||'(tanpa nama)')}</b><span>${esc(x.st)} · menunggu bayar ${x.age==null?'-':nf(x.age)+' hari'}</span></a>`).join('');
   const bl=N.B.slice(0,5).map(c=>{const d=Math.max(0,Math.round((Date.now()-Date.parse(c.last.ts))/864e5));return `<button class="np-c" data-nh="${esc(c.code)}"><b>${esc(c.name||'(tanpa nama)')}</b><span>${esc(c.st)} · bersedia ${d?d+' hari lalu':'hari ini'} · ${esc(c.last.pic||'')}</span></button>`}).join('');
   /* push */
   let ph;
@@ -1380,6 +1553,9 @@ function renderNPanel(N){
   else if(isIOS)ih=`<ol class="np-st"><li>Buka link ini di <b>Safari</b>.</li><li>Ketuk tombol <b>Bagikan</b> <span class="np-ico">⬆︎</span> di bawah layar.</li><li>Pilih <b>Tambah ke Layar Utama</b>, lalu <b>Tambah</b>.</li></ol>`;
   else ih=`<ol class="np-st"><li>Buka link ini di <b>Google Chrome</b>.</li><li>Ketuk menu <b>⋮</b> di kanan atas.</li><li>Pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.</li></ol>`;
   $('nPanel').innerHTML=`<div class="np-h"><div><b>Notifikasi</b><span>${fmtD(N.td)}</span></div><button class="np-x" id="npX" aria-label="Tutup">✕</button></div>
+    <section class="np-it" style="--c:#b45309"><div class="np-t"><span>Harus diselesaikan · Instalasi &amp; WO</span><strong>${N.W.loaded?nf(N.W.p.length+N.W.o.length):'…'}</strong></div>
+      ${N.W.loaded?`<p><b>Waiting First Payment ${nf(N.W.p.length)}</b>${N.W.p7?` · <span class="np-red">${nf(N.W.p7)} lebih dari 7 hari perlu ditagih</span>`:''}<br><b>WO Open ${nf(N.W.o.length)}</b>${N.W.o30?` · <span class="np-red">${nf(N.W.o30)} lebih dari 30 hari perlu diselesaikan</span>`:''}</p>
+      ${wl?`<div class="np-cl">${wl}</div>`:''}${N.W.p.length+N.W.o.length?`<a class="np-go" href="#instalasi" data-nwo="1">Buka Instalasi &amp; WO ›</a>`:''}`:`<p>${IW.err?esc(IW.err):'Memuat data WO open dan Waiting First Payment…'}</p>`}</section>
     <section class="np-it" style="--c:#d97706"><div class="np-t"><span>Pelanggan suspend hari ini</span><strong>${nf(N.nToday)}</strong></div>
       <p>${nf(N.nYest)} kemarin · total <b>${nf(N.nSus)}</b> suspend, <b>${nf(N.todo)}</b> belum dilaporkan.</p>${spark}
       ${N.todo?`<a class="np-go" href="#suspend" data-nc="1">Follow up suspend ›</a>`:''}</section>
@@ -1391,6 +1567,7 @@ function renderNPanel(N){
   const P=$('nPanel');
   $('npX').onclick=()=>toggleN(false);
   P.querySelectorAll('[data-nc]').forEach(a=>a.onclick=()=>toggleN(false));
+  P.querySelectorAll('[data-nwo]').forEach(a=>a.onclick=()=>toggleN(false));
   P.querySelectorAll('[data-nb]').forEach(a=>a.onclick=()=>{HSL.s='lanjut';HSL.n='belum';HSL.q='';HSL.st='';HSL.shown=25;toggleN(false);setTimeout(()=>{if(location.hash==='#hasil')route(true);const l=$('hsLC');if(l)l.scrollIntoView({behavior:'smooth',block:'start'})},120)});
   P.querySelectorAll('[data-nh]').forEach(b=>b.onclick=()=>{toggleN(false);openHist(b.dataset.nh)});
   if($('npOn'))$('npOn').onclick=pushOn;
@@ -1401,7 +1578,7 @@ function renderNPanel(N){
 function toggleN(open){
   NOPEN=open===undefined?!NOPEN:open;
   $('nPanel').hidden=!NOPEN;$('bellBtn').setAttribute('aria-expanded',String(NOPEN));
-  if(NOPEN){const N=notifData();lsSet('fuNSeen.'+T.slice(0,12),N.td+':'+N.nToday+':'+N.todo+':'+N.B.length);renderNPanel(N);renderBell()}
+  if(NOPEN){const N=notifData();lsSet('fuNSeen.'+T.slice(0,12),N.td+':'+N.nToday+':'+N.todo+':'+N.B.length+':'+N.W.p.length+':'+N.W.o.length);renderNPanel(N);renderBell()}
 }
 document.addEventListener('click',e=>{if(NOPEN&&!e.target.closest('#nPanel')&&!e.target.closest('#bellBtn'))toggleN(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&NOPEN)toggleN(false)});
