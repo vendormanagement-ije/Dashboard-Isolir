@@ -847,6 +847,95 @@ header .hl{flex:1 1 auto;min-width:0}
 @media(max-width:560px){.rg-t th,.rg-t td{padding:7px 5px!important;font-size:11.5px}.rg-t th{white-space:normal!important;line-height:1.2;vertical-align:bottom}.rg-t td:first-child,.rg-t th:first-child{min-width:96px!important;white-space:normal!important;position:static!important;box-shadow:none!important}.rg-ch h4,.rg-h4{line-height:1.3}}
 @media(max-width:560px){.rg-t.c7 th:nth-child(7),.rg-t.c7 td:nth-child(7){display:none}}
 @media(prefers-reduced-motion:reduce){.rg-seg .thumb{transition:none}}
+/* ===== Menu Tren Aktivasi & Registrasi ===== */
+#v-tren button,#v-tren a,#v-tren input,#v-tren select{font-family:inherit}
+.tr-ctl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:4px 0 12px}
+.tr-seg{grid-template-columns:repeat(var(--n,3),minmax(0,1fr));width:min(100%,380px)}
+.tr-seg .thumb{width:calc((100% - 6px)/var(--n,3))}
+.tr-q{border:1.5px solid #d5dce8;border-radius:9px;padding:7px 11px;font-size:13px;min-width:200px;background:#fff}
+.tr-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:2px 0 14px}
+.tr-t{display:flex;flex-direction:column;gap:2px;border:1.5px solid color-mix(in srgb,var(--c) 28%,#fff);border-top:4px solid var(--c);background:color-mix(in srgb,var(--c) 4%,#fff);border-radius:12px;padding:10px 13px;min-width:0}
+.tr-t span{font-size:12px;font-weight:800;color:var(--c)}
+.tr-t b{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.1;color:#0f1b3d}
+.tr-t b small{font-family:inherit;font-size:13px;font-weight:700;color:#52607a}
+.tr-t i{font-style:normal;font-size:11.5px;color:#52607a;line-height:1.3}
+.tr-t i em{font-style:normal;font-weight:700}
+.tr-t i em.up{color:#15803d}.tr-t i em.dn{color:#b45309}
+.tr-det{margin-top:10px}.tr-det summary{cursor:pointer;font-weight:700;font-size:13px;color:#12306b;padding:4px 0}
+.tr-rks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}
+.tr-rk h4{margin:0;font-size:13px;font-weight:800;color:#0f1b3d}
+.tr-rk ol{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:5px}
+.tr-rk li{display:grid;grid-template-columns:22px minmax(0,1.3fr) minmax(40px,1fr) auto;gap:7px;align-items:center;font-size:12.5px}
+.tr-rk li em{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e8eef9;color:#12306b;font-style:normal;font-weight:800;font-size:11px}
+.tr-rk li:nth-child(-n+3) em{background:var(--c);color:#fff}
+.tr-rk li .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr-rk li .bar{display:block;height:9px;background:#eef1f5;border-radius:5px;overflow:hidden}
+.tr-rk li .bar i{display:block;height:100%;background:var(--c);border-radius:5px}
+.tr-rk li b{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:1100px){.tr-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tr-rks{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){.tr-tiles{grid-template-columns:minmax(0,1fr)}.tr-t b{font-size:24px}.tr-q{min-width:0;width:100%}.tr-rk li{grid-template-columns:20px minmax(0,1fr) auto}.tr-rk li .bar{display:none}}.tr-cw{display:flex;align-items:flex-start}.tr-ax{flex:none;width:46px!important;max-width:46px!important;height:270px!important}.tr-svg{max-width:none!important;height:270px!important;width:auto}.tr-svg[width]{width:attr(width)}.tr-sc{flex:1;min-width:0;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}.tr-svg{display:block;flex:none}.tr-svg .gl{stroke:#e6ecf3}.tr-svg .ax{font-size:10.5px;fill:#6b7890}.tr-ax .ax{font-size:10.5px;fill:#6b7890}.tr-svg .vl{font-size:11px;font-weight:700;fill:#0f1b3d}.trb.on{cursor:pointer}.trb.on:hover rect.hit,.trb.on:focus-visible rect.hit{fill:rgba(37,99,235,.09)}.trb:focus{outline:none}.trbar{width:28%}.trbar i{display:block;height:9px;background:#2563eb;border-radius:5px}
+@media(max-width:560px){.tr-svg .vl{font-size:9.5px}}
+.tr-svg .gl{stroke:#e3e9f2}.tr-svg .gl.dz{stroke-dasharray:3 5}.tr-svg .bar{transition:filter .15s,opacity .15s}.trb.on:hover .bar{filter:brightness(1.1) saturate(1.1)}.tr-svg:has(.trb.on:hover) .trb.on:not(:hover) .bar{opacity:.72}.tr-svg .ax{fill:#7b879c}.tr-sc{border-radius:12px}.tr-cw{background:linear-gradient(180deg,#fcfdff,#fff);border-radius:12px;padding:6px 4px 0 0}
+.tr-lg{gap:6px 18px;margin:2px 0 8px;font-size:12.5px;font-weight:700;color:#334155}.tr-lg span::before{width:12px;height:12px;border-radius:4px}.tr-lg span.ln::before{height:3px;width:18px;border-radius:2px}
+.tr-lg b{font-weight:800;color:#0f1b3d;margin:0 -8px 0 0;font-size:12.5px}.tr-lg b:not(:first-child){margin-left:6px;padding-left:12px;border-left:1.5px solid #dbe3ee}
+.tr-lg{flex-wrap:nowrap!important;white-space:nowrap;overflow-x:auto;gap:4px 14px!important;align-items:center;padding:6px 2px}.tr-lg .sep{display:inline-block;width:1.5px;height:16px;background:#dbe3ee;margin:0 2px}.tr-lg b{margin:0 -6px 0 0!important;padding:0!important;border:0!important}.tr-lg span{font-weight:600}@media(max-width:700px){.tr-lg{flex-wrap:wrap!important;white-space:normal}.tr-lg .sep{display:none}}
+.tr-f{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:4px}.tr-f .tr-q{min-width:170px;padding:6px 10px}.tr-fx{border:1.5px solid #d5dce8;background:#fff;border-radius:9px;padding:6px 12px;font:inherit;font-size:12.5px;font-weight:700;color:#b91c1c;cursor:pointer}@media(max-width:560px){.tr-f{display:flex;width:100%;margin-left:0}.tr-f .tr-q{flex:1;min-width:0}}
+.tr-f{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:10px;width:100%;margin-left:0!important;margin-top:2px}.tr-f .tr-q{min-width:0!important;width:100%;height:38px;box-sizing:border-box;padding:0 12px;font-family:inherit;font-size:13px;color:#0f1b3d}.tr-f select.tr-q{cursor:pointer}.tr-fx{height:38px}@media(max-width:700px){.tr-f{grid-template-columns:minmax(0,1fr)!important}}
+.trp-sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}.trp-g{border:1.5px solid #e1e7f0;border-radius:12px;padding:10px 12px;background:#fbfcfe}.trp-g h4{margin:0 0 8px;font-size:13px;font-weight:800;color:#0f1b3d;display:flex;justify-content:space-between;gap:8px}.trp-g h4 b{font-family:var(--display);font-weight:400;font-size:20px}.trp-r{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px}.trp-st{border-left:4px solid var(--c);background:#fff;border-radius:8px;padding:5px 9px;display:flex;flex-direction:column;box-shadow:0 1px 0 #eef1f6}.trp-st span{font-size:11.5px;color:#52607a;font-weight:700}.trp-st b{font-size:18px;color:#0f1b3d;font-variant-numeric:tabular-nums}.trp-st i{font-style:normal;font-size:12px;font-weight:800;color:var(--c)}.trp-t th.gR{color:#c2410c;border-bottom:2px solid #f97316}.trp-t th.gA{color:#15803d;border-bottom:2px solid #16a34a}.trp-t td small{display:block;font-size:10.5px;color:#6b7890;font-weight:600}.trp-t .trbar{width:12%}@media(max-width:760px){.trp-sum{grid-template-columns:minmax(0,1fr)}}
+.tr-svg .vl.hl{paint-order:stroke;stroke:#fff;stroke-width:3.2px;stroke-linejoin:round;pointer-events:none}
+.tr-ma-l{stroke-dasharray:1;stroke-dashoffset:1;animation:trDraw 1.8s cubic-bezier(.4,0,.2,1) .15s forwards}
+.tr-ma-f{stroke-dasharray:.035 .965;stroke-dashoffset:1;opacity:0;animation:trFlow 3.4s linear 2s infinite}
+.tr-ma-d{opacity:0;transform-box:fill-box;transform-origin:center;animation:trDot .4s ease-out 1.8s forwards,trPulse 2.2s ease-in-out 2.3s infinite}
+@keyframes trDraw{to{stroke-dashoffset:0}}
+@keyframes trFlow{0%{stroke-dashoffset:1;opacity:.9}95%{opacity:.9}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes trDot{to{opacity:1}}
+@keyframes trPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.28)}}
+@media(prefers-reduced-motion:reduce){.tr-ma-l{animation:none;stroke-dashoffset:0}.tr-ma-f{display:none}.tr-ma-d{animation:none;opacity:1}}
+.tr-lg .ln.trl::before{height:4px;width:22px;border-radius:2px;background:linear-gradient(90deg,#16a34a,#1f2937 50%,#dc2626)}
+.tr-lg .trl em{font-style:normal;font-size:11px;font-weight:800;margin-left:6px}
+.trp-t{table-layout:fixed;width:100%}
+.trp-t th,.trp-t td{padding:7px 6px!important;white-space:normal!important;overflow-wrap:anywhere;font-size:12.5px;vertical-align:top}
+.trp-t th{font-size:10.5px;line-height:1.15;vertical-align:bottom;letter-spacing:.01em}
+.trp-t td:nth-child(2) b{display:block;line-height:1.25}
+.trp-t .trp-sub{display:block;font-size:11px;margin-top:1px}
+.trp-t .trp-bar{display:block;height:4px;background:#eef1f5;border-radius:3px;margin-top:5px;overflow:hidden}
+.trp-t .trp-bar i{display:block;height:100%;border-radius:3px}
+.trp-t td.n,.trp-t th.n{text-align:right}
+@media(max-width:760px){.trp-t{min-width:640px}}
+.trp-t{border-collapse:separate;border-spacing:0}
+.trp-t tbody td:nth-child(n+3):nth-child(-n+6){background:#fffaf5}
+.trp-t tbody td:nth-child(n+7){background:#f5fbf7}
+.trp-t th.gA,.trp-t thead tr:nth-child(2) th:nth-child(5),.trp-t tbody td:nth-child(7){border-left:3px solid #1f2937!important}
+.trp-t th.gR,.trp-t thead tr:nth-child(2) th:nth-child(-n+4){background:#fff4ea}
+.trp-t th.gA,.trp-t thead tr:nth-child(2) th:nth-child(n+5){background:#edf8f1}
+.trp-g{border:2px solid #64748b!important;box-shadow:0 1px 3px rgba(15,27,61,.08)}.trp-st{border:1.5px solid #64748b!important;border-left:5px solid var(--c)!important}
+.tr-cb{position:relative;min-width:0}
+.tr-dd{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;max-height:320px;overflow:auto;background:#fff;border:1.5px solid #cbd5e1;border-radius:14px;box-shadow:0 16px 36px rgba(15,27,61,.2),0 2px 6px rgba(15,27,61,.08);padding:6px;scrollbar-width:thin}
+.tr-dd[hidden]{display:none}
+.tr-dd-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 8px 6px;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#7b879c;border-bottom:1px solid #eef1f6;margin-bottom:4px;position:sticky;top:-6px;background:#fff}
+.tr-dd-h button{border:0;background:none;color:#b91c1c;font:inherit;font-size:11px;font-weight:800;text-transform:none;letter-spacing:0;cursor:pointer;padding:0}
+.tr-dd-i{display:flex;flex-direction:column;gap:1px;padding:7px 10px;border-radius:9px;cursor:pointer;color:#0f1b3d}
+.tr-dd-i b{font-size:12.5px;font-weight:700;line-height:1.25}
+.tr-dd-i small{font-size:11px;color:#6b7890}
+.tr-dd-i:hover,.tr-dd-i.on{background:#eaf1ff}
+.tr-dd-i.sel{box-shadow:inset 3px 0 0 #2563eb;background:#f3f7ff}
+.tr-dd mark{background:#fde68a;color:inherit;border-radius:3px;padding:0 1px}
+.tr-dd-m{padding:6px 10px;font-size:11.5px;color:#6b7890}
+@media(max-width:700px){.tr-dd{max-height:260px}}
+.tr-vb{display:block;font-size:11px;font-weight:800;color:#dc2626;margin:1px 0 2px;letter-spacing:.01em}
+.tr-bk{display:flex;gap:10px;align-items:stretch;margin:-4px 0 14px}
+.tr-bk .sep{width:2px;background:#cbd5e1;border-radius:2px;flex:none}
+.tr-bg{display:flex;flex-direction:column;gap:3px;min-width:0}
+.tr-bg em{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7b879c}
+.tr-bcs{display:flex;gap:6px;min-width:0}
+.tr-bc{flex:1;min-width:0;display:flex;flex-direction:column;border:1.5px solid #cbd5e1;border-left:4px solid var(--c);border-radius:9px;padding:4px 9px;background:#fff}
+.tr-bc span{font-size:10.5px;font-weight:700;color:#52607a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-bc b{font-size:15px;line-height:1.15;color:#0f1b3d;font-variant-numeric:tabular-nums}
+.tr-bc i{font-style:normal;font-size:10.5px;font-weight:800;color:var(--t)}
+@media(max-width:700px){.tr-bk{flex-direction:column;margin-top:0}.tr-bk .sep{display:none}.tr-bg{flex:none!important}.tr-bcs{flex-wrap:wrap}.tr-bc{flex:1 1 30%}}
+.tr-bk{margin:16px 0 4px!important}.tr-lg{border:1px solid #cbd5e1!important;border-radius:10px;padding:7px 12px!important;background:#fff}
+.tr-lg{gap:4px 9px!important;font-size:12px!important;padding:6px 10px!important;scrollbar-width:none}.tr-lg::-webkit-scrollbar{display:none}.tr-lg .trl em{margin-left:4px}
+#tr1 .tr-tiles{grid-template-columns:repeat(5,minmax(0,1fr))}@media(max-width:1180px){#tr1 .tr-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){#tr1 .tr-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){#tr1 .tr-tiles{grid-template-columns:minmax(0,1fr)}}
 /* ===== Seluler: tidak boleh ada konten yang melebihi lebar layar ===== */
 @media(max-width:900px){
   html,body{max-width:100%;overflow-x:hidden}
@@ -1481,6 +1570,7 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
     <nav class="menu">
       <div class="mg">
         <div class="mrow"><a class="mi" href="#blast" data-v="blast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg><span>Report Broadcast Starlite &amp; IRA</span></a></div>
+        <div class="mrow"><a class="mi" href="#tren" data-v="tren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Tren Aktivasi &amp; Registrasi</span></a></div>
       </div>
       <div class="mg">
         <div class="mrow"><a class="mi" href="#isolir" data-v="isolir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard Isolir FTTH</span></a></div>
@@ -1580,6 +1670,7 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
   <div class="view vcol" id="v-tolak" hidden></div>
   <div class="view vcol" id="v-wo" hidden></div>
   <div class="view vcol" id="v-regional" hidden></div>
+  <div class="view vcol" id="v-tren" hidden></div>
   <div class="view vcol" id="v-unggah" hidden></div>
   <footer class="appfoot">Dashboard Versi V1.0.0<small class="by">Dashboard by Vendor Management</small></footer>
   </main>
@@ -2312,9 +2403,9 @@ $('mfList').addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{if(!e.target.closest('.mfil'))closeMf()});
 
 /* ================== MENU, SIDEBAR, ROUTING ================== */
-const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',reminder:'v-remind',followup:'v-fu',tolak:'v-tolak',wo:'v-wo',regional:'v-regional',unggah:'v-unggah'};
+const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',reminder:'v-remind',followup:'v-fu',tolak:'v-tolak',wo:'v-wo',regional:'v-regional',tren:'v-tren',unggah:'v-unggah'};
 const FW={recs:null,at:0,err:'',busy:false,idx:null,idxFor:null};
-const VTITLE={isolir:'Dashboard Isolir FTTH',blast:'Report Broadcast Starlite & IRA',pencocokan:'Status Broadcast FTTH',reminder:'Kirim Reminder ke Mitra',followup:'Hasil Follow Up Mitra',tolak:'Analisis Pelanggan Tidak Bersedia Berlangganan Kembali',wo:'Menunggu Instalasi & WO',regional:'Analisis Per-Regional',unggah:'Unggah Data Broadcast'};
+const VTITLE={isolir:'Dashboard Isolir FTTH',blast:'Report Broadcast Starlite & IRA',pencocokan:'Status Broadcast FTTH',reminder:'Kirim Reminder ke Mitra',followup:'Hasil Follow Up Mitra',tolak:'Analisis Pelanggan Tidak Bersedia Berlangganan Kembali',wo:'Menunggu Instalasi & WO',regional:'Analisis Per-Regional',tren:'Tren Aktivasi & Registrasi',unggah:'Unggah Data Broadcast'};
 let CUR='blast', ISOLIVE=null, BLIVE=null, BERR='';
 const fmtWhen=l=>l?new Date(l).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
 const pctS=(a,b,d=1)=>(b?a/b*100:0).toFixed(d).replace('.',',')+'%';
@@ -2335,6 +2426,8 @@ function updateHeader(){
     if(!WO.rows){setPills('',WO.err?'':'Memuat…',WO.err?'Data gagal dimuat':'Database',false);return}
     const A=WO.rows.filter(o=>o.s==='wfi').length,P=WO.rows.length-A;
     setPills(nf(A)+' menunggu instalasi (WO belum cancel)',nf(P)+' waiting first payment',`Database langsung · `+fmtWhen(new Date(WO.at).toISOString()),true);
+  }else if(CUR==='tren'){
+    setPills('Tren aktivasi · durasi · peringkat',TR.rows?nf(TR.rows.reduce((s,r)=>s+r[3],0))+' pelanggan aktif':'Memuat…','Database langsung',!!TR.rows);
   }else if(CUR==='regional'){
     setPills('4 regional: Jabar · Jabodebek-Banten · Jateng · Jatim',WO.rows?nf(WO.rows.length)+' pelanggan antrean instalasi':'Memuat…','Database langsung',!!WO.rows);
   }else if(CUR==='followup'||CUR==='tolak'){
@@ -2345,7 +2438,7 @@ function updateHeader(){
     setPills(`${nf(MS.cust)} nomor isolir terjangkau broadcast`,`${nf(FU.length)} mau lanjut, masih isolir`,`Isolir ${ISOLIVE?'langsung':'tersimpan'} · Broadcast ${BLIVE?'langsung':'tersimpan'}`,!!(ISOLIVE&&BLIVE));
   }
 }
-function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='reminder')renderRemindView();else if(CUR==='followup')renderFu();else if(CUR==='tolak')renderTolak();else if(CUR==='wo')renderWo();else if(CUR==='regional')renderRegional();else if(CUR==='unggah')renderUnggah()}
+function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='reminder')renderRemindView();else if(CUR==='followup')renderFu();else if(CUR==='tolak')renderTolak();else if(CUR==='wo')renderWo();else if(CUR==='regional')renderRegional();else if(CUR==='tren')renderTren();else if(CUR==='unggah')renderUnggah()}
 function closeSide(){$('side').classList.remove('open');$('scrim').hidden=true;$('btnMenu').setAttribute('aria-expanded','false')}
 function openSide(){$('side').classList.add('open');$('scrim').hidden=false;$('btnMenu').setAttribute('aria-expanded','true')}
 function show(v){
@@ -2359,7 +2452,7 @@ function show(v){
   if(PEND){const id=PEND;PEND='';setTimeout(()=>scrollToId(id),80)}
 }
 (function(){
-  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',tolak:'Analisis',wo:'Instalasi',regional:'Regional',unggah:'Unggah'};
+  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',tolak:'Analisis',wo:'Instalasi',regional:'Regional',tren:'Tren',unggah:'Unggah'};
   $('tabbar').innerHTML=[...document.querySelectorAll('.side .mi')].map(a=>`<a class="ti" href="#${a.dataset.v}" data-v="${a.dataset.v}">${a.querySelector('svg').outerHTML}<span>${lab[a.dataset.v]||''}</span></a>`).join('');
 })();
 function route(){show((location.hash||'').replace(/^#/,''))}
@@ -5020,6 +5113,400 @@ function renderRegional(){
   el.querySelectorAll('[data-rgp]').forEach(b=>b.onclick=()=>{RGS.per=b.dataset.rgp;renderRegional()});
   el.querySelectorAll('[data-rgj]').forEach(a=>a.onclick=e=>{e.preventDefault();const n=document.getElementById(a.dataset.rgj);if(n)n.scrollIntoView({behavior:'smooth',block:'start'})});
   $('rgX').onclick=rgExport;
+  window.scrollTo(0,y);
+}
+
+/* ================== MENU TREN AKTIVASI & REGISTRASI (admin)
+ * Sumber: /act.csv (aktivasi per tanggal aktif untuk SEMUA pelanggan yang pernah aktif, menurut status sekarang),
+ * /reg.csv (registrasi per tanggal registrasi: teraktivasi, belum aktivasi, cancel),
+ * /woact.csv dan /woactst.csv (durasi registrasi -> aktif dan WO -> aktif per bulan aktif), /wo.csv (menunggu instalasi). */
+const TR={mg:'',g:'m',n:{d:90,w:12,m:24},per:'6',dp:'6',dl:'rg',dq:'',fr:'',fm:'',fs:'',reg:null,regBusy:false,regErr:'',regAt:0,lv:'rg',rg:'',mi:'',q:'',rows:null,busy:false,err:'',at:0,rgc:null};
+const TRC={act:'#2563eb',ma:'#475569',reg:'#f97316',wo:'#0d9488'};
+const trAdd=(d,k)=>new Date(Date.parse(d+'T00:00:00Z')+k*864e5).toISOString().slice(0,10);
+const trWk=d=>{const w=(new Date(d+'T00:00:00Z').getUTCDay()+6)%7;return trAdd(d,-w)};
+const trBk=(d,g)=>g==='d'?d:g==='w'?trWk(d):d.slice(0,7);
+const trKeys=(g,n)=>{const t=todayWib();if(g==='d')return Array.from({length:n},(_,i)=>trAdd(t,i-n+1));if(g==='w'){const s=trWk(t);return Array.from({length:n},(_,i)=>trAdd(s,(i-n+1)*7))}return rgMonths(n)};
+const trLab=(k,g)=>g==='m'?woMon(k):`${+k.slice(8)} ${BLNW[+k.slice(5,7)-1]}`;
+const trLabFull=(k,g)=>g==='m'?woMon(k):g==='w'?`minggu ${trLab(k,'d')} – ${trLab(trAdd(k,6),'d')}`:`${+k.slice(8)} ${BLNW[+k.slice(5,7)-1]} ${k.slice(0,4)}`;
+const trGName={d:'hari',w:'minggu',m:'bulan'};
+
+async function trLoad(){
+  const u=activeUrl();
+  if(!/\/aktif\.csv/.test(u)){TR.err='Alamat layanan data (CSV pelanggan aktif) belum diatur.';return}
+  if(TR.busy||(TR.rows&&Date.now()-TR.at<36e5))return;
+  TR.busy=true;TR.err='';
+  try{
+    const key='trAct3|'+u, c=await idbGet(key);
+    if(c&&c.rows&&Date.now()-c.at<36e5){TR.rows=c.rows;TR.at=c.at;TR.busy=false;return}
+    const res=await fetch(u.replace('/aktif.csv','/act.csv')+(u.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error(res.status===404?'dataset aktivasi (act.csv) belum ada di layanan data':'HTTP '+res.status);
+    const t=parseCsv(await res.text()),h=(t.shift()||[]).map(x=>String(x).trim()),k=n=>h.indexOf(n);
+    if(k('tanggal')<0||k('n')<0||k('n_aktif')<0||k('kat')<0||k('n_dsg')<0)throw new Error('kolom act.csv tidak lengkap (perbarui layanan data)');
+    const rows=t.filter(r=>r.length>=10).map(r=>({rg:String(r[k('regional')]||'OTHER').trim()||'OTHER',mi:String(r[k('mitra')]||'').trim()||'(Tanpa mitra)',st:String(r[k('stasiun')]||'').trim()||'(Tanpa stasiun)',d:String(r[k('tanggal')]||'').slice(0,10),n:+r[k('n')]||0,na:+r[k('n_aktif')]||0,ni:+r[k('n_iso')]||0,nt:+r[k('n_rtd')]||0,nd:+r[k('n_dis')]||0,ng:k('n_dsg')<0?0:(+r[k('n_dsg')]||0),nl:+r[k('n_lain')]||0,k:k('kat')<0?'non':String(r[k('kat')]||'non').trim()}));
+    if(!rows.length)throw new Error('act.csv kosong');
+    TR.rows=rows;TR.at=Date.now();
+    idbSet(key,{at:TR.at,rows});
+  }catch(e){TR.err='Data aktivasi tidak bisa dimuat: '+((e&&e.message)||e)}
+  TR.busy=false;
+}/* registrasi per tanggal registrasi, regional, mitra, stasiun dari /reg.csv (semua pelanggan yang tercatat mendaftar) */
+async function trLoadReg(){
+  const u=activeUrl();
+  if(!/\/aktif\.csv/.test(u)){TR.regErr='Alamat layanan data belum diatur.';return}
+  if(TR.regBusy||(TR.reg&&Date.now()-TR.regAt<36e5))return;
+  TR.regBusy=true;TR.regErr='';
+  try{
+    const key='trReg3|'+u,c=await idbGet(key);
+    if(c&&c.rows&&Date.now()-c.at<36e5){TR.reg=c.rows;TR.regAt=c.at;TR.regBusy=false;return}
+    const res=await fetch(u.replace('/aktif.csv','/reg.csv')+(u.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error(res.status===404?'dataset registrasi (reg.csv) belum ada di layanan data':'HTTP '+res.status);
+    const t=parseCsv(await res.text()),h=(t.shift()||[]).map(x=>String(x).trim()),k=n=>h.indexOf(n);
+    if(k('tanggal')<0||k('n')<0||k('n_belum')<0)throw new Error('kolom reg.csv tidak lengkap (perbarui layanan data)');if(k('kat')<0)throw new Error('kolom kat pada reg.csv belum ada (perbarui layanan data)');
+    const rows=t.filter(r=>r.length>=7).map(r=>({rg:String(r[k('regional')]||'OTHER').trim()||'OTHER',mi:String(r[k('mitra')]||'').trim()||'(Tanpa mitra)',st:String(r[k('stasiun')]||'').trim()||'(Tanpa stasiun)',d:String(r[k('tanggal')]||'').slice(0,10),n:+r[k('n')]||0,na:+r[k('n_aktif')]||0,nb:+r[k('n_belum')]||0,nc:+r[k('n_cancel')]||0,k:k('kat')<0?'non':String(r[k('kat')]||'non').trim()}));
+    TR.reg=rows;TR.regAt=Date.now();idbSet(key,{at:TR.regAt,rows});
+  }catch(e){TR.regErr='Data registrasi tidak bisa dimuat: '+((e&&e.message)||e)}
+  TR.regBusy=false;
+}/* regional tiap baris (peta mitra | stasiun -> regional) */
+function trRows(){return TR.rows||[]}
+const trFilt=()=>trRows().filter(r=>(!TR.rg||r.rg===TR.rg)&&(!TR.mi||r.mi===TR.mi));
+const trSeries=(rows,g)=>{const m=new Map();rows.forEach(r=>{const k=trBk(r.d,g);m.set(k,(m.get(k)||0)+r.n)});return m};
+const trSer2=(rows,g,f)=>{const m=new Map();rows.forEach(r=>{const k=trBk(r.d,g);let o=m.get(k);if(!o){o={};f.forEach(x=>o[x]=0);m.set(k,o)}f.forEach(x=>{o[x]+=r[x]||0})});return m};
+const trSum=(m,keys)=>keys.reduce((s,k)=>s+(m.get(k)||0),0);
+
+/* diagram batang + garis (rata-rata bergerak / durasi) */
+function trChart(o){
+  const W=720,H=o.h||230,pl=42,pr=o.right?44:8,pt=18,pb=30,n=o.labels.length,bw=(W-pl-pr)/Math.max(1,n);
+  const bars=o.bars?o.bars.v:[], mx=rgNice(Math.max(1,...bars.map(x=>x||0),...(o.lines&&!o.right?o.lines.flatMap(l=>l.v.map(x=>x||0)):[0])));
+  const y=v=>H-pb-(H-pb-pt)*v/mx;
+  const rm=o.right?rgNice(Math.max(1,...o.lines.flatMap(l=>l.v.map(x=>x||0)))):mx, ry=v=>H-pb-(H-pb-pt)*v/rm;
+  const step=Math.max(1,Math.ceil(n/9));
+  let s=`<svg class="rg-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria||'Diagram tren')}">`;
+  [0,.25,.5,.75,1].forEach(f=>{const yy=y(mx*f);s+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" class="gl"/><text x="${pl-5}" y="${yy+4}" text-anchor="end" class="ax">${rgK(mx*f)}</text>`;if(o.right)s+=`<text x="${W-pr+5}" y="${yy+4}" class="ax">${rgK(rm*f)}</text>`});
+  o.labels.forEach((l,i)=>{
+    const x=pl+i*bw+bw*.14,w=Math.max(1,bw*.72),cx=x+w/2;
+    if(o.bars){const v=bars[i]||0,y0=y(v);
+      s+=`<rect x="${x.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(v?1:0,y(0)-y0).toFixed(1)}" fill="${o.bars.c}" rx="2"${o.part&&i===n-1?' opacity=".5"':''}><title>${esc(o.tip(l))} · ${esc(o.bars.l)}: ${nf(v)}${o.part&&i===n-1?' (belum penuh)':''}</title></rect>`;
+      if(v&&n<=16)s+=`<text x="${cx.toFixed(1)}" y="${(y0-4).toFixed(1)}" text-anchor="middle" class="vl">${rgK(v)}</text>`}
+    if(i%step===0||i===n-1&&(n-1)%step>=step*.6)s+=`<text x="${cx.toFixed(1)}" y="${H-12}" text-anchor="middle" class="ax">${esc(o.fmt(l))}</text>`;
+  });
+  (o.lines||[]).forEach(L=>{
+    const pts=L.v.map((v,i)=>v==null?null:[pl+i*bw+bw/2,(o.right?ry:y)(v),v]).filter(Boolean);
+    if(pts.length){s+=`<polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${L.c}" stroke-width="2.4" stroke-linejoin="round"${L.dash?' stroke-dasharray="6 4"':''}/>`;
+      if(n<=16||L.dots)s+=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.2" fill="#fff" stroke="${L.c}" stroke-width="2"><title>${esc(L.l)}: ${f1(p[2])}</title></circle>`).join('')}
+  });
+  s+='</svg>';
+  const lg=[...(o.bars?[`<span style="--c:${o.bars.c}">${esc(o.bars.l)}</span>`]:[]),...(o.lines||[]).map(L=>`<span style="--c:${L.c}" class="ln">${esc(L.l)}</span>`)].join('');
+  return `<div class="rg-ch">${o.title?`<h4>${esc(o.title)}</h4>`:''}${s}<div class="rg-lg">${lg}</div></div>`;
+}
+const trSeg=(id,items,cur)=>`<div class="rg-seg tr-seg" role="tablist" style="--i:${Math.max(0,items.findIndex(x=>x[0]===cur))};--n:${items.length}"><i class="thumb" style="--c:#12306b"></i>${items.map(([k,l])=>`<button type="button" role="tab" aria-selected="${cur===k}" data-${id}="${k}" class="${cur===k?'on':''}">${l}</button>`).join('')}</div>`;
+
+/* registrasi per tanggal (semua pelanggan yang mendaftar), dari /reg.csv */
+const trRegRows=()=>(TR.reg||[]).filter(o=>(!TR.rg||o.rg===TR.rg)&&(!TR.mi||o.mi===TR.mi));
+const trRegSeries=g=>trSeries(trRegRows(),g);/* diagram batang yang bisa digeser: 14 batang per layar, angka di atas batang, klik batang membuka rincian */
+/* batas sumbu mendekati nilai tertinggi (mis. 11.555 -> 12 rb) dengan langkah yang rapi */
+function trNiceMax(v){
+  v=Math.max(1,v);let best=null;
+  for(let e=0;e<=7;e++)for(const m of [1,1.2,1.5,2,2.5,3,4,5,6,8]){
+    const s=m*Math.pow(10,e),k=Math.ceil(v/s-1e-9);if(k<3||k>6)continue;
+    const mx=k*s;if(!best||mx<best.mx-1e-9||(Math.abs(mx-best.mx)<1e-9&&s>best.s))best={mx,s,k};
+  }
+  return best||{mx:rgNice(v),s:rgNice(v)/4,k:4};
+}
+const trAxL=v=>v>=1000?(v/1000).toLocaleString('id-ID',{maximumFractionDigits:1})+'K':String(Math.round(v*10)/10).replace('.',',');
+const trBarL=v=>v>=10000?Math.round(v/1000)+'K':nf(v);
+/* batang dengan sudut atas membulat (hanya sisi atas) */
+const trBar=(x,y,w,h,r)=>{r=Math.max(0,Math.min(r,w/2,h));return `M${x.toFixed(1)},${(y+h).toFixed(1)}V${(y+r).toFixed(1)}Q${x.toFixed(1)},${y.toFixed(1)} ${(x+r).toFixed(1)},${y.toFixed(1)}H${(x+w-r).toFixed(1)}Q${(x+w).toFixed(1)},${y.toFixed(1)} ${(x+w).toFixed(1)},${(y+r).toFixed(1)}V${(y+h).toFixed(1)}Z`};
+/* garis mulus melewati titik-titik (Catmull-Rom ke Bezier) */
+function trSmooth(pts){
+  if(pts.length<3)return 'M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L');
+  let d=`M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2,t=.18;
+    d+=`C${(p1[0]+(p2[0]-p0[0])*t).toFixed(1)},${(p1[1]+(p2[1]-p0[1])*t).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])*t).toFixed(1)},${(p2[1]-(p3[1]-p1[1])*t).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`}
+  return d;
+}
+const TRCAP=4000;
+const TRSEG={
+  a:[['Aktif','#16a34a'],['Tidak aktif','#94a3b8']],
+  r:[['Teraktivasi','#f97316'],['Belum aktivasi','#fcd34d'],['Cancel','#ef4444']]
+};
+/* warna garis tren: hijau naik, merah turun, hitam stabil; peralihan bergradasi halus */
+const trMix=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A=p(a),B=p(b);return '#'+A.map((x,i)=>Math.round(x+(B[i]-x)*t).toString(16).padStart(2,'0')).join('')};
+const trTrendCol=t=>t>0?trMix('#1f2937','#16a34a',t):trMix('#1f2937','#dc2626',-t);
+function trTrendStops(ma,xs){
+  const n=ma.length,c=ma.map((v,i)=>{const a=Math.max(0,i-1),b=Math.min(n-1,i+1),rel=b===a?0:(ma[b]-ma[a])/(b-a)/Math.max(1,v),m=Math.abs(rel);return m<.02?0:Math.sign(rel)*Math.min(1,(m-.02)/.1)});
+  const x0=xs[0],x1=xs[n-1]||x0+1;
+  return {stops:c.map((t,i)=>`<stop offset="${n>1?((xs[i]-x0)/(x1-x0)).toFixed(4):0}" stop-color="${trTrendCol(t)}"/>`).join(''),last:trTrendCol(c[n-1]||0)};
+}
+function trScChart(o){
+  const n=o.labels.length,Wv=Math.max(300,(($('v-tren')&&$('v-tren').clientWidth)||900)-28-48),slot=Math.max(60,Wv/Math.min(14,Math.max(1,n))),W=Math.max(Wv,n*slot),H=270,pt=32,pb=34,gw=Math.min(slot*.86,88),bw=gw/2;
+  const raw=Math.max(1,...o.v,...o.r,...o.ma),cap=o.g==='d'?TRCAP:Infinity,{mx,s:step,k}=trNiceMax(Math.min(raw,cap)),y=v=>H-pb-(H-pb-pt)*Math.min(v,mx)/mx,fs=slot<66?9.5:11;
+  const ticks=Array.from({length:k+1},(_,i)=>i*step);let clipped=0,lab='';
+  let ax=`<svg class="tr-ax" width="46" height="${H}" viewBox="0 0 46 ${H}" aria-hidden="true">`;
+  ticks.forEach(v=>{ax+=`<text x="42" y="${(y(v)+4).toFixed(1)}" text-anchor="end" class="ax">${trAxL(v)}</text>`});ax+='</svg>';
+  const pts=o.ma.map((v,i)=>[i*slot+slot/2,y(v)]),lp=pts[pts.length-1],dpath=trSmooth(pts),tg=trTrendStops(o.ma,pts.map(p=>p[0]));
+  let s=`<svg class="tr-svg" width="${W.toFixed(0)}" height="${H}" viewBox="0 0 ${W.toFixed(0)} ${H}" role="img" aria-label="Tren registrasi dan aktivasi per ${trGName[o.g]}"><defs><linearGradient id="trgMA" gradientUnits="userSpaceOnUse" x1="${pts[0][0].toFixed(1)}" y1="0" x2="${(pts[n-1]||pts[0])[0].toFixed(1)}" y2="0">${tg.stops}</linearGradient></defs>`;
+  if(o.g==='d')o.labels.forEach((kk,i)=>{const wd=new Date(kk+'T00:00:00Z').getUTCDay();if(wd===0||wd===6)s+=`<rect x="${(i*slot).toFixed(1)}" y="${pt-8}" width="${slot.toFixed(1)}" height="${(H-pb-pt+8).toFixed(1)}" fill="#f4f6fb" rx="6"/>`});
+  ticks.forEach((v,i)=>{s+=`<line x1="0" x2="${W.toFixed(0)}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" class="gl${i?' dz':''}"/>`});
+  o.labels.forEach((kk,i)=>{
+    const x0=i*slot+(slot-gw)/2,part=o.g!=='d'&&i===n-1;
+    const items=[['r',o.r[i],o.R[i],TRSEG.r,x0,'Registrasi','#c2410c'],['a',o.v[i],o.A[i],TRSEG.a,x0+bw,'Aktivasi','#1e3a8a']];
+    const both=items.every(it=>it[1]>mx),near=items[0][1]&&items[1][1]&&Math.abs(y(items[0][1])-y(items[1][1]))<11;
+    items.forEach(([t,tot,parts,seg,x,nm,tc],ix)=>{
+      const clip=tot>mx,top=y(tot),H0=y(0)-top;if(clip)clipped++;
+      const tip=`${esc(trLabFull(kk,o.g))} · ${nm}: ${nf(tot)} (${seg.map((sg,j)=>sg[0]+' '+nf(parts[j]||0)).join(' · ')})${part?' · belum penuh':''}${clip?' · batang dipotong di sumbu '+trAxL(mx):''} · klik untuk melihat mitra`;
+      s+=`<g class="trb${tot?' on':''}"${tot?` data-k="${kk}" data-t="${t}" tabindex="0" role="button" aria-label="Lihat mitra ${nm} ${esc(trLabFull(kk,o.g))}"`:''}><title>${tip}</title><rect class="hit" x="${x.toFixed(1)}" y="${pt-8}" width="${bw.toFixed(1)}" height="${(H-pb-pt+8).toFixed(1)}" fill="transparent"/>`;
+      if(tot){
+        const segs=parts.map((v,j)=>({v,c:seg[j][1]})).filter(q=>q.v>0);let acc=0;
+        segs.forEach((sg,j)=>{const h=Math.max(.8,H0*sg.v/tot),yt=y(0)-acc-h;acc+=h;
+          s+=j===segs.length-1?`<path class="bar" d="${trBar(x+.5,yt,bw-1,h,6)}" fill="${sg.c}" stroke="#fff" stroke-width=".7"${part?' opacity=".55"':''}/>`:`<rect class="bar" x="${(x+.5).toFixed(1)}" y="${yt.toFixed(1)}" width="${(bw-1).toFixed(1)}" height="${h.toFixed(1)}" fill="${sg.c}" stroke="#fff" stroke-width=".7"${part?' opacity=".55"':''}/>`});
+        if(clip)s+=`<polygon points="${(x-1).toFixed(1)},${(top+14).toFixed(1)} ${(x+bw+1).toFixed(1)},${(top+7).toFixed(1)} ${(x+bw+1).toFixed(1)},${(top+12).toFixed(1)} ${(x-1).toFixed(1)},${(top+19).toFixed(1)}" fill="#fff"/>`;
+        const ly=clip?(both&&ix?pt-21:pt-9):(top-5-(!clip&&near&&ix?11:0));
+        lab+=`<text x="${(x+bw/2).toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" class="vl hl" style="font-size:${fs}px;fill:${tc}">${trBarL(tot)}</text>`;
+      }
+      s+='</g>';
+    });
+    s+=`<text x="${(i*slot+slot/2).toFixed(1)}" y="${H-12}" text-anchor="middle" class="ax">${esc(trLab(kk,o.g))}</text>`;
+  });
+  /* garis rata-rata: di atas batang, di bawah angka; ada kilau dan titik yang bergerak seperti sedang berjalan */
+  s+=`<g class="tr-ma" pointer-events="none"><path d="${dpath}" fill="none" stroke="url(#trgMA)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".13"/><path class="tr-ma-l" d="${dpath}" pathLength="1" fill="none" stroke="url(#trgMA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path class="tr-ma-f" d="${dpath}" pathLength="1" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.4" stroke-linecap="round"/><circle class="tr-ma-d" cx="${lp[0].toFixed(1)}" cy="${lp[1].toFixed(1)}" r="4.5" fill="#fff" stroke="${tg.last}" stroke-width="3"/></g>`;
+  s+=lab+'</svg>';
+  const lg=`<div class="rg-lg tr-lg"><b>Registrasi</b>${TRSEG.r.map(q=>`<span style="--c:${q[1]}">${q[0]}</span>`).join('')}<i class="sep"></i><b>Aktivasi</b>${TRSEG.a.map(q=>`<span style="--c:${q[1]}">${q[0].replace('Tidak aktif','Tidak Aktif')}</span>`).join('')}<i class="sep"></i><span class="ln trl" title="Rata-rata bergerak aktivasi: hijau = cenderung naik, merah = turun, hitam = stabil">Rata-rata ${o.W} ${trGName[o.g]} <em style="color:#16a34a">naik</em><em style="color:#dc2626">turun</em><em style="color:#1f2937">stabil</em></span></div>`;
+  return `<div class="rg-ch"><h4>${esc(o.title)}</h4>${lg}<div class="tr-cw">${ax}<div class="tr-sc">${s}</div></div><p class="foot" style="margin:4px 0 0">${n>14?`Geser ke kiri untuk melihat ${trGName[o.g]} sebelumnya. `:''}Klik satu batang untuk melihat mitra.${o.g==='d'?' Latar abu-abu = akhir pekan.':''} Garis rata-rata berwarna hijau saat cenderung naik, merah saat turun, dan hitam saat stabil. Angka 10 ribu ke atas dibulatkan (K); angka persisnya ada di tooltip dan tabel.${clipped?` Sumbu dibatasi sampai ${trAxL(TRCAP)}: batang yang lebih tinggi dipotong (tanda sobekan putih) dan angka sebenarnya ditulis di atasnya. Pembatasan ini hanya tampilan, bukan angkanya.`:''}</p></div>`;
+}/* jendela rincian aktivasi per batang: mitra / regional / stasiun */
+const TRP={k:'',t:'a',g:'d',lv:'mi',q:'',list:[],total:0};
+function trPopEl(){
+  let el=$('trPop');if(el)return el;
+  el=document.createElement('div');el.id='trPop';el.className='mback';el.hidden=true;
+  el.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="trPT" style="max-width:1060px;width:96vw"><div class="mhead"><div><div class="eyebrow">Aktivasi pelanggan</div><h2 id="trPT"></h2><div class="foot" id="trPS" style="margin-top:2px"></div></div><div class="ctl"><button id="trPX" class="xls">Download Excel</button><button id="trPC" aria-label="Tutup">Tutup ✕</button></div></div><div class="mbody"><div id="trPSum" class="trp-sum"></div><div class="tr-ctl" id="trPSeg"></div><div id="trPB"></div></div></div>';
+  document.body.appendChild(el);
+  const close=()=>{el.hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''};
+  $('trPC').onclick=close;el.addEventListener('click',e=>{if(e.target===el)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!el.hidden)close()});
+  $('trPX').onclick=()=>{const l=TRP.list,ln={mi:'mitra',rg:'regional',st:'stasiun'}[TRP.lv],pc=(a,b)=>b?+(a/b*100).toFixed(1):0;exportSheets(`registrasi-aktivasi-${TRP.k}-per-${ln}.xlsx`,[{name:'Per '+ln,aoa:[[ln[0].toUpperCase()+ln.slice(1),'Induk','Registrasi','Teraktivasi','Teraktivasi %','Belum aktivasi','Belum aktivasi %','Cancel','Cancel %','Aktivasi','Aktif','Aktif %','Tidak aktif','Tidak aktif %','Isolir (suspend+RTD+dismantling)','Dismantled','Lainnya'],...l.map(o=>[o.name,o.sub,o.rn,o.ra,pc(o.ra,o.rn),o.rb,pc(o.rb,o.rn),o.rc,pc(o.rc,o.rn),o.an,o.aa,pc(o.aa,o.an),o.an-o.aa,pc(o.an-o.aa,o.an),o.ai,o.ad,o.al])],cols:[34,24,12,12,12,14,14,10,10,10,10,10,12,12,10,10,12,10]}],l.length)};
+  return el;
+}
+function trPopOpen(k,t){
+  /* teks yang sudah diketik di kotak cari mitra/stasiun ikut dipakai sebagai filter */
+  const fmE=$('trFm'),fsE=$('trFs');let chg=false;
+  if(fmE&&fmE.value.trim()!==TR.fm){TR.fm=fmE.value.trim();chg=true}
+  if(fsE&&fsE.value.trim()!==TR.fs){TR.fs=fsE.value.trim();chg=true}
+  clearTimeout(TR._rt);if(chg)renderTren();
+  /* bila satu mitra dipilih, rincian awal per stasiun mitra itu; bila satu stasiun dipilih, rincian per mitra */
+  TRP.lv=TR.fm?'st':(TR.fs?'mi':TRP.lv);
+  TRP.t=t||'a';TRP.k=k;TRP.g=TR.g;TRP.q='';trPopEl().hidden=false;document.body.style.overflow='hidden';trPopRender();$('trPB').scrollTop=0;
+}
+function trPopAgg(){
+  const lv=TRP.lv,M=new Map(),rn=r=>RGL.some(x=>x[0]===r)?rgName(r):'Lainnya';
+  const get=r=>{const key=lv==='rg'?r.rg:lv==='mi'?r.mi:r.mi+'\t'+r.st;let o=M.get(key);if(!o){o={name:lv==='rg'?rn(r.rg):lv==='mi'?r.mi:r.st,sub:lv==='st'?r.mi:lv==='mi'?rn(r.rg):'',an:0,aa:0,ai:0,at:0,ad:0,al:0,rn:0,ra:0,rb:0,rc:0};M.set(key,o)}return o};
+  trF1rows().filter(r=>trBk(r.d,TRP.g)===TRP.k).forEach(r=>{const o=get(r);o.an+=r.n;o.aa+=r.na;o.ai+=r.ni+r.nt+r.ng;o.ad+=r.nd+r.nl});
+  trRegRows1().filter(r=>trBk(r.d,TRP.g)===TRP.k).forEach(r=>{const o=get(r);o.rn+=r.n;o.ra+=r.na;o.rb+=r.nb;o.rc+=r.nc});
+  const key=TRP.t==='r'?'rn':'an';
+  return [...M.values()].sort((a,b)=>b[key]-a[key]||b.an+b.rn-a.an-a.rn||a.name.localeCompare(b.name,'id'));
+}
+function trPopRender(){
+  const lv=TRP.lv,all=trPopAgg(),q=TRP.q.toLowerCase(),list=q?all.filter(o=>(o.name+' '+o.sub).toLowerCase().includes(q)):all,ln={mi:'mitra',rg:'regional',st:'stasiun'}[lv];
+  const S=all.reduce((s,o)=>{['an','aa','ai','at','ad','al','rn','ra','rb','rc'].forEach(k=>s[k]+=o[k]);return s},{an:0,aa:0,ai:0,at:0,ad:0,al:0,rn:0,ra:0,rb:0,rc:0});
+  TRP.list=list;TRP.total=S;
+  const pc=(a,b)=>b?pctS(a,b):'-',tin=S.an-S.aa;
+  const st=(l,v,b,c)=>`<div class="trp-st" style="--c:${c}"><span>${l}</span><b>${nf(v)}</b><i>${b==null?'':pc(v,b)}</i></div>`;
+  $('trPT').textContent=trLabFull(TRP.k,TRP.g);document.querySelector('#trPop .eyebrow').textContent='Registrasi dan aktivasi pelanggan';
+  $('trPS').textContent=`${nf(S.rn)} registrasi · ${nf(S.an)} aktivasi · ${nf(all.length)} ${ln}${TR.fr?' · '+rgName(TR.fr):''}${TR.fm?' · mitra: '+TR.fm:''}${TR.fs?' · stasiun: '+TR.fs:''}`;
+  $('trPSum').innerHTML=`<div class="trp-g"><h4>Registrasi <b>${nf(S.rn)}</b></h4><div class="trp-r">${st('Teraktivasi',S.ra,S.rn,TRSEG.r[0][1])}${st('Belum aktivasi',S.rb,S.rn,TRSEG.r[1][1])}${st('Cancel',S.rc,S.rn,TRSEG.r[2][1])}</div></div><div class="trp-g"><h4>Aktivasi <b>${nf(S.an)}</b></h4><div class="trp-r">${st('Aktif',S.aa,S.an,TRSEG.a[0][1])}${st('Tidak Aktif',tin,S.an,TRSEG.a[1][1])}</div><p class="foot" style="margin:4px 0 0">Tidak Aktif: isolir (suspend + RTD + dismantling) ${nf(S.ai)} · dismantled ${nf(S.ad)}${S.al?' · lainnya '+nf(S.al):''}</p></div>`;
+  $('trPSeg').innerHTML=trSeg('trpl',[['mi','Per mitra'],['rg','Per regional'],['st','Per stasiun']],lv)+(lv==='rg'?'':`<input type="search" id="trPQ" class="tr-q" placeholder="Cari ${ln}" value="${esc(TRP.q)}" aria-label="Cari ${ln}">`)+trSeg('trpo',[['a','Urut: Aktivasi'],['r','Urut: Registrasi']],TRP.t);
+  const mx=Math.max(1,...all.map(o=>TRP.t==='r'?o.rn:o.an)),cell=(v,b)=>`<td class="n">${nf(v)}<small>${pc(v,b)}</small></td>`;
+  $('trPB').innerHTML=`<div class="tw scrollbox" style="max-height:52vh"><table class="wo-t rg-t trp-t"><colgroup><col style="width:30px"><col><col style="width:62px"><col style="width:94px"><col style="width:76px"><col style="width:68px"><col style="width:66px"><col style="width:78px"><col style="width:84px"></colgroup><thead><tr><th rowspan="2">#</th><th rowspan="2">${ln[0].toUpperCase()+ln.slice(1)}</th><th class="n gR" colspan="4">Registrasi</th><th class="n gA" colspan="3">Aktivasi</th></tr><tr><th class="n">Total</th><th class="n">Teraktivasi</th><th class="n">Belum aktivasi</th><th class="n">Cancel</th><th class="n">Total</th><th class="n">Aktif</th><th class="n">Tidak Aktif</th></tr></thead><tbody>${list.map((o,i)=>`<tr><td>${i+1}</td><td><b>${esc(o.name)}</b>${o.sub?`<span class="wo-mut trp-sub">${esc(o.sub)}</span>`:''}<span class="trp-bar"><i style="width:${((TRP.t==='r'?o.rn:o.an)/mx*100).toFixed(1)}%;background:${TRP.t==='r'?TRC.reg:TRC.act}"></i></span></td><td class="n"><b>${nf(o.rn)}</b></td>${cell(o.ra,o.rn)}${cell(o.rb,o.rn)}${cell(o.rc,o.rn)}<td class="n"><b>${nf(o.an)}</b></td>${cell(o.aa,o.an)}${cell(o.an-o.aa,o.an)}</tr>`).join('')||'<tr><td colspan="9" class="wo-mut">Tidak ada data.</td></tr>'}</tbody></table></div><p class="foot" style="margin:6px 0 0">Persen dihitung dari total registrasi atau total aktivasi pada baris yang sama. Tidak Aktif = isolir, RTD, dismantled, dan lainnya. Bilah di bawah nama menunjukkan ${TRP.t==='r'?'registrasi':'aktivasi'} terbanyak.</p>`;
+  document.querySelectorAll('#trPSeg [data-trpl]').forEach(b=>b.onclick=()=>{TRP.lv=b.dataset.trpl;TRP.q='';trPopRender()});
+  document.querySelectorAll('#trPSeg [data-trpo]').forEach(b=>b.onclick=()=>{TRP.t=b.dataset.trpo;trPopRender()});
+  const qi=$('trPQ');if(qi)qi.oninput=e=>{TRP.q=e.target.value;const p=e.target.selectionStart;trPopRender();const n=$('trPQ');if(n){n.focus();n.setSelectionRange(p,p)}};
+}
+/* filter pencarian khusus bagian 1: regional, nama mitra, dan nama stasiun (mengandung teks, tidak peka huruf besar/kecil) */
+const trHas=(v,q)=>!q||String(v).toLowerCase().includes(q.toLowerCase());
+const trMgOk=r=>!TR.mg||r.k===(TR.mg==='mig'?'migrasi':'non');
+const trF1rows=()=>trFilt().filter(r=>trMgOk(r)&&(!TR.fr||r.rg===TR.fr)&&trHas(r.mi,TR.fm)&&trHas(r.st,TR.fs));
+const trRegRows1=()=>trRegRows().filter(r=>trMgOk(r)&&(!TR.fr||r.rg===TR.fr)&&trHas(r.mi,TR.fm)&&trHas(r.st,TR.fs));
+const TRO={fm:[],fs:[]};
+function trFilterUi(){
+  const base=trRows().filter(r=>(!TR.rg||r.rg===TR.rg)&&(!TR.fr||r.rg===TR.fr)),rn=r=>RGL.some(x=>x[0]===r)?rgName(r):'Lainnya';
+  const mm=new Map();base.forEach(r=>{if(!mm.has(r.mi))mm.set(r.mi,rn(r.rg))});
+  TRO.fm=[...mm].map(([v,sub])=>({v,sub})).sort((a,b)=>a.v.localeCompare(b.v,'id'));
+  const sm=new Map();base.forEach(r=>{if(!trHas(r.mi,TR.fm))return;let o=sm.get(r.st);if(!o)sm.set(r.st,o={v:r.st,mis:new Set()});o.mis.add(r.mi)});
+  TRO.fs=[...sm.values()].map(o=>({v:o.v,sub:o.mis.size===1?[...o.mis][0]:o.mis.size+' mitra digabung'})).sort((a,b)=>a.v.localeCompare(b.v,'id'));
+  const cb=(id,k,ph,val,lb)=>`<div class="tr-cb" data-f="${k}"><input type="search" id="${id}" class="tr-q" placeholder="${ph}" value="${esc(val)}" aria-label="${lb}" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"><div class="tr-dd" role="listbox" hidden></div></div>`;
+  return `<span class="tr-f"><select id="trFr" class="tr-q" aria-label="Filter regional pada grafik"><option value="">Semua regional</option>${RGL.map(([k,n])=>`<option value="${esc(k)}"${TR.fr===k?' selected':''}>${n}</option>`).join('')}</select>${cb('trFm','fm','Cari mitra…',TR.fm,'Filter mitra pada grafik')}${cb('trFs','fs','Cari stasiun…',TR.fs,'Filter stasiun pada grafik')}${TR.fr||TR.fm||TR.fs?'<button type="button" id="trFx" class="tr-fx">Reset</button>':''}</span>`;
+}
+/* kotak saran khusus: muncul tepat di bawah kotak pencarian, bisa dipilih dengan mouse atau keyboard */
+function trBindCb(){
+  const hl=(s,q)=>{if(!q)return esc(s);const i=s.toLowerCase().indexOf(q);return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))};
+  document.querySelectorAll('#v-tren .tr-cb').forEach(cb=>{
+    const k=cb.dataset.f,inp=cb.querySelector('input'),dd=cb.querySelector('.tr-dd');let act=-1,list=[];
+    const pick=o=>{TR[k]=o.v;renderTren()};
+    const draw=()=>{
+      const q=inp.value.trim().toLowerCase(),all=(TRO[k]||[]).filter(o=>!q||o.v.toLowerCase().includes(q));list=all.slice(0,80);
+      dd.innerHTML=`<div class="tr-dd-h">${all.length?`${nf(all.length)} ${k==='fm'?'mitra':'stasiun'}${q?' cocok':''}`:'Tidak ada hasil'}${TR[k]?'<button type="button" data-clr="1">Hapus pilihan</button>':''}</div>`+list.map((o,i)=>`<div class="tr-dd-i${i===act?' on':''}${o.v===TR[k]?' sel':''}" role="option" data-i="${i}"><b>${hl(o.v,q)}</b>${o.sub?`<small>${esc(o.sub)}</small>`:''}</div>`).join('')+(all.length>list.length?`<div class="tr-dd-m">+ ${nf(all.length-list.length)} lagi, ketik untuk mempersempit</div>`:'');
+      const on=dd.querySelector('.tr-dd-i.on');if(on)on.scrollIntoView({block:'nearest'});
+    };
+    const open=()=>{draw();dd.hidden=false;inp.setAttribute('aria-expanded','true')},close=()=>{dd.hidden=true;inp.setAttribute('aria-expanded','false')};
+    inp.onfocus=open;inp.onclick=open;
+    inp.oninput=()=>{act=-1;open()};
+    inp.onkeydown=e=>{
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();if(dd.hidden)open();act=Math.max(0,Math.min(list.length-1,act+(e.key==='ArrowDown'?1:-1)));draw()}
+      else if(e.key==='Enter'){e.preventDefault();if(act>=0&&list[act])pick(list[act]);else{TR[k]=inp.value.trim();renderTren()}}
+      else if(e.key==='Escape'){close();inp.blur()}
+    };
+    dd.onmousedown=e=>{e.preventDefault();if(e.target.closest('[data-clr]')){TR[k]='';renderTren();return}const it=e.target.closest('[data-i]');if(it)pick(list[+it.dataset.i])};
+  });
+}
+if(!window.__trCbOut){window.__trCbOut=1;document.addEventListener('mousedown',e=>{if(!e.target.closest('.tr-cb'))document.querySelectorAll('.tr-cb .tr-dd').forEach(d=>{d.hidden=true})})}const trHeadVb=(n,t,s)=>rgHead(n,t,s).replace('</h2>','</h2><span class="tr-vb">(tidak termasuk Viberlink)</span>');
+/* ---------- 1. tren aktivasi ---------- */
+function trS1(){
+  if(!TR.rows)return `<section class="card rg-sec" id="tr1">${trHeadVb(1,'Tren registrasi dan aktivasi','')}<div class="note">${TR.err?esc(TR.err):'Memuat data aktivasi (±1 menit untuk pertama kali)…'}</div></section>`;
+  const g=TR.g,N=TR.n[g],rows=trF1rows(),ser=trSeries(rows,g),rser=trSeries(trRegRows1(),g),sa=trSer2(rows,g,['n','na','ni','nt','ng','nd','nl']),sg=trSer2(trRegRows1(),g,['n','na','nb','nc']),keys2=trKeys(g,N*2),prev=keys2.slice(0,N),cur=keys2.slice(N);
+  const v=cur.map(k=>ser.get(k)||0),tot=v.reduce((a,b)=>a+b,0),ptot=trSum(ser,prev),W=g==='d'?7:g==='w'?4:3;
+  const ma=v.map((_,i)=>{const a=v.slice(Math.max(0,i-W+1),i+1);return a.reduce((x,y)=>x+y,0)/a.length});
+  const full=g==='d'?v:v.slice(0,-1), pk=cur.reduce((b,k,i)=>v[i]>b.v?{k,v:v[i]}:b,{k:'',v:-1});
+  const avg=full.length?full.reduce((a,b)=>a+b,0)/full.length:0, li=(!v[v.length-1]&&v.length>1)?v.length-2:v.length-1,last=v[li],before=v[li-1];
+  const chips=({d:[14,30,60,90],w:[8,12,26,52],m:[6,12,24]})[g].map(x=>`<button data-trn="${x}" class="${TR.n[g]===x?'on':''}">${x} ${trGName[g]}</button>`).join('');
+  const tile=(l,b,s,c)=>`<div class="tr-t" style="--c:${c}"><span>${l}</span><b>${b}</b><i>${s}</i></div>`;
+  const gA=k=>sa.get(k)||{n:0,na:0},gR=k=>sg.get(k)||{n:0,na:0,nb:0,nc:0},sumNa=cur.reduce((s,k)=>s+gA(k).na,0);
+  const sumA=f=>cur.reduce((s,k)=>s+((sa.get(k)||{})[f]||0),0),sumR=f=>cur.reduce((s,k)=>s+((sg.get(k)||{})[f]||0),0);
+  const RR={n:sumR('n'),a:sumR('na'),b:sumR('nb'),c:sumR('nc')},AA={n:sumA('n'),a:sumA('na'),i:sumA('ni')+sumA('nt')+sumA('ng'),d:sumA('nd')+sumA('nl'),l:0};
+  const bkc=(l,v,b,c,tc,tt)=>`<div class="tr-bc" style="--c:${c};--t:${tc}" title="${tt||l}"><span>${l}</span><b>${nf(v)}</b><i>${b?pctS(v,b):'-'}</i></div>`;
+  const bkRow=`<div class="tr-bk"><div class="tr-bg" style="flex:3"><em>Registrasi</em><div class="tr-bcs">${bkc('Aktif',RR.a,RR.n,TRSEG.r[0][1],'#c2410c','Sudah teraktivasi (pernah aktif)')}${bkc('Progres',RR.b,RR.n,TRSEG.r[1][1],'#b45309','Belum aktivasi: menunggu instalasi, WO belum cancel')}${bkc('Cancel',RR.c,RR.n,TRSEG.r[2][1],'#b91c1c','WO cancel atau dibatalkan')}</div></div><i class="sep"></i><div class="tr-bg" style="flex:${AA.l?4:3}"><em>Aktivasi</em><div class="tr-bcs">${bkc('Aktif',AA.a,AA.n,'#16a34a','#15803d','Status aktif (termasuk waiting first payment)')}${bkc('Isolir',AA.i,AA.n,'#8b5cf6','#6d28d9','Suspend + Ready to dismantle + Dismantling')}${bkc('Dismantled',AA.d,AA.n,'#475569','#334155','Dismantled + inactive + canceled installation')}${AA.l?bkc('Lainnya',AA.l,AA.n,'#94a3b8','#475569','Status lain: inactive, canceled installation'):''}</div></div></div>`;  const chart=trScChart({title:`Registrasi dan aktivasi per ${trGName[g]}`,labels:cur,v,ma,g,W,r:cur.map(k=>gR(k).n),A:cur.map(k=>[gA(k).na,gA(k).n-gA(k).na]),R:cur.map(k=>[gR(k).na,gR(k).nb,gR(k).nc])});
+  const tb=cur.map((k,i)=>[trLabFull(k,g),nf(v[i]),nf(gA(k).na),nf(gA(k).n-gA(k).na),i?rgDelta(v[i],v[i-1]):'-',nf(gR(k).n),nf(gR(k).na),nf(gR(k).nb),nf(gR(k).nc)]).reverse();
+  const ex=rows.length?'':'<div class="note">Tidak ada data aktivasi untuk filter ini.</div>';
+  return `<section class="card rg-sec" id="tr1">${trHeadVb(1,'Tren registrasi dan aktivasi',`semua pelanggan yang pernah aktif, per ${trGName[g]} · berdasarkan tanggal aktif${TR.mg==='mig'?' · hanya migrasi':TR.mg==='non'?' · tanpa migrasi':''}${TR.fr?' · '+esc(rgName(TR.fr)):''}${TR.fm?' · mitra: '+esc(TR.fm):''}${TR.fs?' · stasiun: '+esc(TR.fs):''}`)}
+    <div class="tr-ctl">${trSeg('trg',[['d','Per hari'],['w','Per minggu'],['m','Per bulan']],g)}<span class="wo-chips">${chips}</span>${trSeg('trmg',[['','Semua'],['non','Tanpa migrasi'],['mig','Migrasi']],TR.mg)}${trFilterUi()}</div>
+    <div class="tr-tiles">${tile('Total registrasi',nf(RR.n),`${N} ${trGName[g]} terakhir${trSum(rser,prev)?` · ${rgDelta(RR.n,trSum(rser,prev))||'-'} dari ${N} ${trGName[g]} sebelumnya (${nf(trSum(rser,prev))})`:''} · teraktivasi ${pfW(pcW(RR.a,RR.n))}`,TRC.reg)}${tile('Total aktivasi',nf(tot),`${N} ${trGName[g]} terakhir${ptot?` · ${rgDelta(tot,ptot)||'-'} dari ${N} ${trGName[g]} sebelumnya (${nf(ptot)})`:''} · masih aktif ${pfW(pcW(sumNa,tot))}`,TRC.act)}${tile(`Rata-rata per ${trGName[g]}`,f1(avg),g==='d'?'termasuk akhir pekan':'tidak termasuk '+trGName[g]+' berjalan',TRC.ma)}${tile('Puncak',nf(Math.max(0,pk.v)),pk.k?trLabFull(pk.k,g):'-','#059669')}${tile(`${g==='d'?'Hari':g==='w'?'Minggu':'Bulan'} terakhir${g==='m'?'':' ('+trLab(cur[li],'d')+')'}`,nf(last||0),before!=null?`${rgDelta(last||0,before)||'-'} dari sebelumnya${g==='d'||li<v.length-1?'':' · belum penuh'}`:'-','#7c3aed')}</div>
+    ${ex}${chart}${bkRow}
+    <details class="tr-det"><summary>Tabel angka per ${trGName[g]}</summary>${rgTbl([g==='m'?'Bulan':g==='w'?'Minggu':'Tanggal','Aktivasi','Masih aktif','Tidak aktif','vs sebelumnya','Registrasi','Teraktivasi','Belum aktivasi','Cancel'],tb)}</details></section>`;
+}
+
+/* ---------- 2. durasi registrasi, WO, sampai aktif ---------- */
+const TRB=['0 hari','1 hari','2–3 hari','4–7 hari','8–14 hari','15–30 hari','> 30 hari'];
+function trMonths(){const ms=rgMonths(+TR.per);return {cur:ms,prev:rgMonths(2*+TR.per).slice(0,+TR.per)}}
+function trDurRows(ms){const set=new Set(ms);return (WO.dur||[]).filter(o=>set.has(o.m)&&(!TR.rg||o.rg===TR.rg)&&(!TR.mi||o.mi===TR.mi))}
+const TRDP=[['1','Bulan ini'],['3','3 bulan'],['6','6 bulan'],['12','12 bulan']];
+const trDurLab=()=>TR.dp==='1'?'bulan ini':TR.dp+' bulan terakhir';
+/* durasi per regional / mitra (dipakai tabel dan Excel) */
+function trDurTable(lv){
+  const cur=rgMonths(+TR.dp),M=new Map();
+  trDurRows(cur).forEach(o=>{
+    const key=lv==='rg'?o.rg:o.mi;let a=M.get(key);
+    if(!a)M.set(key,a={name:lv==='rg'?rgName(o.rg):o.mi,sub:lv==='mi'?(RGL.some(x=>x[0]===o.rg)?rgName(o.rg):'Lainnya'):'',rg:o.rg,nr:0,sr:0,f3:0,f31:0,n:0,sw:0});
+    a.nr+=o.nr;a.sr+=o.sr;a.f3+=o.rd[0]+o.rd[1]+o.rd[2];a.f31+=o.rd[6];a.n+=o.n;a.sw+=o.sw;
+  });
+  let l=[...M.values()];if(lv==='rg')l=l.filter(a=>RGL.some(x=>x[0]===a.rg));
+  return l.sort((a,b)=>b.nr-a.nr||a.name.localeCompare(b.name,'id'));
+}
+function trS2(){
+  if(!WO.dur)return `<section class="card rg-sec" id="tr2">${rgHead(2,'Durasi registrasi → WO terbit → aktif','')}<div class="note">${WO.err||WO.durErr?esc(WO.err||WO.durErr):'Memuat data durasi…'}</div></section>`;
+  const cur=rgMonths(+TR.dp),L=trDurRows(cur),T=L.reduce((a,o)=>{a.nr+=o.nr;a.sr+=o.sr;a.n+=o.n;a.sw+=o.sw;a.neg+=o.neg;o.rd.forEach((x,i)=>a.rd[i]+=x);o.d.forEach((x,i)=>a.d[i]+=x);return a},{nr:0,sr:0,n:0,sw:0,neg:0,rd:Array(7).fill(0),d:Array(7).fill(0)});
+  const f3=T.rd[0]+T.rd[1]+T.rd[2],f31=T.rd[6];
+  const pp=TR.rg&&!TR.mi?cur.map(m=>WO.durP&&WO.durP.get(TR.rg+'|'+m)).filter(Boolean):[];
+  const med=pp.length?woMed(pp.map(p=>p.p50r).filter(x=>!isNaN(x))):null;
+  const mon=cur.map(m=>{const r=L.filter(o=>o.m===m),a=r.reduce((t,o)=>({nr:t.nr+o.nr,sr:t.sr+o.sr,n:t.n+o.n,sw:t.sw+o.sw,f3:t.f3+o.rd[0]+o.rd[1]+o.rd[2]}),{nr:0,sr:0,n:0,sw:0,f3:0});return {m,...a}});
+  const tile=(l,b,s,c)=>`<div class="tr-t" style="--c:${c}"><span>${l}</span><b>${b}</b><i>${s}</i></div>`;
+  const chart=cur.length>1?trChart({title:'Rata-rata durasi per bulan aktif (hari)',labels:cur,aria:'Tren durasi',h:230,right:true,lines:[{l:'Registrasi → aktif',c:TRC.reg,v:mon.map(a=>a.nr?a.sr/a.nr:null),dots:true},{l:'WO terbit → aktif',c:TRC.wo,v:mon.map(a=>a.n?a.sw/a.n:null),dots:true}],fmt:l=>woMon(l),tip:l=>woMon(l)}):'';
+  const mx=Math.max(1,...T.rd,...T.d);
+  const dist=(arr,tot,c)=>`<div class="wo-bl">${arr.map((n,i)=>`<div class="wo-bi" style="--c:${c}"><span class="l">${TRB[i]}</span><span class="tr"><i style="width:${pcW(n,mx).toFixed(1)}%"></i></span><span class="v"><b>${nf(n)}</b><small>${pfW(pcW(n,tot))}</small></span></div>`).join('')}</div>`;
+  const tb=mon.slice().reverse().map(a=>[woMon(a.m),nf(a.nr),a.nr?f1(a.sr/a.nr):'-',a.nr?pfW(pcW(a.f3,a.nr)):'-',a.n?f1(a.sw/a.n):'-']);
+  /* per regional / mitra */
+  const lv=TR.dl,q=TR.dq.toLowerCase(),all=trDurTable(lv),list=(lv==='mi'&&q?all.filter(a=>(a.name+' '+a.sub).toLowerCase().includes(q)):all).slice(0,300);
+  const hd=[lv==='rg'?'Regional':'Mitra','Aktivasi','Reg → aktif (hr)','Aktif ≤ 3 hari','Reg → aktif > 30 hari','WO → aktif (hr)','Reg → WO (hr)'];
+  const row=a=>{const ra=a.nr?a.sr/a.nr:null,wa=a.n?a.sw/a.n:null;return [`<b>${esc(a.name)}</b>${a.sub?` <span class="wo-mut">· ${esc(a.sub)}</span>`:''}`,nf(a.nr),ra!=null?f1(ra):'-',a.nr?pfW(pcW(a.f3,a.nr)):'-',a.nr?pfW(pcW(a.f31,a.nr)):'-',wa!=null?f1(wa):'-',ra!=null&&wa!=null?f1(Math.max(0,ra-wa)):'-']};
+  const tbl=`<div class="tw scrollbox" style="max-height:420px"><table class="wo-t rg-t c7"><thead><tr>${hd.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')}</tr></thead><tbody>${list.map(a=>`<tr>${row(a).map((c,i)=>`<td class="${i?'n':''}">${c}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${hd.length}" class="wo-mut">Tidak ada data.</td></tr>`}</tbody></table></div>`;
+  return `<section class="card rg-sec" id="tr2">${rgHead(2,'Durasi registrasi → WO terbit → aktif',`dihitung dari pelanggan yang aktif ${trDurLab()}${TR.rg?' · '+esc(rgName(TR.rg)):''}${TR.mi?' · '+esc(TR.mi):''}`)}
+    <div class="tr-ctl">${trSeg('trdp',TRDP,TR.dp)}</div>
+    <div class="tr-tiles">${tile('Registrasi → aktif',T.nr?f1(T.sr/T.nr)+'<small> hari</small>':'-',`rata-rata · ${nf(T.nr)} pelanggan${med!=null?` · median ${f1(med)} hr`:''}`,TRC.reg)}${tile('Aktif ≤ 3 hari dari registrasi',T.nr?pfW(pcW(f3,T.nr)):'-',`${nf(f3)} pelanggan · lebih dari 30 hari: ${T.nr?pfW(pcW(f31,T.nr)):'-'}`,'#059669')}${tile('WO terbit → aktif',T.n?f1(T.sw/T.n)+'<small> hari</small>':'-',`rata-rata · ${nf(T.n)} pelanggan dengan WO`,TRC.wo)}${tile('Registrasi → WO terbit',T.nr&&T.n?f1(Math.max(0,T.sr/T.nr-T.sw/T.n))+'<small> hari</small>':'-','selisih rata-rata registrasi→aktif dan WO→aktif','#b45309')}</div>
+    <div class="rg-g2"><div class="rg-ch"><h4>Sebaran registrasi → aktif</h4>${dist(T.rd,T.nr,TRC.reg)}</div><div class="rg-ch"><h4>Sebaran WO terbit → aktif</h4>${dist(T.d,T.n,TRC.wo)}</div></div>
+    ${chart}
+    <h4 class="rg-h4">Durasi per ${lv==='rg'?'regional':'mitra'} · ${trDurLab()}</h4>
+    <div class="tr-ctl">${trSeg('trdl',[['rg','Per regional'],['mi','Per mitra']],lv)}${lv==='mi'?`<input type="search" id="trDQ" class="tr-q" placeholder="Cari mitra" value="${esc(TR.dq)}" aria-label="Cari mitra">`:''}</div>
+    ${tbl}<p class="foot" style="margin:6px 0 0">${nf(list.length)} ${lv==='rg'?'regional':'mitra'}${all.length>list.length&&!q?' (300 teratas, selebihnya ada di Excel)':''}. Diurutkan dari aktivasi terbanyak. Reg → WO = selisih rata-rata registrasi→aktif dan WO→aktif.</p>
+    <details class="tr-det"><summary>Tabel per bulan</summary>${rgTbl(['Bulan','Aktivasi','Rata-rata reg→aktif (hr)','Aktif ≤ 3 hari','Rata-rata WO→aktif (hr)'],tb)}</details></section>`;
+}
+/* ---------- 3 & 4. per regional / mitra / stasiun dan peringkat ---------- */
+function trAgg(){
+  const {cur,prev}=trMonths(),cs=new Set(cur),ps=new Set(prev),lv=TR.lv,M=new Map();
+  const key=(rg,mi,st)=>lv==='rg'?rg:lv==='mi'?mi:mi+'\t'+st;
+  const get=(rg,mi,st)=>{const k=key(rg,mi,st);let o=M.get(k);if(!o){o={k,rg,mi,st:lv==='st'?st:'',n:0,np:0,na:0,rn:0,rnp:0,nr:0,sr:0,f3:0,f31:0,w:0,hasDur:false};M.set(k,o)}return o};
+  trFilt().forEach(r=>{const m=r.d.slice(0,7),c=cs.has(m),p=ps.has(m);if(!c&&!p)return;const o=get(r.rg,r.mi,r.st);if(c){o.n+=r.n;o.na+=r.na}else o.np+=r.n});
+  trRegRows().forEach(r=>{const m=r.d.slice(0,7),c=cs.has(m),p=ps.has(m);if(!c&&!p)return;const o=get(r.rg,r.mi,r.st);if(c)o.rn+=r.n;else o.rnp+=r.n});
+  if(lv==='st'){(WO.durS||[]).forEach(d=>{if(!cs.has(d.m)||(TR.rg&&d.rg!==TR.rg)||(TR.mi&&d.mi!==TR.mi))return;const o=M.get(d.mi+'\t'+d.st);if(!o)return;o.nr+=d.nr;o.f3+=d.rd[0]+d.rd[1]+d.rd[2];o.f31+=d.rd[6];o.hasDur=true})}
+  else (WO.dur||[]).forEach(d=>{if(!cs.has(d.m)||(TR.rg&&d.rg!==TR.rg)||(TR.mi&&d.mi!==TR.mi))return;const o=M.get(lv==='rg'?d.rg:d.mi);if(!o)return;o.nr+=d.nr;o.sr+=d.sr;o.f3+=d.rd[0]+d.rd[1]+d.rd[2];o.f31+=d.rd[6];o.hasDur=true});
+  (WO.rows||[]).forEach(r=>{if(r.s!=='wfi'||(TR.rg&&r.rg!==TR.rg)||(TR.mi&&r.mi!==TR.mi))return;const k=lv==='rg'?r.rg:lv==='mi'?r.mi:r.mi+'\t'+r.st,o=M.get(k);if(o)o.w++});
+  let list=[...M.values()];
+  if(lv==='rg')list=list.filter(o=>RGL.some(x=>x[0]===o.rg));
+  list.forEach(o=>{o.name=lv==='rg'?rgName(o.rg):lv==='mi'?o.mi:o.st;o.sub=lv==='st'?o.mi:lv==='mi'?rgName(o.rg):'';o.avg=o.sr&&o.nr?o.sr/o.nr:null;o.p3=o.nr?o.f3/o.nr*100:null});
+  return {list,months:cur.length};
+}
+const trLvSeg=()=>trSeg('trl',[['rg','Per regional'],['mi','Per mitra'],['st','Per stasiun']],TR.lv)+`<span class="wo-chips">${[['3','3 bulan'],['6','6 bulan'],['12','12 bulan']].map(([v,l])=>`<button data-trp="${v}" class="${TR.per===v?'on':''}">${l}</button>`).join('')}</span>`;
+function trS3(A){
+  if(!TR.rows)return `<section class="card rg-sec" id="tr3">${rgHead(3,'Analisa per regional, mitra, dan stasiun','')}<div class="note">Memuat data aktivasi…</div></section>`;
+  const q=TR.q.toLowerCase(),L=A.list.slice().sort((a,b)=>b.n-a.n||b.np-a.np||a.name.localeCompare(b.name,'id')).filter(o=>!q||(o.name+' '+o.sub).toLowerCase().includes(q));
+  const lvn={rg:'regional',mi:'mitra',st:'stasiun'}[TR.lv],hd=[lvn[0].toUpperCase()+lvn.slice(1),'Aktivasi',`vs ${A.months} bln lalu`,'Masih aktif','Registrasi','Rata-rata / bulan',TR.lv==='st'?'Reg→aktif > 30 hari':'Reg→aktif (hr)','Aktif ≤ 3 hari','Menunggu instalasi'];
+  const rows=L.slice(0,300).map(o=>[o.sub?`${o.name}`:o.name,nf(o.n),rgDelta(o.n,o.np)||'-',o.n?pfW(pcW(o.na,o.n)):'-',nf(o.rn),f1(o.n/A.months),TR.lv==='st'?(o.nr?pfW(pcW(o.f31,o.nr)):'-'):(o.avg!=null?f1(o.avg):'-'),o.nr?pfW(o.p3):'-',nf(o.w)]);
+  if(TR.lv!=='rg')rows.forEach((r,i)=>{const s=L[i].sub;if(s)r[0]=`${esc(L[i].name)} <span class="wo-mut">· ${esc(s)}</span>`;});
+  const body=`<div class="tw scrollbox" style="max-height:460px"><table class="wo-t rg-t c7"><thead><tr>${hd.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr>${r.map((c,j)=>`<td class="${j?'n':''}">${j?c:(TR.lv==='rg'?`<b>${esc(c)}</b>`:`<b>${c}</b>`)}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${hd.length}" class="wo-mut">Tidak ada data.</td></tr>`}</tbody></table></div>`;
+  return `<section class="card rg-sec" id="tr3">${rgHead(3,'Analisa per regional, mitra, dan stasiun',`aktivasi ${A.months} bulan terakhir dibanding ${A.months} bulan sebelumnya`)}
+    <div class="tr-ctl">${trLvSeg()}${TR.lv==='rg'?'':`<input type="search" id="trQ" class="tr-q" placeholder="Cari ${lvn}" value="${esc(TR.q)}" aria-label="Cari ${lvn}">`}</div>
+    ${body}<p class="foot" style="margin:6px 0 0">${nf(L.length)} ${lvn}${L.length>300?' (300 teratas ditampilkan, selebihnya ada di Excel)':''}. Menunggu instalasi = pelanggan registrasi yang belum aktif dan WO-nya belum cancel. Reg→aktif dan Aktif ≤ 3 hari dihitung hanya dari pelanggan yang punya tanggal registrasi, sehingga basisnya bisa lebih kecil dari kolom Aktivasi (pelanggan lama atau hasil migrasi tidak punya tanggal registrasi).</p></section>`;
+}
+function trS4(A){
+  if(!TR.rows)return `<section class="card rg-sec" id="tr4">${rgHead(4,'Peringkat','')}<div class="note">Memuat data aktivasi…</div></section>`;
+  const lvn={rg:'regional',mi:'mitra',st:'stasiun'}[TR.lv],minN=TR.lv==='rg'?1:20;
+  const nm=o=>o.sub?`${esc(o.name)} <span class="wo-mut">· ${esc(o.sub)}</span>`:esc(o.name);
+  const rank=(title,sub,arr,val,col,fmt)=>{const mx=Math.max(1e-9,...arr.map(val));return `<div class="tr-rk"><h4>${title}</h4><span class="foot">${sub}</span><ol>${arr.slice(0,10).map((o,i)=>`<li style="--c:${col}"><em>${i+1}</em><span class="nm">${nm(o)}</span><span class="bar"><i style="width:${Math.max(2,val(o)/mx*100).toFixed(1)}%"></i></span><b>${fmt(o)}</b></li>`).join('')||'<li class="wo-mut">Tidak ada data.</li>'}</ol></div>`};
+  const a=A.list.filter(o=>o.n>0).sort((x,y)=>y.n-x.n);
+  const fast=A.list.filter(o=>o.nr>=minN&&(TR.lv==='st'?true:o.avg!=null)).sort((x,y)=>TR.lv==='st'?y.p3-x.p3||y.nr-x.nr:x.avg-y.avg||y.nr-x.nr);
+  const wait=A.list.filter(o=>o.w>0).sort((x,y)=>y.w-x.w);
+  return `<section class="card rg-sec" id="tr4">${rgHead(4,'Peringkat registrasi dan aktivasi',`10 ${lvn} teratas · ${A.months} bulan terakhir`)}
+    <div class="tr-ctl">${trLvSeg()}</div>
+    <div class="tr-rks">${rank('Aktivasi terbanyak','jumlah pelanggan aktif',a,o=>o.n,TRC.act,o=>nf(o.n))}${rank('Registrasi terbanyak','jumlah pelanggan yang mendaftar',A.list.filter(o=>o.rn>0).sort((x,y)=>y.rn-x.rn),o=>o.rn,TRC.reg,o=>nf(o.rn))}${rank('Registrasi → aktif tercepat',TR.lv==='st'?`% aktif ≤ 3 hari (min ${minN} aktivasi)`:`rata-rata hari${minN>1?' (min '+minN+' aktivasi)':''}`,fast,o=>TR.lv==='st'?o.p3:Math.max(0.1,(fast.length?Math.max(...fast.map(x=>x.avg)):1)-o.avg+0.1),TRC.reg,o=>TR.lv==='st'?pfW(o.p3):f1(o.avg)+' hr')}${rank('Registrasi belum aktif terbanyak','menunggu instalasi, WO belum cancel',wait,o=>o.w,'#dc2626',o=>nf(o.w))}</div></section>`;
+}
+function trExport(){
+  const {cur}=trMonths(),rows=trFilt(),res=[];
+  const mk=(lv)=>{const old=TR.lv;TR.lv=lv;const A=trAgg();TR.lv=old;return A.list.sort((a,b)=>b.n-a.n).map(o=>[o.name,o.sub,o.n,o.np,o.na,o.rn,+(o.n/A.months).toFixed(1),o.avg!=null?+o.avg.toFixed(2):'',o.nr?+o.p3.toFixed(1):'',o.w])};
+  const H=['Nama','Induk','Aktivasi periode','Aktivasi periode lalu','Aktivasi masih aktif (periode)','Registrasi periode','Rata-rata/bulan','Reg→aktif rata-rata (hr)','Aktif ≤3 hari (%)','Menunggu instalasi'];
+  ['d','w','m'].forEach(g=>{const ser=trSeries(rows,g),rs=trRegSeries(g),sa=trSer2(rows,g,['n','na','ni','nt','ng','nd','nl']),sg=trSer2(trRegRows1(),g,['n','na','nb','nc']),ks=trKeys(g,TR.n[g]);res.push({name:'Tren per '+trGName[g],aoa:[[g==='m'?'Bulan':g==='w'?'Awal minggu':'Tanggal','Aktivasi','Aktivasi masih aktif','Aktivasi tidak aktif','Registrasi','Registrasi teraktivasi','Registrasi belum aktivasi','Registrasi cancel'],...ks.map(k=>{const a=sa.get(k)||{n:0,na:0},r=sg.get(k)||{n:0,na:0,nb:0,nc:0};return [k,a.n,a.na,a.n-a.na,r.n,r.na,r.nb,r.nc]})],cols:[14,12,18,18,12,20,24,16]})});
+  const cd=rgMonths(+TR.dp),L=trDurRows(cd);
+  res.push({name:'Durasi per bulan',aoa:[['Bulan','Aktivasi','Rata-rata reg→aktif (hr)','Aktif ≤3 hari (%)','Rata-rata WO→aktif (hr)'],...cd.map(m=>{const r=L.filter(o=>o.m===m),nr=r.reduce((s,o)=>s+o.nr,0),sr=r.reduce((s,o)=>s+o.sr,0),f3=r.reduce((s,o)=>s+o.rd[0]+o.rd[1]+o.rd[2],0),n=r.reduce((s,o)=>s+o.n,0),sw=r.reduce((s,o)=>s+o.sw,0);return [m,nr,nr?+(sr/nr).toFixed(2):'',nr?+(f3/nr*100).toFixed(1):'',n?+(sw/n).toFixed(2):'']})],cols:[10,12,22,16,22]});
+  const dh=['Nama','Induk','Aktivasi','Reg→aktif rata-rata (hr)','Aktif ≤3 hari (%)','Reg→aktif >30 hari (%)','WO→aktif rata-rata (hr)'];
+  const dr=lv=>trDurTable(lv).map(a=>[a.name,a.sub,a.nr,a.nr?+(a.sr/a.nr).toFixed(2):'',a.nr?+(a.f3/a.nr*100).toFixed(1):'',a.nr?+(a.f31/a.nr*100).toFixed(1):'',a.n?+(a.sw/a.n).toFixed(2):'']);
+  res.push({name:'Durasi per regional',aoa:[dh,...dr('rg')],cols:[22,22,12,22,16,20,22]},{name:'Durasi per mitra',aoa:[dh,...dr('mi')],cols:[34,22,12,22,16,20,22]});  res.push({name:'Per regional',aoa:[H,...mk('rg')],cols:[22,22,14,14,14,20,14,16]},{name:'Per mitra',aoa:[H,...mk('mi')],cols:[34,22,14,14,14,20,14,16]},{name:'Per stasiun',aoa:[H,...mk('st')],cols:[30,30,14,14,14,20,14,16]});
+  exportSheets(`tren-aktivasi-registrasi-${todayWib().replace(/-/g,'')}.xlsx`,res,res.length);
+}
+function renderTren(){
+  const el=$('v-tren');if(!el)return;
+  if(!WO.rows&&!WO.busy&&!WO.err)woLoad().then(()=>{if(CUR==='tren'){renderTren();updateHeader()}});
+  if(!TR.reg&&!TR.regBusy&&!TR.regErr)trLoadReg().then(()=>{if(CUR==='tren')renderTren()});
+  if(!TR.rows&&!TR.busy&&!TR.err)trLoad().then(()=>{if(CUR==='tren'){renderTren();updateHeader()}});
+  const y=window.scrollY,rg=trRows(),mis=[...new Set(rg.filter(r=>!TR.rg||r.rg===TR.rg).map(r=>r.mi))].sort((a,b)=>a.localeCompare(b,'id'));
+  if(TR.mi&&TR.rows&&!mis.includes(TR.mi))TR.mi='';
+  const A=trAgg();
+  el.innerHTML=`<div class="sechead"><div><div class="eyebrow">Tren aktivasi & registrasi</div><h2 class="big">Tren Aktivasi &amp; Registrasi</h2></div>
+    <div class="ctl"><button id="trX" class="xls">Download Excel</button></div></div>
+
+
+    ${trS1()}${trS2()}${trS3(A)}${trS4(A)}
+    <p class="note"><b>Catatan.</b> Aktivasi = semua pelanggan yang pernah aktif menurut tanggal aktif, termasuk yang sekarang isolir, RTD, atau dismantled (warna abu-abu = sudah tidak aktif). Registrasi: teraktivasi = pernah aktif, belum aktivasi = menunggu instalasi (WO belum cancel), cancel = WO cancel atau dibatalkan; pelanggan lama tanpa tanggal registrasi tidak ikut terhitung. Regional memakai data regional pelanggan di database.</p>`;
+  const sc=(sel,fn)=>el.querySelectorAll(sel).forEach(fn);
+  sc('[data-trp]',b=>b.onclick=()=>{TR.per=b.dataset.trp;renderTren()});
+  sc('[data-trdp]',b=>b.onclick=()=>{TR.dp=b.dataset.trdp;renderTren()});
+  sc('[data-trdl]',b=>b.onclick=()=>{TR.dl=b.dataset.trdl;TR.dq='';renderTren()});
+  const dq=$('trDQ');if(dq)dq.oninput=e=>{TR.dq=e.target.value;const p=e.target.selectionStart;renderTren();const n=$('trDQ');if(n){n.focus();n.setSelectionRange(p,p)}};
+  [['trFm','fm'],['trFs','fs']].forEach(([id,k])=>{const e=$(id);if(e)e.onchange=()=>{TR[k]=e.value.trim();clearTimeout(TR._rt);TR._rt=setTimeout(renderTren,300)}});
+  trBindCb();
+  const fr=$('trFr');if(fr)fr.onchange=()=>{TR.fr=fr.value;TR.fm='';TR.fs='';renderTren()};
+  const fx=$('trFx');if(fx)fx.onclick=()=>{TR.fr='';TR.fm='';TR.fs='';renderTren()};
+  sc('[data-trmg]',b=>b.onclick=()=>{TR.mg=b.dataset.trmg;renderTren()});
+  sc('[data-trg]',b=>b.onclick=()=>{TR.g=b.dataset.trg;renderTren()});
+  sc('[data-trn]',b=>b.onclick=()=>{TR.n[TR.g]=+b.dataset.trn;renderTren()});
+  sc('[data-trl]',b=>b.onclick=()=>{TR.lv=b.dataset.trl;TR.q='';renderTren()});
+  sc('[data-trj]',a=>a.onclick=e=>{e.preventDefault();const n=document.getElementById(a.dataset.trj);if(n)n.scrollIntoView({behavior:'smooth',block:'start'})});
+  const q=$('trQ');if(q)q.oninput=e=>{TR.q=e.target.value;const p=e.target.selectionStart;renderTren();const n=$('trQ');if(n){n.focus();n.setSelectionRange(p,p)}};
+  $('trX').onclick=trExport;
+  sc('.trb.on',g=>{const go=()=>trPopOpen(g.dataset.k,g.dataset.t);g.onclick=go;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+  sc('.tr-sc',s=>{s.scrollLeft=s.scrollWidth});
   window.scrollTo(0,y);
 }
 
