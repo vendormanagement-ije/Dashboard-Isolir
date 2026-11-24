@@ -1019,6 +1019,7 @@ header .hl{flex:1 1 auto;min-width:0}
 .si-rv{width:100%;min-height:70px;font:inherit;border:1.5px solid #c3ccd8;border-radius:8px;padding:8px 10px}
 @media(max-width:900px){.si-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){.si-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.si-set,.si-two{grid-template-columns:1fr}.si-kv{grid-template-columns:auto 1fr}}
+.si-lk{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed #dde2e9;flex-wrap:wrap}.si-lk>div{flex:1 1 320px}
 /* ===== Seluler: tidak boleh ada konten yang melebihi lebar layar ===== */
 @media(max-width:900px){
   html,body{max-width:100%;overflow-x:hidden}
@@ -5849,19 +5850,21 @@ function tmPopExport(){
 /* ================== MENU SALES INTERNAL (monitoring Daily Report Sales Internal Starlite) ================== */
 const SI={data:null,busy:false,err:'',at:0,demo:false,day:'',per:'7',q:'',open:'',set:false};
 const SI_DEF='https://script.google.com/macros/s/AKfycbxaak82utIbXtR_U9EqeYqz_yaoDbkCAL1D9l2pib2hpgrgPefKRa8MjoBgVxmbUuxybA/exec';
+/*CORE-BEGIN*/const SI_LOK={mitra:'Kantor mitra',lapangan:'Lapangan',kantor:'Kantor',lain:'Lainnya'};/*CORE-END*/
 const SI_KEY='9b56a213a8804a0d8e1af64c814e14ea';
 const siCfg=()=>{let c=null;try{c=JSON.parse(localStorage.getItem('siCfg')||'null')}catch(e){}return {url:(c&&c.url)||SI_DEF||'',key:(c&&c.key)||SI_KEY||''}};
-const SI_ISS={community:'Community case',apps:'Apps issue',network:'Network',mitra:'Internal mitra',lain:'Lainnya'};
+/*CORE-BEGIN*/const SI_ISS={community:'Community case',apps:'Apps issue',network:'Network',mitra:'Internal mitra',lain:'Lainnya'};
 const SI_VT={join:'Join visit sales mitra',ling:'Visit lingkungan / affiliator',odp:'Cek ODP',tawar:'Penawaran langsung',temuan:'Temuan lapangan'};
 const SI_ITEM={wo:'WO open',wfp:'Waiting first payment',iso:'Isolir (suspend)',rtd:'Ready to dismantle',dis:'Dismantle'};
 const siJam=s=>{if(!s)return '-';s=String(s);if(/Z$/.test(s))s=new Date(Date.parse(s)+7*36e5).toISOString();return s.length>=16?s.slice(11,16):'-'};
 const siHp=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slice(1);else if(x[0]==='8')x='62'+x;return x};
 const siPh=id=>{if(!id)return '';if(String(id).startsWith('demo-')){try{return JSON.parse(localStorage.getItem('srDemoPh')||'{}')[id]||''}catch(e){return ''}}return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w400'};
-const siView=id=>String(id||'').startsWith('demo-')?siPh(id):'https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';
+const siView=id=>String(id||'').startsWith('demo-')?siPh(id):'https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';/*CORE-END*/
 async function siApi(action,data){
   const c=siCfg();
   if(!c.url){ /* mode demo: data dari form sales di browser yang sama */
     let D;try{D=JSON.parse(localStorage.getItem('srDemo')||'null')||{lap:[],iss:[],tl:[],sal:[]}}catch(e){D={lap:[],iss:[],tl:[],sal:[]}}
+    if(action==='sr_match'){const map={};(data.phones||[]).forEach(p=>{if(/7890$/.test(p))map[p]={status:'active',aktif:'2026-11-22'}});return {ok:true,map}}
     if(action==='sr_admin')return {ok:true,demo:true,today:todayWib(),reports:D.lap,issues:D.iss,tl:D.tl,sales:D.sal};
     if(action==='sr_review'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');r.ditinjau_at=new Date(Date.now()+7*36e5).toISOString().slice(0,19);r.catatan_review=data.note||'';localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,ditinjau_at:r.ditinjau_at}}
   }
@@ -5873,23 +5876,39 @@ async function siLoad(force){
   if(SI.busy)return;if(SI.data&&!force&&Date.now()-SI.at<5*60e3)return;
   const cf=siCfg();SI.need=!!cf.url&&!cf.key;if(SI.need)return; /* kunci admin belum diisi di browser ini */
   SI.busy=true;SI.err='';
-  try{const j=await siApi('sr_admin',{days:60});SI.data=j;SI.demo=!!j.demo;SI.at=Date.now();if(!SI.day)SI.day=j.today||todayWib()}
+  try{const j=await siApi('sr_admin',{days:60});SI.data=j;SI.demo=!!j.demo;SI.at=Date.now();if(!SI.day)SI.day=j.today||todayWib();siMatch()}
   catch(e){SI.err=(e&&e.message)||String(e)}
   SI.busy=false;
 }
 /* ---------- olah data ---------- */
+const SI_CST={active:'Aktif','waiting-for-installation':'Menunggu instalasi','waiting-first-payment':'Menunggu pembayaran pertama',suspend:'Isolir','ready-to-dismantle':'Ready to dismantle',dismantling:'Dismantling',dismantled:'Dismantled'};
+async function siMatch(){
+  const all=[];(((SI.data||{}).reports)||[]).forEach(r=>(r.visit||[]).forEach(v=>{if(v.jenis==='tawar'&&v.telp)all.push(siHp(String(v.telp).replace(/^'/,'')))}));
+  const ph=[...new Set(all)].filter(x=>x.length>=10).slice(-300);
+  if(!ph.length){SI.match={};return}
+  try{const r=await siApi('sr_match',{phones:ph});SI.match=r.map||{};SI.matchErr=''}catch(e){SI.match=null;SI.matchErr=e.message||String(e)}
+  if(CUR==='si')renderSi();
+}
+function siMatchCells(p){
+  const m=SI.match,k=siHp(String(p.telp||'').replace(/^'/,''));
+  if(!m)return `<td class="wo-mut">${SI.matchErr?'-':'memeriksa…'}</td><td>-</td>`;
+  const x=m[k];
+  if(!x)return '<td><span class="si-st no">Belum terdaftar</span></td><td>-</td>';
+  if(x.status==='active')return `<td><span class="si-st ok">Aktif</span>${x.aktif&&x.aktif<p.tanggal?'<div class="wo-mut">pelanggan lama</div>':''}</td><td>${fmtD(x.aktif)}</td>`;
+  return `<td><span class="si-st mid">${esc(SI_CST[x.status]||x.status)}</span></td><td>-</td>`;
+}
 function siCalc(){
   const D=SI.data||{reports:[],issues:[],tl:[],sales:[]},day=SI.day||todayWib(),from=trAdd(day,-(+SI.per-1));
   const reps=(D.reports||[]).filter(r=>r&&r.tanggal);
-  const sales=new Map();(D.sales||[]).forEach(s=>sales.set(siHp(s.h),{n:s.n,h:siHp(s.h)}));
-  reps.forEach(r=>{const k=siHp(r.hp);if(!sales.has(k))sales.set(k,{n:r.nama,h:k})});
+  const sales=new Map();(D.sales||[]).forEach(s=>sales.set(siHp(s.h),{n:s.n,h:siHp(s.h),j:s.j||''}));
+  reps.forEach(r=>{const k=siHp(r.hp);if(!sales.has(k))sales.set(k,{n:r.nama,h:k,j:r.jabatan||''});else if(!sales.get(k).j&&r.jabatan)sales.get(k).j=r.jabatan});
   const today=reps.filter(r=>r.tanggal===day),per=reps.filter(r=>r.tanggal>=from&&r.tanggal<=day);
   const byS=new Map();today.forEach(r=>byS.set(siHp(r.hp),r));
   const roster=[...sales.values()].map(s=>({s,r:byS.get(s.h)||null})).sort((a,b)=>(a.r?a.r.status==='lengkap'?0:1:2)-(b.r?b.r.status==='lengkap'?0:1:2)||a.s.n.localeCompare(b.s.n,'id'));
   const cnt=(r,k)=>(r.visit||[]).filter(v=>v.jenis===k).length;
   const agg=new Map();per.forEach(r=>{const k=siHp(r.hp);let o=agg.get(k);if(!o){o={n:r.nama,hari:0,lengkap:0,visit:0,join:0,ling:0,odp:0,odpY:0,tawar:0,reg:0,issue:0,tl:0,target:0,st:new Set(),late:0};agg.set(k,o)}
     o.hari++;if(r.status==='lengkap')o.lengkap++;o.visit+=(r.visit||[]).length;['join','ling','odp','tawar'].forEach(x=>o[x]+=cnt(r,x));o.odpY+=(r.visit||[]).filter(v=>v.jenis==='odp'&&v.pot==='ya').length;
-    o.reg+=(r.visit||[]).filter(v=>v.jenis==='tawar'&&v.hasil==='Langsung registrasi').length;o.issue+=(r.issue||[]).length;o.tl+=(r.tl||[]).length;o.target+=+((r.rencana||{}).target_reg)||0;o.st.add(r.stasiun);
+    o.reg+=(r.visit||[]).filter(v=>v.jenis==='tawar'&&v.hasil==='Langsung registrasi').length;o.issue+=(r.issue||[]).length;o.tl+=(r.tl||[]).length;o.target+=+((r.rencana||{}).target_reg)||0;String(r.stasiun||'').split(', ').forEach(x=>o.st.add(x));
     if(siJam(r.checkin_at)>'09:00')o.late++});
   const pros=[];per.forEach(r=>(r.visit||[]).forEach(v=>{if(v.jenis==='tawar')pros.push({tanggal:r.tanggal,sales:r.nama,mitra:r.mitra,stasiun:r.stasiun,nama:v.nama,telp:v.telp,alamat:v.alamat,paket:v.paket,hasil:v.hasil,jam:v.jam})}));
   pros.sort((a,b)=>a.tanggal<b.tanggal?1:a.tanggal>b.tanggal?-1:String(b.jam).localeCompare(String(a.jam)));
@@ -5897,7 +5916,7 @@ function siCalc(){
   return {D,day,from,reps,today,per,roster,agg:[...agg.values()].sort((a,b)=>b.visit-a.visit||b.tawar-a.tawar),pros,iss,tl};
 }
 /* ---------- tampilan ---------- */
-function siTile(l,v,s,c){return `<div class="si-tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}</div>`}
+/*CORE-BEGIN*/function siTile(l,v,s,c){return `<div class="si-tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}</div>`}/*CORE-END*/
 function siStatus(r){if(!r)return '<span class="si-st no">Belum lapor</span>';if(r.status==='lengkap')return '<span class="si-st ok">Lengkap</span>';return '<span class="si-st mid">Baru check-in</span>'}
 function siS1(C){
   const R=C.roster,ci=R.filter(x=>x.r).length,lk=R.filter(x=>x.r&&x.r.status==='lengkap').length,rv=R.filter(x=>x.r&&x.r.ditinjau_at).length,tot=R.length;
@@ -5907,8 +5926,8 @@ function siS1(C){
     <div class="si-tiles">${siTile('Sales terdaftar',nf(tot),'nama di daftar sales','#475569')}${siTile('Sudah check-in',nf(ci),pc(ci)+' dari sales','#1d4ed8')}${siTile('Laporan lengkap',nf(lk),pc(lk)+' · check-out','#15803d')}${siTile('Belum lapor',nf(tot-ci),pc(tot-ci),'#b42318')}${siTile('Sudah ditinjau',nf(rv),`dari ${nf(ci)} laporan`,'#7c3aed')}</div>
     <div class="tr-ctl"><input type="search" id="siQ" class="tr-q" placeholder="Cari sales, mitra, stasiun" value="${esc(SI.q)}" aria-label="Cari sales"></div>
     <div class="si-list">${L.map(x=>{const r=x.r,v=r?(r.visit||[]):[];return `<div class="si-li${r?'':' off'}"${r?` data-sio="${esc(r.id)}" role="button" tabindex="0"`:''}>
-      <div class="si-l1"><b>${esc(x.s.n)}</b>${siStatus(r)}${r&&r.ditinjau_at?'<span class="si-st rv">Ditinjau</span>':''}</div>
-      ${r?`<div class="si-l2"><span>${esc(r.mitra)} · <b>${esc(r.stasiun)}</b></span><span>Masuk <b>${siJam(r.checkin_at)}</b> · Pulang <b>${siJam(r.checkout_at)}</b></span><span>${nf(v.length)} visit · ${nf(v.filter(a=>a.jenis==='tawar').length)} prospek · ${nf((r.issue||[]).length)} issue · target reg ${esc((r.rencana||{}).target_reg||'-')}</span></div>`:`<div class="si-l2"><span class="wo-mut">${esc(x.s.h)} · belum ada laporan di tanggal ini</span></div>`}
+      <div class="si-l1"><b>${esc(x.s.n)}</b>${x.s.j?`<span class="wo-mut">${esc(x.s.j)}</span>`:''}${siStatus(r)}${r&&r.ditinjau_at?'<span class="si-st rv">Ditinjau</span>':''}</div>
+      ${r?`<div class="si-l2"><span>${esc(r.mitra)} · <b>${esc(r.stasiun)}</b></span><span>Masuk <b>${siJam(r.checkin_at)}</b> · Pulang <b>${siJam(r.checkout_at)}</b></span><span>${nf(v.length)} visit · ${nf(v.filter(a=>a.jenis==='tawar').length)} prospek · ${nf((r.issue||[]).length)} issue · ${esc(SI_LOK[(r.checkin||{}).lokasi]||'-')}</span></div>`:`<div class="si-l2"><span class="wo-mut">${esc(x.s.h)} · belum ada laporan di tanggal ini</span></div>`}
     </div>`}).join('')||'<p class="wo-mut">Belum ada sales terdaftar. Nama sales muncul setelah melapor pertama kali.</p>'}</div></section>`;
 }
 function siS2(C){
@@ -5920,11 +5939,12 @@ function siS2(C){
 }
 function siS3(C){
   const P=C.pros,by={};P.forEach(p=>by[p.hasil]=(by[p.hasil]||0)+1);
-  return `<section class="card rg-sec" id="si3">${rgHead(3,'Prospek dari penawaran langsung',`${nf(P.length)} calon pelanggan · ${fmtD(C.from)} – ${fmtD(C.day)}`)}
+  const act=SI.match?P.filter(p=>{const x=SI.match[siHp(String(p.telp||'').replace(/^'/,''))];return x&&x.status==='active'}).length:null;
+  return `<section class="card rg-sec" id="si3">${rgHead(3,'Prospek dari penawaran langsung',`${nf(P.length)} calon pelanggan · ${fmtD(C.from)} – ${fmtD(C.day)}${act!=null?` · ${nf(act)} sudah aktif sebagai pelanggan`:''}`)}
     <div class="si-chips">${['Langsung registrasi','Tertarik','Pikir-pikir','Tidak tertarik'].map(k=>`<span class="si-chip">${k} <b>${nf(by[k]||0)}</b></span>`).join('')}</div>
-    <div class="tw scrollbox" style="max-height:420px"><table class="wo-t si-t"><thead><tr><th>Tanggal</th><th>Sales</th><th>Mitra · Stasiun</th><th>Calon pelanggan</th><th>Telepon</th><th>Paket</th><th>Hasil</th></tr></thead><tbody>${P.slice(0,500).map(p=>`<tr><td>${fmtD(p.tanggal)}<div class="wo-mut">${siJam(p.jam)}</div></td><td>${esc(p.sales)}</td><td>${esc(p.mitra)}<div class="wo-mut">${esc(p.stasiun)}</div></td><td><b>${esc(p.nama)}</b><div class="wo-mut">${esc(p.alamat||'')}</div></td><td><a href="https://wa.me/${siHp(p.telp)}" target="_blank" rel="noopener">${esc(p.telp)}</a></td><td>${esc(p.paket||'-')}</td><td><span class="si-st ${p.hasil==='Langsung registrasi'?'ok':p.hasil==='Tidak tertarik'?'no':'mid'}">${esc(p.hasil||'-')}</span></td></tr>`).join('')||'<tr><td colspan="7" class="wo-mut">Belum ada prospek pada periode ini.</td></tr>'}</tbody></table></div></section>`;
-}
-function siS4(C){
+    <p class="foot" style="margin:4px 0">Status pelanggan dicocokkan otomatis dari nomor telepon dengan database pelanggan. Aktif = nomor ditemukan pada pelanggan berstatus aktif.</p>
+    <div class="tw scrollbox" style="max-height:420px"><table class="wo-t si-t"><thead><tr><th>Tanggal</th><th>Sales</th><th>Mitra · Stasiun</th><th>Calon pelanggan</th><th>Telepon</th><th>Paket</th><th>Hasil penawaran</th><th>Status pelanggan</th><th>Tanggal aktif</th></tr></thead><tbody>${P.slice(0,500).map(p=>`<tr><td>${fmtD(p.tanggal)}<div class="wo-mut">${siJam(p.jam)}</div></td><td>${esc(p.sales)}</td><td>${esc(p.mitra)}<div class="wo-mut">${esc(p.stasiun)}</div></td><td><b>${esc(p.nama)}</b><div class="wo-mut">${esc(p.alamat||'')}</div></td><td><a href="https://wa.me/${siHp(p.telp)}" target="_blank" rel="noopener">${esc(p.telp)}</a></td><td>${esc(p.paket||'-')}</td><td><span class="si-st ${p.hasil==='Langsung registrasi'?'ok':p.hasil==='Tidak tertarik'?'no':'mid'}">${esc(p.hasil||'-')}</span></td>${siMatchCells(p)}</tr>`).join('')||'<tr><td colspan="9" class="wo-mut">Belum ada prospek pada periode ini.</td></tr>'}</tbody></table></div></section>`;
+}function siS4(C){
   const day=C.day,open=C.iss.filter(x=>x.status!=='selesai'),tlo=C.tl.filter(x=>x.status!=='selesai'),late=tlo.filter(x=>x.deadline&&x.deadline<day);
   const byK={};open.forEach(x=>byK[x.kategori]=(byK[x.kategori]||0)+1);
   const stc=s=>s==='selesai'?'ok':s==='eskalasi'?'no':'mid';
@@ -5935,17 +5955,39 @@ function siS4(C){
     <h4 class="rg-h4">Issue terbuka (${nf(open.length)})</h4>
     <div class="tw scrollbox" style="max-height:380px"><table class="wo-t si-t"><thead><tr><th>Tanggal</th><th>Kategori</th><th>Urgensi</th><th class="n">Dampak</th><th>Detail</th><th>Sales · Stasiun</th><th>Status</th></tr></thead><tbody>${open.slice().sort((a,b)=>({tinggi:0,sedang:1,rendah:2}[a.urgensi]||3)-({tinggi:0,sedang:1,rendah:2}[b.urgensi]||3)||String(b.tanggal).localeCompare(String(a.tanggal))).map(x=>`<tr><td>${fmtD(x.tanggal)}</td><td>${esc(SI_ISS[x.kategori]||x.kategori)}</td><td><span class="si-st ${x.urgensi==='tinggi'?'no':x.urgensi==='sedang'?'mid':'ok'}">${esc(x.urgensi)}</span></td><td class="n">${nf(x.dampak)}</td><td style="white-space:pre-line">${esc(x.poin)}${x.catatan_terakhir?`<div class="wo-mut">${esc(x.catatan_terakhir)}</div>`:''}</td><td>${esc(x.sales)}<div class="wo-mut">${esc(x.stasiun)}</div></td><td><span class="si-st ${stc(x.status)}">${esc(x.status)}</span></td></tr>`).join('')||'<tr><td colspan="7" class="wo-mut">Tidak ada issue terbuka.</td></tr>'}</tbody></table></div></section>`;
 }
+const siLkLast=()=>{try{return localStorage.getItem('siLkSync')||''}catch(e){return ''}};
+async function siSyncLinks(){
+  if(!/^https?:$/.test(location.protocol)||/localhost|127\.0\.0\.1|claude\.ai|claudeusercontent|anthropic/.test(location.hostname)){toast('Jalankan dari dashboard di GitHub Pages, bukan tampilan lokal, supaya link yang tersimpan alamat yang benar.');return}
+  if(!siCfg().url){toast('Isi alamat Web App sales dan ADMIN_KEY dahulu');return}
+  const b=$('siLk');if(b){b.disabled=true;b.textContent='Menyinkronkan…'}
+  try{
+    if(!UPKEY)UPKEY=await rmAskPw();
+    if(!UPKEY)return;
+    const base=isoCsvUrl();if(!base)throw new Error('Alamat data server belum diatur');
+    const res=await fetch(base.replace(/\/[a-z]+\.csv/,'/sls.csv'));if(!res.ok)throw new Error('Data mitra HTTP '+res.status);
+    const rows=parseCsv(await res.text()),h=rows.shift()||[],ci=h.indexOf('mitra'),cj=h.indexOf('jenis');
+    const names=[...new Set(rows.filter(r=>r[cj]==='snap').map(r=>r[ci]).filter(x=>x&&x!=='(Tanpa mitra)'))];
+    if(!names.length)throw new Error('Daftar mitra kosong');
+    try{await fuEnsureTokens(names)}catch(e){if(e.code==='bad-write-key')UPKEY='';throw e}
+    const links={};names.forEach(n=>{const l=fuLink(n);if(l)links[n]=l});
+    const r=await siApi('sr_links',{links});
+    const t=new Date().toLocaleString('id-ID');try{localStorage.setItem('siLkSync',t+' ('+r.count+' mitra)')}catch(e){}
+    toast(r.count+' link form mitra tersinkron ke form sales');SI.set=true;renderSi();
+  }catch(e){toast('Gagal menyinkronkan: '+(e.message||e))}
+  finally{const x=$('siLk');if(x){x.disabled=false;x.textContent='Sinkronkan link form mitra'}}
+}
 function siSet(){
   const c=siCfg();
   return `<section class="card" id="siSetC"><h3 style="margin:0 0 4px">Pengaturan Web App sales</h3><p class="foot" style="margin:0 0 8px">Alamat /exec dari Apps Script <b>Daily Report Sales Internal</b> (akun Google terpisah) dan ADMIN_KEY dari log setup(). Tersimpan di browser ini saja. Kosongkan alamat untuk mode demo.</p>
-    <div class="si-set"><input type="url" id="siU" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(c.url)}"><input type="password" id="siK" placeholder="ADMIN_KEY" value="${esc(c.key)}" autocomplete="off"><button id="siSv" class="xls">Simpan & muat</button></div></section>`;
+    <div class="si-set"><input type="url" id="siU" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(c.url)}"><input type="password" id="siK" placeholder="ADMIN_KEY" value="${esc(c.key)}" autocomplete="off"><button id="siSv" class="xls">Simpan & muat</button></div>
+    <div class="si-lk"><div><b>Link form Laporan Follow Up Pelanggan per mitra</b><div class="foot">Dipakai form sales untuk mengarahkan mitra follow up WO isolir dan dismantled. Tekan lagi setelah ada mitra baru. Perlu kata sandi unggah dan harus dijalankan dari dashboard di GitHub Pages.${siLkLast()?` Terakhir disinkronkan: ${esc(siLkLast())}.`:''}</div></div><button id="siLk" class="xls">Sinkronkan link form mitra</button></div></section>`;
 }
 function renderSi(){
   const el=$('v-si');if(!el)return;
   if(!SI.data&&!SI.busy&&!SI.err&&!SI.need)siLoad().then(()=>{if(CUR==='si'){renderSi();updateHeader()}});
   const y=window.scrollY,C=SI.data?siCalc():null;
   el.innerHTML=`<div class="sechead"><div><div class="eyebrow">Daily Report Sales Internal Starlite</div><h2 class="big">Monitoring Sales Internal</h2></div>
-    <div class="ctl"><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan">${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}<button id="siR" class="xls">Muat ulang</button><button id="siS" class="xls">Pengaturan</button><button id="siX" class="xls">Download Excel</button></div></div>
+    <div class="ctl"><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan">${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}<button id="siR" class="xls">Muat ulang</button><button id="siS" class="xls">Pengaturan</button><button id="siX" class="xls">Download Excel</button><button id="siP" class="xls">Unduh PDF</button></div></div>
     ${SI.demo?'<p class="note"><b>Mode demo.</b> Web App sales belum diatur, data dibaca dari form sales demo di browser ini. Buka Pengaturan untuk mengisi alamat Web App dan ADMIN_KEY.</p>':''}
     ${SI.need?'<p class="note"><b>Masukkan ADMIN_KEY sekali di browser ini.</b> Salin nilai <b>ADMIN_KEY</b> dari Apps Script Daily Report Sales (Project Settings &gt; Script properties), tempel di kolom ADMIN_KEY di bawah, lalu klik <b>Simpan &amp; muat</b>. Kunci tersimpan di browser ini, jadi tidak perlu diisi lagi.</p>':''}
     ${SI.set||SI.err||SI.need?siSet():''}
@@ -5960,6 +6002,8 @@ function renderSi(){
   $('siS').onclick=()=>{SI.set=!SI.set;renderSi()};
   const sv=$('siSv');if(sv)sv.onclick=async()=>{try{localStorage.setItem('siCfg',JSON.stringify({url:$('siU').value.trim(),key:$('siK').value.trim()}))}catch(e){}SI.set=false;SI.data=null;SI.err='';renderSi();await siLoad(true);renderSi();updateHeader()};
   $('siX').onclick=siExport;
+  const lk=$('siLk');if(lk)lk.onclick=siSyncLinks;
+  $('siP').onclick=()=>{if(!C){toast('Data belum dimuat');return}const L=C.today.slice().sort((x,y)=>String(x.checkin_at).localeCompare(String(y.checkin_at)));siPrint(L,'Laporan Sales Internal - '+fmtD(C.day))};
   const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
   const q=$('siQ');if(q)q.oninput=ev=>{SI.q=ev.target.value;const p=ev.target.selectionStart;renderSi();const n=$('siQ');if(n){n.focus();n.setSelectionRange(p,p)}};
   sc('[data-sio]',li=>{const go=()=>siPop(li.dataset.sio);li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
@@ -5968,44 +6012,199 @@ function renderSi(){
 function siPopEl(){
   let el=$('siPop');if(el)return el;
   el=document.createElement('div');el.id='siPop';el.className='mback';el.hidden=true;
-  el.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="siPT" style="max-width:980px;width:96vw"><div class="mhead"><div><div class="eyebrow">Daily Report Sales Internal</div><h2 id="siPT"></h2><div class="foot" id="siPS" style="margin-top:2px"></div></div><div class="ctl"><button id="siPC" aria-label="Tutup">Tutup ✕</button></div></div><div class="mbody" id="siPB"></div></div>';
+  el.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="siPT" style="max-width:980px;width:96vw"><div class="mhead"><div><div class="eyebrow">Daily Report Sales Internal</div><h2 id="siPT"></h2><div class="foot" id="siPS" style="margin-top:2px"></div></div><div class="ctl"><button id="siPP" class="xls">Unduh PDF</button><button id="siPC" aria-label="Tutup">Tutup ✕</button></div></div><div class="mbody" id="siPB"></div></div>';
   document.body.appendChild(el);
   const close=()=>{el.hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''};
   $('siPC').onclick=close;el.addEventListener('click',e=>{if(e.target===el)close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!el.hidden)close()});
   return el;
 }
+/*CORE-BEGIN*/
 function siPhotos(list){list=list.filter(x=>x&&x[1]&&x[1].id);if(!list.length)return '';return `<div class="si-ph">${list.map(([l,p])=>`<div><a href="${esc(siView(p.id))}" target="_blank" rel="noopener" title="Buka foto ${esc(l)}"><img src="${esc(siPh(p.id))}" alt="${esc(l)}" loading="lazy" referrerpolicy="no-referrer"></a><span>${esc(l)} · ${siJam(p.ts)}${p.geo?` · <a href="https://maps.google.com/?q=${p.geo.lat},${p.geo.lng}" target="_blank" rel="noopener">peta</a>`:''}</span></div>`).join('')}</div>`}
+const siOl=a=>(a||[]).filter(x=>String(x).trim()).length?`<ol class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'<span class="wo-mut">-</span>';
 const siPts=a=>(a||[]).filter(x=>String(x).trim()).length?`<ul class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>';
-function siPop(id){
-  const r=((SI.data&&SI.data.reports)||[]).find(x=>x.id===id);if(!r)return;
-  const el=siPopEl(),c=r.checkin||{},w=r.wo||{},sn=w.snap||{},a=(r.ach||{}).auto||{};
-  $('siPT').textContent=r.nama+' · '+fmtD(r.tanggal);
-  $('siPS').innerHTML=`${esc(r.mitra)} · <b>${esc(r.stasiun)}</b> · masuk ${siJam(r.checkin_at)} · pulang ${siJam(r.checkout_at)} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'}`;
-  const vis=(r.visit||[]).map((v,i)=>{const f=v.foto||{};let b='';
+function siKantor(r){
+  if(!r.kantor||(r.checkin||{}).lokasi!=='mitra')return '';
+  const k=r.kantor,kv=(l,v)=>`<span>${l}</span><b>${esc(v==null||v===''?'-':v)}</b>`;
+  return `<h4 class="rg-h4">4a · Temuan data di kantor mitra</h4>
+    <div class="si-kv">${kv('PIC mitra',(k.pic||'')+(k.jab_pic?' ('+k.jab_pic+')':''))}${kv('Data sistem vs mitra',k.data_sama==='selisih'?'Ada selisih':k.data_sama==='sama'?'Sama':'-')}${kv('Sales mitra aktif',k.sales_aktif)}${kv('Tim IKR / teknisi aktif',k.ikr_aktif)}${kv('WO open menurut mitra',k.wo_mitra)}${kv('Kapasitas instalasi/hari',k.kapasitas)}</div>
+    ${k.data_selisih?`<p><b>Catatan selisih data:</b> ${esc(k.data_selisih)}</p>`:''}
+    <div class="si-two"><div><h5>Agenda pertemuan</h5>${siOl(k.agenda)}</div><div><h5>Temuan data di kantor mitra</h5>${siOl(k.temuan)}</div></div>
+    <div class="si-two"><div><h5>Kendala dari mitra</h5>${siOl(k.kendala)}</div><div><h5>Kesepakatan dan komitmen</h5>${siOl(k.sepakat)}</div></div>
+    ${k.dok?`<p><b>Dokumen/data diterima:</b> ${esc(k.dok)}</p>`:''}${siPhotos((k.fotos||[]).map((p,i)=>['Foto '+(i+1)+(p.cap?' · '+p.cap:''),p]))}`;
+}
+const SI_AGL={wo:['≤7','8–14','>14'],wfp:['≤7','8–14','>14'],sus:['≤30','31–60','>60'],dis:['≤30','31–90','>90']};
+function siAge(a){
+  if(!a)return '';
+  const nm={wo:'WO open',wfp:'Waiting first payment',sus:'Isolir',dis:'Dismantle'},fa=v=>Number(v||0).toLocaleString('id-ID',{maximumFractionDigits:1});
+  return `<div class="si-kv"><span>Aging (hari)</span><b>${['wo','wfp','sus','dis'].filter(k=>a[k]).map(k=>`${nm[k]} rata-rata ${fa(a[k].avg)} (${SI_AGL[k].map((l,i)=>`${l}: ${nf(a[k].b[i])}`).join(' · ')})`).join(' | ')}</b></div>`;
+}
+/* ---------- laporan terstruktur + analisis singkat + unduh PDF ---------- */
+const SI_RP_CSS=`.rp-an{border:1.5px solid #c7d6f7;background:#f5f8ff;border-radius:12px;padding:12px 14px;margin:6px 0 12px}
+.rp-anh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rp-anh b{font-size:14px}
+.rp-kes{margin:6px 0 8px;font-size:13.5px;line-height:1.5}
+.rp-note{font-size:11px;color:#6b7589;margin-top:6px}
+.rp-t{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0}
+.rp-t th,.rp-t td{border:1px solid #dde2e9;padding:6px 8px;text-align:left;vertical-align:top}
+.rp-t th{background:#f3f5f9;font-size:11.5px}
+.rp-t td.n{font-weight:700}
+.rp-sub{margin:10px 0 2px;font-size:13px;font-weight:700}\n.si-tiles.rp-k{grid-template-columns:repeat(6,minmax(0,1fr))}\n@media(max-width:700px){.si-tiles.rp-k{grid-template-columns:repeat(3,minmax(0,1fr))}}`;
+const SI_PRINT_CSS=`@page{size:A4;margin:12mm}
+*{box-sizing:border-box}
+body{margin:0;font:12px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif;color:#0f1b3d;background:#fff}
+.bar{position:sticky;top:0;background:#0f2a5c;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;font-weight:700}
+.bar button{background:#fff;color:#0f2a5c;border:0;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer}
+.pg{max-width:190mm;margin:0 auto;padding:14px 8px}
+.brk{break-before:page}
+.ph-head{border-bottom:3px solid #1d4ed8;padding-bottom:8px;margin-bottom:10px}
+.ph-head .ey{font-size:10.5px;letter-spacing:.06em;font-weight:800;color:#1d4ed8;text-transform:uppercase}
+.ph-head h1{margin:2px 0 3px;font-size:19px}
+.ph-head .mt{color:#475569}
+.rg-h4{margin:14px 0 6px;font-size:13.5px;padding:4px 8px;background:#eef2fb;border-left:4px solid #1d4ed8;break-after:avoid}
+h5{margin:8px 0 2px;font-size:12px}
+.wo-mut{color:#6b7589}.foot{color:#6b7589;font-size:11px}
+.si-st{display:inline-block;font-size:10.5px;font-weight:700;border-radius:999px;padding:1px 8px}
+.si-st.ok{background:#e6f4ea;color:#15803d}.si-st.mid{background:#fdf3e4;color:#b45309}.si-st.no{background:#fdecea;color:#b42318}.si-st.rv{background:#f1ebfd;color:#6d28d9}
+.si-tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:8px 0}
+.si-tile{border:1px solid #dde2e9;border-left:4px solid var(--c);border-radius:8px;padding:5px 8px}
+.si-tile span{display:block;font-size:10px;color:#5b6475}.si-tile b{display:block;font-size:17px}.si-tile small{display:block;font-size:9.5px;color:#8a93a3}
+.si-kv{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:3px 12px;margin:5px 0;font-size:12px}
+.si-kv span{color:#5b6475}
+.si-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.si-ul{margin:3px 0;padding-left:18px}
+.si-vi{border:1px solid #dde2e9;border-radius:8px;padding:7px 10px;margin:6px 0;break-inside:avoid}
+.si-vh{display:flex;justify-content:space-between;gap:8px;margin-bottom:2px}
+.si-chips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}
+.si-chip{border:1px solid #dde2e9;border-radius:999px;padding:1px 8px;font-size:11px}
+.si-ph{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0}
+.si-ph>div{border:1px solid #dde2e9;border-radius:6px;overflow:hidden;break-inside:avoid}
+.si-ph img{display:block;width:100%;height:95px;object-fit:cover;background:#e2e8f0}
+.si-ph span{display:block;font-size:9.5px;padding:3px 5px;color:#475569}
+table{border-collapse:collapse;width:100%;font-size:11.5px}
+th,td{border:1px solid #dde2e9;padding:5px 7px;text-align:left;vertical-align:top}
+th{background:#f3f5f9;font-size:10.5px}
+a{color:#1d4ed8;text-decoration:none}
+.note{background:#eef3ff;border-radius:8px;padding:6px 10px;margin:6px 0}
+.pgf{margin-top:14px;padding-top:6px;border-top:1px solid #dde2e9;font-size:10px;color:#6b7589}
+@media print{.no-print{display:none!important}.pg{padding:0}a{color:inherit}}
+${SI_RP_CSS}`;
+(function(){if(document.getElementById('siRpCss'))return;const s=document.createElement('style');s.id='siRpCss';s.textContent=SI_RP_CSS;document.head.appendChild(s)})();
+
+const siMin=s=>{const t=siJam(s);if(t==='-')return null;const p=t.split(':');return +p[0]*60+ +p[1]};
+const siPct=(v,b)=>{if(!b)return v?'baru':'0%';const p=(v-b)/b*100;return (p>0?'+':p<0?'−':'')+Math.abs(p).toLocaleString('id-ID',{maximumFractionDigits:1})+'%'};
+function siFotoN(r){let n=0;const w=x=>{if(x&&typeof x==='object'){if(x.ts&&('id' in x)){if(x.id)n++;return}Object.values(x).forEach(w)}};w(r);return n}
+const nfs=v=>v==null||v===''||Number.isNaN(+v)?'-':nf(+v);
+const siAdd=(d,n)=>{const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
+function siAnalisis(r){
+  const v=r.visit||[],c=r.checkin||{},w=r.wo||{},sn=w.snap||{},ag=w.age||null,a=(r.ach||{}).auto||{},kt=r.kantor,km=c.lokasi==='mitra';
+  const cnt=k=>v.filter(x=>x.jenis===k).length,tw=v.filter(x=>x.jenis==='tawar'),reg=tw.filter(x=>x.hasil==='Langsung registrasi').length,mnt=tw.filter(x=>x.hasil==='Tertarik').length;
+  const odp=v.filter(x=>x.jenis==='odp'),odpY=odp.filter(x=>x.pot==='ya').length,iss=r.issue||[],tl=r.tl||[],hi=iss.filter(x=>x.urg==='tinggi');
+  const fotoN=siFotoN(r),ci=siMin(r.checkin_at),co=siMin(r.checkout_at),dur=ci!=null&&co!=null&&co>=ci?co-ci:null,telat=ci!=null&&ci>9*60;
+  const fa=n=>Number(n||0).toLocaleString('id-ID',{maximumFractionDigits:1}),L=[],P=[];
+  L.push(`Check-in ${siJam(r.checkin_at)}${telat?' (lewat 09.00)':' (tepat waktu)'}${r.status==='lengkap'?`, check-out ${siJam(r.checkout_at)}${dur!=null?`, durasi kerja ${Math.floor(dur/60)} jam ${dur%60} menit`:''}`:', belum check-out'}, lokasi kerja ${SI_LOK[c.lokasi]||c.lokasi||'-'}.`);
+  L.push(`${nfs(v.length)} kegiatan visit (join ${cnt('join')}, lingkungan/affiliator ${cnt('ling')}, ODP ${cnt('odp')}, penawaran ${cnt('tawar')}, temuan ${cnt('temuan')})${km&&kt?' dan 1 laporan kantor mitra':''}; ${nfs(fotoN)} foto terdokumentasi.`);
+  if(tw.length)L.push(`${tw.length} prospek: ${reg} langsung registrasi dan ${mnt} tertarik (konversi langsung ${Math.round(reg/tw.length*100)}%).`);
+  if(odp.length)L.push(`${odp.length} ODP dicek, ${odpY} potensial (${Math.round(odpY/odp.length*100)}%).`);
+  if(a.reg!=null)L.push(`Registrasi kemarin ${nfs(a.reg)}${a.reg_lw!=null?` (${siPct(a.reg,a.reg_lw)} vs minggu lalu)`:''}, aktivasi ${nfs(a.act)}${a.act_lw!=null?` (${siPct(a.act,a.act_lw)} vs minggu lalu)`:''}.`);
+  if(sn.wo!=null)L.push(`Posisi ${r.stasiun||'stasiun'}: WO open ${nfs(sn.wo)} (${nfs(sn.wo7)} lebih dari 7 hari), waiting first payment ${nfs(sn.wfp)}, isolir ${nfs(sn.sus)}, dismantle ${nfs((sn.dsg||0)+(sn.dis30||0))}.`);
+  if(iss.length)L.push(`${iss.length} issue baru dicatat; ${tl.length} evaluasi dengan solusi dan deadline.`);
+  else if(tl.length)L.push(`${tl.length} evaluasi dengan solusi dan deadline.`);
+  if(kt&&km)L.push(`Kantor mitra: bertemu ${kt.pic||'-'}${kt.jab_pic?' ('+kt.jab_pic+')':''}, ${(kt.sepakat||[]).filter(Boolean).length} kesepakatan dicatat.`);
+  if(telat)P.push(`Check-in terlambat (${siJam(r.checkin_at)}, setelah 09.00).`);
+  if(r.status!=='lengkap')P.push('Laporan belum lengkap: belum check-out.');
+  const pen=((r.ach||{}).penyebab||[]).length?`; penyebab yang dilaporkan: ${r.ach.penyebab.join(', ')}`:'';
+  [['Registrasi',a.tr_reg,a.reg,a.reg_lw],['Aktivasi',a.tr_act,a.act,a.act_lw]].forEach(x=>{if(x[1]==='turun')P.push(`${x[0]} kemarin turun ${siPct(x[2],x[3]).replace('−','')} dibanding minggu lalu (${nfs(x[2])} vs ${nfs(x[3])})${pen}.`)});
+  if(ag&&ag.wo){const t=ag.wo.b[0]+ag.wo.b[1]+ag.wo.b[2];if(t&&ag.wo.b[2]/t>=.5)P.push(`${nfs(ag.wo.b[2])} dari ${nfs(t)} WO open sudah lebih dari 14 hari (aging rata-rata ${fa(ag.wo.avg)} hari).`)}
+  if(ag&&ag.sus&&ag.sus.b[2]>0)P.push(`${nfs(ag.sus.b[2])} WO isolir berusia lebih dari 60 hari.`);
+  if(hi.length)P.push(`${hi.length} issue urgensi tinggi (${hi.map(x=>SI_ISS[x.kat]||x.kat).join(', ')}), dampak ${nfs(hi.reduce((t,x)=>t+(+x.dampak||0),0))} pelanggan.`);
+  const lim=siAdd(r.tanggal,3),near=tl.filter(x=>x.deadline&&x.deadline<=lim&&x.status!=='selesai');
+  if(near.length)P.push(`${near.length} tindak lanjut berdeadline dalam 3 hari: ${near.map(x=>String(x.masalah||'').slice(0,45)+' ('+fmtD(x.deadline)+')').join('; ')}.`);
+  if(km&&kt&&kt.data_sama==='selisih')P.push(`Ada selisih data sistem dengan catatan mitra: ${kt.data_selisih||'-'}.`);
+  if(c.lokasi==='lapangan'&&!tw.length)P.push('Tidak ada penawaran langsung (prospek) pada hari ini.');
+  const rn=((r.rencana||{}).kegiatan||[]).filter(Boolean).length;
+  if(c.lokasi==='lapangan'&&rn>v.length)P.push(`Rencana ${rn} kegiatan, tercatat ${v.length} kegiatan visit.`);
+  const n=P.length,label=n===0?'Baik':n<=2?'Cukup':'Perlu perhatian',cls=n===0?'ok':n<=2?'mid':'no';
+  const kes=n===0?`Laporan ${r.status==='lengkap'?'lengkap':'belum lengkap'} dan tidak ada hal mendesak. Aktivitas hari ini: ${nfs(v.length)} visit${tw.length?`, ${tw.length} prospek`:''}${odp.length?`, ${odpY} ODP potensial`:''}.`:`Ada ${n} hal yang perlu perhatian atasan. Yang pertama: ${P[0]}`;
+  return {L,P,label,cls,kes,fotoN,dur,tw,reg,odp,odpY,hi,v,iss,tl};
+}
+function siWoTable(sn,ag){
+  const bk=k=>ag&&ag[k]?SI_AGL[k].map((l,i)=>`${l}: ${nfs(ag[k].b[i])}`).join('<br>'):'-';
+  const av=k=>ag&&ag[k]?Number(ag[k].avg||0).toLocaleString('id-ID',{maximumFractionDigits:1})+' hari':'-';
+  return `<table class="rp-t"><thead><tr><th></th><th>WO open</th><th>Waiting first payment</th><th>Isolir (suspend)</th><th>Dismantle</th></tr></thead><tbody>
+    <tr><td>Jumlah</td><td class="n">${nfs(sn.wo)}</td><td class="n">${nfs(sn.wfp)}</td><td class="n">${nfs(sn.sus)}</td><td class="n">${nfs((sn.dsg||0)+(sn.dis30||0))}</td></tr>
+    <tr><td>Aging rata-rata</td><td>${av('wo')}</td><td>${av('wfp')}</td><td>${av('sus')}</td><td>${av('dis')}</td></tr>
+    <tr><td>Sebaran aging (hari)</td><td>${bk('wo')}</td><td>${bk('wfp')}</td><td>${bk('sus')}</td><td>${bk('dis')}</td></tr></tbody></table>
+    <p class="foot">Lainnya: WO open &gt;7 hari ${nfs(sn.wo7)} · RTD ${nfs(sn.rtd)} · dismantling ${nfs(sn.dsg)} · dismantled 30 hari ${nfs(sn.dis30)} · pelanggan aktif ${nfs(sn.akt)}</p>`;
+}
+function siReport(r,o){
+  o=o||{};
+  const c=r.checkin||{},w=r.wo||{},sn=w.snap||{},a=(r.ach||{}).auto||{},A=siAnalisis(r),km=c.lokasi==='mitra';
+  const vf=v=>Array.isArray(v.fotos)?v.fotos.map((p,k)=>['Foto '+(k+1)+(p.cap?' · '+p.cap:''),p]):[['Foto 1',(v.foto||{}).a],['Foto 2',(v.foto||{}).b]];
+  const vis=(r.visit||[]).map((v,i)=>{let b='';
     if(v.jenis==='join')b=`Sales mitra: <b>${esc(v.nama)}</b>${siPts(v.poin)}`;
     else if(v.jenis==='ling')b=`${esc(v.sub==='affiliator'?'Affiliator':'Lingkungan')}: <b>${esc(v.nama)}</b>${siPts(v.poin)}`;
     else if(v.jenis==='odp')b=`ODP <b>${esc(v.odp)}</b> · ${v.pot==='ya'?'<span class="si-st ok">Potensial</span>':'<span class="si-st no">Tidak potensial</span>'} · sisa port ${esc(v.port||'-')} · HP sekitar ${esc(v.hp||'-')}${v.alasan?`<div>Alasan: ${esc(v.alasan)}</div>`:''}`;
     else if(v.jenis==='tawar')b=`<b>${esc(v.nama)}</b> · ${esc(v.telp)} · ${esc(v.alamat||'')} · paket ${esc(v.paket||'-')} · <span class="si-st ${v.hasil==='Langsung registrasi'?'ok':'mid'}">${esc(v.hasil)}</span>`;
     else b=siPts(v.poin);
-    return `<div class="si-vi"><div class="si-vh"><b>${i+1}. ${esc(SI_VT[v.jenis]||v.jenis)}</b><span class="wo-mut">${siJam(v.jam)}${v.geo?` · <a href="https://maps.google.com/?q=${v.geo.lat},${v.geo.lng}" target="_blank" rel="noopener">lokasi</a>`:''}</span></div>${b}${siPhotos([['Foto 1',f.a],['Foto 2',f.b]])}</div>`}).join('')||'<p class="wo-mut">Belum ada visit.</p>';
-  $('siPB').innerHTML=`<h4 class="rg-h4">1 · Briefing pagi & check-in</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
-    <div class="si-kv"><span>Lokasi kerja</span><b>${esc(c.lokasi||'-')}</b><span>Target registrasi</span><b>${esc((r.rencana||{}).target_reg||'-')}</b></div>
-    <div class="si-kv"><span>Data saat check-in</span><b>WO open ${nf(sn.wo)} (${nf(sn.wo7)} &gt;7 hari) · WFP ${nf(sn.wfp)} · suspend ${nf(sn.sus)} · RTD ${nf(sn.rtd)} · dismantling ${nf(sn.dsg)} · aktif ${nf(sn.akt)}</b></div>
-    <div class="si-two"><div><h5>Rencana kegiatan</h5>${siPts((r.rencana||{}).kegiatan)}</div><div><h5>Prioritas tindak lanjut</h5>${(w.prior||[]).length?`<ul class="si-ul">${w.prior.map(p=>`<li><b>${esc(SI_ITEM[p.item]||p.item)}</b>: ${esc(p.tindakan)}${p.pic?` <span class="wo-mut">(PIC ${esc(p.pic)})</span>`:''}</li>`).join('')}</ul>`:'-'}</div></div>
-    <h4 class="rg-h4">2 · Achievement kemarin</h4>
-    <div class="si-kv"><span>Registrasi kemarin</span><b>${nf(a.reg)} (rata-rata 7 hari ${String(a.reg7??'-').replace('.',',')}, ${esc(a.tr_reg||'-')})</b><span>Aktivasi kemarin</span><b>${nf(a.act)} (rata-rata 7 hari ${String(a.act7??'-').replace('.',',')}, ${esc(a.tr_act||'-')})</b></div>
-    ${((r.ach||{}).penyebab||[]).length?`<div class="si-chips">${r.ach.penyebab.map(p=>`<span class="si-chip">${esc(p)}</span>`).join('')}</div>`:''}${siPts((r.ach||{}).poin)}
-    <h4 class="rg-h4">3 · Issue Homeconnect</h4>${(r.issue||[]).map(x=>`<div class="si-vi"><div class="si-vh"><b>${esc(SI_ISS[x.kat]||x.kat)}${x.lain?' · '+esc(x.lain):''}</b><span><span class="si-st ${x.urg==='tinggi'?'no':x.urg==='sedang'?'mid':'ok'}">${esc(x.urg)}</span> <span class="wo-mut">dampak ${nf(x.dampak)} pelanggan</span></span></div>${siPts(x.poin)}${siPhotos([['Foto issue',x.foto]])}</div>`).join('')||'<p class="wo-mut">Tidak ada issue baru.</p>'}
-    ${(r.upd||[]).length?`<p class="foot">Pembaruan status issue/tindak lanjut sebelumnya: ${r.upd.map(u=>`${esc(u.id.split('_').pop())} → <b>${esc(u.status)}</b>${u.note?' ('+esc(u.note)+')':''}`).join(' · ')}</p>`:''}
-    <h4 class="rg-h4">4 · Visit lapangan (${nf((r.visit||[]).length)})</h4>${vis}
-    <h4 class="rg-h4">5 · Evaluasi, solusi & deadline</h4>
-    <div class="tw"><table class="wo-t si-t"><thead><tr><th>Masalah</th><th>Solusi</th><th>PIC</th><th>Deadline</th><th>Status</th></tr></thead><tbody>${(r.tl||[]).map(x=>`<tr><td>${esc(x.masalah)}</td><td>${esc(x.solusi)}</td><td>${esc(x.pic)}</td><td>${fmtD(x.deadline)}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td colspan="5" class="wo-mut">-</td></tr>'}</tbody></table></div>
-    ${r.penutup?`<p><b>Catatan penutup:</b> ${esc(r.penutup)}</p>`:''}
+    return `<div class="si-vi"><div class="si-vh"><b>${i+1}. ${esc(SI_VT[v.jenis]||v.jenis)}</b><span class="wo-mut">${siJam(v.jam)}${v.geo?` · <a href="https://maps.google.com/?q=${v.geo.lat},${v.geo.lng}" target="_blank" rel="noopener">lokasi</a>`:''}</span></div>${b}${siPhotos(vf(v))}</div>`}).join('')||'<p class="wo-mut">Belum ada kegiatan visit lapangan.</p>';
+  const tlRows=(r.tl||[]).map(x=>`<tr><td>${esc(x.masalah)}</td><td>${esc(x.solusi)}</td><td>${esc(x.pic)}</td><td>${fmtD(x.deadline)}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td colspan="5" class="wo-mut">-</td></tr>';
+  const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
+  return `<section class="rp-an"><div class="rp-anh"><b>Analisis singkat</b><span class="si-st ${A.cls}">${A.label}</span></div>
+    <p class="rp-kes">${esc(A.kes)}</p>
+    <div class="si-two"><div><h5>Ringkasan aktivitas</h5><ul class="si-ul">${li(A.L)}</ul></div><div><h5>Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul></div></div>
+    <div class="rp-note">Analisis dibuat otomatis dari isi laporan, bukan pengganti penilaian atasan.</div></section>
+    <div class="si-tiles rp-k">${siTile('Visit',nfs(A.v.length),'kegiatan','#1d4ed8')}${siTile('Prospek',nfs(A.tw.length),`${nfs(A.reg)} langsung reg.`,'#d97706')}${siTile('ODP potensial',`${nfs(A.odpY)}/${nfs(A.odp.length)}`,'dari ODP dicek','#7c3aed')}${siTile('Issue',nfs(A.iss.length),`${nfs(A.hi.length)} urgensi tinggi`,'#b42318')}${siTile('Evaluasi',nfs(A.tl.length),'solusi & deadline','#0f766e')}${siTile('Foto',nfs(A.fotoN),'terdokumentasi','#475569')}</div>
+    <h4 class="rg-h4">1 · Absensi & rencana hari ini</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
+    <div class="si-kv"><span>Lokasi kerja</span><b>${esc(SI_LOK[c.lokasi]||c.lokasi||'-')}</b><span>Jabatan</span><b>${esc(r.jabatan||'-')}</b></div>
+    <div class="si-kv"><span>Region</span><b>${esc(r.region||r.regional||'-')}</b><span>Mitra</span><b>${esc(r.mitra||'-')}</b></div>
+    <div class="si-kv"><span>Stasiun target</span><b>${esc(r.stasiun||'-')}</b><span>Check-in / out</span><b>${siJam(r.checkin_at)} / ${siJam(r.checkout_at)}</b></div>
+    <h5>Rencana kegiatan</h5>${siOl((r.rencana||{}).kegiatan)}
+    <h4 class="rg-h4">2 · Briefing pagi: data WO & pelanggan</h4>${siWoTable(sn,w.age)}
+    <h5>Prioritas tindak lanjut</h5>${(w.prior||[]).length?`<ul class="si-ul">${w.prior.map(p=>`<li><b>${esc(SI_ITEM[p.item]||p.item)}</b>: ${esc(p.tindakan)}${p.pic?` <span class="wo-mut">(PIC ${esc(p.pic)})</span>`:''}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>'}
+    <h4 class="rg-h4">3 · Achievement kemarin</h4>
+    <table class="rp-t"><thead><tr><th></th><th>Kemarin</th><th>Minggu lalu</th><th>Perubahan</th><th>Status</th></tr></thead><tbody>
+      <tr><td>Registrasi</td><td class="n">${nfs(a.reg)}</td><td>${a.reg_lw!=null?nfs(a.reg_lw):'-'}</td><td>${a.reg_lw!=null?siPct(a.reg,a.reg_lw):'-'}</td><td>${esc(a.tr_reg||'-')}</td></tr>
+      <tr><td>Aktivasi</td><td class="n">${nfs(a.act)}</td><td>${a.act_lw!=null?nfs(a.act_lw):'-'}</td><td>${a.act_lw!=null?siPct(a.act,a.act_lw):'-'}</td><td>${esc(a.tr_act||'-')}</td></tr></tbody></table>
+    ${((r.ach||{}).penyebab||[]).length?`<div class="rp-sub">Penyebab penurunan</div><div class="si-chips">${r.ach.penyebab.map(p=>`<span class="si-chip">${esc(p)}</span>`).join('')}</div>`:''}
+    <div class="rp-sub">Evaluasi & catatan</div>${siPts((r.ach||{}).poin)}
+    <h4 class="rg-h4">4 · ${km?'Kantor mitra & visit lapangan':'Visit lapangan'} (${nfs((r.visit||[]).length)} kegiatan)</h4>${siKantor(r)}${vis}
+    <h4 class="rg-h4">5 · Issue Homeconnect & evaluasi</h4>
+    <div class="rp-sub">Issue baru (${nfs((r.issue||[]).length)})</div>${(r.issue||[]).map(x=>`<div class="si-vi"><div class="si-vh"><b>${esc(SI_ISS[x.kat]||x.kat)}${x.lain?' · '+esc(x.lain):''}</b><span><span class="si-st ${x.urg==='tinggi'?'no':x.urg==='sedang'?'mid':'ok'}">${esc(x.urg)}</span> <span class="wo-mut">dampak ${nfs(x.dampak)} pelanggan</span></span></div>${siPts(x.poin)}${siPhotos([['Foto issue',x.foto]])}</div>`).join('')||'<p class="wo-mut">Tidak ada issue baru.</p>'}
+    ${(r.upd||[]).length?`<p class="foot">Pembaruan status issue/tindak lanjut sebelumnya: ${r.upd.map(u=>`${esc(String(u.id).split('_').pop())} → <b>${esc(u.status)}</b>${u.note?' ('+esc(u.note)+')':''}`).join(' · ')}</p>`:''}
+    <div class="rp-sub">Evaluasi, solusi & deadline</div>
+    <div class="tw"><table class="wo-t si-t"><thead><tr><th>Masalah</th><th>Solusi</th><th>PIC</th><th>Deadline</th><th>Status</th></tr></thead><tbody>${tlRows}</tbody></table></div>
+    <h4 class="rg-h4">6 · Penutup & tinjauan</h4>
+    ${r.penutup?`<p><b>Catatan penutup sales:</b> ${esc(r.penutup)}</p>`:'<p class="wo-mut">Tidak ada catatan penutup.</p>'}
+    ${r.ditinjau_at?`<p class="note">Ditinjau ${fmtD(String(r.ditinjau_at).slice(0,10))} ${siJam(r.ditinjau_at)}${r.catatan_review?': '+esc(r.catatan_review):''}</p>`:(o.print?'<p class="wo-mut">Belum ditinjau atasan.</p>':'')}`;
+}
+function siPrintHead(r){
+  const A=siAnalisis(r);
+  return `<div class="ph-head"><div class="ey">Daily Report Sales Internal Starlite</div><h1>${esc(r.nama)}${r.jabatan?` <span class="wo-mut" style="font-size:13px;font-weight:600">· ${esc(r.jabatan)}</span>`:''}</h1>
+    <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
+}
+function siPrintDoc(list,title,inline){
+  const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${inline?'form sales':'dashboard'} ${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
+  return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base target="_blank"><title>${esc(title)}</title><style>${SI_PRINT_CSS}</style></head><body>${inline?'':`<div class="bar no-print"><span>${esc(title)} · pilih <i>Simpan sebagai PDF</i> di jendela cetak</span><button onclick="window.print()">Cetak / Simpan PDF</button></div>`}${body}${inline?'':`<script>window.addEventListener('load',function(){setTimeout(function(){window.print()},900)})<\/script>`}</body></html>`;
+}
+function siPrint(list,title){
+  if(!list||!list.length){toast('Tidak ada laporan untuk dicetak');return}
+  const w=window.open('','_blank');
+  if(!w){toast('Pop-up diblokir browser. Izinkan pop-up untuk situs ini, lalu coba lagi.');return}
+  w.document.open();w.document.write(siPrintDoc(list,title));w.document.close();
+}
+/*CORE-END*/
+function siPop(id){
+  const r=((SI.data&&SI.data.reports)||[]).find(x=>x.id===id);if(!r)return;
+  const el=siPopEl();
+  $('siPT').textContent=r.nama+(r.jabatan?' ('+r.jabatan+')':'')+' · '+fmtD(r.tanggal);
+  $('siPS').innerHTML=`${esc(r.mitra)} · <b>${esc(r.stasiun)}</b> · masuk ${siJam(r.checkin_at)} · pulang ${siJam(r.checkout_at)} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'}`;
+  $('siPB').innerHTML=siReport(r)+`
     <h4 class="rg-h4">Tinjauan atasan</h4>
-    ${r.ditinjau_at?`<p class="note">Ditinjau ${fmtD(String(r.ditinjau_at).slice(0,10))} ${siJam(r.ditinjau_at)}${r.catatan_review?': '+esc(r.catatan_review):''}</p>`:''}
     <textarea id="siRv" class="si-rv" maxlength="1000" placeholder="Catatan untuk sales (opsional), tampil di riwayat form sales">${esc(r.catatan_review||'')}</textarea>
-    <div class="ctl" style="margin-top:8px"><button id="siRvB" class="xls">${r.ditinjau_at?'Perbarui tinjauan':'Tandai sudah ditinjau'}</button></div>`;
+    <div class="ctl" style="margin-top:8px"><button id="siRvB" class="xls">${r.ditinjau_at?'Perbarui tinjauan':'Tandai sudah ditinjau'}</button><button id="siRvP" class="xls">Unduh PDF</button></div>`;
+  $('siPP').onclick=()=>siPrint([r],'Laporan Sales - '+r.nama+' - '+fmtD(r.tanggal));
+  $('siRvP').onclick=$('siPP').onclick;
   $('siRvB').onclick=async()=>{const b=$('siRvB');b.disabled=true;b.textContent='Menyimpan…';
     try{const j=await siApi('sr_review',{id:r.id,note:$('siRv').value.trim()});r.ditinjau_at=j.ditinjau_at;r.catatan_review=$('siRv').value.trim();toast('Tinjauan tersimpan');siPop(id);renderSi()}
     catch(e){toast('Gagal menyimpan: '+e.message);b.disabled=false;b.textContent='Coba lagi'}};
@@ -6014,14 +6213,16 @@ function siPop(id){
 function siExport(){
   if(!SI.data){toast('Data belum dimuat');return}
   const C=siCalc();
-  const lap=[['Tanggal','Sales','HP','Regional','Mitra','Stasiun','Status','Check-in','Check-out','Lokasi kerja','Target registrasi','Visit','Join visit','Lingkungan/affiliator','Cek ODP','ODP potensial','Prospek','Issue','Evaluasi','Ditinjau','Catatan review']];
-  C.per.forEach(r=>{const v=r.visit||[],k=j=>v.filter(x=>x.jenis===j).length;lap.push([r.tanggal,r.nama,r.hp,r.regional,r.mitra,r.stasiun,r.status,siJam(r.checkin_at),siJam(r.checkout_at),(r.checkin||{}).lokasi||'',(r.rencana||{}).target_reg||'',v.length,k('join'),k('ling'),k('odp'),v.filter(x=>x.jenis==='odp'&&x.pot==='ya').length,k('tawar'),(r.issue||[]).length,(r.tl||[]).length,r.ditinjau_at||'',r.catatan_review||''])});
-  const pro=[['Tanggal','Jam','Sales','Mitra','Stasiun','Nama','Telepon','Alamat','Paket','Hasil']].concat(C.pros.map(p=>[p.tanggal,siJam(p.jam),p.sales,p.mitra,p.stasiun,p.nama,p.telp,p.alamat||'',p.paket||'',p.hasil||'']));
+  const lap=[['Tanggal','Sales','Jabatan','HP','Regional','Mitra','Stasiun','Status','Check-in','Check-out','Lokasi kerja','Rencana kegiatan','Visit','Join visit','Lingkungan/affiliator','Cek ODP','ODP potensial','Prospek','Issue','Evaluasi','Ditinjau','Catatan review']];
+  C.per.forEach(r=>{const v=r.visit||[],k=j=>v.filter(x=>x.jenis===j).length;lap.push([r.tanggal,r.nama,r.jabatan||'',r.hp,r.regional,r.mitra,r.stasiun,r.status,siJam(r.checkin_at),siJam(r.checkout_at),SI_LOK[(r.checkin||{}).lokasi]||(r.checkin||{}).lokasi||'',((r.rencana||{}).kegiatan||[]).filter(Boolean).join('; '),v.length,k('join'),k('ling'),k('odp'),v.filter(x=>x.jenis==='odp'&&x.pot==='ya').length,k('tawar'),(r.issue||[]).length,(r.tl||[]).length,r.ditinjau_at||'',r.catatan_review||''])});
+  const pro=[['Tanggal','Jam','Sales','Mitra','Stasiun','Nama','Telepon','Alamat','Paket','Hasil penawaran','Status pelanggan','Tanggal aktif']].concat(C.pros.map(p=>{const x=SI.match&&SI.match[siHp(String(p.telp||'').replace(/^'/,''))];return [p.tanggal,siJam(p.jam),p.sales,p.mitra,p.stasiun,p.nama,p.telp,p.alamat||'',p.paket||'',p.hasil||'',SI.match?(x?(x.status==='active'?'Aktif':(SI_CST[x.status]||x.status)):'Belum terdaftar'):'',x&&x.status==='active'?x.aktif:'']}));
+const kan=[['Tanggal','Sales','Mitra','Stasiun','PIC mitra','Jabatan PIC','Data sistem vs mitra','Catatan selisih','Sales mitra aktif','IKR aktif','WO open (mitra)','Kapasitas/hari','Agenda','Temuan data','Kendala','Kesepakatan','Jumlah foto']];
+  C.per.forEach(r=>{const k=r.kantor;if(k&&(r.checkin||{}).lokasi==='mitra'){const j=a=>(a||[]).filter(Boolean).join('; ');kan.push([r.tanggal,r.nama,r.mitra,r.stasiun,k.pic||'',k.jab_pic||'',k.data_sama==='selisih'?'Ada selisih':k.data_sama==='sama'?'Sama':'',k.data_selisih||'',k.sales_aktif||'',k.ikr_aktif||'',k.wo_mitra||'',k.kapasitas||'',j(k.agenda),j(k.temuan),j(k.kendala),j(k.sepakat),(k.fotos||[]).length])}});
   const vis=[['Tanggal','Sales','Mitra','Stasiun','Jam','Jenis','Nama / ODP','Detail','Lat','Long']];
   C.per.forEach(r=>(r.visit||[]).forEach(v=>vis.push([r.tanggal,r.nama,r.mitra,r.stasiun,siJam(v.jam),SI_VT[v.jenis]||v.jenis,v.nama||v.odp||'',v.jenis==='odp'?(v.pot==='ya'?'Potensial':'Tidak potensial: '+(v.alasan||'')):(v.poin||[]).filter(Boolean).join('; ')||v.hasil||'',v.geo?v.geo.lat:'',v.geo?v.geo.lng:''])));
   const iss=[['Tanggal','Sales','Mitra','Stasiun','Kategori','Urgensi','Dampak','Detail','Status','Catatan terakhir']].concat(C.iss.map(x=>[x.tanggal,x.sales,x.mitra,x.stasiun,SI_ISS[x.kategori]||x.kategori,x.urgensi,x.dampak,x.poin,x.status,x.catatan_terakhir||'']));
   const tl=[['Tanggal','Sales','Mitra','Stasiun','Masalah','Solusi','PIC','Deadline','Status','Catatan terakhir']].concat(C.tl.map(x=>[x.tanggal,x.sales,x.mitra,x.stasiun,x.masalah,x.solusi,x.pic,x.deadline,x.status,x.catatan_terakhir||'']));
-  exportSheets(`sales-internal-${C.from}_${C.day}.xlsx`,[{name:'Laporan',aoa:lap,cols:[11,22,15,12,26,20,10,9,9,11,9,6,6,8,7,8,7,6,8,18,30]},{name:'Prospek',aoa:pro,cols:[11,7,22,26,20,24,15,30,12,18]},{name:'Visit',aoa:vis,cols:[11,22,26,20,7,26,24,50,11,11]},{name:'Issue',aoa:iss,cols:[11,22,26,20,16,9,8,60,10,30]},{name:'Tindak lanjut',aoa:tl,cols:[11,22,26,20,40,40,18,11,10,30]}],lap.length+pro.length-2);
+  exportSheets(`sales-internal-${C.from}_${C.day}.xlsx`,[{name:'Laporan',aoa:lap,cols:[11,22,22,15,12,26,20,10,9,9,11,9,6,6,8,7,8,7,6,8,18,30]},{name:'Prospek',aoa:pro,cols:[11,7,22,26,20,24,15,30,12,18,18,12]},{name:'Visit',aoa:vis,cols:[11,22,26,20,7,26,24,50,11,11]},{name:'Kantor mitra',aoa:kan,cols:[11,22,26,20,22,18,16,34,9,9,10,10,40,50,40,44,8]},{name:'Issue',aoa:iss,cols:[11,22,26,20,16,9,8,60,10,30]},{name:'Tindak lanjut',aoa:tl,cols:[11,22,26,20,40,40,18,11,10,30]}],lap.length+pro.length-2);
 }
 /* ===== AKHIR MENU SALES INTERNAL ===== */
 
