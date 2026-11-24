@@ -2518,7 +2518,7 @@ function updateHeader(){
   }else if(CUR==='tim'){
     setPills('Sales & IKR · aktif · peringkat',TM.rows?nf(new Set(TM.rows.map(r=>r.r+r.p)).size)+' orang tercatat':'Memuat…','Database langsung',!!TM.rows);
   }else if(CUR==='si'){
-    const SD=SI.data;setPills('Laporan harian sales internal',SD?nf((SD.reports||[]).filter(r=>r.tanggal===(SI.day||todayWib())).length)+' laporan '+fmtD(SI.day||todayWib()):SI.err?'':'Memuatâ€¦',SI.demo?'Mode demo (browser ini)':'Web App sales',!!SD&&!SI.demo);
+    const SD=SI.data;setPills('Laporan harian sales internal',SD?nf((SD.reports||[]).filter(r=>r.tanggal===(SI.day||todayWib())).length)+' laporan '+fmtD(SI.day||todayWib()):SI.need?'Perlu ADMIN_KEY':SI.err?'Gagal memuat':'Memuat…',SI.demo?'Mode demo (browser ini)':'Web App sales',!!SD&&!SI.demo);
   }else if(CUR==='regional'){
     setPills('4 regional: Jabar · Jabodebek-Banten · Jateng · Jatim',WO.rows?nf(WO.rows.length)+' pelanggan antrean instalasi':'Memuat…','Database langsung',!!WO.rows);
   }else if(CUR==='followup'||CUR==='tolak'){
@@ -5849,7 +5849,8 @@ function tmPopExport(){
 /* ================== MENU SALES INTERNAL (monitoring Daily Report Sales Internal Starlite) ================== */
 const SI={data:null,busy:false,err:'',at:0,demo:false,day:'',per:'7',q:'',open:'',set:false};
 const SI_DEF='https://script.google.com/macros/s/AKfycbxaak82utIbXtR_U9EqeYqz_yaoDbkCAL1D9l2pib2hpgrgPefKRa8MjoBgVxmbUuxybA/exec';
-const siCfg=()=>{let c=null;try{c=JSON.parse(localStorage.getItem('siCfg')||'null')}catch(e){}return {url:(c&&c.url)||SI_DEF||'',key:(c&&c.key)||''}};
+const SI_KEY='9b56a213a8804a0d8e1af64c814e14ea';
+const siCfg=()=>{let c=null;try{c=JSON.parse(localStorage.getItem('siCfg')||'null')}catch(e){}return {url:(c&&c.url)||SI_DEF||'',key:(c&&c.key)||SI_KEY||''}};
 const SI_ISS={community:'Community case',apps:'Apps issue',network:'Network',mitra:'Internal mitra',lain:'Lainnya'};
 const SI_VT={join:'Join visit sales mitra',ling:'Visit lingkungan / affiliator',odp:'Cek ODP',tawar:'Penawaran langsung',temuan:'Temuan lapangan'};
 const SI_ITEM={wo:'WO open',wfp:'Waiting first payment',iso:'Isolir (suspend)',rtd:'Ready to dismantle',dis:'Dismantle'};
@@ -5870,6 +5871,7 @@ async function siApi(action,data){
 }
 async function siLoad(force){
   if(SI.busy)return;if(SI.data&&!force&&Date.now()-SI.at<5*60e3)return;
+  const cf=siCfg();SI.need=!!cf.url&&!cf.key;if(SI.need)return; /* kunci admin belum diisi di browser ini */
   SI.busy=true;SI.err='';
   try{const j=await siApi('sr_admin',{days:60});SI.data=j;SI.demo=!!j.demo;SI.at=Date.now();if(!SI.day)SI.day=j.today||todayWib()}
   catch(e){SI.err=(e&&e.message)||String(e)}
@@ -5940,14 +5942,15 @@ function siSet(){
 }
 function renderSi(){
   const el=$('v-si');if(!el)return;
-  if(!SI.data&&!SI.busy&&!SI.err)siLoad().then(()=>{if(CUR==='si'){renderSi();updateHeader()}});
+  if(!SI.data&&!SI.busy&&!SI.err&&!SI.need)siLoad().then(()=>{if(CUR==='si'){renderSi();updateHeader()}});
   const y=window.scrollY,C=SI.data?siCalc():null;
   el.innerHTML=`<div class="sechead"><div><div class="eyebrow">Daily Report Sales Internal Starlite</div><h2 class="big">Monitoring Sales Internal</h2></div>
     <div class="ctl"><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan">${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}<button id="siR" class="xls">Muat ulang</button><button id="siS" class="xls">Pengaturan</button><button id="siX" class="xls">Download Excel</button></div></div>
     ${SI.demo?'<p class="note"><b>Mode demo.</b> Web App sales belum diatur, data dibaca dari form sales demo di browser ini. Buka Pengaturan untuk mengisi alamat Web App dan ADMIN_KEY.</p>':''}
-    ${SI.set||SI.err?siSet():''}
-    ${SI.err?`<p class="note"><b>Data tidak bisa dimuat.</b> ${esc(SI.err)}</p>`:''}
-    ${!C?(SI.err?'':'<section class="card"><p class="wo-mut">Memuat laporan sales internal…</p></section>'):siS1(C)+siS2(C)+siS3(C)+siS4(C)}
+    ${SI.need?'<p class="note"><b>Masukkan ADMIN_KEY sekali di browser ini.</b> Salin nilai <b>ADMIN_KEY</b> dari Apps Script Daily Report Sales (Project Settings &gt; Script properties), tempel di kolom ADMIN_KEY di bawah, lalu klik <b>Simpan &amp; muat</b>. Kunci tersimpan di browser ini, jadi tidak perlu diisi lagi.</p>':''}
+    ${SI.set||SI.err||SI.need?siSet():''}
+    ${SI.err?`<p class="note"><b>Data tidak bisa dimuat.</b> ${esc(SI.err)}${/kunci admin/i.test(SI.err)?' Periksa ADMIN_KEY di kolom atas: salin ulang dari Script properties tanpa spasi, lalu klik Simpan &amp; muat.':''}</p>`:''}
+    ${!C?(SI.err||SI.need?'':'<section class="card"><p class="wo-mut">Memuat laporan sales internal…</p></section>'):siS1(C)+siS2(C)+siS3(C)+siS4(C)}
     <p class="note"><b>Catatan.</b> Laporan diisi sales internal melalui form <b>sales.html</b>: check-in pagi (selfie, foto tempat kerja, mitra & stasiun, analisa WO), lalu laporan lengkap dan check-out. Data WO dan achievement di form diambil otomatis dari database per mitra dan stasiun yang dipilih. Foto tersimpan di Google Drive akun laporan sales.</p>`;
   window.scrollTo(0,y);
   const sc=(s,fn)=>el.querySelectorAll(s).forEach(fn);
@@ -5957,6 +5960,7 @@ function renderSi(){
   $('siS').onclick=()=>{SI.set=!SI.set;renderSi()};
   const sv=$('siSv');if(sv)sv.onclick=async()=>{try{localStorage.setItem('siCfg',JSON.stringify({url:$('siU').value.trim(),key:$('siK').value.trim()}))}catch(e){}SI.set=false;SI.data=null;SI.err='';renderSi();await siLoad(true);renderSi();updateHeader()};
   $('siX').onclick=siExport;
+  const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
   const q=$('siQ');if(q)q.oninput=ev=>{SI.q=ev.target.value;const p=ev.target.selectionStart;renderSi();const n=$('siQ');if(n){n.focus();n.setSelectionRange(p,p)}};
   sc('[data-sio]',li=>{const go=()=>siPop(li.dataset.sio);li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
 }
