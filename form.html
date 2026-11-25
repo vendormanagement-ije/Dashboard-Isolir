@@ -1970,10 +1970,10 @@ const PWA=(function(){
     if(d<LD.target)d+=Math.max(0.6,(LD.target-d)*0.22);else if(d<goal)d+=Math.max(0.12,(goal-d)*0.03);
     LD.shown=Math.min(d,99);ldRender();
   }
-  function ldStart(cap){
+  function ldStart(cap,title){
     ldKill();css();
     const el=document.createElement('div');el.id='pwLd';el.className='pw-ld';el.setAttribute('role','progressbar');el.setAttribute('aria-valuemin','0');el.setAttribute('aria-valuemax','100');el.setAttribute('aria-valuenow','0');el.setAttribute('aria-live','polite');
-    el.innerHTML=`<div class="pw-lc"><b>Mohon menunggu data sedang di ambil dan di perbarui</b><div class="pw-lp">0%</div><div class="pw-lb"><i></i></div><div class="pw-lcap">${esc(cap||'Menghubungi server…')}</div></div>`;
+    el.innerHTML=`<div class="pw-lc"><b>${esc(title||'Mohon menunggu data sedang di ambil dan di perbarui')}</b><div class="pw-lp">0%</div><div class="pw-lb"><i></i></div><div class="pw-lcap">${esc(cap||'Menghubungi server…')}</div></div>`;
     document.body.appendChild(el);
     Object.assign(LD,{el,active:true,target:3,shown:0,pctEl:el.querySelector('.pw-lp'),barEl:el.querySelector('.pw-lb i'),capEl:el.querySelector('.pw-lcap')});
     LD.timer=setInterval(ldTick,120);
@@ -2049,7 +2049,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261125145953,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
+PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261125153625,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
   refreshData:()=>reloadAll(),
   busy:()=>!!(S&&S.busy)||!!(document.getElementById('sheet')&&!document.getElementById('sheet').hidden)});
 load();

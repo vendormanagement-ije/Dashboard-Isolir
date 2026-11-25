@@ -1027,6 +1027,8 @@ header .hl{flex:1 1 auto;min-width:0}
 @media(max-width:900px){.si-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){.si-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.si-set,.si-two{grid-template-columns:1fr}.si-kv{grid-template-columns:auto 1fr}}
 .si-lk{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed #dde2e9;flex-wrap:wrap}.si-lk>div{flex:1 1 320px}
+.siDelB{background:#b42318!important;color:#fff!important;border-color:#b42318!important}.siDelB:hover{background:#912018!important}
+.si-dc{border:1.5px solid #f3b4ad;background:#fff4f2;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;color:#7a271a}.si-dc b{font-size:14px;color:#912018}.si-dc span{font-size:12.5px;line-height:1.5}
 /* ===== Seluler: tidak boleh ada konten yang melebihi lebar layar ===== */
 @media(max-width:900px){
   html,body{max-width:100%;overflow-x:hidden}
@@ -5908,14 +5910,17 @@ async function siApi(action,data){
   const c=siCfg();
   if(!c.url){ /* mode demo: data dari form sales di browser yang sama */
     let D;try{D=JSON.parse(localStorage.getItem('srDemo')||'null')||{lap:[],iss:[],tl:[],sal:[]}}catch(e){D={lap:[],iss:[],tl:[],sal:[]}}
+    if(action==='sr_img')return {ok:true,imgs:{}};
     if(action==='sr_match'){const map={};(data.phones||[]).forEach(p=>{if(/7890$/.test(p))map[p]={status:'active',aktif:'2026-11-22'}});return {ok:true,map}}
     if(action==='sr_admin')return {ok:true,demo:true,today:todayWib(),reports:D.lap,issues:D.iss,tl:D.tl,sales:D.sal};
+    if(action==='sr_delete'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');D.lap=D.lap.filter(x=>x.id!==data.id);D.iss=(D.iss||[]).filter(x=>x.laporan_id!==data.id);D.tl=(D.tl||[]).filter(x=>x.laporan_id!==data.id);localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,id:data.id}}
     if(action==='sr_review'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');r.ditinjau_at=new Date(Date.now()+7*36e5).toISOString().slice(0,19);r.catatan_review=data.note||'';localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,ditinjau_at:r.ditinjau_at}}
   }
   const res=await fetch(c.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action,key:c.key},data||{})),redirect:'follow'});
   if(!res.ok)throw new Error('HTTP '+res.status);
   const j=await res.json();if(!j.ok){const e=new Error(j.error==='bad-action'?'Fitur ini butuh versi terbaru Web App sales. Tempel Code.gs terbaru di Apps Script, lalu Deploy > Manage deployments > pensil > Version: New version > Deploy.':(j.message||j.error||'gagal'));e.code=j.error;throw e}return j;
 }
+window.SI_IMG=ids=>siApi('sr_img',{ids}).then(r=>r.imgs||{});
 async function siLoad(force){
   if(SI.busy)return;if(SI.data&&!force&&Date.now()-SI.at<5*60e3)return;
   const cf=siCfg();SI.need=!!cf.url&&!cf.key;if(SI.need)return; /* kunci admin belum diisi di browser ini */
@@ -6026,12 +6031,35 @@ function siSet(){
     <div class="si-set"><input type="url" id="siU" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(c.url)}"><input type="password" id="siK" placeholder="ADMIN_KEY" value="${esc(c.key)}" autocomplete="off"><button id="siSv" class="xls">Simpan & muat</button></div>
     <div class="si-lk"><div><b>Link form Laporan Follow Up Pelanggan per mitra</b><div class="foot">Dipakai form sales untuk mengarahkan mitra follow up WO isolir dan dismantled. Tekan lagi setelah ada mitra baru. Perlu kata sandi unggah dan harus dijalankan dari dashboard di GitHub Pages.${siLkLast()?` Terakhir disinkronkan: ${esc(siLkLast())}.`:''}</div></div><button id="siLk" class="xls">Sinkronkan link form mitra</button></div></section>`;
 }
+/* ---------- salin link form untuk disebar ke sales ---------- */
+function siFormLink(){
+  const tk=SI.data&&SI.data.formToken||'';
+  const base=location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/,'')+'sales.html';
+  return base+(tk?'?t='+encodeURIComponent(tk):SI.demo?'?demo=1':'');
+}
+function siShareMsg(link){
+  return 'Selamat pagi Bapak/Ibu tim Sales Internal Starlite FTTH 🙏\n\nMohon mengisi *Daily Report Sales Internal* setiap hari kerja melalui link berikut:\n'+link+'\n\nPanduan singkat:\n1. Buka link, lalu pilih nama Anda (cukup sekali, nama diingat di HP).\n2. Pagi: isi Absensi & rencana hari ini, lanjut Briefing, lalu tekan *Kirim check-in*.\n3. Selama di lapangan: isi Achievement dan Visit (foto 3 sampai 10, diambil langsung dari kamera HP), lalu Issue & evaluasi.\n4. Sore: tekan *Kirim laporan* untuk check-out.\n\nTips: tekan tombol *Instal* di halaman form agar aplikasinya terpasang di HP dan mudah dibuka.\nLink ini khusus tim internal, mohon tidak diteruskan ke pihak luar.\n\nTerima kasih, semangat! 💪'
+}
+function siCopy(txt){
+  const ok=()=>toast('Tersalin. Tinggal tempel di WhatsApp atau grup.');
+  const fb=()=>{const t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();try{document.execCommand('copy');ok()}catch(e){toast('Gagal menyalin, salin manual dari kotak teks')}t.remove()};
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+}
+function siShare(){
+  const link=siFormLink(),miss=!(SI.data&&SI.data.formToken)&&!SI.demo;
+  return `<section class="card" id="siShC"><h3 style="margin:0 0 4px">Salin link form Daily Report Sales Internal</h3><p class="foot" style="margin:0 0 8px">Pesan di bawah siap ditempel ke WhatsApp atau grup sales. Isi pesan boleh diubah dulu sebelum disalin.</p>
+    ${miss?'<p class="note" style="margin:0 0 8px"><b>Token form belum terbaca.</b> Pastikan Code.gs terbaru sudah di-deploy sebagai versi baru dan ADMIN_KEY benar, lalu klik Muat ulang. Link di bawah belum berisi token sehingga belum bisa dipakai sales.</p>':''}
+    <div class="si-lk" style="border-top:0;margin-top:0;padding-top:0"><div><div class="foot" style="margin-bottom:4px">Link form</div><input type="text" id="siShL" readonly value="${esc(link)}" style="width:100%" aria-label="Link form"></div><span style="display:flex;gap:8px;flex-wrap:wrap"><button id="siShCL" class="xls">Salin link saja</button><button id="siShO" class="xls">Buka form</button></span></div>
+    <div class="foot" style="margin:10px 0 4px">Pesan siap sebar</div><textarea id="siShM" rows="13" style="width:100%;box-sizing:border-box;font:inherit;font-size:13px;line-height:1.5;padding:10px;border:1.5px solid #d5dce8;border-radius:10px" aria-label="Pesan untuk sales">${esc(siShareMsg(link))}</textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button id="siShCM" class="xls">Salin pesan + link</button><button id="siShX" class="xls" style="background:#fff;color:#0f1b3d;border:1.5px solid #d5dce8">Tutup</button></div></section>`;
+}
 function renderSi(){
   const el=$('v-si');if(!el)return;
   if(!SI.data&&!SI.busy&&!SI.err&&!SI.need)siLoad().then(()=>{if(CUR==='si'){renderSi();updateHeader()}});
   const y=window.scrollY,C=SI.data?siCalc():null;
   el.innerHTML=`<div class="sechead"><div><div class="eyebrow">Daily Report Sales Internal Starlite</div><h2 class="big">Daily Report Internal Sales Starlite FTTH</h2></div>
-    <div class="ctl"><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan">${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}<button id="siR" class="xls">Muat ulang</button><button id="siS" class="xls">Pengaturan</button><button id="siX" class="xls">Download Excel</button><button id="siP" class="xls">Unduh PDF</button></div></div>
+    <div class="ctl"><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan">${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}<button id="siR" class="xls">Muat ulang</button><button id="siS" class="xls">Pengaturan</button><button id="siX" class="xls">Download Excel</button><button id="siP" class="xls">Unduh PDF</button><button id="siL" class="xls">Salin link form</button></div></div>
+    ${SI.share?siShare():''}
     ${SI.demo?'<p class="note"><b>Mode demo.</b> Web App sales belum diatur, data dibaca dari form sales demo di browser ini. Buka Pengaturan untuk mengisi alamat Web App dan ADMIN_KEY.</p>':''}
     ${SI.need?'<p class="note"><b>Masukkan ADMIN_KEY sekali di browser ini.</b> Salin nilai <b>ADMIN_KEY</b> dari Apps Script Daily Report Sales (Project Settings &gt; Script properties), tempel di kolom ADMIN_KEY di bawah, lalu klik <b>Simpan &amp; muat</b>. Kunci tersimpan di browser ini, jadi tidak perlu diisi lagi.</p>':''}
     ${SI.set||SI.err||SI.need?siSet():''}
@@ -6046,6 +6074,8 @@ function renderSi(){
   $('siS').onclick=()=>{SI.set=!SI.set;renderSi()};
   const sv=$('siSv');if(sv)sv.onclick=async()=>{try{localStorage.setItem('siCfg',JSON.stringify({url:$('siU').value.trim(),key:$('siK').value.trim()}))}catch(e){}SI.set=false;SI.data=null;SI.err='';renderSi();await siLoad(true);renderSi();updateHeader()};
   $('siX').onclick=siExport;
+  $('siL').onclick=()=>{SI.share=!SI.share;renderSi();if(SI.share){const c=$('siShC');if(c)c.scrollIntoView({block:'nearest',behavior:'smooth'})}};
+  if(SI.share){const L=siFormLink();$('siShCL').onclick=()=>siCopy(L);$('siShCM').onclick=()=>siCopy($('siShM').value);$('siShO').onclick=()=>window.open(L,'_blank','noopener');$('siShX').onclick=()=>{SI.share=false;renderSi()}}
   const lk=$('siLk');if(lk)lk.onclick=siSyncLinks;
   $('siP').onclick=()=>{if(!C){toast('Data belum dimuat');return}const L=C.today.slice().sort((x,y)=>String(x.checkin_at).localeCompare(String(y.checkin_at)));siPrint(L,'Laporan Sales Internal - '+fmtD(C.day))};
   const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
@@ -6200,7 +6230,7 @@ function siReport(r,o){
   const rows=A.G.length?`<div class="rp-rows">${A.G.map(x=>`<div class="rp-r"><span>${esc(x[0])}</span><div>${esc(x[1])}</div></div>`).join('')}</div>`:'<p class="wo-mut">Belum ada aktivitas yang tercatat.</p>';
   return `<section class="rp-an"><div class="rp-anh"><b>Analisis singkat</b><span class="si-st ${A.cls}">${A.label}</span></div>
     <p class="rp-kes">${esc(A.kes)}</p>
-    <div class="si-two"><div><h5>Ringkasan</h5>${rows}</div><div><h5>Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul></div></div>
+    <h5>Ringkasan</h5>${rows}<h5 style="margin-top:12px">Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul>
     <div class="rp-note">Analisis dibuat otomatis dari isi laporan, bukan pengganti penilaian atasan.</div></section>
     ${tiles.length?`<div class="si-tiles rp-k">${tiles.join('')}</div>`:''}    <h4 class="rg-h4">1 · Absensi & rencana hari ini</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
     <div class="si-kv"><span>Lokasi kerja</span><b>${esc(SI_LOK[c.lokasi]||c.lokasi||'-')}</b><span>Jabatan</span><b>${esc(r.jabatan||'-')}</b></div>
@@ -6234,12 +6264,179 @@ function siPrintDoc(list,title,inline){
   const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${inline?'form sales':'dashboard'} ${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
   return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base target="_blank"><title>${esc(title)}</title><style>${SI_PRINT_CSS}</style></head><body>${inline?'':`<div class="bar no-print"><span>${esc(title)} · pilih <i>Simpan sebagai PDF</i> di jendela cetak</span><button onclick="window.print()">Cetak / Simpan PDF</button></div>`}${body}${inline?'':`<script>window.addEventListener('load',function(){setTimeout(function(){window.print()},900)})<\/script>`}</body></html>`;
 }
-function siPrint(list,title){
+function siPrintWin(list,title){
   if(!list||!list.length){toast('Tidak ada laporan untuk dicetak');return}
   const w=window.open('','_blank');
   if(!w){toast('Pop-up diblokir browser. Izinkan pop-up untuk situs ini, lalu coba lagi.');return}
   w.document.open();w.document.write(siPrintDoc(list,title));w.document.close();
 }
+/* ---------- PDF langsung unduh (jsPDF dimuat saat dibutuhkan), lengkap dengan foto ---------- */
+const pdfT=s=>String(s==null?'':s).replace(/[≤]/g,'<=').replace(/[≥]/g,'>=').replace(/[–—−]/g,'-').replace(/…/g,'...').replace(/▲/g,'+').replace(/▼/g,'-').replace(/→/g,'->').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[✓✕›‹]/g,'').replace(/[^\x09\x0a\x0d\x20-\x7e\xa0-\xff]/g,'');
+function pdfLib(){
+  return new Promise((ok,bad)=>{
+    if(window.jspdf&&window.jspdf.jsPDF)return ok(window.jspdf);
+    const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=()=>window.jspdf?ok(window.jspdf):bad(new Error('Pustaka PDF tidak tersedia'));
+    s.onerror=()=>bad(new Error('Pustaka PDF gagal dimuat (periksa koneksi internet)'));
+    document.head.appendChild(s);
+  });
+}
+function pdfImgNorm(src){
+  return new Promise(ok=>{
+    const im=new Image();
+    im.onload=()=>{try{const sc=Math.min(1,760/Math.max(im.naturalWidth,im.naturalHeight)),w=Math.max(1,Math.round(im.naturalWidth*sc)),h=Math.max(1,Math.round(im.naturalHeight*sc)),cv=document.createElement('canvas');cv.width=w;cv.height=h;const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);ok({url:cv.toDataURL('image/jpeg',.8),w,h})}catch(e){ok(null)}};
+    im.onerror=()=>ok(null);im.src=src;
+  });
+}
+function pdfPhotoIds(r){const o=[];const w=x=>{if(x&&typeof x==='object'){if(x.ts&&('id' in x)){if(x.id)o.push(x.id);return}Object.values(x).forEach(w)}};w(r);return o}
+async function pdfLoadImgs(ids,onProg){
+  const map={},need=[...new Set(ids)];let done=0;
+  const demo=need.filter(i=>String(i).startsWith('demo-')),real=need.filter(i=>!String(i).startsWith('demo-'));
+  for(const i of demo){const u=siPh(i);if(u)map[i]=await pdfImgNorm(u);done++}
+  for(let k=0;k<real.length;k+=6){
+    const part=real.slice(k,k+6);let got={};
+    try{if(typeof SI_IMG==='function')got=await SI_IMG(part)||{}}catch(e){got={}}
+    for(const id of part){if(got[id])map[id]=await pdfImgNorm(got[id]);done++}
+    if(onProg)onProg(done,need.length);
+  }
+  return map;
+}
+async function siPdfBuild(list,title,onProg){
+  const lib=await pdfLib(),doc=new lib.jsPDF({unit:'mm',format:'a4',compress:true});
+  const prog=(p,c)=>{if(onProg)onProg(p,c)};
+  prog(6,'Menyiapkan data laporan…');
+  const allIds=list.flatMap(pdfPhotoIds);
+  const IM=await pdfLoadImgs(allIds,(d,n)=>prog(10+Math.round(60*d/Math.max(1,n)),`Mengambil foto ${d} dari ${n}…`));
+  prog(75,'Menyusun halaman PDF…');
+  const M=14,CW=182,BOT=284;let y=M;
+  const F=(b,s,c)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(s||9.5);const k=c||[15,27,61];doc.setTextColor(k[0],k[1],k[2])};
+  const LH=s=>s*0.48;
+  const need=h=>{if(y+h>BOT){doc.addPage();y=M}};
+  const split=(t,w,s,b)=>{F(b,s);return doc.splitTextToSize(pdfT(t),w)};
+  function para(t,o){o=o||{};const s=o.size||9.5,lh=LH(s),x=M+(o.indent||0),w=CW-(o.indent||0);const ls=split(t,w,s,o.bold);F(o.bold,s,o.color);ls.forEach(l=>{need(lh);doc.text(l,x,y+lh*0.78);y+=lh});y+=(o.gap==null?1.2:o.gap)}
+  function h2(t){need(30);y+=2;doc.setFillColor(238,242,251);doc.rect(M,y,CW,7,'F');doc.setFillColor(29,78,216);doc.rect(M,y,1.4,7,'F');F(true,10.5,[15,42,92]);doc.text(pdfT(t),M+4,y+4.9);y+=10}
+  function h3(t){need(15);F(true,9.5,[15,42,92]);doc.text(pdfT(t),M,y+3.4);y+=5.6}
+  function kv(rows){rows.filter(r=>r&&r[1]!==''&&r[1]!=null).forEach(r=>{const ls=split(r[1],CW-40,9.5,true),h=Math.max(1,ls.length)*LH(9.5);need(h);F(false,9,[91,100,117]);doc.text(pdfT(r[0]),M,y+LH(9.5)*0.78);F(true,9.5);ls.forEach((l,i)=>doc.text(l,M+38,y+LH(9.5)*(0.78+i)));y+=h+0.8})}
+  function lst(arr,num){const a=(arr||[]).filter(x=>String(x).trim());if(!a.length){para('-',{color:[107,117,137]});return}a.forEach((t,i)=>{const pre=num?`${i+1}. `:'- ',lh=LH(9.5),ls=split(t,CW-7,9.5);F(false,9.5);ls.forEach((l,k)=>{need(lh);if(k===0)doc.text(pre,M+1,y+lh*0.78);doc.text(l,M+7,y+lh*0.78);y+=lh});y+=0.6});y+=0.8}
+  function table(heads,rows,widths,fs){
+    fs=fs||8.5;const lh=LH(fs),pad=1.4;
+    const rowH=cells=>Math.max(...cells.map((c,i)=>split(c,widths[i]-2*pad,fs).length))*lh+2*pad;
+    const draw=(cells,head)=>{const h=rowH(cells);need(h);let x=M;cells.forEach((c,i)=>{if(head){doc.setFillColor(243,245,249);doc.rect(x,y,widths[i],h,'FD')}else doc.rect(x,y,widths[i],h,'S');F(head,fs,head?[82,96,122]:[15,27,61]);split(c,widths[i]-2*pad,fs,head).forEach((l,k)=>doc.text(l,x+pad,y+pad+lh*(0.78+k)));x+=widths[i]});y+=h};
+    doc.setDrawColor(221,226,233);doc.setLineWidth(0.2);
+    need(rowH(heads)+(rows.length?rowH(rows[0]):0));
+    draw(heads,true);rows.forEach(r=>draw(r,false));y+=2.5;
+  }
+  function tiles(items){
+    if(!items.length)return;const n=items.length,gap=2.5,w=(CW-gap*(n-1))/n,h=15;need(h+3);
+    items.forEach((t,i)=>{const x=M+i*(w+gap);doc.setDrawColor(221,226,233);doc.setLineWidth(0.2);doc.rect(x,y,w,h,'S');doc.setFillColor(t.c[0],t.c[1],t.c[2]);doc.rect(x,y,1.3,h,'F');F(false,7,[91,100,117]);doc.text(pdfT(t.l),x+3,y+3.8);F(true,12,[15,27,61]);doc.text(pdfT(t.v),x+3,y+9.2);F(false,6.8,[138,147,163]);doc.text(pdfT(t.s||''),x+3,y+13)});
+    y+=h+3.5;
+  }
+  function photos(items){
+    items=(items||[]).filter(x=>x&&x[1]&&x[1].id);if(!items.length)return;
+    const cols=4,gap=2.2,cw=(CW-gap*(cols-1))/cols,ih=33;
+    for(let k=0;k<items.length;k+=cols){
+      const row=items.slice(k,k+cols);need(ih+10);
+      row.forEach((it,i)=>{
+        const x=M+i*(cw+gap),im=IM[it[1].id];
+        doc.setDrawColor(221,226,233);doc.setLineWidth(0.2);doc.rect(x,y,cw,ih,'S');
+        if(im){const sc=Math.min((cw-1)/im.w,(ih-1)/im.h),w=im.w*sc,h=im.h*sc;try{doc.addImage(im.url,'JPEG',x+(cw-w)/2,y+(ih-h)/2,w,h,undefined,'FAST')}catch(e){}}
+        else{F(false,7,[138,147,163]);doc.text('foto tidak tersedia',x+cw/2,y+ih/2,{align:'center'})}
+        const cap=split(it[0]+(it[1].ts?' | '+siJam(it[1].ts):''),cw,6.8).slice(0,2);F(false,6.8,[71,85,105]);cap.forEach((l,j)=>doc.text(l,x,y+ih+2.8+j*2.7));
+      });
+      y+=ih+9;
+    }
+  }
+  const SEC=[29,78,216];
+  list.forEach((r,idx)=>{
+    if(idx>0){doc.addPage();y=M}
+    const A=siAnalisis(r),c=r.checkin||{},w=r.wo||{},sn=w.snap||{},a=(r.ach||{}).auto||{},km=c.lokasi==='mitra';
+    /* kepala */
+    F(true,7.5,SEC);doc.text('DAILY REPORT SALES INTERNAL STARLITE',M,y+3);y+=5;
+    F(true,16,[15,27,61]);doc.text(pdfT(r.nama+(r.jabatan?'  ('+r.jabatan+')':'')),M,y+6);y+=9;
+    para([fmtD(r.tanggal),r.mitra,r.stasiun,r.region||r.regional,r.status==='lengkap'?'laporan lengkap':'baru check-in','penilaian '+A.label].filter(Boolean).join('  |  '),{size:9,color:[71,85,105],gap:1.5});
+    doc.setDrawColor(29,78,216);doc.setLineWidth(0.7);doc.line(M,y,M+CW,y);y+=4;
+    /* analisis singkat */
+    const colS=A.cls==='ok'?[21,128,61]:A.cls==='mid'?[180,83,9]:[180,35,24];
+    const kesL=split(A.kes,CW-8,9.5),rowsL=A.G.map(g=>({l:g[0],t:split(g[1],CW-8-36,9)})),pL=(A.P.length?A.P:['Tidak ada hal mendesak.']).map(p=>split(p,CW-8-5,9));
+    let hh=8+kesL.length*LH(9.5)+3+(rowsL.length?5:0)+rowsL.reduce((s,x)=>s+Math.max(1,x.t.length)*LH(9)+1.2,0)+4+5+pL.reduce((s,x)=>s+x.length*LH(9)+0.8,0)+7;
+    need(Math.min(hh,150));
+    doc.setFillColor(245,248,255);doc.setDrawColor(199,214,247);doc.setLineWidth(0.3);doc.roundedRect(M,y,CW,hh,2,2,'FD');
+    let yy=y+5.5;F(true,10.5);doc.text('Analisis singkat',M+4,yy);F(true,8.5,colS);doc.text(pdfT(A.label),M+CW-4,yy,{align:'right'});yy+=4.5;
+    F(false,9.5);kesL.forEach(l=>{doc.text(l,M+4,yy+LH(9.5)*0.5);yy+=LH(9.5)});yy+=2.5;
+    if(rowsL.length){F(true,9,[15,42,92]);doc.text('Ringkasan',M+4,yy);yy+=3.6;rowsL.forEach(g=>{F(false,9,[91,100,117]);doc.text(pdfT(g.l),M+4,yy+LH(9)*0.55);F(true,9);g.t.forEach((l,i)=>doc.text(l,M+40,yy+LH(9)*(0.55+i)));yy+=Math.max(1,g.t.length)*LH(9)+1.2})}
+    yy+=2.5;F(true,9,[15,42,92]);doc.text('Perlu perhatian atasan',M+4,yy);yy+=3.6;
+    pL.forEach(ls=>{F(false,9);doc.text('-',M+4.5,yy+LH(9)*0.55);ls.forEach((l,i)=>doc.text(l,M+9,yy+LH(9)*(0.55+i)));yy+=ls.length*LH(9)+0.8});
+    F(false,7,[107,117,137]);doc.text('Analisis dibuat otomatis dari isi laporan, bukan pengganti penilaian atasan.',M+4,y+hh-2.6);
+    y+=hh+4;
+    tiles([A.v.length?{l:'Visit',v:String(A.v.length),s:'kegiatan',c:[29,78,216]}:null,A.tw.length?{l:'Prospek',v:String(A.tw.length),s:A.reg?A.reg+' langsung reg.':'',c:[217,119,6]}:null,A.odp.length?{l:'ODP potensial',v:A.odpY+'/'+A.odp.length,s:'dari ODP dicek',c:[124,58,237]}:null,A.iss.length?{l:'Issue',v:String(A.iss.length),s:A.hi.length?A.hi.length+' urgensi tinggi':'',c:[180,35,24]}:null,A.tl.length?{l:'Evaluasi',v:String(A.tl.length),s:'solusi & deadline',c:[15,118,110]}:null,A.fotoN?{l:'Foto',v:String(A.fotoN),s:'terdokumentasi',c:[71,85,105]}:null].filter(Boolean));
+    /* 1 absensi & rencana */
+    h2('1 | Absensi & rencana hari ini');
+    photos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]]);
+    kv([['Lokasi kerja',SI_LOK[c.lokasi]||c.lokasi||'-'],['Jabatan',r.jabatan||'-'],['Region',r.region||r.regional||'-'],['Mitra',r.mitra||'-'],['Stasiun target',r.stasiun||'-'],['Check-in / check-out',siJam(r.checkin_at)+' / '+siJam(r.checkout_at)]]);
+    h3('Rencana kegiatan');lst((r.rencana||{}).kegiatan,true);
+    /* 2 briefing */
+    h2('2 | Briefing pagi: data WO & pelanggan');
+    const av=k=>ag2&&ag2[k]?String(Number(ag2[k].avg||0).toLocaleString('id-ID',{maximumFractionDigits:1}))+' hari':'-',bk=k=>ag2&&ag2[k]?SI_AGL[k].map((l,i)=>l+': '+ag2[k].b[i]).join(', '):'-';
+    var ag2=w.age||null;
+    table(['','WO open','Waiting first payment','Isolir (suspend)','Dismantle'],[['Jumlah',String(sn.wo==null?'-':sn.wo),String(sn.wfp==null?'-':sn.wfp),String(sn.sus==null?'-':sn.sus),String(sn.wo==null?'-':(sn.dsg||0)+(sn.dis30||0))],['Aging rata-rata',av('wo'),av('wfp'),av('sus'),av('dis')],['Sebaran aging (hari)',bk('wo'),bk('wfp'),bk('sus'),bk('dis')]],[34,37,37,37,37],8.2);
+    para(`Lainnya: WO open >7 hari ${sn.wo7==null?'-':sn.wo7} | RTD ${sn.rtd==null?'-':sn.rtd} | dismantling ${sn.dsg==null?'-':sn.dsg} | dismantled 30 hari ${sn.dis30==null?'-':sn.dis30} | pelanggan aktif ${sn.akt==null?'-':sn.akt}`,{size:8,color:[107,117,137]});
+    h3('Prioritas tindak lanjut');
+    if((w.prior||[]).length)w.prior.forEach((p,i)=>para(`${i+1}. ${p.item==='lain'?(p.lain||'Lainnya'):(SI_ITEM[p.item]||p.item)}: ${p.tindakan||''}${p.pic?'  (PIC '+p.pic+')':''}`,{indent:1}));else para('-',{color:[107,117,137]});
+    /* 3 achievement */
+    h2('3 | Achievement kemarin');
+    const pc=(v,b)=>b==null?'-':siPct(v,b);
+    table(['','Kemarin','Minggu lalu','Perubahan','Status'],[['Registrasi',String(a.reg==null?'-':a.reg),String(a.reg_lw==null?'-':a.reg_lw),a.reg_lw!=null?pc(a.reg,a.reg_lw):'-',a.tr_reg||'-'],['Aktivasi',String(a.act==null?'-':a.act),String(a.act_lw==null?'-':a.act_lw),a.act_lw!=null?pc(a.act,a.act_lw):'-',a.tr_act||'-']],[34,37,37,37,37],8.5);
+    if(((r.ach||{}).penyebab||[]).length){h3('Penyebab penurunan');para(r.ach.penyebab.join(', '))}
+    h3('Evaluasi & catatan');lst((r.ach||{}).poin,true);
+    /* 4 kantor mitra & visit */
+    h2('4 | '+(km?'Kantor mitra & visit lapangan':'Visit lapangan')+' ('+(r.visit||[]).length+' kegiatan)');
+    if(km&&r.kantor){const k=r.kantor;h3('Temuan data di kantor mitra');kv([['PIC mitra',(k.pic||'')+(k.jab_pic?' ('+k.jab_pic+')':'')],['Data sistem vs mitra',k.data_sama==='selisih'?'Ada selisih':k.data_sama==='sama'?'Sama':''],['Sales mitra aktif',k.sales_aktif],['Tim IKR / teknisi',k.ikr_aktif],['WO open versi mitra',k.wo_mitra],['Kapasitas instalasi/hari',k.kapasitas],['Catatan selisih data',k.data_selisih],['Dokumen diterima',k.dok]]);
+      [['Agenda pertemuan',k.agenda],['Temuan data',k.temuan],['Kendala dari mitra',k.kendala],['Kesepakatan dan komitmen',k.sepakat]].forEach(x=>{if((x[1]||[]).filter(Boolean).length){h3(x[0]);lst(x[1],true)}});
+      photos((k.fotos||[]).map((p,i)=>['Foto '+(i+1)+(p.cap?': '+p.cap:''),p]))}
+    if(!(r.visit||[]).length)para('Belum ada kegiatan visit lapangan.',{color:[107,117,137]});
+    (r.visit||[]).forEach((v,i)=>{
+      h3(`${i+1}. ${SI_VT[v.jenis]||v.jenis}  (${siJam(v.jam)})`);
+      if(v.jenis==='join')kv([['Sales mitra',v.nama]]);
+      else if(v.jenis==='ling')kv([['Jenis',v.sub==='affiliator'?'Affiliator':'Lingkungan'],['Nama',v.nama]]);
+      else if(v.jenis==='odp')kv([['ID ODP',v.odp],['Penilaian',v.pot==='ya'?'Potensial':'Tidak potensial'],['Sisa port',v.port],['Perkiraan rumah (HP)',v.hp],['Alasan',v.alasan]]);
+      else if(v.jenis==='tawar')kv([['Calon pelanggan',v.nama],['Telepon',v.telp],['Alamat',v.alamat],['Paket',v.paket],['Hasil penawaran',v.hasil]]);
+      if((v.poin||[]).filter(Boolean).length)lst(v.poin,true);
+      photos((Array.isArray(v.fotos)?v.fotos:[v.foto&&v.foto.a,v.foto&&v.foto.b].filter(Boolean)).map((p,k)=>['Foto '+(k+1)+(p.cap?': '+p.cap:''),p]));
+    });
+    /* 5 issue & evaluasi */
+    h2('5 | Issue Homeconnect & evaluasi');
+    h3(`Issue baru (${(r.issue||[]).length})`);
+    if(!(r.issue||[]).length)para('Tidak ada issue baru.',{color:[107,117,137]});
+    (r.issue||[]).forEach((x,i)=>{para(`${i+1}. ${(SI_ISS[x.kat]||x.kat)}${x.lain?' - '+x.lain:''}  |  urgensi ${x.urg||'-'}  |  dampak ${x.dampak||0} pelanggan`,{bold:true,gap:0.6});lst(x.poin,false);photos([['Foto issue',x.foto]])});
+    if((r.upd||[]).length)para('Pembaruan status sebelumnya: '+r.upd.map(u=>String(u.id).split('_').pop()+' -> '+u.status+(u.note?' ('+u.note+')':'')).join(' | '),{size:8.5,color:[107,117,137]});
+    h3('Evaluasi, solusi & deadline');
+    if((r.tl||[]).length)table(['Masalah','Solusi','PIC','Deadline','Status'],r.tl.map(x=>[x.masalah||'',x.solusi||'',x.pic||'',fmtD(x.deadline),x.status||'']),[52,52,30,24,24],8.2);else para('-',{color:[107,117,137]});
+    /* 6 penutup */
+    h2('6 | Penutup & tinjauan');
+    para(r.penutup?('Catatan penutup sales: '+r.penutup):'Tidak ada catatan penutup.');
+    para(r.ditinjau_at?('Ditinjau '+fmtD(String(r.ditinjau_at).slice(0,10))+' '+siJam(r.ditinjau_at)+(r.catatan_review?': '+r.catatan_review:'')):'Belum ditinjau atasan.',{color:[91,100,117]});
+  });
+  /* nomor halaman */
+  const n=doc.getNumberOfPages();
+  for(let p=1;p<=n;p++){doc.setPage(p);F(false,7.5,[138,147,163]);doc.text(pdfT(title),M,291);doc.text(`Halaman ${p} dari ${n}`,M+CW,291,{align:'right'})}
+  prog(95,'Menyimpan PDF…');
+  return doc;
+}
+async function siPdf(list,title){
+  if(!list||!list.length){toast('Tidak ada laporan untuk diunduh');return}
+  const L=(typeof PWA!=='undefined'&&PWA.load)?PWA.load:null;
+  if(L)L.start('Menyiapkan PDF…','Membuat PDF laporan, mohon menunggu');
+  try{
+    const doc=await siPdfBuild(list,title,(p,c)=>{if(L)L.set(p,c)});
+    const name=String(title||'Laporan sales').replace(/[\\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim()+'.pdf';
+    doc.save(name);
+    if(L)L.done();toast('PDF diunduh: '+name);
+  }catch(e){
+    if(L)L.done();toast('PDF gagal dibuat ('+((e&&e.message)||e)+'). Membuka jendela cetak sebagai cadangan.');
+    try{siPrintWin(list,title)}catch(x){}
+  }
+}
+const siPrint=siPdf;
 /*CORE-END*/
 function siPop(id){
   const r=((SI.data&&SI.data.reports)||[]).find(x=>x.id===id);if(!r)return;
@@ -6249,7 +6446,23 @@ function siPop(id){
   $('siPB').innerHTML=siReport(r)+`
     <h4 class="rg-h4">Tinjauan atasan</h4>
     <textarea id="siRv" class="si-rv" maxlength="1000" placeholder="Catatan untuk sales (opsional), tampil di riwayat form sales">${esc(r.catatan_review||'')}</textarea>
-    <div class="ctl" style="margin-top:8px"><button id="siRvB" class="xls">${r.ditinjau_at?'Perbarui tinjauan':'Tandai sudah ditinjau'}</button><button id="siRvP" class="xls">Unduh PDF</button></div>`;
+    <div class="ctl" style="margin-top:8px"><button id="siRvB" class="xls">${r.ditinjau_at?'Perbarui tinjauan':'Tandai sudah ditinjau'}</button><button id="siRvP" class="xls">Unduh PDF</button></div>
+    <h4 class="rg-h4">Hapus laporan</h4>
+    <div id="siDelBox"><p class="foot" style="margin:0 0 8px">Menghapus laporan ini dari daftar, termasuk prospek, issue, dan tindak lanjut yang berasal dari laporan ini.</p><button id="siDel" class="xls siDelB" type="button">Hapus laporan</button></div>`;
+  $('siDel').onclick=()=>{
+    $('siDelBox').innerHTML=`<div class="si-dc" role="alertdialog" aria-live="assertive"><b>Hapus laporan ${esc(r.nama)} tanggal ${esc(fmtD(r.tanggal))}?</b><span>Laporan, prospek, issue, dan tindak lanjut dari laporan ini dihapus dari spreadsheet. Salinan laporan disimpan di sheet "Laporan Dihapus" sehingga masih bisa dipulihkan. Foto di Google Drive tidak ikut dihapus.</span><div class="ctl"><button id="siDelY" class="xls siDelB" type="button">Ya, hapus laporan</button><button id="siDelN" class="xls" type="button">Batal</button></div></div>`;
+    $('siDelN').onclick=()=>siPop(id);
+    $('siDelY').onclick=async()=>{
+      const b=$('siDelY');b.disabled=true;b.textContent='Menghapus…';$('siDelN').disabled=true;
+      try{
+        await siApi('sr_delete',{id:r.id});
+        if(SI.data&&SI.data.reports)SI.data.reports=SI.data.reports.filter(x=>x.id!==r.id);
+        if(SI.data){SI.data.issues=(SI.data.issues||[]).filter(x=>x.laporan_id!==r.id);SI.data.tl=(SI.data.tl||[]).filter(x=>x.laporan_id!==r.id)}
+        const el=$('siPop');if(el)el.hidden=true;document.body.style.overflow='';
+        toast('Laporan dihapus');renderSi();updateHeader();siMatch();
+      }catch(e){toast('Gagal menghapus: '+(e.message||e));b.disabled=false;b.textContent='Coba lagi';$('siDelN').disabled=false}
+    };
+  };
   $('siPP').onclick=()=>siPrint([r],'Laporan Sales - '+r.nama+' - '+fmtD(r.tanggal));
   $('siRvP').onclick=$('siPP').onclick;
   $('siRvB').onclick=async()=>{const b=$('siRvB');b.disabled=true;b.textContent='Menyimpan…';
@@ -7608,10 +7821,10 @@ const PWA=(function(){
     if(d<LD.target)d+=Math.max(0.6,(LD.target-d)*0.22);else if(d<goal)d+=Math.max(0.12,(goal-d)*0.03);
     LD.shown=Math.min(d,99);ldRender();
   }
-  function ldStart(cap){
+  function ldStart(cap,title){
     ldKill();css();
     const el=document.createElement('div');el.id='pwLd';el.className='pw-ld';el.setAttribute('role','progressbar');el.setAttribute('aria-valuemin','0');el.setAttribute('aria-valuemax','100');el.setAttribute('aria-valuenow','0');el.setAttribute('aria-live','polite');
-    el.innerHTML=`<div class="pw-lc"><b>Mohon menunggu data sedang di ambil dan di perbarui</b><div class="pw-lp">0%</div><div class="pw-lb"><i></i></div><div class="pw-lcap">${esc(cap||'Menghubungi server…')}</div></div>`;
+    el.innerHTML=`<div class="pw-lc"><b>${esc(title||'Mohon menunggu data sedang di ambil dan di perbarui')}</b><div class="pw-lp">0%</div><div class="pw-lb"><i></i></div><div class="pw-lcap">${esc(cap||'Menghubungi server…')}</div></div>`;
     document.body.appendChild(el);
     Object.assign(LD,{el,active:true,target:3,shown:0,pctEl:el.querySelector('.pw-lp'),barEl:el.querySelector('.pw-lb i'),capEl:el.querySelector('.pw-lcap')});
     LD.timer=setInterval(ldTick,120);
@@ -7687,7 +7900,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125145953,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125154356,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
