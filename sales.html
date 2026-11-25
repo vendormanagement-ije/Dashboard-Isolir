@@ -1111,8 +1111,8 @@ function siPrintHead(r){
   return `<div class="ph-head"><div class="ey">Daily Report Sales Internal Starlite</div><h1>${esc(r.nama)}${r.jabatan?` <span class="wo-mut" style="font-size:13px;font-weight:600">· ${esc(r.jabatan)}</span>`:''}</h1>
     <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
 }
-function siPrintDoc(list,title,inline){
-  const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${inline?'form sales':'dashboard'} ${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
+function siPrintDoc(list,title,inline,src){
+  const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${src||(inline?'form sales':'dashboard')}${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
   return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base target="_blank"><title>${esc(title)}</title><style>${SI_PRINT_CSS}</style></head><body>${inline?'':`<div class="bar no-print"><span>${esc(title)} · pilih <i>Simpan sebagai PDF</i> di jendela cetak</span><button onclick="window.print()">Cetak / Simpan PDF</button></div>`}${body}${inline?'':`<script>window.addEventListener('load',function(){setTimeout(function(){window.print()},900)})<\/script>`}</body></html>`;
 }
 function siPrintWin(list,title){
@@ -1472,7 +1472,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261125153722,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
+PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261125174358,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
   manifest:{name:'Daily Report Sales Internal Starlite',short_name:'Daily Report',description:'Laporan harian sales internal Starlite: absensi, briefing, visit, issue, dan evaluasi',
     start_url:'sales.html?'+(T?'t='+encodeURIComponent(T)+'&':'')+'pwa=1',scope:'sales.html',
     icons:[{src:'sales-icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'sales-icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'sales-icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]},

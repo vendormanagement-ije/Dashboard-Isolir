@@ -1882,7 +1882,7 @@ const mitraCell=n=>{const m=mitraOf(n);if(!m||!m.c.length)return '<td class="foo
 const mitraText=n=>{const m=mitraOf(n);return m?m.c.map(([r,nm,p])=>`${r}${nm?' '+nm:''}: ${p}`).join('; '):''};
 const wa=p=>{const raw=String(p==null?'':p),n=raw.replace(/\D/g,'').replace(/^0/,'62').replace(/^8/,'628');return n.length>=8?`<a class="wa" href="https://wa.me/${n}" target="_blank" rel="noopener noreferrer" title="Buka chat WhatsApp ${esc(raw)}" onclick="event.stopPropagation()">${esc(raw)}</a>`:esc(raw)};
 const dt=s=>new Date(s+'T00:00:00Z'), dayName=s=>HARI[dt(s).getUTCDay()];
-const fmtD=s=>{if(!s)return '-';const [y,m,d]=s.split('-');return `${+d} ${BULAN[+m-1]} ${y}`};
+const fmtD=s=>{if(!s)return '-';const [y,m,d]=String(s).slice(0,10).split('-');return `${+d} ${BULAN[+m-1]} ${y}`};
 const diffDays=(a,b)=>Math.round((dt(b)-dt(a))/864e5);
 const addDays=(s,n)=>{const x=dt(s);x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10)};
 /* status pelanggan yang dipantau: s = suspend (isolir), d = ready-to-dismantle. Filter status disimpan di browser. */
@@ -3943,6 +3943,15 @@ const rmLinkKey=g=>g.mitra;
 const rmWhy=e=>e&&e.code==='bad-write-key'?'Kata sandi unggah salah. Periksa huruf besar/kecil lalu coba lagi.':(e&&(e.code==='bad-action'||/tidak dikenal/i.test(e.message||'')))?'Apps Script belum diperbarui ke versi terbaru (aksi fu_tokens belum ada). Pasang ulang Code.gs lalu Deploy versi baru.':e&&e.code==='noform'?e.message:'Penyebab: '+((e&&e.message)||e)+(e&&e.code?' ['+e.code+']':'');
 function rmStatus(kind,html){const el=$('rmMSt');if(!el)return;if(!kind){el.hidden=true;el.innerHTML='';el.className='rmst';return}el.hidden=false;el.className='rmst '+kind;el.innerHTML=html}
 function rmAskPw(){
+  if(!$('rmMSt'))return new Promise((res,rej)=>{ /* dipanggil dari luar jendela reminder (mis. menu Daily Report): kotak sandi mandiri */
+    const w=document.createElement('div');w.style.cssText='position:fixed;inset:0;background:rgba(15,27,61,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    w.innerHTML='<div style="background:#fff;border-radius:14px;padding:18px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)"><b style="font-size:15px">Masukkan kata sandi unggah</b><p class="foot" style="margin:4px 0 10px">Diperlukan sekali untuk mengambil link form follow up mitra. Kata sandi sama dengan di menu Unggah Data.</p><input type="password" id="rmPw2" placeholder="Kata sandi unggah" autocomplete="off" style="width:100%;box-sizing:border-box;padding:9px 10px;border:1.5px solid #d5dce8;border-radius:10px;font:inherit"><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"><button type="button" id="rmPwNo2" class="xls" style="background:#fff;color:#0f1b3d;border:1.5px solid #d5dce8">Batal</button><button type="button" id="rmPwOk2" class="xls">Lanjut</button></div></div>';
+    document.body.appendChild(w);const inp=w.querySelector('#rmPw2');inp.focus();
+    const done=()=>w.remove();
+    const ok=()=>{const v=inp.value.trim();if(!v){inp.focus();return}done();res(v)};
+    w.querySelector('#rmPwOk2').onclick=ok;inp.onkeydown=e=>{if(e.key==='Enter')ok();if(e.key==='Escape'){done();rej(Object.assign(new Error('Dibatalkan'),{code:'cancel'}))}};
+    w.querySelector('#rmPwNo2').onclick=()=>{done();rej(Object.assign(new Error('Dibatalkan'),{code:'cancel'}))};
+  });
   return new Promise((res,rej)=>{
     rmStatus('pw','<div class="rmst-t"><b>Masukkan kata sandi unggah</b><small>Diperlukan sekali untuk mengambil link form follow up mitra.</small></div><div class="rmpw"><input type="password" id="rmPw" placeholder="Kata sandi unggah" autocomplete="off"><button id="rmPwOk" class="rmS">Lanjut</button><button id="rmPwNo">Batal</button></div>');
     const inp=$('rmPw');inp.focus();
@@ -5950,10 +5959,10 @@ function siMatchCells(p){
 }
 function siCalc(){
   const D=SI.data||{reports:[],issues:[],tl:[],sales:[]},day=SI.day||todayWib(),from=trAdd(day,-(+SI.per-1));
-  const reps=(D.reports||[]).filter(r=>r&&r.tanggal);
-  const sales=new Map();(D.sales||[]).forEach(s=>sales.set(siHp(s.h),{n:s.n,h:siHp(s.h),j:s.j||''}));
   const off=new Set((D.nonaktif||[]).map(siHp));
-  reps.forEach(r=>{const k=siHp(r.hp);if(off.has(k))return;if(!sales.has(k))sales.set(k,{n:r.nama,h:k,j:r.jabatan||''});else if(!sales.get(k).j&&r.jabatan)sales.get(k).j=r.jabatan});
+  const reps=(D.reports||[]).filter(r=>r&&r.tanggal&&!off.has(siHp(r.hp)));
+  const sales=new Map();(D.sales||[]).forEach(s=>sales.set(siHp(s.h),{n:s.n,h:siHp(s.h),j:s.j||''}));
+  reps.forEach(r=>{const k=siHp(r.hp);if(!sales.has(k))sales.set(k,{n:r.nama,h:k,j:r.jabatan||''});else if(!sales.get(k).j&&r.jabatan)sales.get(k).j=r.jabatan});
   const today=reps.filter(r=>r.tanggal===day),per=reps.filter(r=>r.tanggal>=from&&r.tanggal<=day);
   const byS=new Map();today.forEach(r=>byS.set(siHp(r.hp),r));
   const roster=[...sales.values()].map(s=>({s,r:byS.get(s.h)||null})).sort((a,b)=>(a.r?a.r.status==='lengkap'?0:1:2)-(b.r?b.r.status==='lengkap'?0:1:2)||a.s.n.localeCompare(b.s.n,'id'));
@@ -5964,7 +5973,7 @@ function siCalc(){
     if(siJam(r.checkin_at)>'09:00')o.late++});
   const pros=[];per.forEach(r=>(r.visit||[]).forEach(v=>{if(v.jenis==='tawar')pros.push({tanggal:r.tanggal,sales:r.nama,mitra:r.mitra,stasiun:r.stasiun,nama:v.nama,telp:v.telp,alamat:v.alamat,paket:v.paket,hasil:v.hasil,jam:v.jam})}));
   pros.sort((a,b)=>a.tanggal<b.tanggal?1:a.tanggal>b.tanggal?-1:String(b.jam).localeCompare(String(a.jam)));
-  const iss=(D.issues||[]),tl=(D.tl||[]);
+  const iss=(D.issues||[]).filter(x=>!off.has(siHp(x.hp))),tl=(D.tl||[]).filter(x=>!off.has(siHp(x.hp)));
   return {D,day,from,reps,today,per,roster,agg:[...agg.values()].sort((a,b)=>b.visit-a.visit||b.tawar-a.tawar),pros,iss,tl};
 }
 /* ---------- tampilan ---------- */
@@ -6083,7 +6092,7 @@ function renderSi(){
   $('siP').onclick=()=>{if(!C){toast('Data belum dimuat');return}const L=C.today.slice().sort((x,y)=>String(x.checkin_at).localeCompare(String(y.checkin_at)));siPrint(L,'Laporan Sales Internal - '+fmtD(C.day))};
   const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
   const q=$('siQ');if(q)q.oninput=ev=>{SI.q=ev.target.value;const p=ev.target.selectionStart;renderSi();const n=$('siQ');if(n){n.focus();n.setSelectionRange(p,p)}};
-  sc('[data-sirm]',b=>b.onclick=async e=>{e.stopPropagation();const n=b.dataset.sin;if(!confirm('Hapus "'+n+'" dari daftar sales?\n\nNama tidak lagi tampil di Kepatuhan laporan harian. Laporan yang sudah masuk tidak ikut terhapus (hapus lewat jendela laporan).'))return;
+  sc('[data-sirm]',b=>b.onclick=async e=>{e.stopPropagation();const n=b.dataset.sin;if(!confirm('Hapus "'+n+'" dari daftar sales?\n\nNama, laporan, issue, dan tindak lanjutnya tidak lagi tampil di dashboard ini. Data di Google Sheets tetap tersimpan.'))return;
     b.disabled=true;b.textContent='Menghapus…';try{await siApi('sr_sales',{list:[{h:b.dataset.sirm,n,aktif:false}]});toast(n+' dihapus dari daftar sales');SI.data=null;renderSi();await siLoad(true);renderSi();updateHeader()}catch(er){toast('Gagal menghapus: '+(er.message||er));b.disabled=false;b.textContent='Hapus dari daftar'}});
   sc('[data-sio]',li=>{const go=()=>siPop(li.dataset.sio);li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
 }
@@ -6265,8 +6274,8 @@ function siPrintHead(r){
   return `<div class="ph-head"><div class="ey">Daily Report Sales Internal Starlite</div><h1>${esc(r.nama)}${r.jabatan?` <span class="wo-mut" style="font-size:13px;font-weight:600">· ${esc(r.jabatan)}</span>`:''}</h1>
     <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
 }
-function siPrintDoc(list,title,inline){
-  const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${inline?'form sales':'dashboard'} ${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
+function siPrintDoc(list,title,inline,src){
+  const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${src||(inline?'form sales':'dashboard')}${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
   return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base target="_blank"><title>${esc(title)}</title><style>${SI_PRINT_CSS}</style></head><body>${inline?'':`<div class="bar no-print"><span>${esc(title)} · pilih <i>Simpan sebagai PDF</i> di jendela cetak</span><button onclick="window.print()">Cetak / Simpan PDF</button></div>`}${body}${inline?'':`<script>window.addEventListener('load',function(){setTimeout(function(){window.print()},900)})<\/script>`}</body></html>`;
 }
 function siPrintWin(list,title){
@@ -6448,12 +6457,16 @@ function siPop(id){
   const el=siPopEl();
   $('siPT').textContent=r.nama+(r.jabatan?' ('+r.jabatan+')':'')+' · '+fmtD(r.tanggal);
   $('siPS').innerHTML=`${esc(r.mitra)} · <b>${esc(r.stasiun)}</b> · masuk ${siJam(r.checkin_at)} · pulang ${siJam(r.checkout_at)} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'}`;
-  $('siPB').innerHTML=siReport(r)+`
+  $('siPB').innerHTML=`<iframe id="siRf" title="Laporan lengkap" style="width:100%;height:480px;border:0;display:block"></iframe>
     <h4 class="rg-h4">Tinjauan atasan</h4>
     <textarea id="siRv" class="si-rv" maxlength="1000" placeholder="Catatan untuk sales (opsional), tampil di riwayat form sales">${esc(r.catatan_review||'')}</textarea>
     <div class="ctl" style="margin-top:8px"><button id="siRvB" class="xls">${r.ditinjau_at?'Perbarui tinjauan':'Tandai sudah ditinjau'}</button><button id="siRvP" class="xls">Unduh PDF</button></div>
     <h4 class="rg-h4">Hapus laporan</h4>
     <div id="siDelBox"><p class="foot" style="margin:0 0 8px">Menghapus laporan ini dari daftar, termasuk prospek, issue, dan tindak lanjut yang berasal dari laporan ini.</p><button id="siDel" class="xls siDelB" type="button">Hapus laporan</button></div>`;
+  /* tampilan laporan sama dengan di form sales (dokumen yang sama dalam iframe) */
+  const rf=$('siRf'),fit=()=>{try{const d=rf.contentDocument;if(d&&d.documentElement)rf.style.height=Math.max(300,d.documentElement.scrollHeight+4)+'px'}catch(e){}};
+  rf.onload=()=>{fit();try{rf.contentDocument.querySelectorAll('img').forEach(i=>{i.addEventListener('load',fit);i.addEventListener('error',fit)})}catch(e){}[400,1200,3000].forEach(t=>setTimeout(fit,t))};
+  rf.srcdoc=siPrintDoc([r],'Laporan Sales - '+r.nama+' - '+fmtD(r.tanggal),true,'dashboard');
   $('siDel').onclick=()=>{
     $('siDelBox').innerHTML=`<div class="si-dc" role="alertdialog" aria-live="assertive"><b>Hapus laporan ${esc(r.nama)} tanggal ${esc(fmtD(r.tanggal))}?</b><span>Laporan, prospek, issue, dan tindak lanjut dari laporan ini dihapus dari spreadsheet. Salinan laporan disimpan di sheet "Laporan Dihapus" sehingga masih bisa dipulihkan. Foto di Google Drive tidak ikut dihapus.</span><div class="ctl"><button id="siDelY" class="xls siDelB" type="button">Ya, hapus laporan</button><button id="siDelN" class="xls" type="button">Batal</button></div></div>`;
     $('siDelN').onclick=()=>siPop(id);
@@ -7905,7 +7918,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125171309,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125174852,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
