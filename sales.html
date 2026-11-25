@@ -293,7 +293,7 @@ async function api(action,data,tries){
     try{
       const res=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action,t:T},data||{})),redirect:'follow'});
       if(!res.ok)throw new Error('HTTP '+res.status);
-      const j=await res.json();if(!j.ok){const e=new Error(j.message||j.error);e.code=j.error;throw e}
+      const j=await res.json();if(!j.ok){const e=new Error(j.error==='bad-action'?'Fitur ini butuh versi terbaru Web App sales. Admin: tempel Code.gs terbaru di Apps Script, lalu Deploy > Manage deployments > pensil > Version: New version > Deploy.':(j.message||j.error));e.code=j.error;throw e}
       return j;
     }catch(e){last=e;if(e.code)throw e;await new Promise(r=>setTimeout(r,1200))}
   }
@@ -404,7 +404,7 @@ function setP(o,p,v){const ks=p.split('.'),l=ks.pop(),t=ks.reduce((a,k)=>a[k]==n
 
 const STEPS=[['1','Absensi & rencana'],['2','Briefing pagi'],['3','Achievement'],['4','Visit lapangan'],['5','Issue & evaluasi'],['6','Kirim']];
 const LOK=[['mitra','Kantor mitra'],['lapangan','Lapangan']];
-const ITEMS=[['wo','WO open'],['wfp','Waiting first payment'],['iso','Isolir (suspend)'],['rtd','Ready to dismantle'],['dis','Dismantle']];
+const ITEMS=[['wo','WO open'],['wfp','Waiting first payment'],['iso','Isolir (suspend)'],['rtd','Ready to dismantle'],['dis','Dismantle'],['reg','Registrasi & aktivasi baru'],['akt','Pelanggan aktif (retensi)'],['pro','Prospek & penawaran'],['odp','ODP & jaringan'],['ikr','IKR & instalasi'],['lain','Lainnya (tulis sendiri)']];
 const ISS=[['community','Community case'],['apps','Apps issue'],['network','Network'],['mitra','Internal mitra'],['lain','Lainnya']];
 const URG=[['rendah','Rendah'],['sedang','Sedang'],['tinggi','Tinggi']];
 const PENY=['Jaringan / ODP penuh','Kendala aplikasi','Pembayaran pelanggan','IKR / mitra kurang','Pelanggan menolak','Cuaca','Lainnya'];
@@ -497,7 +497,7 @@ const tile=(l,v,s,c,x)=>`<div class="tile" style="--c:${c||'#1d4ed8'}"><span>${l
 
 /* ---------- langkah ---------- */
 function stepBriefing(){
-  const mOpt=R.region?`<div class="cb"><input type="text" id="fMi" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="cbList" aria-autocomplete="list" placeholder="Ketik nama mitra…" value="${esc(R.mitra||'')}"><button type="button" class="cbx" id="cbClr" aria-label="Hapus pilihan mitra"${R.mitra?'':' hidden'}>✕</button><ul id="cbList" class="cbl" role="listbox" hidden></ul></div>`:`<div class="cb"><input type="text" id="fMi" disabled placeholder="Pilih region di langkah 1 dahulu"></div>`;const sts=R.mitra?[...(X.mit.get(R.mitra)||[])].sort((a,b)=>a.localeCompare(b,'id')):[];
+  const mOpt=`<div class="cb"><input type="text" id="fMi" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="cbList" aria-autocomplete="list" placeholder="Ketik nama mitra…" value="${esc(R.mitra||'')}"><button type="button" class="cbx" id="cbClr" aria-label="Hapus pilihan mitra"${R.mitra?'':' hidden'}>✕</button><ul id="cbList" class="cbl" role="listbox" hidden></ul></div>`;const sts=R.mitra?[...(X.mit.get(R.mitra)||[])].sort((a,b)=>a.localeCompare(b,'id')):[];
   const sl=stList(),sn=R.mitra&&sl.length?snapSum(R.mitra,sl):null,mn=R.mitra?snapOf(R.mitra):null,ag=R.mitra&&sl.length?ageOfL(R.mitra,sl):null;
   const data=sn?`<h3>Data WO & pelanggan · ${esc(R.stasiun)}${sl.length>1?` <span class="foot">(gabungan ${sl.length} stasiun)</span>`:''}</h3><p class="foot" style="margin:0">Posisi saat ini dari database pelanggan · angka kecil = total mitra ${esc(R.mitra)}</p>
     <div class="tiles">${woTile('wo','WO open',nf(sn.wo),`${nf(sn.wo7)} lebih dari 7 hari<br>total mitra ${nf(mn.wo)}`,'#1d4ed8',ag)}${woTile('wfp','Waiting first payment',nf(sn.wfp),`belum bayar pertama<br>total mitra ${nf(mn.wfp)}`,'#7c3aed',ag)}${woTile('sus','WO isolir (suspend)',nf(sn.sus),`RTD ${nf(sn.rtd)}<br>total mitra ${nf(mn.sus)}`,'#d97706',ag)}${woTile('dis','Dismantle',nf(sn.dsg+sn.dis30),`dismantling ${nf(sn.dsg)}<br>dismantled 30 hr ${nf(sn.dis30)}`,'#b42318',ag)}</div>
@@ -506,8 +506,8 @@ function stepBriefing(){
     <p class="foot" style="margin:0">Pelanggan aktif di stasiun terpilih: <b>${nf(sn.akt)}</b>. Isolir = ${(sn.akt+sn.sus?sn.sus/(sn.akt+sn.sus)*100:0).toLocaleString('id-ID',{maximumFractionDigits:1})}% dari aktif + isolir.</p>
     <h3>Analisa & prioritas tindak lanjut hari ini <em style="color:var(--bad);font-style:normal">*</em></h3><p class="foot" style="margin:0 0 4px">Dari angka di atas, apa yang akan ditindaklanjuti hari ini?</p>
     ${R.wo.prior.map((x,i)=>`<div class="item"><div class="ih"><b>Prioritas ${i+1}</b>${R.wo.prior.length>1?`<button class="x" data-del="wo.prior" data-i="${i}">Hapus</button>`:''}</div>
-      <div class="g2"><div><label class="f">Data yang ditindaklanjuti</label>${sel(`wo.prior.${i}.item`,ITEMS,x.item,'Pilih data…')}</div><div><label class="f">PIC</label>${inp(`wo.prior.${i}.pic`,x.pic,'text','Nama PIC / mitra','maxlength="80"')}</div></div>
-      <label class="f">Tindakan</label>${txt(`wo.prior.${i}.tindakan`,x.tindakan,'Contoh: follow up 12 WO open lebih dari 7 hari ke IKR mitra')}</div>`).join('')}
+      <div class="g2"><div><label class="f">Data yang ditindaklanjuti</label>${sel(`wo.prior.${i}.item`,ITEMS,x.item,'Pilih data…',1)}</div><div><label class="f">PIC</label>${inp(`wo.prior.${i}.pic`,x.pic,'text','Nama PIC / mitra','maxlength="80"')}</div></div>
+      ${x.item==='lain'?`<label class="f">Tulis data yang ditindaklanjuti <em>*</em></label>${inp(`wo.prior.${i}.lain`,x.lain,'text','Contoh: konfirmasi stok perangkat ke mitra','maxlength="120"')}`:''}<label class="f">Tindakan</label>${txt(`wo.prior.${i}.tindakan`,x.tindakan,'Contoh: follow up 12 WO open lebih dari 7 hari ke IKR mitra')}</div>`).join('')}
     <button class="btn add" data-add="wo.prior">+ Tambah prioritas</button>`:'<div class="note">Pilih mitra dan stasiun untuk menampilkan data WO open, waiting first payment, isolir, dan dismantle.</div>';
   return `<section class="card"><h2>2 · Briefing pagi</h2><p class="sub">${fmtD(S.today)} · Target visit: pilih satu atau lebih stasiun di mitra ini.</p>
     <label class="f" for="fMi">Mitra <em>*</em></label>${mOpt}
@@ -521,7 +521,7 @@ function stepAbsensi(){
   return `<section class="card"><h2>1 · Absensi check-in</h2><p class="sub">${fmtD(S.today)} · Foto diambil langsung dari kamera HP. Tanggal, jam, dan lokasi GPS tercetak di foto.</p>
     <div class="up">${phBox('checkin.selfie','Selfie check-in',1,'user')}${phBox('checkin.tempat','Foto tempat kerja',1,'environment')}</div>
     <label class="f">Lokasi kerja hari ini <em>*</em></label><div class="hint">Pilih <b>Kantor mitra</b> jika hari ini bekerja di kantor mitra (langkah 4 akan meminta laporan kantor mitra). Pilih <b>Lapangan</b> jika turun ke lapangan.</div>${sel('checkin.lokasi',LOK,R.checkin.lokasi,'Pilih lokasi…',1)}
-    <label class="f">Region <em>*</em></label><div class="hint">Pilih region kerja Anda. Di langkah Briefing, daftar mitra dan stasiun hanya menampilkan yang ada di region ini.</div>${sel('region',RGS(),R.region,'Pilih region…',1)}</section>
+    <label class="f">Region <em>*</em></label><div class="hint">Pilih region kerja Anda. Di langkah Briefing, daftar mitra dan stasiun tetap menampilkan semua mitra, termasuk yang berada di region lain.</div>${sel('region',RGS(),R.region,'Pilih region…',1)}</section>
   <section class="card"><h2>Rencana hari ini</h2><p class="sub">Tulis kegiatan yang akan Anda kerjakan hari ini, satu kegiatan per poin. <b>Minimal 2 poin.</b></p>
     <div class="guide"><b>Contoh:</b><ol><li>Join visit dengan sales mitra di cluster A</li><li>Cek 3 ODP di stasiun target</li><li>Follow up 5 WO open lebih dari 7 hari ke IKR mitra</li></ol></div>
     <label class="f">Rencana kegiatan <em>*</em></label>${pts('rencana.kegiatan',R.rencana.kegiatan,'Tulis satu rencana kegiatan',2)}</section>`;
@@ -649,7 +649,7 @@ function checks(){
   const e=[],v=R.visit;
   const P=x=>(x||[]).some(s=>String(s).trim());
   e.push([!R.checkin.selfie?'Selfie check-in':'',!R.checkin.tempat?'Foto tempat kerja':'',!LOK.some(x=>x[0]===R.checkin.lokasi)?'Lokasi kerja':'',!R.region?'Region':'',(R.rencana.kegiatan||[]).filter(s=>String(s).trim()).length<2?'Rencana kegiatan minimal 2 poin':''].filter(Boolean));
-  e.push([!R.mitra||!R.stasiun?'Pilih mitra dan stasiun':'',R.mitra&&R.region&&X.rg.get(R.mitra)!==R.region?'Mitra tidak berada di region terpilih':'',!R.wo.prior.some(x=>x.item&&x.tindakan.trim())?'Minimal 1 prioritas tindak lanjut (data + tindakan)':''].filter(Boolean));
+  e.push([!R.mitra||!R.stasiun?'Pilih mitra dan stasiun':'',!R.wo.prior.some(x=>x.item&&x.tindakan.trim())?'Minimal 1 prioritas tindak lanjut (data + tindakan)':'',R.wo.prior.some(x=>x.item==='lain'&&!String(x.lain||'').trim())?'Tulis data yang ditindaklanjuti untuk pilihan Lainnya':''].filter(Boolean));
   const a=R.ach.auto||{};
   e.push([!P(R.ach.poin)?'Evaluasi & catatan achievement':'',(a.tr_reg==='turun'||a.tr_act==='turun')&&!R.ach.penyebab.length?'Penyebab penurunan':''].filter(Boolean));
   const vs=[],km=R.checkin.lokasi==='mitra',fb=a=>{const n=(a||[]).length;return n<3||n>10?`foto (${n}, harus 3 sampai 10)`:''};
@@ -707,7 +707,7 @@ function renderRiwayat(skip){
     ${M.map(r=>`<div class="hist clk" data-rp="${esc(r.id)}" role="button" tabindex="0"><div class="hh"><b>${fmtD(r.tanggal)} · ${esc(r.stasiun)}</b><span class="tag" style="${r.status==='lengkap'?'--c:#15803d;--bg2:#e6f4ea':'--c:#b45309;--bg2:#fdf3e4'}">${r.status==='lengkap'?'Lengkap':'Baru check-in'}</span></div>
       <div class="foot">${esc(r.mitra)} · masuk ${jam(r.checkin_at)} · pulang ${jam(r.checkout_at)} · ${nf(r.n_visit)} visit · ${nf(r.n_prospek)} prospek · ${nf(r.n_issue)} issue</div>
       ${r.ditinjau_at?`<div class="note ok" style="margin:6px 0 0">Ditinjau ${fmtD(String(r.ditinjau_at).slice(0,10))}${r.catatan_review?': '+esc(r.catatan_review):''}</div>`:''}<div class="rpl">Lihat laporan lengkap ›</div></div>`).join('')||'<p class="foot">Belum ada laporan.</p>'}</section>
-  <section class="card"><h2>Prospek saya (${nf(P.length)})</h2><p class="sub">Calon pelanggan dari penawaran langsung${act!=null?` · ${nf(act)} sudah aktif`:''}. Status pelanggan dicocokkan otomatis dari nomor telepon dengan data pelanggan.</p>
+  <section class="card"><h2>Prospek saya (${nf(P.length)})</h2><p class="sub">Calon pelanggan dari penawaran langsung${act!=null?` · ${nf(act)} sudah aktif`:''}. Status pelanggan dicocokkan otomatis dari nomor telepon dengan data pelanggan.${S.matchErr?` <b>(${esc(S.matchErr)})</b>`:''}</p>
     ${P.length?`<div class="tw"><table><thead><tr><th>Tanggal</th><th>Nama</th><th>Telepon</th><th>Stasiun</th><th>Hasil penawaran</th><th>Status pelanggan</th><th>Tanggal aktif</th></tr></thead><tbody>${P.slice().sort((a,b)=>a.tanggal<b.tanggal?1:-1).map(p=>`<tr><td>${fmtD(p.tanggal)}</td><td>${esc(p.nama)}<div class="foot">${esc(p.alamat||'')}</div></td><td>${esc(String(p.telepon||'').replace(/^'/,''))}</td><td>${esc(p.stasiun)}</td><td>${esc(p.status)}</td>${prosCells(p)}</tr>`).join('')}</tbody></table></div>`:'<p class="foot">Belum ada prospek.</p>'}</section>`;
   if(!skip)matchPros();
 }
@@ -737,7 +737,6 @@ $('bNext').onclick=()=>{if(S.step===1&&!R.sent.pagi)sendPagi();else if(S.step===
 $('app').addEventListener('input',ev=>{const el=ev.target.closest('[data-b]');if(!el||el.dataset.rr)return;setP(R,el.dataset.b,el.type==='checkbox'?el.checked:el.value);el.classList.remove('bad-f');save()});
 $('app').addEventListener('change',ev=>{const el=ev.target.closest('[data-b]');if(!el)return;const p=el.dataset.b;setP(R,p,el.type==='checkbox'?el.checked:el.value);
   if(p==='mitra'){setSts([]);R.regional=X.rg.get(R.mitra)||''}
-  if(p==='region'&&R.mitra&&X.rg.get(R.mitra)!==R.region){R.mitra='';setSts([]);R.regional=''}
   save();if(el.dataset.rr)render()});
 $('app').addEventListener('click',ev=>{
   const stb=ev.target.closest('[data-st]');if(stb){const v=stb.dataset.st,a=stList().slice(),i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);setSts(a.sort((x,y)=>x.localeCompare(y,'id')));save();render();return}
@@ -837,9 +836,9 @@ async function upload(u){
 const hl=(m,q)=>{if(!q)return esc(m);const i=m.toLowerCase().indexOf(q);return i<0?esc(m):esc(m.slice(0,i))+'<b>'+esc(m.slice(i,i+q.length))+'</b>'+esc(m.slice(i+q.length))};
 function initCb(){
   const i=$('fMi');if(!i||i.disabled)return;
-  const L=$('cbList'),list=[...X.mit.keys()].filter(m=>m!=='(Tanpa mitra)'&&(!R.region||X.rg.get(m)===R.region)).sort((a,b)=>a.localeCompare(b,'id'));
+  const L=$('cbList'),list=[...X.mit.keys()].filter(m=>m!=='(Tanpa mitra)').sort((a,b)=>a.localeCompare(b,'id'));
   let items=[],act=-1;
-  const draw=()=>{const q=i.value.trim().toLowerCase();L.innerHTML=items.map((m,k)=>`<li role="option" data-m="${esc(m)}" class="${k===act?'on':''}"${k===act?' aria-selected="true"':''}><span>${hl(m,q)}</span><small>${nf((X.mit.get(m)||[]).size)} stasiun</small></li>`).join('')||'<li class="no">Tidak ada mitra yang cocok di region ini</li>'};
+  const draw=()=>{const q=i.value.trim().toLowerCase();L.innerHTML=items.map((m,k)=>`<li role="option" data-m="${esc(m)}" class="${k===act?'on':''}"${k===act?' aria-selected="true"':''}><span>${hl(m,q)}</span><small>${esc(X.rg.get(m)||'')} · ${nf((X.mit.get(m)||[]).size)} stasiun</small></li>`).join('')||'<li class="no">Tidak ada mitra yang cocok</li>'};
   const open=all=>{const q=all?'':i.value.trim().toLowerCase();items=list.filter(m=>!q||m.toLowerCase().includes(q)).sort((a,b)=>(a.toLowerCase().startsWith(q)?0:1)-(b.toLowerCase().startsWith(q)?0:1)||a.localeCompare(b,'id')).slice(0,40);act=q&&items.length?0:-1;draw();L.hidden=false;i.setAttribute('aria-expanded','true')};
   const close=()=>{L.hidden=true;i.setAttribute('aria-expanded','false')};
   const pick=m=>{R.mitra=m;R.regional=X.rg.get(m)||'';setSts([]);save();render()};
@@ -906,7 +905,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('woPop').hidden)
 const SI_LOK={mitra:'Kantor mitra',lapangan:'Lapangan',kantor:'Kantor',lain:'Lainnya'};
 const SI_ISS={community:'Community case',apps:'Apps issue',network:'Network',mitra:'Internal mitra',lain:'Lainnya'};
 const SI_VT={join:'Join visit sales mitra',ling:'Visit lingkungan / affiliator',odp:'Cek ODP',tawar:'Penawaran langsung',temuan:'Temuan lapangan'};
-const SI_ITEM={wo:'WO open',wfp:'Waiting first payment',iso:'Isolir (suspend)',rtd:'Ready to dismantle',dis:'Dismantle'};
+const SI_ITEM={wo:'WO open',wfp:'Waiting first payment',iso:'Isolir (suspend)',rtd:'Ready to dismantle',dis:'Dismantle',reg:'Registrasi & aktivasi baru',akt:'Pelanggan aktif (retensi)',pro:'Prospek & penawaran',odp:'ODP & jaringan',ikr:'IKR & instalasi',lain:'Lainnya'};
 const siJam=s=>{if(!s)return '-';s=String(s);if(/Z$/.test(s))s=new Date(Date.parse(s)+7*36e5).toISOString();return s.length>=16?s.slice(11,16):'-'};
 const siHp=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slice(1);else if(x[0]==='8')x='62'+x;return x};
 const siPh=id=>{if(!id)return '';if(String(id).startsWith('demo-')){try{return JSON.parse(localStorage.getItem('srDemoPh')||'{}')[id]||''}catch(e){return ''}}return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w400'};
@@ -941,7 +940,7 @@ const SI_RP_CSS=`.rp-an{border:1.5px solid #c7d6f7;background:#f5f8ff;border-rad
 .rp-t th,.rp-t td{border:1px solid #dde2e9;padding:6px 8px;text-align:left;vertical-align:top}
 .rp-t th{background:#f3f5f9;font-size:11.5px}
 .rp-t td.n{font-weight:700}
-.rp-sub{margin:10px 0 2px;font-size:13px;font-weight:700}\n.si-tiles.rp-k{grid-template-columns:repeat(6,minmax(0,1fr))}\n@media(max-width:700px){.si-tiles.rp-k{grid-template-columns:repeat(3,minmax(0,1fr))}}`;
+.rp-sub{margin:10px 0 2px;font-size:13px;font-weight:700}\n.si-tiles.rp-k{grid-template-columns:repeat(auto-fit,minmax(112px,1fr))}\n.rp-rows{margin-top:2px}\n.rp-r{display:grid;grid-template-columns:112px 1fr;gap:2px 10px;padding:4px 0;border-bottom:1px dashed #d3ddf3;font-size:12.5px;line-height:1.45}\n.rp-r span{color:#5b6475;font-weight:600}\n.rp-r:last-child{border-bottom:0}`;
 const SI_PRINT_CSS=`@page{size:A4;margin:12mm}
 *{box-sizing:border-box}
 body{margin:0;font:12px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif;color:#0f1b3d;background:#fff}
@@ -989,21 +988,23 @@ function siFotoN(r){let n=0;const w=x=>{if(x&&typeof x==='object'){if(x.ts&&('id
 const nfs=v=>v==null||v===''||Number.isNaN(+v)?'-':nf(+v);
 const siAdd=(d,n)=>{const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
 function siAnalisis(r){
-  const v=r.visit||[],c=r.checkin||{},w=r.wo||{},sn=w.snap||{},ag=w.age||null,a=(r.ach||{}).auto||{},kt=r.kantor,km=c.lokasi==='mitra';
-  const cnt=k=>v.filter(x=>x.jenis===k).length,tw=v.filter(x=>x.jenis==='tawar'),reg=tw.filter(x=>x.hasil==='Langsung registrasi').length,mnt=tw.filter(x=>x.hasil==='Tertarik').length;
+  const v=r.visit||[],c=r.checkin||{},w=r.wo||{},sn=w.snap||{},a=(r.ach||{}).auto||{},kt=r.kantor,km=c.lokasi==='mitra';
+  const ag=w.age||null;
+  const cnt=k=>v.filter(x=>x.jenis===k).length,tw=v.filter(x=>x.jenis==='tawar'),reg=tw.filter(x=>x.hasil==='Langsung registrasi').length;
   const odp=v.filter(x=>x.jenis==='odp'),odpY=odp.filter(x=>x.pot==='ya').length,iss=r.issue||[],tl=r.tl||[],hi=iss.filter(x=>x.urg==='tinggi');
-  const fotoN=siFotoN(r),ci=siMin(r.checkin_at),co=siMin(r.checkout_at),dur=ci!=null&&co!=null&&co>=ci?co-ci:null,telat=ci!=null&&ci>9*60;
-  const fa=n=>Number(n||0).toLocaleString('id-ID',{maximumFractionDigits:1}),L=[],P=[];
-  L.push(`Check-in ${siJam(r.checkin_at)}${telat?' (lewat 09.00)':' (tepat waktu)'}${r.status==='lengkap'?`, check-out ${siJam(r.checkout_at)}${dur!=null?`, durasi kerja ${Math.floor(dur/60)} jam ${dur%60} menit`:''}`:', belum check-out'}, lokasi kerja ${SI_LOK[c.lokasi]||c.lokasi||'-'}.`);
-  L.push(`${nfs(v.length)} kegiatan visit (join ${cnt('join')}, lingkungan/affiliator ${cnt('ling')}, ODP ${cnt('odp')}, penawaran ${cnt('tawar')}, temuan ${cnt('temuan')})${km&&kt?' dan 1 laporan kantor mitra':''}; ${nfs(fotoN)} foto terdokumentasi.`);
-  if(tw.length)L.push(`${tw.length} prospek: ${reg} langsung registrasi dan ${mnt} tertarik (konversi langsung ${Math.round(reg/tw.length*100)}%).`);
-  if(odp.length)L.push(`${odp.length} ODP dicek, ${odpY} potensial (${Math.round(odpY/odp.length*100)}%).`);
-  if(a.reg!=null)L.push(`Registrasi kemarin ${nfs(a.reg)}${a.reg_lw!=null?` (${siPct(a.reg,a.reg_lw)} vs minggu lalu)`:''}, aktivasi ${nfs(a.act)}${a.act_lw!=null?` (${siPct(a.act,a.act_lw)} vs minggu lalu)`:''}.`);
-  if(sn.wo!=null)L.push(`Posisi ${r.stasiun||'stasiun'}: WO open ${nfs(sn.wo)} (${nfs(sn.wo7)} lebih dari 7 hari), waiting first payment ${nfs(sn.wfp)}, isolir ${nfs(sn.sus)}, dismantle ${nfs((sn.dsg||0)+(sn.dis30||0))}.`);
-  if(iss.length)L.push(`${iss.length} issue baru dicatat; ${tl.length} evaluasi dengan solusi dan deadline.`);
-  else if(tl.length)L.push(`${tl.length} evaluasi dengan solusi dan deadline.`);
-  if(kt&&km)L.push(`Kantor mitra: bertemu ${kt.pic||'-'}${kt.jab_pic?' ('+kt.jab_pic+')':''}, ${(kt.sepakat||[]).filter(Boolean).length} kesepakatan dicatat.`);
-  if(telat)P.push(`Check-in terlambat (${siJam(r.checkin_at)}, setelah 09.00).`);
+  const fotoN=siFotoN(r),ci=siMin(r.checkin_at),co=siMin(r.checkout_at),dur=ci!=null&&co!=null&&co>=ci?co-ci:null;
+  const fa=n=>Number(n||0).toLocaleString('id-ID',{maximumFractionDigits:1}),P=[],G=[],join=a=>a.filter(Boolean).join(' · ');
+  /* ringkasan: hanya yang ada isinya */
+  if(dur!=null&&r.status==='lengkap')G.push(['Durasi kerja',`${Math.floor(dur/60)} jam ${dur%60} menit (${siJam(r.checkin_at)} sampai ${siJam(r.checkout_at)})`]);
+  if(v.length){const t=[['join','join visit'],['ling','lingkungan/affiliator'],['odp','cek ODP'],['tawar','penawaran'],['temuan','temuan']].map(x=>cnt(x[0])?`${x[1]} ${cnt(x[0])}`:'').filter(Boolean);G.push(['Visit lapangan',`${v.length} kegiatan: ${t.join(', ')}`])}
+  if(km&&kt){const sp=(kt.sepakat||[]).filter(Boolean).length,tm=(kt.temuan||[]).filter(Boolean).length;const t=join([kt.pic?`bertemu ${kt.pic}${kt.jab_pic?' ('+kt.jab_pic+')':''}`:'',tm?`${tm} temuan data`:'',sp?`${sp} kesepakatan`:'',kt.data_sama==='selisih'?'ada selisih data':kt.data_sama==='sama'?'data sesuai':'']);if(t)G.push(['Kantor mitra',t])}
+  if(tw.length){const by={};tw.forEach(x=>{const k=x.hasil||'-';by[k]=(by[k]||0)+1});G.push(['Prospek',`${tw.length} prospek: ${Object.keys(by).map(k=>`${by[k]} ${String(k).toLowerCase()}`).join(', ')}`])}
+  if(odp.length)G.push(['ODP',`${odp.length} dicek, ${odpY} potensial`]);
+  if(a.reg!=null){const t=[`registrasi ${nfs(a.reg)}${a.reg_lw!=null?` (${siPct(a.reg,a.reg_lw)})`:''}`,`aktivasi ${nfs(a.act)}${a.act_lw!=null?` (${siPct(a.act,a.act_lw)})`:''}`];G.push(['Achievement',t.join(', ')+(a.reg_lw!=null?' vs minggu lalu':'')])}
+  if(sn.wo!=null){const dm=(sn.dsg||0)+(sn.dis30||0);const t=join([sn.wo?`WO open ${nfs(sn.wo)}${sn.wo7?` (${nfs(sn.wo7)} lebih dari 7 hari)`:''}`:'',sn.wfp?`waiting first payment ${nfs(sn.wfp)}`:'',sn.sus?`isolir ${nfs(sn.sus)}`:'',dm?`dismantle ${nfs(dm)}`:'']);if(t)G.push(['Posisi WO',t])}
+  if(iss.length||tl.length)G.push(['Issue & evaluasi',join([iss.length?`${iss.length} issue baru`:'',tl.length?`${tl.length} evaluasi dengan solusi dan deadline`:''])]);
+  if(fotoN)G.push(['Dokumentasi',`${nfs(fotoN)} foto`]);
+  /* perlu perhatian */
   if(r.status!=='lengkap')P.push('Laporan belum lengkap: belum check-out.');
   const pen=((r.ach||{}).penyebab||[]).length?`; penyebab yang dilaporkan: ${r.ach.penyebab.join(', ')}`:'';
   [['Registrasi',a.tr_reg,a.reg,a.reg_lw],['Aktivasi',a.tr_act,a.act,a.act_lw]].forEach(x=>{if(x[1]==='turun')P.push(`${x[0]} kemarin turun ${siPct(x[2],x[3]).replace('−','')} dibanding minggu lalu (${nfs(x[2])} vs ${nfs(x[3])})${pen}.`)});
@@ -1017,8 +1018,8 @@ function siAnalisis(r){
   const rn=((r.rencana||{}).kegiatan||[]).filter(Boolean).length;
   if(c.lokasi==='lapangan'&&rn>v.length)P.push(`Rencana ${rn} kegiatan, tercatat ${v.length} kegiatan visit.`);
   const n=P.length,label=n===0?'Baik':n<=2?'Cukup':'Perlu perhatian',cls=n===0?'ok':n<=2?'mid':'no';
-  const kes=n===0?`Laporan ${r.status==='lengkap'?'lengkap':'belum lengkap'} dan tidak ada hal mendesak. Aktivitas hari ini: ${nfs(v.length)} visit${tw.length?`, ${tw.length} prospek`:''}${odp.length?`, ${odpY} ODP potensial`:''}.`:`Ada ${n} hal yang perlu perhatian atasan. Yang pertama: ${P[0]}`;
-  return {L,P,label,cls,kes,fotoN,dur,tw,reg,odp,odpY,hi,v,iss,tl};
+  const kes=n===0?'Laporan lengkap dan tidak ada hal yang perlu perhatian khusus.':`Ada ${n} hal yang perlu perhatian atasan. Yang pertama: ${P[0]}`;
+  return {G,P,label,cls,kes,fotoN,dur,tw,reg,odp,odpY,hi,v,iss,tl};
 }
 function siWoTable(sn,ag){
   const bk=k=>ag&&ag[k]?SI_AGL[k].map((l,i)=>`${l}: ${nfs(ag[k].b[i])}`).join('<br>'):'-';
@@ -1042,18 +1043,19 @@ function siReport(r,o){
     return `<div class="si-vi"><div class="si-vh"><b>${i+1}. ${esc(SI_VT[v.jenis]||v.jenis)}</b><span class="wo-mut">${siJam(v.jam)}${v.geo?` · <a href="https://maps.google.com/?q=${v.geo.lat},${v.geo.lng}" target="_blank" rel="noopener">lokasi</a>`:''}</span></div>${b}${siPhotos(vf(v))}</div>`}).join('')||'<p class="wo-mut">Belum ada kegiatan visit lapangan.</p>';
   const tlRows=(r.tl||[]).map(x=>`<tr><td>${esc(x.masalah)}</td><td>${esc(x.solusi)}</td><td>${esc(x.pic)}</td><td>${fmtD(x.deadline)}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td colspan="5" class="wo-mut">-</td></tr>';
   const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
+  const tiles=[A.v.length?siTile('Visit',nfs(A.v.length),'kegiatan','#1d4ed8'):'',A.tw.length?siTile('Prospek',nfs(A.tw.length),A.reg?`${nfs(A.reg)} langsung reg.`:'','#d97706'):'',A.odp.length?siTile('ODP potensial',`${nfs(A.odpY)}/${nfs(A.odp.length)}`,'dari ODP dicek','#7c3aed'):'',A.iss.length?siTile('Issue',nfs(A.iss.length),A.hi.length?`${nfs(A.hi.length)} urgensi tinggi`:'','#b42318'):'',A.tl.length?siTile('Evaluasi',nfs(A.tl.length),'solusi & deadline','#0f766e'):'',A.fotoN?siTile('Foto',nfs(A.fotoN),'terdokumentasi','#475569'):''].filter(Boolean);
+  const rows=A.G.length?`<div class="rp-rows">${A.G.map(x=>`<div class="rp-r"><span>${esc(x[0])}</span><div>${esc(x[1])}</div></div>`).join('')}</div>`:'<p class="wo-mut">Belum ada aktivitas yang tercatat.</p>';
   return `<section class="rp-an"><div class="rp-anh"><b>Analisis singkat</b><span class="si-st ${A.cls}">${A.label}</span></div>
     <p class="rp-kes">${esc(A.kes)}</p>
-    <div class="si-two"><div><h5>Ringkasan aktivitas</h5><ul class="si-ul">${li(A.L)}</ul></div><div><h5>Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul></div></div>
+    <div class="si-two"><div><h5>Ringkasan</h5>${rows}</div><div><h5>Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul></div></div>
     <div class="rp-note">Analisis dibuat otomatis dari isi laporan, bukan pengganti penilaian atasan.</div></section>
-    <div class="si-tiles rp-k">${siTile('Visit',nfs(A.v.length),'kegiatan','#1d4ed8')}${siTile('Prospek',nfs(A.tw.length),`${nfs(A.reg)} langsung reg.`,'#d97706')}${siTile('ODP potensial',`${nfs(A.odpY)}/${nfs(A.odp.length)}`,'dari ODP dicek','#7c3aed')}${siTile('Issue',nfs(A.iss.length),`${nfs(A.hi.length)} urgensi tinggi`,'#b42318')}${siTile('Evaluasi',nfs(A.tl.length),'solusi & deadline','#0f766e')}${siTile('Foto',nfs(A.fotoN),'terdokumentasi','#475569')}</div>
-    <h4 class="rg-h4">1 · Absensi & rencana hari ini</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
+    ${tiles.length?`<div class="si-tiles rp-k">${tiles.join('')}</div>`:''}    <h4 class="rg-h4">1 · Absensi & rencana hari ini</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
     <div class="si-kv"><span>Lokasi kerja</span><b>${esc(SI_LOK[c.lokasi]||c.lokasi||'-')}</b><span>Jabatan</span><b>${esc(r.jabatan||'-')}</b></div>
     <div class="si-kv"><span>Region</span><b>${esc(r.region||r.regional||'-')}</b><span>Mitra</span><b>${esc(r.mitra||'-')}</b></div>
     <div class="si-kv"><span>Stasiun target</span><b>${esc(r.stasiun||'-')}</b><span>Check-in / out</span><b>${siJam(r.checkin_at)} / ${siJam(r.checkout_at)}</b></div>
     <h5>Rencana kegiatan</h5>${siOl((r.rencana||{}).kegiatan)}
     <h4 class="rg-h4">2 · Briefing pagi: data WO & pelanggan</h4>${siWoTable(sn,w.age)}
-    <h5>Prioritas tindak lanjut</h5>${(w.prior||[]).length?`<ul class="si-ul">${w.prior.map(p=>`<li><b>${esc(SI_ITEM[p.item]||p.item)}</b>: ${esc(p.tindakan)}${p.pic?` <span class="wo-mut">(PIC ${esc(p.pic)})</span>`:''}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>'}
+    <h5>Prioritas tindak lanjut</h5>${(w.prior||[]).length?`<ul class="si-ul">${w.prior.map(p=>`<li><b>${esc(p.item==='lain'?(p.lain||'Lainnya'):(SI_ITEM[p.item]||p.item))}</b>: ${esc(p.tindakan)}${p.pic?` <span class="wo-mut">(PIC ${esc(p.pic)})</span>`:''}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>'}
     <h4 class="rg-h4">3 · Achievement kemarin</h4>
     <table class="rp-t"><thead><tr><th></th><th>Kemarin</th><th>Minggu lalu</th><th>Perubahan</th><th>Status</th></tr></thead><tbody>
       <tr><td>Registrasi</td><td class="n">${nfs(a.reg)}</td><td>${a.reg_lw!=null?nfs(a.reg_lw):'-'}</td><td>${a.reg_lw!=null?siPct(a.reg,a.reg_lw):'-'}</td><td>${esc(a.tr_reg||'-')}</td></tr>

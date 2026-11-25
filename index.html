@@ -5855,7 +5855,7 @@ const SI_KEY='9b56a213a8804a0d8e1af64c814e14ea';
 const siCfg=()=>{let c=null;try{c=JSON.parse(localStorage.getItem('siCfg')||'null')}catch(e){}return {url:(c&&c.url)||SI_DEF||'',key:(c&&c.key)||SI_KEY||''}};
 /*CORE-BEGIN*/const SI_ISS={community:'Community case',apps:'Apps issue',network:'Network',mitra:'Internal mitra',lain:'Lainnya'};
 const SI_VT={join:'Join visit sales mitra',ling:'Visit lingkungan / affiliator',odp:'Cek ODP',tawar:'Penawaran langsung',temuan:'Temuan lapangan'};
-const SI_ITEM={wo:'WO open',wfp:'Waiting first payment',iso:'Isolir (suspend)',rtd:'Ready to dismantle',dis:'Dismantle'};
+const SI_ITEM={wo:'WO open',wfp:'Waiting first payment',iso:'Isolir (suspend)',rtd:'Ready to dismantle',dis:'Dismantle',reg:'Registrasi & aktivasi baru',akt:'Pelanggan aktif (retensi)',pro:'Prospek & penawaran',odp:'ODP & jaringan',ikr:'IKR & instalasi',lain:'Lainnya'};
 const siJam=s=>{if(!s)return '-';s=String(s);if(/Z$/.test(s))s=new Date(Date.parse(s)+7*36e5).toISOString();return s.length>=16?s.slice(11,16):'-'};
 const siHp=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slice(1);else if(x[0]==='8')x='62'+x;return x};
 const siPh=id=>{if(!id)return '';if(String(id).startsWith('demo-')){try{return JSON.parse(localStorage.getItem('srDemoPh')||'{}')[id]||''}catch(e){return ''}}return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w400'};
@@ -5870,7 +5870,7 @@ async function siApi(action,data){
   }
   const res=await fetch(c.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action,key:c.key},data||{})),redirect:'follow'});
   if(!res.ok)throw new Error('HTTP '+res.status);
-  const j=await res.json();if(!j.ok)throw new Error(j.message||j.error||'gagal');return j;
+  const j=await res.json();if(!j.ok){const e=new Error(j.error==='bad-action'?'Fitur ini butuh versi terbaru Web App sales. Tempel Code.gs terbaru di Apps Script, lalu Deploy > Manage deployments > pensil > Version: New version > Deploy.':(j.message||j.error||'gagal'));e.code=j.error;throw e}return j;
 }
 async function siLoad(force){
   if(SI.busy)return;if(SI.data&&!force&&Date.now()-SI.at<5*60e3)return;
@@ -6049,7 +6049,7 @@ const SI_RP_CSS=`.rp-an{border:1.5px solid #c7d6f7;background:#f5f8ff;border-rad
 .rp-t th,.rp-t td{border:1px solid #dde2e9;padding:6px 8px;text-align:left;vertical-align:top}
 .rp-t th{background:#f3f5f9;font-size:11.5px}
 .rp-t td.n{font-weight:700}
-.rp-sub{margin:10px 0 2px;font-size:13px;font-weight:700}\n.si-tiles.rp-k{grid-template-columns:repeat(6,minmax(0,1fr))}\n@media(max-width:700px){.si-tiles.rp-k{grid-template-columns:repeat(3,minmax(0,1fr))}}`;
+.rp-sub{margin:10px 0 2px;font-size:13px;font-weight:700}\n.si-tiles.rp-k{grid-template-columns:repeat(auto-fit,minmax(112px,1fr))}\n.rp-rows{margin-top:2px}\n.rp-r{display:grid;grid-template-columns:112px 1fr;gap:2px 10px;padding:4px 0;border-bottom:1px dashed #d3ddf3;font-size:12.5px;line-height:1.45}\n.rp-r span{color:#5b6475;font-weight:600}\n.rp-r:last-child{border-bottom:0}`;
 const SI_PRINT_CSS=`@page{size:A4;margin:12mm}
 *{box-sizing:border-box}
 body{margin:0;font:12px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif;color:#0f1b3d;background:#fff}
@@ -6097,21 +6097,23 @@ function siFotoN(r){let n=0;const w=x=>{if(x&&typeof x==='object'){if(x.ts&&('id
 const nfs=v=>v==null||v===''||Number.isNaN(+v)?'-':nf(+v);
 const siAdd=(d,n)=>{const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
 function siAnalisis(r){
-  const v=r.visit||[],c=r.checkin||{},w=r.wo||{},sn=w.snap||{},ag=w.age||null,a=(r.ach||{}).auto||{},kt=r.kantor,km=c.lokasi==='mitra';
-  const cnt=k=>v.filter(x=>x.jenis===k).length,tw=v.filter(x=>x.jenis==='tawar'),reg=tw.filter(x=>x.hasil==='Langsung registrasi').length,mnt=tw.filter(x=>x.hasil==='Tertarik').length;
+  const v=r.visit||[],c=r.checkin||{},w=r.wo||{},sn=w.snap||{},a=(r.ach||{}).auto||{},kt=r.kantor,km=c.lokasi==='mitra';
+  const ag=w.age||null;
+  const cnt=k=>v.filter(x=>x.jenis===k).length,tw=v.filter(x=>x.jenis==='tawar'),reg=tw.filter(x=>x.hasil==='Langsung registrasi').length;
   const odp=v.filter(x=>x.jenis==='odp'),odpY=odp.filter(x=>x.pot==='ya').length,iss=r.issue||[],tl=r.tl||[],hi=iss.filter(x=>x.urg==='tinggi');
-  const fotoN=siFotoN(r),ci=siMin(r.checkin_at),co=siMin(r.checkout_at),dur=ci!=null&&co!=null&&co>=ci?co-ci:null,telat=ci!=null&&ci>9*60;
-  const fa=n=>Number(n||0).toLocaleString('id-ID',{maximumFractionDigits:1}),L=[],P=[];
-  L.push(`Check-in ${siJam(r.checkin_at)}${telat?' (lewat 09.00)':' (tepat waktu)'}${r.status==='lengkap'?`, check-out ${siJam(r.checkout_at)}${dur!=null?`, durasi kerja ${Math.floor(dur/60)} jam ${dur%60} menit`:''}`:', belum check-out'}, lokasi kerja ${SI_LOK[c.lokasi]||c.lokasi||'-'}.`);
-  L.push(`${nfs(v.length)} kegiatan visit (join ${cnt('join')}, lingkungan/affiliator ${cnt('ling')}, ODP ${cnt('odp')}, penawaran ${cnt('tawar')}, temuan ${cnt('temuan')})${km&&kt?' dan 1 laporan kantor mitra':''}; ${nfs(fotoN)} foto terdokumentasi.`);
-  if(tw.length)L.push(`${tw.length} prospek: ${reg} langsung registrasi dan ${mnt} tertarik (konversi langsung ${Math.round(reg/tw.length*100)}%).`);
-  if(odp.length)L.push(`${odp.length} ODP dicek, ${odpY} potensial (${Math.round(odpY/odp.length*100)}%).`);
-  if(a.reg!=null)L.push(`Registrasi kemarin ${nfs(a.reg)}${a.reg_lw!=null?` (${siPct(a.reg,a.reg_lw)} vs minggu lalu)`:''}, aktivasi ${nfs(a.act)}${a.act_lw!=null?` (${siPct(a.act,a.act_lw)} vs minggu lalu)`:''}.`);
-  if(sn.wo!=null)L.push(`Posisi ${r.stasiun||'stasiun'}: WO open ${nfs(sn.wo)} (${nfs(sn.wo7)} lebih dari 7 hari), waiting first payment ${nfs(sn.wfp)}, isolir ${nfs(sn.sus)}, dismantle ${nfs((sn.dsg||0)+(sn.dis30||0))}.`);
-  if(iss.length)L.push(`${iss.length} issue baru dicatat; ${tl.length} evaluasi dengan solusi dan deadline.`);
-  else if(tl.length)L.push(`${tl.length} evaluasi dengan solusi dan deadline.`);
-  if(kt&&km)L.push(`Kantor mitra: bertemu ${kt.pic||'-'}${kt.jab_pic?' ('+kt.jab_pic+')':''}, ${(kt.sepakat||[]).filter(Boolean).length} kesepakatan dicatat.`);
-  if(telat)P.push(`Check-in terlambat (${siJam(r.checkin_at)}, setelah 09.00).`);
+  const fotoN=siFotoN(r),ci=siMin(r.checkin_at),co=siMin(r.checkout_at),dur=ci!=null&&co!=null&&co>=ci?co-ci:null;
+  const fa=n=>Number(n||0).toLocaleString('id-ID',{maximumFractionDigits:1}),P=[],G=[],join=a=>a.filter(Boolean).join(' · ');
+  /* ringkasan: hanya yang ada isinya */
+  if(dur!=null&&r.status==='lengkap')G.push(['Durasi kerja',`${Math.floor(dur/60)} jam ${dur%60} menit (${siJam(r.checkin_at)} sampai ${siJam(r.checkout_at)})`]);
+  if(v.length){const t=[['join','join visit'],['ling','lingkungan/affiliator'],['odp','cek ODP'],['tawar','penawaran'],['temuan','temuan']].map(x=>cnt(x[0])?`${x[1]} ${cnt(x[0])}`:'').filter(Boolean);G.push(['Visit lapangan',`${v.length} kegiatan: ${t.join(', ')}`])}
+  if(km&&kt){const sp=(kt.sepakat||[]).filter(Boolean).length,tm=(kt.temuan||[]).filter(Boolean).length;const t=join([kt.pic?`bertemu ${kt.pic}${kt.jab_pic?' ('+kt.jab_pic+')':''}`:'',tm?`${tm} temuan data`:'',sp?`${sp} kesepakatan`:'',kt.data_sama==='selisih'?'ada selisih data':kt.data_sama==='sama'?'data sesuai':'']);if(t)G.push(['Kantor mitra',t])}
+  if(tw.length){const by={};tw.forEach(x=>{const k=x.hasil||'-';by[k]=(by[k]||0)+1});G.push(['Prospek',`${tw.length} prospek: ${Object.keys(by).map(k=>`${by[k]} ${String(k).toLowerCase()}`).join(', ')}`])}
+  if(odp.length)G.push(['ODP',`${odp.length} dicek, ${odpY} potensial`]);
+  if(a.reg!=null){const t=[`registrasi ${nfs(a.reg)}${a.reg_lw!=null?` (${siPct(a.reg,a.reg_lw)})`:''}`,`aktivasi ${nfs(a.act)}${a.act_lw!=null?` (${siPct(a.act,a.act_lw)})`:''}`];G.push(['Achievement',t.join(', ')+(a.reg_lw!=null?' vs minggu lalu':'')])}
+  if(sn.wo!=null){const dm=(sn.dsg||0)+(sn.dis30||0);const t=join([sn.wo?`WO open ${nfs(sn.wo)}${sn.wo7?` (${nfs(sn.wo7)} lebih dari 7 hari)`:''}`:'',sn.wfp?`waiting first payment ${nfs(sn.wfp)}`:'',sn.sus?`isolir ${nfs(sn.sus)}`:'',dm?`dismantle ${nfs(dm)}`:'']);if(t)G.push(['Posisi WO',t])}
+  if(iss.length||tl.length)G.push(['Issue & evaluasi',join([iss.length?`${iss.length} issue baru`:'',tl.length?`${tl.length} evaluasi dengan solusi dan deadline`:''])]);
+  if(fotoN)G.push(['Dokumentasi',`${nfs(fotoN)} foto`]);
+  /* perlu perhatian */
   if(r.status!=='lengkap')P.push('Laporan belum lengkap: belum check-out.');
   const pen=((r.ach||{}).penyebab||[]).length?`; penyebab yang dilaporkan: ${r.ach.penyebab.join(', ')}`:'';
   [['Registrasi',a.tr_reg,a.reg,a.reg_lw],['Aktivasi',a.tr_act,a.act,a.act_lw]].forEach(x=>{if(x[1]==='turun')P.push(`${x[0]} kemarin turun ${siPct(x[2],x[3]).replace('−','')} dibanding minggu lalu (${nfs(x[2])} vs ${nfs(x[3])})${pen}.`)});
@@ -6125,8 +6127,8 @@ function siAnalisis(r){
   const rn=((r.rencana||{}).kegiatan||[]).filter(Boolean).length;
   if(c.lokasi==='lapangan'&&rn>v.length)P.push(`Rencana ${rn} kegiatan, tercatat ${v.length} kegiatan visit.`);
   const n=P.length,label=n===0?'Baik':n<=2?'Cukup':'Perlu perhatian',cls=n===0?'ok':n<=2?'mid':'no';
-  const kes=n===0?`Laporan ${r.status==='lengkap'?'lengkap':'belum lengkap'} dan tidak ada hal mendesak. Aktivitas hari ini: ${nfs(v.length)} visit${tw.length?`, ${tw.length} prospek`:''}${odp.length?`, ${odpY} ODP potensial`:''}.`:`Ada ${n} hal yang perlu perhatian atasan. Yang pertama: ${P[0]}`;
-  return {L,P,label,cls,kes,fotoN,dur,tw,reg,odp,odpY,hi,v,iss,tl};
+  const kes=n===0?'Laporan lengkap dan tidak ada hal yang perlu perhatian khusus.':`Ada ${n} hal yang perlu perhatian atasan. Yang pertama: ${P[0]}`;
+  return {G,P,label,cls,kes,fotoN,dur,tw,reg,odp,odpY,hi,v,iss,tl};
 }
 function siWoTable(sn,ag){
   const bk=k=>ag&&ag[k]?SI_AGL[k].map((l,i)=>`${l}: ${nfs(ag[k].b[i])}`).join('<br>'):'-';
@@ -6150,18 +6152,19 @@ function siReport(r,o){
     return `<div class="si-vi"><div class="si-vh"><b>${i+1}. ${esc(SI_VT[v.jenis]||v.jenis)}</b><span class="wo-mut">${siJam(v.jam)}${v.geo?` · <a href="https://maps.google.com/?q=${v.geo.lat},${v.geo.lng}" target="_blank" rel="noopener">lokasi</a>`:''}</span></div>${b}${siPhotos(vf(v))}</div>`}).join('')||'<p class="wo-mut">Belum ada kegiatan visit lapangan.</p>';
   const tlRows=(r.tl||[]).map(x=>`<tr><td>${esc(x.masalah)}</td><td>${esc(x.solusi)}</td><td>${esc(x.pic)}</td><td>${fmtD(x.deadline)}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td colspan="5" class="wo-mut">-</td></tr>';
   const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
+  const tiles=[A.v.length?siTile('Visit',nfs(A.v.length),'kegiatan','#1d4ed8'):'',A.tw.length?siTile('Prospek',nfs(A.tw.length),A.reg?`${nfs(A.reg)} langsung reg.`:'','#d97706'):'',A.odp.length?siTile('ODP potensial',`${nfs(A.odpY)}/${nfs(A.odp.length)}`,'dari ODP dicek','#7c3aed'):'',A.iss.length?siTile('Issue',nfs(A.iss.length),A.hi.length?`${nfs(A.hi.length)} urgensi tinggi`:'','#b42318'):'',A.tl.length?siTile('Evaluasi',nfs(A.tl.length),'solusi & deadline','#0f766e'):'',A.fotoN?siTile('Foto',nfs(A.fotoN),'terdokumentasi','#475569'):''].filter(Boolean);
+  const rows=A.G.length?`<div class="rp-rows">${A.G.map(x=>`<div class="rp-r"><span>${esc(x[0])}</span><div>${esc(x[1])}</div></div>`).join('')}</div>`:'<p class="wo-mut">Belum ada aktivitas yang tercatat.</p>';
   return `<section class="rp-an"><div class="rp-anh"><b>Analisis singkat</b><span class="si-st ${A.cls}">${A.label}</span></div>
     <p class="rp-kes">${esc(A.kes)}</p>
-    <div class="si-two"><div><h5>Ringkasan aktivitas</h5><ul class="si-ul">${li(A.L)}</ul></div><div><h5>Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul></div></div>
+    <div class="si-two"><div><h5>Ringkasan</h5>${rows}</div><div><h5>Perlu perhatian atasan</h5><ul class="si-ul">${A.P.length?li(A.P):'<li>Tidak ada hal mendesak.</li>'}</ul></div></div>
     <div class="rp-note">Analisis dibuat otomatis dari isi laporan, bukan pengganti penilaian atasan.</div></section>
-    <div class="si-tiles rp-k">${siTile('Visit',nfs(A.v.length),'kegiatan','#1d4ed8')}${siTile('Prospek',nfs(A.tw.length),`${nfs(A.reg)} langsung reg.`,'#d97706')}${siTile('ODP potensial',`${nfs(A.odpY)}/${nfs(A.odp.length)}`,'dari ODP dicek','#7c3aed')}${siTile('Issue',nfs(A.iss.length),`${nfs(A.hi.length)} urgensi tinggi`,'#b42318')}${siTile('Evaluasi',nfs(A.tl.length),'solusi & deadline','#0f766e')}${siTile('Foto',nfs(A.fotoN),'terdokumentasi','#475569')}</div>
-    <h4 class="rg-h4">1 · Absensi & rencana hari ini</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
+    ${tiles.length?`<div class="si-tiles rp-k">${tiles.join('')}</div>`:''}    <h4 class="rg-h4">1 · Absensi & rencana hari ini</h4>${siPhotos([['Selfie check-in',c.selfie],['Tempat kerja',c.tempat],['Selfie check-out',(r.checkout||{}).selfie]])}
     <div class="si-kv"><span>Lokasi kerja</span><b>${esc(SI_LOK[c.lokasi]||c.lokasi||'-')}</b><span>Jabatan</span><b>${esc(r.jabatan||'-')}</b></div>
     <div class="si-kv"><span>Region</span><b>${esc(r.region||r.regional||'-')}</b><span>Mitra</span><b>${esc(r.mitra||'-')}</b></div>
     <div class="si-kv"><span>Stasiun target</span><b>${esc(r.stasiun||'-')}</b><span>Check-in / out</span><b>${siJam(r.checkin_at)} / ${siJam(r.checkout_at)}</b></div>
     <h5>Rencana kegiatan</h5>${siOl((r.rencana||{}).kegiatan)}
     <h4 class="rg-h4">2 · Briefing pagi: data WO & pelanggan</h4>${siWoTable(sn,w.age)}
-    <h5>Prioritas tindak lanjut</h5>${(w.prior||[]).length?`<ul class="si-ul">${w.prior.map(p=>`<li><b>${esc(SI_ITEM[p.item]||p.item)}</b>: ${esc(p.tindakan)}${p.pic?` <span class="wo-mut">(PIC ${esc(p.pic)})</span>`:''}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>'}
+    <h5>Prioritas tindak lanjut</h5>${(w.prior||[]).length?`<ul class="si-ul">${w.prior.map(p=>`<li><b>${esc(p.item==='lain'?(p.lain||'Lainnya'):(SI_ITEM[p.item]||p.item))}</b>: ${esc(p.tindakan)}${p.pic?` <span class="wo-mut">(PIC ${esc(p.pic)})</span>`:''}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>'}
     <h4 class="rg-h4">3 · Achievement kemarin</h4>
     <table class="rp-t"><thead><tr><th></th><th>Kemarin</th><th>Minggu lalu</th><th>Perubahan</th><th>Status</th></tr></thead><tbody>
       <tr><td>Registrasi</td><td class="n">${nfs(a.reg)}</td><td>${a.reg_lw!=null?nfs(a.reg_lw):'-'}</td><td>${a.reg_lw!=null?siPct(a.reg,a.reg_lw):'-'}</td><td>${esc(a.tr_reg||'-')}</td></tr>
