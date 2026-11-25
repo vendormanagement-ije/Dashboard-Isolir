@@ -945,6 +945,19 @@ const siHp=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slic
 const siPh=id=>{if(!id)return '';if(String(id).startsWith('demo-')){try{return JSON.parse(localStorage.getItem('srDemoPh')||'{}')[id]||''}catch(e){return ''}}return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w400'};
 const siView=id=>String(id||'').startsWith('demo-')?siPh(id):'https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';
 function siTile(l,v,s,c){return `<div class="si-tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}</div>`}
+/* pratinjau foto di dalam aplikasi (tanpa pindah ke Drive) */
+function siLightbox(url,cap){
+  const old=document.getElementById('siLb');if(old)old.remove();
+  const w=document.createElement('div');w.id='siLb';w.style.cssText='position:fixed;inset:0;background:rgba(8,14,32,.88);z-index:20000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;gap:10px';
+  w.innerHTML='<button type="button" aria-label="Tutup" style="position:absolute;top:12px;right:14px;background:#fff;color:#0f1b3d;border:0;border-radius:999px;padding:8px 14px;font:700 13px system-ui;cursor:pointer">Tutup ✕</button><img alt="" style="max-width:100%;max-height:calc(100% - 44px);object-fit:contain;border-radius:8px;background:#1e293b"><div style="color:#e2e8f0;font:13px system-ui;text-align:center"></div>';
+  const im=w.querySelector('img'),ct=w.lastElementChild;ct.textContent=cap||'';
+  im.onerror=()=>{ct.textContent=(cap?cap+' · ':'')+'foto tidak bisa ditampilkan'};im.referrerPolicy='no-referrer';im.src=url;
+  const x=()=>{w.remove();document.removeEventListener('keydown',kd,true)},kd=e=>{if(e.key==='Escape'){e.stopPropagation();x()}};
+  w.onclick=e=>{if(e.target!==im)x()};document.addEventListener('keydown',kd,true);document.body.appendChild(w);
+}
+function siBindPhotos(frame){
+  try{frame.contentDocument.querySelectorAll('.si-ph > div > a:first-child').forEach(a=>{const im=a.querySelector('img');if(!im)return;a.onclick=e=>{e.preventDefault();siLightbox(String(im.src).replace('sz=w400','sz=w1600'),im.alt)}})}catch(e){}
+}
 function siPhotos(list){list=list.filter(x=>x&&x[1]&&x[1].id);if(!list.length)return '';return `<div class="si-ph">${list.map(([l,p])=>`<div><a href="${esc(siView(p.id))}" target="_blank" rel="noopener" title="Buka foto ${esc(l)}"><img src="${esc(siPh(p.id))}" alt="${esc(l)}" loading="lazy" referrerpolicy="no-referrer"></a><span>${esc(l)} · ${siJam(p.ts)}${p.geo?` · <a href="https://maps.google.com/?q=${p.geo.lat},${p.geo.lng}" target="_blank" rel="noopener">peta</a>`:''}</span></div>`).join('')}</div>`}
 const siOl=a=>(a||[]).filter(x=>String(x).trim()).length?`<ol class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'<span class="wo-mut">-</span>';
 const siPts=a=>(a||[]).filter(x=>String(x).trim()).length?`<ul class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>';
@@ -1146,8 +1159,9 @@ async function pdfLoadImgs(ids,onProg){
   for(const i of demo){const u=siPh(i);if(u)map[i]=await pdfImgNorm(u);done++}
   for(let k=0;k<real.length;k+=6){
     const part=real.slice(k,k+6);let got={};
-    try{if(typeof SI_IMG==='function')got=await SI_IMG(part)||{}}catch(e){got={}}
-    for(const id of part){if(got[id])map[id]=await pdfImgNorm(got[id]);done++}
+    try{if(typeof SI_IMG==='function')got=await SI_IMG(part)||{}}catch(e){got={};map.__err=(e&&e.message)||String(e)}
+    if(got.__why&&!map.__err)map.__err=Object.values(got.__why)[0];
+    for(const id of part){if(got[id]){map[id]=await pdfImgNorm(got[id]);if(!map[id]&&!map.__err)map.__err='gambar tidak bisa dibaca'}done++}
     if(onProg)onProg(done,need.length);
   }
   return map;
@@ -1158,6 +1172,7 @@ async function siPdfBuild(list,title,onProg){
   prog(6,'Menyiapkan data laporan…');
   const allIds=list.flatMap(pdfPhotoIds);
   const IM=await pdfLoadImgs(allIds,(d,n)=>prog(10+Math.round(60*d/Math.max(1,n)),`Mengambil foto ${d} dari ${n}…`));
+  if(allIds.length&&IM.__err)toast('Foto tidak bisa diambil: '+IM.__err);
   prog(75,'Menyusun halaman PDF…');
   const M=14,CW=182,BOT=284;let y=M;
   const F=(b,s,c)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(s||9.5);const k=c||[15,27,61];doc.setTextColor(k[0],k[1],k[2])};
@@ -1288,7 +1303,7 @@ async function siPdf(list,title){
   }
 }
 const siPrint=siPdf;
-window.SI_IMG=ids=>api('sr_img',{ids}).then(r=>r.imgs||{});
+window.SI_IMG=ids=>api('sr_img',{ids}).then(r=>{const m=r.imgs||{};if(r.why&&Object.keys(r.why).length)m.__why=r.why;return m});
 /* ---------- PWA bersama: instal di HP, pop up pembaruan aplikasi (index/HTML) dan pembaruan data ---------- */
 const PWA=(function(){
   const ST={bip:null,cfg:null,reg:null,s0:null,snooze:{},showing:'',installed:false,timer:null,dataQuiet:Date.now()+40*60e3};
@@ -1472,7 +1487,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261125174358,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
+PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261125182042,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
   manifest:{name:'Daily Report Sales Internal Starlite',short_name:'Daily Report',description:'Laporan harian sales internal Starlite: absensi, briefing, visit, issue, dan evaluasi',
     start_url:'sales.html?'+(T?'t='+encodeURIComponent(T)+'&':'')+'pwa=1',scope:'sales.html',
     icons:[{src:'sales-icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'sales-icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'sales-icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]},
@@ -1493,6 +1508,7 @@ async function openRp(id){
     $('rpPop').hidden=false;document.body.style.overflow='hidden';
   }catch(e){prog('');toast(e.message||String(e))}
 }
+$('rpF').onload=()=>siBindPhotos($('rpF'));
 $('rpX').onclick=rpClose;
 $('rpP').onclick=()=>{const r=S.rp[RPID];if(r)siPrint([r],'Laporan Sales - '+r.nama+' - '+fmtD(r.tanggal))};
 $('rpPop').addEventListener('click',e=>{if(e.target===$('rpPop'))rpClose()});
