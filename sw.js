@@ -1,7 +1,13 @@
-/* Service worker form Laporan Follow Up Pelanggan: menerima push notifikasi dan memungkinkan dashboard diinstal di HP.
- * Tidak menyimpan cache halaman: data selalu diambil langsung dari server. */
+/* Service worker aplikasi (dashboard, form follow up mitra, form daily report sales):
+ * - memungkinkan aplikasi diinstal di HP (bukan sekadar pintasan),
+ * - menerima push notifikasi form follow up,
+ * - tidak menyimpan cache halaman atau data: semuanya selalu diambil langsung dari server, sehingga tidak ada versi lama yang tertahan.
+ * Pembaruan aplikasi dan data ditampilkan sebagai pop up oleh halaman (lihat version.json dan stamp.json). */
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) { e.waitUntil(self.clients.claim()); });
+self.addEventListener('message', function (e) { if (e.data === 'SKIP_WAITING') self.skipWaiting(); });
+/* handler ini diperlukan browser untuk menganggap aplikasi dapat diinstal; permintaan tetap langsung ke jaringan */
+self.addEventListener('fetch', function () {});
 
 self.addEventListener('push', function (e) {
   var d = {};

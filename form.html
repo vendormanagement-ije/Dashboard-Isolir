@@ -508,7 +508,9 @@ a.np-c{text-decoration:none;color:inherit}
   .tiles{gap:8px}.tile{padding:10px 11px}
   .it{padding:10px 11px}
   .mbody,.sheet{padding-left:12px;padding-right:12px}
-}</style>
+}.pwtop[hidden]{display:none}
+.pwtop{white-space:nowrap}
+</style>
 </head>
 <body>
 <aside class="side" aria-label="Menu">
@@ -521,7 +523,7 @@ a.np-c{text-decoration:none;color:inherit}
   <header class="topbar">
     <img class="barlogo" id="barLogo" alt="Starlite">
     <div style="flex:1;min-width:0"><span class="barm" id="mName2"></span><h1 id="vT">Dashboard Summary</h1><p class="sub" id="vS"></p></div>
-    <div class="tb-r"><button class="bell" id="bellBtn" aria-label="Notifikasi" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><em id="bellN" hidden></em></button><button class="btn sec sm" id="reloadTop">Muat ulang</button><div class="npanel" id="nPanel" role="dialog" aria-label="Notifikasi" hidden></div></div>
+    <div class="tb-r"><button type="button" class="btn sec sm pwtop" data-pwinstall hidden>Instal di HP</button><button class="bell" id="bellBtn" aria-label="Notifikasi" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><em id="bellN" hidden></em></button><button class="btn sec sm" id="reloadTop">Muat ulang</button><div class="npanel" id="nPanel" role="dialog" aria-label="Notifikasi" hidden></div></div>
   </header>
   <main>
   <div class="card boot" id="boot"><div class="spin"></div>Memuat data pelanggan…</div>
@@ -714,17 +716,20 @@ async function load(){
   if(!API){fail('Alamat server belum diatur. Hubungi Tim Admin Retensi Starlite.');return}
   if(!T){fail('Link tidak lengkap. Buka link yang dikirim Tim Admin Retensi Starlite melalui WhatsApp.');return}
   try{
+    PWA.load.start('Mengambil daftar pelanggan…');PWA.load.set(8);
     loadStats();
     const r=await fetchAll();
+    PWA.load.set(78,'Menyusun daftar…');
     S.mitra=r.mitra;S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];
     buildLists();
     document.title='Laporan Follow Up · '+S.mitra;
     $('mName').textContent=S.mitra;$('mName2').textContent='Mitra '+S.mitra;
     $('boot').hidden=true;S.at=r.at||Date.now();
-    route();renderBell();swInit();iwLoad();
+    try{PWA.dataLoaded()}catch(e){}
+    route();renderBell();swInit();iwLoad();PWA.load.done();
     $('bellBtn').onclick=()=>toggleN();
     if(new URLSearchParams(location.search).get('n')==='1')setTimeout(()=>toggleN(true),300);
-  }catch(e){fail(e.code==='bad-token'?e.message:('Daftar pelanggan tidak bisa dimuat. '+e.message),true)}
+  }catch(e){PWA.load.done();fail(e.code==='bad-token'?e.message:('Daftar pelanggan tidak bisa dimuat. '+e.message),true)}
 }
 function fail(msg,retry){
   $('mName').textContent='Tidak bisa dibuka';$('mName2').textContent='';
@@ -1028,6 +1033,7 @@ $('q').oninput=e=>{S.q=e.target.value.trim();render()};
 function reloadAll(btn){
   if(btn)btn.disabled=true;
   return fetchAll().then(r=>{S.hc=r.hc||null;S.rows=(r.rows||[]).slice().sort(rowSort);S.dis=(r.dis||[]).slice().sort(rowSort);S.disOff=!!r.disOff;S.recs=r.recs||[];S.petugas=r.petugas||[];S.at=r.at||Date.now();buildLists();
+    try{PWA.dataLoaded()}catch(e){}
     route(true);toast('Data diperbarui');V.tries=0;V.state='idle';loadStats();renderBell();iwLoad(true)}).catch(e=>toast(e.message)).finally(()=>{if(btn)btn.disabled=false});
 }
 $('reloadTop').onclick=()=>reloadAll($('reloadTop'));
@@ -1519,7 +1525,7 @@ const dayAdd=(d,n)=>new Date(Date.parse(d+'T00:00:00Z')+n*864e5).toISOString().s
 (function(){
   if(!T)return;
   const dir=location.href.split('#')[0].split('?')[0].replace(/[^/]*$/,'');
-  const m={name:'Laporan Follow Up Pelanggan',short_name:'Follow Up',description:'Laporan follow up pelanggan Starlite untuk mitra',start_url:dir+'form.html?t='+encodeURIComponent(T)+'&pwa=1',scope:dir,display:'standalone',orientation:'portrait',background_color:'#ffffff',theme_color:'#12306b',
+  const m={name:'Laporan Follow Up Pelanggan',short_name:'Follow Up',description:'Laporan follow up pelanggan Starlite untuk mitra',start_url:dir+'form.html?t='+encodeURIComponent(T)+'&pwa=1',scope:dir+'form.html',display:'standalone',orientation:'portrait',background_color:'#ffffff',theme_color:'#12306b',
     icons:[{src:dir+'icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:dir+'icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:dir+'icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]};
   const l=document.createElement('link');l.rel='manifest';l.href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(m));document.head.appendChild(l);
 })();
@@ -1860,6 +1866,192 @@ $('sGo').onclick=async()=>{
     prog('Gagal mengirim: '+e.message+' Tekan Kirim laporan untuk mencoba lagi.',true);
   }
 };
+/* ---------- PWA bersama: instal di HP, pop up pembaruan aplikasi (index/HTML) dan pembaruan data ---------- */
+const PWA=(function(){
+  const ST={bip:null,cfg:null,reg:null,s0:null,snooze:{},showing:'',installed:false,timer:null,dataQuiet:Date.now()+40*60e3};
+  const ua=navigator.userAgent||'';
+  const isIOS=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const isAndroid=/android/i.test(ua);
+  const standalone=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}};
+  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const CSS=`.pw-pop{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--pw-b,16px) + env(safe-area-inset-bottom,0px));z-index:2147483000;width:min(94vw,460px);background:#0f2a5c;color:#fff;border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.38);padding:13px 14px;display:flex;gap:12px;align-items:center;font:13.5px/1.4 system-ui,"Segoe UI",Roboto,Arial,sans-serif;animation:pwin .25s ease}
+@keyframes pwin{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+.pw-ic{flex:none;width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+.pw-ic svg{width:21px;height:21px}
+.pw-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.pw-tx b{font-size:14px}
+.pw-tx span{font-size:12.5px;opacity:.85}
+.pw-bt{display:flex;flex-direction:column;gap:5px;flex:none}
+.pw-bt button{border:0;border-radius:9px;padding:7px 12px;font:inherit;font-weight:700;font-size:12.5px;cursor:pointer;min-width:92px}
+.pw-bt .pw-y{background:#fff;color:#0f2a5c}
+.pw-bt .pw-y:disabled{opacity:.6;cursor:default}
+.pw-bt .pw-n{background:transparent;color:#cfe0ff;font-weight:600}
+@media(max-width:420px){.pw-pop{flex-wrap:wrap}.pw-bt{flex-direction:row;width:100%}.pw-bt button{flex:1}}
+.pw-ld{position:fixed;inset:0;z-index:2147482000;background:rgba(244,246,250,.95);display:flex;align-items:center;justify-content:center;padding:20px;font:14px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif;animation:pwfade .2s ease}
+@keyframes pwfade{from{opacity:0}to{opacity:1}}
+.pw-ld.out{opacity:0;transition:opacity .35s ease}
+.pw-lc{width:min(92vw,420px);background:#fff;border:1px solid #dde2e9;border-radius:18px;box-shadow:0 18px 50px rgba(15,42,92,.18);padding:22px 22px 20px;text-align:center;color:#0f172a}
+.pw-lc b{display:block;font-size:15px;line-height:1.45}
+.pw-lp{font-size:36px;font-weight:800;color:#1d4ed8;margin:10px 0 8px;font-variant-numeric:tabular-nums;line-height:1.1}
+.pw-lb{height:10px;border-radius:999px;background:#e6ecf8;overflow:hidden}
+.pw-lb i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#1d4ed8,#38a3ff);transition:width .25s ease}
+.pw-lcap{margin-top:10px;font-size:12.5px;color:#5b6475;min-height:1.3em}
+@media(prefers-reduced-motion:reduce){.pw-lb i{transition:none}.pw-ld{animation:none}}
+.pw-help{position:fixed;inset:0;z-index:2147483001;background:rgba(15,23,42,.6);display:flex;align-items:flex-end;justify-content:center;padding:0;font:14px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+@media(min-width:560px){.pw-help{align-items:center;padding:16px}}
+.pw-hm{background:#fff;color:#0f172a;width:100%;max-width:440px;border-radius:18px 18px 0 0;padding:18px 18px 22px}
+@media(min-width:560px){.pw-hm{border-radius:18px}}
+.pw-hm h3{margin:0 0 4px;font-size:17px}
+.pw-hm p{margin:0 0 10px;color:#475569;font-size:13px}
+.pw-hm ol{margin:0 0 14px;padding-left:20px}
+.pw-hm li{margin-bottom:6px}
+.pw-hm button{border:0;background:#1d4ed8;color:#fff;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;width:100%}`;
+  const ICON_APP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>';
+  const ICON_DATA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>';
+  function css(){if(document.getElementById('pwCss'))return;const s=document.createElement('style');s.id='pwCss';s.textContent=CSS;document.head.appendChild(s)}
+
+  /* ----- pop up pembaruan ----- */
+  function pop(kind,title,text,yes,onYes){
+    css();
+    const old=document.getElementById('pwPop');if(old)old.remove();
+    const el=document.createElement('div');el.id='pwPop';el.className='pw-pop';el.setAttribute('role','alertdialog');el.setAttribute('aria-live','polite');
+    el.style.setProperty('--pw-b',((ST.cfg&&ST.cfg.bottom)||16)+'px');
+    el.innerHTML=`<div class="pw-ic">${kind==='app'?ICON_APP:ICON_DATA}</div><div class="pw-tx"><b>${esc(title)}</b><span>${esc(text)}</span></div><div class="pw-bt"><button type="button" class="pw-y">${esc(yes)}</button><button type="button" class="pw-n">Nanti</button></div>`;
+    document.body.appendChild(el);ST.showing=kind;
+    const y=el.querySelector('.pw-y'),t=el.querySelector('.pw-tx span');
+    y.onclick=async()=>{
+      const c=ST.cfg||{};
+      if(c.busy&&c.busy()){t.textContent='Selesaikan dulu proses yang sedang berjalan (misalnya unggah foto), lalu tekan lagi.';return}
+      y.disabled=true;y.textContent='Memperbarui…';
+      try{await onYes()}catch(e){y.disabled=false;y.textContent=yes;t.textContent='Gagal memperbarui. Periksa koneksi internet lalu coba lagi.'}
+    };
+    el.querySelector('.pw-n').onclick=()=>{ST.snooze[kind]=Date.now()+(kind==='data'?40:30)*60e3;el.remove();ST.showing=''};
+  }
+  function close(){const e=document.getElementById('pwPop');if(e)e.remove();ST.showing=''}
+
+  async function jget(url){const r=await fetch(url+(url.indexOf('?')>=0?'&':'?')+'_='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
+  async function checkApp(){
+    const c=ST.cfg;if(!c.versionUrl||!c.buildId)return false;
+    try{const v=await jget(c.versionUrl),sid=+((v[c.app]||{}).id)||0;return !!sid&&sid>c.buildId}catch(e){return false}
+  }
+  async function checkData(){
+    const c=ST.cfg;if(!c.stampUrl||!c.stampKey)return false;
+    try{const j=await jget(c.stampUrl),s=+((j.t||{})[c.stampKey])||0;if(!s)return false;ST.latest=s;if(ST.s0==null){ST.s0=s;return false}return s>ST.s0}catch(e){return false}
+  }
+  async function tick(){
+    if(document.hidden||ST.showing||!ST.cfg)return;
+    if(await checkApp()){
+      if((ST.snooze.app||0)<Date.now()){
+        pop('app','Pembaruan aplikasi tersedia','Versi terbaru sudah siap. Perbarui untuk mendapatkan fitur dan perbaikan terbaru.','Perbarui',async()=>{
+          try{const r=await (navigator.serviceWorker&&navigator.serviceWorker.getRegistration());if(r){await r.update();if(r.waiting)r.waiting.postMessage('SKIP_WAITING')}}catch(e){}
+          location.reload();
+        });
+        return;
+      }
+    }
+    if(Date.now()>=ST.dataQuiet&&await checkData()){
+      if((ST.snooze.data||0)<Date.now()){
+        pop('data','Data terbaru tersedia','Data di server sudah diperbarui. Muat data terbaru sekarang?','Perbarui data',async()=>{
+          const c=ST.cfg;if(c.refreshData)await c.refreshData();
+          ST.s0=ST.latest||ST.s0;ST.dataQuiet=Date.now()+40*60e3;close();
+        });
+      }
+    }
+  }
+
+  /* ----- layar tunggu saat data pertama dimuat: progress bar persen ----- */
+  const LD={el:null,active:false,target:0,shown:0,timer:null,fail:null,pctEl:null,barEl:null,capEl:null};
+  function ldRender(){
+    if(!LD.el)return;const v=Math.round(LD.shown);
+    LD.pctEl.textContent=v+'%';LD.barEl.style.width=LD.shown+'%';LD.el.setAttribute('aria-valuenow',String(v));
+  }
+  function ldTick(){
+    const goal=Math.min(94,LD.target+14);let d=LD.shown;
+    if(d<LD.target)d+=Math.max(0.6,(LD.target-d)*0.22);else if(d<goal)d+=Math.max(0.12,(goal-d)*0.03);
+    LD.shown=Math.min(d,99);ldRender();
+  }
+  function ldStart(cap){
+    ldKill();css();
+    const el=document.createElement('div');el.id='pwLd';el.className='pw-ld';el.setAttribute('role','progressbar');el.setAttribute('aria-valuemin','0');el.setAttribute('aria-valuemax','100');el.setAttribute('aria-valuenow','0');el.setAttribute('aria-live','polite');
+    el.innerHTML=`<div class="pw-lc"><b>Mohon menunggu data sedang di ambil dan di perbarui</b><div class="pw-lp">0%</div><div class="pw-lb"><i></i></div><div class="pw-lcap">${esc(cap||'Menghubungi server…')}</div></div>`;
+    document.body.appendChild(el);
+    Object.assign(LD,{el,active:true,target:3,shown:0,pctEl:el.querySelector('.pw-lp'),barEl:el.querySelector('.pw-lb i'),capEl:el.querySelector('.pw-lcap')});
+    LD.timer=setInterval(ldTick,120);
+    LD.fail=setTimeout(ldDone,120000); /* pengaman: tidak pernah menutupi layar lebih dari 2 menit */
+    ldRender();
+  }
+  function ldSet(p,cap){if(!LD.active)return;if(p>LD.target)LD.target=Math.min(99,p);if(cap)LD.capEl.textContent=cap}
+  function ldKill(){clearInterval(LD.timer);clearTimeout(LD.fail);const o=document.getElementById('pwLd');if(o)o.remove();LD.active=false;LD.el=null}
+  function ldDone(){
+    if(!LD.active)return;
+    LD.target=100;LD.shown=100;ldRender();LD.capEl.textContent='Selesai';
+    clearInterval(LD.timer);clearTimeout(LD.fail);LD.active=false;
+    const el=LD.el;setTimeout(()=>{el.classList.add('out');setTimeout(()=>{if(el.parentNode)el.remove()},380)},260);
+  }
+  /* ----- instal di HP ----- */
+  function help(){
+    css();
+    const old=document.getElementById('pwHelp');if(old)old.remove();
+    const nm=esc((ST.cfg&&ST.cfg.name)||'aplikasi ini');
+    let steps,note='';
+    if(isIOS){steps=['Buka halaman ini di <b>Safari</b> (bukan di dalam aplikasi lain).','Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas) di bagian bawah layar.','Gulir lalu pilih <b>Tambah ke Layar Utama</b>.','Ketuk <b>Tambah</b>. Aplikasi terpasang dan terbuka layaknya aplikasi.'];note='iPhone dan iPad tidak menyediakan tombol instal otomatis, jadi langkah ini harus dilakukan manual lewat Safari.'}
+    else if(isAndroid){steps=['Buka halaman ini di <b>Chrome</b>.','Ketuk menu <b>⋮</b> di pojok kanan atas.','Pilih <b>Instal aplikasi</b> (atau <b>Tambahkan ke layar utama</b> bila tidak ada).','Ketuk <b>Instal</b>.'];note='Bila pilihan Instal belum muncul, muat ulang halaman sekali lalu coba lagi.'}
+    else{steps=['Klik ikon <b>Instal</b> di kanan kolom alamat Chrome atau Edge.','Atau buka menu browser lalu pilih <b>Instal '+nm+'</b>.'],note='Peramban lain mungkin tidak mendukung instal aplikasi.'}
+    const el=document.createElement('div');el.id='pwHelp';el.className='pw-help';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');
+    el.innerHTML=`<div class="pw-hm"><h3>Instal ${nm}</h3><p>${esc(note)}</p><ol>${steps.map(s=>`<li>${s}</li>`).join('')}</ol><button type="button">Mengerti</button></div>`;
+    document.body.appendChild(el);
+    const done=()=>el.remove();
+    el.querySelector('button').onclick=done;el.addEventListener('click',e=>{if(e.target===el)done()});
+  }
+  async function install(){
+    if(ST.bip){
+      const b=ST.bip;ST.bip=null;
+      try{b.prompt();const r=await b.userChoice;if(r&&r.outcome==='accepted')ST.installed=true}catch(e){}
+      buttons();return;
+    }
+    help();
+  }
+  function buttons(){
+    const can=!standalone()&&!ST.installed&&(ST.bip||isIOS||isAndroid);
+    document.querySelectorAll('[data-pwinstall]').forEach(b=>{b.hidden=!can;if(can&&!b.dataset.pwset){b.dataset.pwset='1'}});
+  }
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();ST.bip=e;buttons()});
+  addEventListener('appinstalled',()=>{ST.bip=null;ST.installed=true;buttons();close()});
+  document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-pwinstall]');if(b){e.preventDefault();install()}});
+
+  /* ----- manifest dinamis (dipakai bila alamat awal membawa token) ----- */
+  function manifest(m){
+    if(!m)return;
+    const dir=location.href.split('#')[0].split('?')[0].replace(/[^/]*$/,'');
+    const o=Object.assign({display:'standalone',orientation:'portrait',background_color:'#ffffff',theme_color:'#12306b',lang:'id'},m);
+    o.icons=(m.icons||[]).map(i=>Object.assign({},i,{src:/^https?:/.test(i.src)?i.src:dir+i.src}));
+    if(o.start_url&&!/^https?:/.test(o.start_url))o.start_url=dir+o.start_url;
+    if(o.scope&&!/^https?:/.test(o.scope))o.scope=dir+o.scope;
+    const old=document.querySelector('link[rel=manifest]');if(old)old.remove();
+    const l=document.createElement('link');l.rel='manifest';l.href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(o));document.head.appendChild(l);
+  }
+
+  function init(cfg){
+    ST.cfg=Object.assign({versionUrl:'version.json',buildId:0,app:'',name:'',stampUrl:'',stampKey:'',bottom:16},cfg||{});
+    css();
+    if(cfg&&cfg.manifest)manifest(cfg.manifest);
+    if('serviceWorker' in navigator&&location.protocol!=='file:'){
+      navigator.serviceWorker.register('sw.js').then(r=>{ST.reg=r;try{r.update()}catch(e){}}).catch(()=>{});
+    }
+    buttons();
+    setTimeout(tick,6000);
+    ST.timer=setInterval(tick,4*60e3);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden){buttons();setTimeout(tick,1200)}});
+    addEventListener('online',()=>setTimeout(tick,1500));
+  }
+  /* dipanggil aplikasi setiap selesai memuat data: baseline "versi data" dihitung ulang */
+  function dataLoaded(){ST.dataQuiet=Date.now()+40*60e3;ST.s0=null;if(ST.cfg&&ST.cfg.stampUrl)checkData()}
+  return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
+})();
+
+PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261125145953,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
+  refreshData:()=>reloadAll(),
+  busy:()=>!!(S&&S.busy)||!!(document.getElementById('sheet')&&!document.getElementById('sheet').hidden)});
 load();
 </script>
 </body>
