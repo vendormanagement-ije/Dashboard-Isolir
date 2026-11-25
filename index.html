@@ -1001,6 +1001,7 @@ header .hl{flex:1 1 auto;min-width:0}
 .si-li.off{background:#fafbfc}
 .si-l1{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .si-l1 b{font-size:14px}
+.si-rm{margin-left:auto;font:inherit;font-size:11.5px;font-weight:700;color:#b42318;background:#fff;border:1.5px solid #f3c7c2;border-radius:999px;padding:3px 10px;cursor:pointer}.si-rm:hover{background:#fef3f2}.si-rm:disabled{opacity:.6;cursor:default}
 .si-l2{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:12.5px;color:#475569;margin-top:3px}
 .si-st{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;white-space:nowrap}
 .si-st.ok{background:#e6f4ea;color:#15803d}.si-st.mid{background:#fdf3e4;color:#b45309}.si-st.no{background:#fdecea;color:#b42318}.si-st.rv{background:#f1ebfd;color:#6d28d9}
@@ -5914,6 +5915,7 @@ async function siApi(action,data){
     if(action==='sr_match'){const map={};(data.phones||[]).forEach(p=>{if(/7890$/.test(p))map[p]={status:'active',aktif:'2026-11-22'}});return {ok:true,map}}
     if(action==='sr_admin')return {ok:true,demo:true,today:todayWib(),reports:D.lap,issues:D.iss,tl:D.tl,sales:D.sal};
     if(action==='sr_delete'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');D.lap=D.lap.filter(x=>x.id!==data.id);D.iss=(D.iss||[]).filter(x=>x.laporan_id!==data.id);D.tl=(D.tl||[]).filter(x=>x.laporan_id!==data.id);localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,id:data.id}}
+    if(action==='sr_sales'){const hs=(data.list||[]).map(s=>String(s.h).replace(/\D/g,''));D.sal=(D.sal||[]).filter(s=>!hs.includes(String(s.h||'').replace(/\D/g,'')));D.lap=D.lap.filter(r=>!hs.includes(String(r.hp||'').replace(/\D/g,''))||true);localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true}}
     if(action==='sr_review'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');r.ditinjau_at=new Date(Date.now()+7*36e5).toISOString().slice(0,19);r.catatan_review=data.note||'';localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,ditinjau_at:r.ditinjau_at}}
   }
   const res=await fetch(c.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action,key:c.key},data||{})),redirect:'follow'});
@@ -5950,7 +5952,8 @@ function siCalc(){
   const D=SI.data||{reports:[],issues:[],tl:[],sales:[]},day=SI.day||todayWib(),from=trAdd(day,-(+SI.per-1));
   const reps=(D.reports||[]).filter(r=>r&&r.tanggal);
   const sales=new Map();(D.sales||[]).forEach(s=>sales.set(siHp(s.h),{n:s.n,h:siHp(s.h),j:s.j||''}));
-  reps.forEach(r=>{const k=siHp(r.hp);if(!sales.has(k))sales.set(k,{n:r.nama,h:k,j:r.jabatan||''});else if(!sales.get(k).j&&r.jabatan)sales.get(k).j=r.jabatan});
+  const off=new Set((D.nonaktif||[]).map(siHp));
+  reps.forEach(r=>{const k=siHp(r.hp);if(off.has(k))return;if(!sales.has(k))sales.set(k,{n:r.nama,h:k,j:r.jabatan||''});else if(!sales.get(k).j&&r.jabatan)sales.get(k).j=r.jabatan});
   const today=reps.filter(r=>r.tanggal===day),per=reps.filter(r=>r.tanggal>=from&&r.tanggal<=day);
   const byS=new Map();today.forEach(r=>byS.set(siHp(r.hp),r));
   const roster=[...sales.values()].map(s=>({s,r:byS.get(s.h)||null})).sort((a,b)=>(a.r?a.r.status==='lengkap'?0:1:2)-(b.r?b.r.status==='lengkap'?0:1:2)||a.s.n.localeCompare(b.s.n,'id'));
@@ -5975,7 +5978,7 @@ function siS1(C){
     <div class="si-tiles">${siTile('Sales terdaftar',nf(tot),'nama di daftar sales','#475569')}${siTile('Sudah check-in',nf(ci),pc(ci)+' dari sales','#1d4ed8')}${siTile('Laporan lengkap',nf(lk),pc(lk)+' · check-out','#15803d')}${siTile('Belum lapor',nf(tot-ci),pc(tot-ci),'#b42318')}${siTile('Sudah ditinjau',nf(rv),`dari ${nf(ci)} laporan`,'#7c3aed')}</div>
     <div class="tr-ctl"><input type="search" id="siQ" class="tr-q" placeholder="Cari sales, mitra, stasiun" value="${esc(SI.q)}" aria-label="Cari sales"></div>
     <div class="si-list">${L.map(x=>{const r=x.r,v=r?(r.visit||[]):[];return `<div class="si-li${r?'':' off'}"${r?` data-sio="${esc(r.id)}" role="button" tabindex="0"`:''}>
-      <div class="si-l1"><b>${esc(x.s.n)}</b>${x.s.j?`<span class="wo-mut">${esc(x.s.j)}</span>`:''}${siStatus(r)}${r&&r.ditinjau_at?'<span class="si-st rv">Ditinjau</span>':''}</div>
+      <div class="si-l1"><b>${esc(x.s.n)}</b>${x.s.j?`<span class="wo-mut">${esc(x.s.j)}</span>`:''}${siStatus(r)}${r&&r.ditinjau_at?'<span class="si-st rv">Ditinjau</span>':''}<button type="button" class="si-rm" data-sirm="${esc(x.s.h)}" data-sin="${esc(x.s.n)}" title="Hapus sales ini dari daftar">Hapus dari daftar</button></div>
       ${r?`<div class="si-l2"><span>${esc(r.mitra)} · <b>${esc(r.stasiun)}</b></span><span>Masuk <b>${siJam(r.checkin_at)}</b> · Pulang <b>${siJam(r.checkout_at)}</b></span><span>${nf(v.length)} visit · ${nf(v.filter(a=>a.jenis==='tawar').length)} prospek · ${nf((r.issue||[]).length)} issue · ${esc(SI_LOK[(r.checkin||{}).lokasi]||'-')}</span></div>`:`<div class="si-l2"><span class="wo-mut">${esc(x.s.h)} · belum ada laporan di tanggal ini</span></div>`}
     </div>`}).join('')||'<p class="wo-mut">Belum ada sales terdaftar. Nama sales muncul setelah melapor pertama kali.</p>'}</div></section>`;
 }
@@ -6080,6 +6083,8 @@ function renderSi(){
   $('siP').onclick=()=>{if(!C){toast('Data belum dimuat');return}const L=C.today.slice().sort((x,y)=>String(x.checkin_at).localeCompare(String(y.checkin_at)));siPrint(L,'Laporan Sales Internal - '+fmtD(C.day))};
   const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
   const q=$('siQ');if(q)q.oninput=ev=>{SI.q=ev.target.value;const p=ev.target.selectionStart;renderSi();const n=$('siQ');if(n){n.focus();n.setSelectionRange(p,p)}};
+  sc('[data-sirm]',b=>b.onclick=async e=>{e.stopPropagation();const n=b.dataset.sin;if(!confirm('Hapus "'+n+'" dari daftar sales?\n\nNama tidak lagi tampil di Kepatuhan laporan harian. Laporan yang sudah masuk tidak ikut terhapus (hapus lewat jendela laporan).'))return;
+    b.disabled=true;b.textContent='Menghapus…';try{await siApi('sr_sales',{list:[{h:b.dataset.sirm,n,aktif:false}]});toast(n+' dihapus dari daftar sales');SI.data=null;renderSi();await siLoad(true);renderSi();updateHeader()}catch(er){toast('Gagal menghapus: '+(er.message||er));b.disabled=false;b.textContent='Hapus dari daftar'}});
   sc('[data-sio]',li=>{const go=()=>siPop(li.dataset.sio);li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
 }
 /* ---------- jendela detail laporan ---------- */
@@ -7900,7 +7905,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125154356,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125171309,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
