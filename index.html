@@ -6043,6 +6043,18 @@ function siSet(){
     <div class="si-set"><input type="url" id="siU" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(c.url)}"><input type="password" id="siK" placeholder="ADMIN_KEY" value="${esc(c.key)}" autocomplete="off"><button id="siSv" class="xls">Simpan & muat</button></div>
     <div class="si-lk"><div><b>Link form Laporan Follow Up Pelanggan per mitra</b><div class="foot">Dipakai form sales untuk mengarahkan mitra follow up WO isolir dan dismantled. Tekan lagi setelah ada mitra baru. Perlu kata sandi unggah dan harus dijalankan dari dashboard di GitHub Pages.${siLkLast()?` Terakhir disinkronkan: ${esc(siLkLast())}.`:''}</div></div><button id="siLk" class="xls">Sinkronkan link form mitra</button></div></section>`;
 }
+/* ---------- kata sandi untuk menghapus laporan / nama sales (hanya sidik jari SHA-256 yang disimpan) ---------- */
+function siDelAuth(title,msg){
+  return new Promise(res=>{
+    const w=document.createElement('div');w.style.cssText='position:fixed;inset:0;background:rgba(15,27,61,.55);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px';
+    w.innerHTML=`<div role="dialog" aria-modal="true" style="background:#fff;border-radius:14px;padding:18px;max-width:400px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)"><b style="font-size:15px;color:#b42318">${esc(title)}?</b><p class="foot" style="margin:6px 0 10px">${esc(msg||'')}<br>Masukkan kata sandi untuk melanjutkan.</p><input type="password" id="siDpw" placeholder="Kata sandi hapus" autocomplete="off" style="width:100%;box-sizing:border-box;padding:9px 10px;border:1.5px solid #d5dce8;border-radius:10px;font:inherit"><div id="siDerr" class="foot" style="color:#b42318;min-height:16px;margin-top:4px"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px"><button type="button" id="siDno" class="xls" style="background:#fff;color:#0f1b3d;border:1.5px solid #d5dce8">Batal</button><button type="button" id="siDok" class="xls" style="background:#b42318">Hapus</button></div></div>`;
+    document.body.appendChild(w);const inp=w.querySelector('#siDpw'),er=w.querySelector('#siDerr');inp.focus();
+    const done=v=>{w.remove();res(v)};
+    const ok=()=>{const v=inp.value.trim();if(!v){er.textContent='Isi kata sandi dahulu.';inp.focus();return}done(v)};
+    w.querySelector('#siDok').onclick=ok;w.querySelector('#siDno').onclick=()=>done(false);
+    inp.onkeydown=e=>{if(e.key==='Enter')ok();if(e.key==='Escape')done(false)};
+  });
+}
 /* ---------- salin link form untuk disebar ke sales ---------- */
 function siFormLink(){
   const tk=SI.data&&SI.data.formToken||'';
@@ -6092,8 +6104,8 @@ function renderSi(){
   $('siP').onclick=()=>{if(!C){toast('Data belum dimuat');return}const L=C.today.slice().sort((x,y)=>String(x.checkin_at).localeCompare(String(y.checkin_at)));siPrint(L,'Laporan Sales Internal - '+fmtD(C.day))};
   const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
   const q=$('siQ');if(q)q.oninput=ev=>{SI.q=ev.target.value;const p=ev.target.selectionStart;renderSi();const n=$('siQ');if(n){n.focus();n.setSelectionRange(p,p)}};
-  sc('[data-sirm]',b=>b.onclick=async e=>{e.stopPropagation();const n=b.dataset.sin;if(!confirm('Hapus "'+n+'" dari daftar sales?\n\nNama, laporan, issue, dan tindak lanjutnya tidak lagi tampil di dashboard ini. Data di Google Sheets tetap tersimpan.'))return;
-    b.disabled=true;b.textContent='Menghapus…';try{await siApi('sr_sales',{list:[{h:b.dataset.sirm,n,aktif:false}]});toast(n+' dihapus dari daftar sales');SI.data=null;renderSi();await siLoad(true);renderSi();updateHeader()}catch(er){toast('Gagal menghapus: '+(er.message||er));b.disabled=false;b.textContent='Hapus dari daftar'}});
+  sc('[data-sirm]',b=>b.onclick=async e=>{e.stopPropagation();const n=b.dataset.sin;const pw=await siDelAuth('Hapus "'+n+'" dari daftar sales','Nama, laporan, issue, dan tindak lanjutnya tidak lagi tampil di dashboard ini. Data di Google Sheets tetap tersimpan.');if(!pw)return;
+    b.disabled=true;b.textContent='Menghapus…';try{await siApi('sr_sales',{list:[{h:b.dataset.sirm,n,aktif:false}],pw});toast(n+' dihapus dari daftar sales');SI.data=null;renderSi();await siLoad(true);renderSi();updateHeader()}catch(er){toast('Gagal menghapus: '+(er.message||er));b.disabled=false;b.textContent='Hapus dari daftar'}});
   sc('[data-sio]',li=>{const go=()=>siPop(li.dataset.sio);li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
 }
 /* ---------- jendela detail laporan ---------- */
@@ -6457,7 +6469,7 @@ function siPop(id){
   const el=siPopEl();
   $('siPT').textContent=r.nama+(r.jabatan?' ('+r.jabatan+')':'')+' · '+fmtD(r.tanggal);
   $('siPS').innerHTML=`${esc(r.mitra)} · <b>${esc(r.stasiun)}</b> · masuk ${siJam(r.checkin_at)} · pulang ${siJam(r.checkout_at)} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'}`;
-  $('siPB').innerHTML=`<iframe id="siRf" title="Laporan lengkap" style="width:100%;height:480px;border:0;display:block"></iframe>
+  $('siPB').innerHTML=`<iframe id="siRf" title="Laporan lengkap" scrolling="no" style="width:100%;height:480px;border:0;display:block;flex:none"></iframe>
     <h4 class="rg-h4">Tinjauan atasan</h4>
     <textarea id="siRv" class="si-rv" maxlength="1000" placeholder="Catatan untuk sales (opsional), tampil di riwayat form sales">${esc(r.catatan_review||'')}</textarea>
     <div class="ctl" style="margin-top:8px"><button id="siRvB" class="xls">${r.ditinjau_at?'Perbarui tinjauan':'Tandai sudah ditinjau'}</button><button id="siRvP" class="xls">Unduh PDF</button></div>
@@ -6467,13 +6479,14 @@ function siPop(id){
   const rf=$('siRf'),fit=()=>{try{const d=rf.contentDocument;if(d&&d.documentElement)rf.style.height=Math.max(300,d.documentElement.scrollHeight+4)+'px'}catch(e){}};
   rf.onload=()=>{fit();try{rf.contentDocument.querySelectorAll('img').forEach(i=>{i.addEventListener('load',fit);i.addEventListener('error',fit)})}catch(e){}[400,1200,3000].forEach(t=>setTimeout(fit,t))};
   rf.srcdoc=siPrintDoc([r],'Laporan Sales - '+r.nama+' - '+fmtD(r.tanggal),true,'dashboard');
-  $('siDel').onclick=()=>{
+  $('siDel').onclick=async()=>{
+    const delPw=await siDelAuth('Hapus laporan ini','Laporan, prospek, issue, dan tindak lanjut dari laporan ini akan dihapus dari daftar.');if(!delPw)return;
     $('siDelBox').innerHTML=`<div class="si-dc" role="alertdialog" aria-live="assertive"><b>Hapus laporan ${esc(r.nama)} tanggal ${esc(fmtD(r.tanggal))}?</b><span>Laporan, prospek, issue, dan tindak lanjut dari laporan ini dihapus dari spreadsheet. Salinan laporan disimpan di sheet "Laporan Dihapus" sehingga masih bisa dipulihkan. Foto di Google Drive tidak ikut dihapus.</span><div class="ctl"><button id="siDelY" class="xls siDelB" type="button">Ya, hapus laporan</button><button id="siDelN" class="xls" type="button">Batal</button></div></div>`;
     $('siDelN').onclick=()=>siPop(id);
     $('siDelY').onclick=async()=>{
       const b=$('siDelY');b.disabled=true;b.textContent='Menghapus…';$('siDelN').disabled=true;
       try{
-        await siApi('sr_delete',{id:r.id});
+        await siApi('sr_delete',{id:r.id,pw:delPw});
         if(SI.data&&SI.data.reports)SI.data.reports=SI.data.reports.filter(x=>x.id!==r.id);
         if(SI.data){SI.data.issues=(SI.data.issues||[]).filter(x=>x.laporan_id!==r.id);SI.data.tl=(SI.data.tl||[]).filter(x=>x.laporan_id!==r.id)}
         const el=$('siPop');if(el)el.hidden=true;document.body.style.overflow='';
@@ -7918,7 +7931,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125174852,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261125180551,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
