@@ -1725,7 +1725,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126172433,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
+PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126173044,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
   manifest:{name:'Daily Report Sales Internal Starlite',short_name:'Daily Report',description:'Laporan harian sales internal Starlite: absensi, briefing, visit, issue, dan evaluasi',
     start_url:'sales.html?'+(T?'t='+encodeURIComponent(T)+'&':'')+'pwa=1',scope:'sales.html',
     icons:[{src:'sales-icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'sales-icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'sales-icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]},
@@ -1853,9 +1853,21 @@ function renderDash(){
 }
 /* tabel riwayat prospek semua petugas, dengan nama sales */
 const dPF={q:'',sid:'',n:20};
+/* Web App versi lama belum mengirim daftar prospek di ringkasan tim (hanya jumlahnya): ambil dari laporan lengkapnya */
+const dPrC=new Map(),dPrKey=r=>[r.id,r.nv,r.co].join('|');
+const dTwN=r=>Object.values(r.tw||{}).reduce((a,b)=>a+b,0);
+function dPrNeed(){const today=S.today,from=addD(today,-(+S.dp-1));return (S.team||[]).filter(r=>r.d>=from&&r.d<=today&&!r.pr&&dTwN(r)>0&&!dPrC.has(dPrKey(r)))}
+async function dProsFill(){
+  if(S.prBusy)return;const need=dPrNeed().sort((a,b)=>a.d<b.d?1:-1).slice(0,80);if(!need.length)return;
+  S.prBusy=true;S.prErr='';let i=0,ok=0;dProsUpd();
+  const worker=async()=>{while(i<need.length){const r=need[i++];try{const j=await api('sr_teamrep',{id:r.id});
+    dPrC.set(dPrKey(r),((j.rec||{}).visit||[]).filter(v=>v.jenis==='tawar').map(v=>({n:v.nama||'',t:v.telp||'',a:v.alamat||'',h:v.hasil||''})));ok++}catch(e){S.prErr=e.message||String(e)}}};
+  await Promise.all([worker(),worker(),worker()]);
+  S.prBusy=false;dProsUpd();if(ok)dProsMatch();
+}
 function dProsList(){
   const today=S.today,from=addD(today,-(+S.dp-1)),L=[];
-  (S.team||[]).forEach(r=>{if(r.d<from||r.d>today)return;(r.pr||[]).forEach(p=>L.push({d:r.d,ci:r.ci,sales:r.n,sid:r.sid,own:r.own,st:r.s,rid:r.id,n:p.n,t:String(p.t||'').replace(/^'/,''),a:p.a,h:p.h}))});
+  (S.team||[]).forEach(r=>{if(r.d<from||r.d>today)return;(r.pr||dPrC.get(dPrKey(r))||[]).forEach(p=>L.push({d:r.d,ci:r.ci,sales:r.n,sid:r.sid,own:r.own,st:r.s,rid:r.id,n:p.n,t:String(p.t||'').replace(/^'/,''),a:p.a,h:p.h}))});
   return L.sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:String(a.sales).localeCompare(String(b.sales),'id'));
 }
 async function dProsMatch(){
@@ -1874,7 +1886,11 @@ function dProsStat(p){
 }
 function dProsBody(){
   const all=dProsList();
-  if(!all.length)return '<p class="foot">Belum ada prospek pada periode ini.</p>';
+  if(!all.length){
+    if(S.prBusy)return '<p class="foot">Memuat daftar prospek dari laporan petugas…</p>';
+    if(dPrNeed().length)return `<p class="foot">Daftar prospek belum bisa dimuat${S.prErr?': '+esc(String(S.prErr).slice(0,160)):''}.</p><button type="button" class="btn sm" id="dPRe">Coba lagi</button>`;
+    return '<p class="foot">Belum ada prospek pada periode ini.</p>';
+  }
   const names=[...new Map(all.map(p=>[p.sid,p.sales])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'id'));
   if(dPF.sid&&!names.some(x=>x[0]===dPF.sid))dPF.sid='';
   const q=dPF.q.trim().toLowerCase(),L=all.filter(p=>(!dPF.sid||p.sid===dPF.sid)&&(!q||[p.sales,p.n,p.t,p.a,p.st].join(' ').toLowerCase().includes(q))),show=L.slice(0,dPF.n);
@@ -1893,9 +1909,10 @@ function dProsWire(){
   const s=$('dPS');if(s)s.onchange=()=>{dPF.sid=s.value;dPF.n=20;dProsUpd()};
   const q=$('dPQ');if(q)q.oninput=()=>{dPF.q=q.value;dPF.n=20;const p=q.selectionStart;dProsUpd();const n=$('dPQ');if(n){n.focus();try{n.setSelectionRange(p,p)}catch(e){}}};
   const m=$('dPM');if(m)m.onclick=()=>{dPF.n+=20;dProsUpd()};
+  const re=$('dPRe');if(re)re.onclick=()=>dProsFill();
 }
 function wireDash(){
-  dProsWire();if(S.team)dProsMatch();
+  dProsWire();if(S.team){if(dPrNeed().length&&!S.prErr)dProsFill();dProsMatch()}
   const rmE=$('dRm');if(rmE)rmE.addEventListener('toggle',()=>{S.rmOpen=rmE.open});
   const go=$('dGo');if(go)go.onclick=()=>{S.tab='lap';document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x.dataset.tab==='lap'));if(R&&R.sent&&R.sent.akhir)S.step=5;else if(R&&R.sent&&R.sent.pagi)S.step=Math.max(2,S.step);else S.step=Math.min(1,S.step);render();scrollTo(0,0)};
   const rt=$('dRetry');if(rt)rt.onclick=()=>{S.teamErr='';loadTeam(true);renderDash()};
@@ -1915,7 +1932,7 @@ function openKpi(key){
   else if(key==='vis'){title='Total visit';const VC={};P.forEach(r=>Object.keys(r.vis||{}).forEach(k=>VC[k]=(VC[k]||0)+r.vis[k]));const mv=Math.max(1,...Object.values(VC));
     body=Object.keys(DVT).map(k=>dBar(DVT[k][0],VC[k]||0,mv,DVT[k][1])).join('')+'<p class="foot" style="margin:14px 0 6px"><b>Per petugas</b></p>'+tbl(['Petugas','Visit','Join','Lingk.','ODP','Tawar','Temuan'],PL.sort((a,b)=>b.nv-a.nv).map(o=>[o.n,nf(o.nv),nf(o.vis.join||0),nf(o.vis.ling||0),nf(o.vis.odp||0),nf(o.vis.tawar||0),nf(o.vis.temuan||0)]))}
   else if(key==='tw'){title='Prospek penawaran langsung';const hs={};P.forEach(r=>Object.keys(r.tw||{}).forEach(k=>hs[k]=(hs[k]||0)+r.tw[k]));
-    body=`<div>${['Langsung registrasi','Tertarik','Pikir-pikir','Tidak tertarik'].map(k=>`<span class="d-ch">${k} <b>${nf(hs[k]||0)}</b></span>`).join('')}</div><p class="foot" style="margin:14px 0 6px"><b>Per petugas</b></p>`+tbl(['Petugas','Prospek','Langsung reg.','Tertarik','Pikir2','Tidak'],PL.filter(o=>o.ntw).sort((a,b)=>b.ntw-a.ntw).map(o=>[o.n,nf(o.ntw),nf(o.tw['Langsung registrasi']||0),nf(o.tw['Tertarik']||0),nf(o.tw['Pikir-pikir']||0),nf(o.tw['Tidak tertarik']||0)]))+'<p class="foot" style="margin-top:8px">Data pribadi calon pelanggan hanya terlihat oleh petugas yang menginput dan admin.</p>'}
+    body=`<div>${['Langsung registrasi','Tertarik','Pikir-pikir','Tidak tertarik'].map(k=>`<span class="d-ch">${k} <b>${nf(hs[k]||0)}</b></span>`).join('')}</div><p class="foot" style="margin:14px 0 6px"><b>Per petugas</b></p>`+tbl(['Petugas','Prospek','Langsung reg.','Tertarik','Pikir2','Tidak'],PL.filter(o=>o.ntw).sort((a,b)=>b.ntw-a.ntw).map(o=>[o.n,nf(o.ntw),nf(o.tw['Langsung registrasi']||0),nf(o.tw['Tertarik']||0),nf(o.tw['Pikir-pikir']||0),nf(o.tw['Tidak tertarik']||0)]))+'<p class="foot" style="margin-top:8px">Rincian tiap calon pelanggan ada di bagian Riwayat prospek tim pada dashboard.</p>'}
   else if(key==='odp'){title='ODP dicek';body=tbl(['Petugas','ODP dicek','Potensial','Tidak'],PL.filter(o=>o.odp).sort((a,b)=>b.odp-a.odp).map(o=>[o.n,nf(o.odp),nf(o.odpY),nf(o.odp-o.odpY)]))}
   else if(key==='iss'){title='Issue dilaporkan';const I=[];P.forEach(r=>(r.iss||[]).forEach(x=>I.push(Object.assign({},x,{n:r.n,dt:r.d,id:r.id}))));
     const w={tinggi:0,sedang:1,rendah:2};I.sort((a,b)=>(w[a.u]??3)-(w[b.u]??3)||(a.dt<b.dt?1:-1));
