@@ -28,7 +28,9 @@ self.addEventListener('notificationclick', function (e) {
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (ws) {
     for (var i = 0; i < ws.length; i++) {
       var w = ws[i];
-      if (w.url.indexOf('form') >= 0 && 'focus' in w) { return w.navigate(url).then(function (c) { return (c || w).focus(); }).catch(function () { return w.focus(); }); }
+      /* notifikasi aktivitas tim di form sales: cukup fokuskan jendela sales yang sudah terbuka */
+      if (w.url.indexOf('sales.html') >= 0 && url.indexOf('sales.html') >= 0 && 'focus' in w) { return w.focus(); }
+      if (w.url.indexOf('form') >= 0 && url.indexOf('sales.html') < 0 && 'focus' in w) { return w.navigate(url).then(function (c) { return (c || w).focus(); }).catch(function () { return w.focus(); }); }
     }
     return self.clients.openWindow(url);
   }));
