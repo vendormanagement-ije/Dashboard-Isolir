@@ -274,6 +274,13 @@ th{background:#f3f5f9;font-size:12px;color:var(--ink2);white-space:nowrap}
 .d-k span{font-size:10.5px;color:var(--ink2);font-weight:600}
 .d-k b{display:block;font-size:19px;line-height:1.2;letter-spacing:-.01em}
 .d-k small{color:var(--ink3);font-size:10px}
+.d-pf{display:grid;grid-template-columns:1fr 1.3fr;gap:8px;margin-bottom:8px}@media(max-width:480px){.d-pf{grid-template-columns:1fr}}
+.d-ptw{margin-top:8px;max-height:460px;overflow:auto}.d-ptw table{min-width:860px;font-size:12.5px}
+.d-pcl{display:none}
+@media(max-width:620px){.d-ptw{display:none}.d-pcl{display:flex;flex-direction:column;gap:8px;margin-top:8px}}
+.d-pc{border:1px solid var(--line2);border-radius:12px;padding:10px 12px}.d-pch{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.d-pch b{font-size:14px}
+.d-pcs{font-size:12.5px;margin-top:3px;color:#12306b}.d-pc small{display:block;color:var(--ink3);font-size:11.5px;margin-top:2px}
+.d-pcf{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;margin-top:7px;padding-top:7px;border-top:1px dashed var(--line2);font-size:12.5px}.d-pcf a{font-weight:700;color:var(--blue);text-decoration:none}
 .d-rg{border:1px solid var(--line2);border-radius:14px;padding:10px 12px 6px;margin-top:10px}
 .d-rgh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}.d-rgh b{font-size:14px}.d-rgh span{font-size:11.5px;color:var(--ink3);font-weight:700}
 .d-card{background:#fff;border:1px solid var(--line2);border-radius:16px;padding:16px;margin-bottom:12px}
@@ -344,6 +351,8 @@ th{background:#f3f5f9;font-size:12px;color:var(--ink2);white-space:nowrap}
 .fc .rm{position:absolute;top:4px;right:4px;background:rgba(15,23,42,.78);color:#fff;border:0;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:12px;line-height:1}
 .fadd{border:1.5px dashed #93a9e6;border-radius:10px;background:#f7f9ff;min-height:128px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12.5px;font-weight:700;color:var(--blue)}
 .fadd small{font-weight:400;color:var(--ink3);font-size:11px}
+.fgal{border-color:#7cc4a4;background:#f4fbf7;color:#0f766e;text-align:center;padding:6px}.fgal:focus-visible{outline:3px solid #93c5fd}
+.galic{width:28px;height:28px;display:block;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Ccircle cx='9' cy='10' r='1.8'/%3E%3Cpath d='M4 18l5-5 4 4 3-3 4 4'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Ccircle cx='9' cy='10' r='1.8'/%3E%3Cpath d='M4 18l5-5 4 4 3-3 4 4'/%3E%3C/svg%3E") center/contain no-repeat}
 @media (max-width:560px){
   .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .g2{grid-template-columns:1fr}
@@ -465,7 +474,7 @@ async function demoApi(a,q){
     const out=D.lap.filter(r=>r.tanggal>=from).map(r=>{const v=r.visit||[],c=r.checkin||{},au=(r.ach||{}).auto||{},cnt={},tw={};let odpY=0;
       v.forEach(x=>{cnt[x.jenis]=(cnt[x.jenis]||0)+1;if(x.jenis==='tawar')tw[x.hasil||'-']=(tw[x.hasil||'-']||0)+1;if(x.jenis==='odp'&&x.pot==='ya')odpY++});
       return {id:r.id,d:r.tanggal,sid:sid(r.hp),own:hpK(r.hp)===me,n:r.nama,j:r.jabatan||'',rg:r.region||r.regional||'',m:r.mitra||'',s:r.stasiun||'',st:r.status,ci:r.checkin_at||'',co:r.checkout_at||'',kota:c.kota||'',lok:c.lokasi||'',nv:v.length,vis:cnt,tw,odpY,
-        iss:(r.issue||[]).map(x=>({k:x.kat,u:x.urg,d:+x.dampak||0,t:String((x.poin||[])[0]||'').slice(0,110)})),pen:(r.ach||{}).penyebab||[],ar:{r:au.reg,rl:au.reg_lw,a:au.act,al:au.act_lw,tr:au.tr_reg,ta:au.tr_act},tl:(r.tl||[]).length,tlx:(r.tl||[]).slice(0,10).map(x=>({m:String(x.masalah||'').slice(0,110),p:String(x.pic||'').slice(0,40),dl:String(x.deadline||''),s:String(x.status||'baru')}))}});
+        iss:(r.issue||[]).map(x=>({k:x.kat,u:x.urg,d:+x.dampak||0,t:String((x.poin||[])[0]||'').slice(0,110)})),pr:v.filter(x=>x.jenis==='tawar').map(x=>({n:x.nama||'',t:x.telp||'',a:x.alamat||'',h:x.hasil||''})),pen:(r.ach||{}).penyebab||[],ar:{r:au.reg,rl:au.reg_lw,a:au.act,al:au.act_lw,tr:au.tr_reg,ta:au.tr_act},tl:(r.tl||[]).length,tlx:(r.tl||[]).slice(0,10).map(x=>({m:String(x.masalah||'').slice(0,110),p:String(x.pic||'').slice(0,40),dl:String(x.deadline||''),s:String(x.status||'baru')}))}});
     return {ok:true,today:d,reports:out,nsales:D.sal.length}}
   if(a==='sr_teamrep'){const r0=D.lap.find(x=>x.id===q.id);if(!r0)throw new Error('Laporan tidak ditemukan');const r=JSON.parse(JSON.stringify(r0));
     const strip=x=>{if(x&&typeof x==='object'){if(x.ts&&'id' in x){delete x.geo;delete x.th;return}delete x.geo;Object.values(x).forEach(strip)}};strip(r);r.hp='';return {ok:true,rec:r}}
@@ -645,8 +654,8 @@ function phMulti(p,label,min,max){
   let arr=getP(R,p);if(!Array.isArray(arr)){arr=[];setP(R,p,arr)}
   const n=arr.length,okc=n>=min&&n<=max;
   return `<div class="fotos"><div class="fcount ${okc?'ok':'no'}">${n} foto · minimal ${min}, maksimal ${max}${okc?' ✓':''}</div>
-   <div class="fg">${arr.map((x,i)=>{const th=x.th||photoUrl(x.id);return `<div class="fc"><img src="${esc(th||'')}" alt="Foto ${i+1}"><span class="st${x.id?'':' p'}">${x.id?jam(x.ts)+' · terunggah':'belum terunggah'}</span><button class="rm" data-delph="${p}" data-i="${i}" aria-label="Hapus foto ${i+1}">✕</button><input type="text" data-b="${p}.${i}.cap" value="${esc(x.cap||'')}" placeholder="Keterangan foto ${i+1} (opsional)" maxlength="80"></div>`}).join('')}
-   ${n<max?`<button class="fadd" data-cam="${p}.${n}" data-face="environment" data-lab="${esc(label)} · foto ${n+1}"><span class="camic"></span>+ Ambil foto<small>${n} dari ${max} · langsung dari kamera HP</small></button>`:''}</div></div>`;
+   <div class="fg">${arr.map((x,i)=>{const th=x.th||photoUrl(x.id);return `<div class="fc"><img src="${esc(th||'')}" alt="Foto ${i+1}"><span class="st${x.id?'':' p'}">${x.src==='galeri'?'Galeri · ':''}${x.id?jam(x.ts)+' · terunggah':'belum terunggah'}</span><button class="rm" data-delph="${p}" data-i="${i}" aria-label="Hapus foto ${i+1}">✕</button><input type="text" data-b="${p}.${i}.cap" value="${esc(x.cap||'')}" placeholder="Keterangan foto ${i+1} (opsional)" maxlength="80"></div>`}).join('')}
+   ${n<max?`<button class="fadd" data-cam="${p}.${n}" data-face="environment" data-lab="${esc(label)} · foto ${n+1}"><span class="camic"></span>+ Ambil foto<small>${n} dari ${max} · kamera HP</small></button><label class="fadd fgal" tabindex="0"><span class="galic" aria-hidden="true"></span>+ Upload galeri<small>pilih satu atau beberapa foto</small><input type="file" accept="image/*" multiple data-gal="${p}" data-max="${max}" data-lab="${esc(label)}" hidden></label>`:''}</div></div>`;
 }
 function photoUrl(id){if(!id)return '';if(String(id).startsWith('demo-')){try{return JSON.parse(lsGet('srDemoPh')||'{}')[id]||''}catch(e){return ''}}return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w400'}
 const tile=(l,v,s,c,x)=>`<div class="tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}${x||''}</div>`;
@@ -758,7 +767,7 @@ function stepIssue(){
 function visitBody(v,i){
   const p=`visit.${i}`,G=VG[v.jenis];
   const gd=`<details class="guide"${(v.fotos||[]).length?'':' open'}><summary><b>Panduan: ${esc(VT[v.jenis][0])}</b></summary><div><b>Untuk apa:</b> ${esc(G.t)}</div><div><b>Foto (minimal 3, maksimal 10):</b><ol>${G.f.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div><div><b>Yang ditulis:</b> ${esc(G.i)}</div><div class="ex">Contoh: ${esc(G.x)}</div></details>`;
-  const fl=`<label class="f">Foto kegiatan <em>*</em></label><div class="hint">Ambil langsung dari kamera. Jam dan lokasi tercetak otomatis di foto. Keterangan per foto boleh diisi agar mudah dipahami atasan.</div>${phMulti(p+'.fotos',VT[v.jenis][0],3,10)}`;
+  const fl=`<label class="f">Foto kegiatan <em>*</em></label><div class="hint">Ambil dengan kamera (jam dan lokasi tercetak otomatis) atau upload dari galeri HP / file komputer. Keterangan per foto boleh diisi agar mudah dipahami atasan.</div>${phMulti(p+'.fotos',VT[v.jenis][0],3,10)}`;
   if(v.jenis==='join')return gd+`<label class="f">Nama sales mitra yang didampingi <em>*</em></label><div class="hint">Tulis nama lengkap dan asal mitra.</div>${inp(p+'.nama',v.nama,'text','Contoh: Budi (Mitra XYZ)','maxlength="80"')}
     <label class="f">Hasil join visit <em>*</em></label><div class="hint">Satu poin untuk satu hal: kegiatan, hasil, kendala, masukan untuk sales mitra.</div>${pts(p+'.poin',v.poin,'Contoh: 12 rumah dikunjungi, 3 tertarik')}${fl}`;
   if(v.jenis==='ling')return gd+`<div class="g2"><div><label class="f">Jenis <em>*</em></label>${sel(p+'.sub',[['lingkungan','Lingkungan'],['affiliator','Affiliator']],v.sub,'Pilih…')}</div><div><label class="f">Nama lingkungan / affiliator <em>*</em></label>${inp(p+'.nama',v.nama,'text','Contoh: Perum Griya Asri / Pak RT 05','maxlength="120"')}</div></div>
@@ -790,11 +799,11 @@ function stepKantor(){
    <label class="f">Kendala yang disampaikan mitra <i>opsional</i></label>${pts('kantor.kendala',k.kendala,'Contoh: stok ONT habis sejak minggu lalu')}
    <label class="f">Kesepakatan dan komitmen <em>*</em></label><div class="hint">Tulis siapa melakukan apa dan kapan.</div>${pts('kantor.sepakat',k.sepakat,'Contoh: Mitra memperbarui 12 WO paling lambat Jumat (PIC Budi)')}
    <label class="f">Dokumen atau data yang diterima <i>opsional</i></label>${inp('kantor.dok',k.dok,'text','Contoh: rekap WO November, daftar sales mitra','maxlength="200"')}
-   <label class="f">Foto kunjungan kantor mitra <em>*</em></label><div class="hint">Ambil langsung dari kamera. Jam dan lokasi tercetak otomatis.</div>${phMulti('kantor.fotos','Kantor mitra',3,10)}</section>`;
+   <label class="f">Foto kunjungan kantor mitra <em>*</em></label><div class="hint">Ambil dengan kamera (jam dan lokasi tercetak otomatis) atau upload dari galeri HP / file komputer.</div>${phMulti('kantor.fotos','Kantor mitra',3,10)}</section>`;
 }
 function stepVisit(){
   const km=R.checkin.lokasi==='mitra';
-  return `${km?stepKantor():''}<section class="card"><h2>${km?'Visit lapangan <span class="foot">(jika ada)</span>':'4 · Visit lapangan'}</h2><p class="sub">Tambah setiap kegiatan sebagai entri sendiri. Jam dan lokasi GPS tercatat otomatis. <b>Setiap kegiatan wajib 3 sampai 10 foto</b>, diambil langsung dari kamera HP (tidak bisa memilih dari galeri).</p>
+  return `${km?stepKantor():''}<section class="card"><h2>${km?'Visit lapangan <span class="foot">(jika ada)</span>':'4 · Visit lapangan'}</h2><p class="sub">Tambah setiap kegiatan sebagai entri sendiri. Jam dan lokasi GPS tercatat otomatis. <b>Setiap kegiatan wajib 3 sampai 10 foto</b>. Foto bisa diambil dengan kamera atau di-upload dari galeri / file.</p>
     ${R.visit.map((v,i)=>`<div class="item"><div class="ih"><b>${i+1}. ${esc(VT[v.jenis][0])}</b><span class="row" style="gap:4px"><span class="tag">${jam(v.jam)}</span><button class="x" data-del="visit" data-i="${i}">Hapus</button></span></div>${visitBody(v,i)}</div>`).join('')||`<div class="note">${km?'Belum ada kegiatan visit lapangan. Boleh dikosongkan jika hari ini hanya di kantor mitra.':'Belum ada kegiatan. Pilih jenis kegiatan di bawah.'}</div>`}
     <div class="vt">${Object.entries(VT).map(([k,v])=>`<button data-vt="${k}"><b>+ ${esc(v[0])}</b><small>${esc(v[1])}</small></button>`).join('')}</div></section>`;
 }
@@ -879,7 +888,7 @@ function renderRiwayat(skip){
     ${M.map(r=>`<div class="hist clk" data-rp="${esc(r.id)}" role="button" tabindex="0"><div class="hh"><b>${fmtD(r.tanggal)} · ${esc(r.stasiun)}</b><span class="tag" style="${r.status==='lengkap'?'--c:#15803d;--bg2:#e6f4ea':'--c:#b45309;--bg2:#fdf3e4'}">${r.status==='lengkap'?'Lengkap':'Baru check-in'}</span></div>
       <div class="foot">${esc(r.mitra)} · masuk ${jam(r.checkin_at)} · pulang ${jam(r.checkout_at)} · ${nf(r.n_visit)} visit · ${nf(r.n_prospek)} prospek · ${nf(r.n_issue)} issue</div>
       ${r.ditinjau_at?`<div class="note ok" style="margin:6px 0 0">Ditinjau ${fmtD(String(r.ditinjau_at).slice(0,10))}${r.catatan_review?': '+esc(r.catatan_review):''}</div>`:''}<div class="rpl">Lihat laporan lengkap ›</div></div>`).join('')||'<p class="foot">Belum ada laporan.</p>'}</section>
-  <section class="card"><h2>Prospek saya (${nf(P.length)})</h2><p class="sub">Calon pelanggan dari penawaran langsung${act!=null?` · ${nf(act)} sudah aktif`:''}. Status pelanggan dicocokkan otomatis dari nomor telepon dengan data pelanggan.${S.matchErr?` <b>(${esc(S.matchErr)})</b>`:''}</p>
+  <section class="card"><h2>Prospek saya (${nf(P.length)})</h2><p class="sub">Calon pelanggan dari penawaran langsung${act!=null?` · ${nf(act)} sudah aktif`:''}. Status pelanggan dicocokkan otomatis dari nomor telepon dengan data pelanggan.${S.matchErr?' Pengecekan status sedang belum tersedia.':''}</p>
     ${P.length?`<div class="tw"><table><thead><tr><th>Tanggal</th><th>Nama</th><th>Telepon</th><th>Stasiun</th><th>Hasil penawaran</th><th>Status pelanggan</th><th>Tanggal aktif</th></tr></thead><tbody>${P.slice().sort((a,b)=>a.tanggal<b.tanggal?1:-1).map(p=>`<tr><td>${fmtD(p.tanggal)}</td><td>${esc(p.nama)}<div class="foot">${esc(p.alamat||'')}</div></td><td>${esc(String(p.telepon||'').replace(/^'/,''))}</td><td>${esc(p.stasiun)}</td><td>${esc(p.status)}</td>${prosCells(p)}</tr>`).join('')}</tbody></table></div>`:'<p class="foot">Belum ada prospek.</p>'}</section>`;
   if(!skip)matchPros();
 }
@@ -981,7 +990,7 @@ async function camStart(){
   try{CAM.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:CAM.facing},width:{ideal:1920},height:{ideal:1440}},audio:false});const v=$('camV');v.srcObject=CAM.stream;v.classList.toggle('mir',CAM.facing==='user');await v.play().catch(()=>{})}
   catch(e){camFallback(e&&e.name==='NotAllowedError'?'Izin kamera ditolak. Izinkan kamera untuk situs ini, lalu coba lagi.':'Kamera tidak bisa dibuka ('+((e&&(e.message||e.name))||'')+').')}
 }
-function camFallback(msg){const el=$('camErr');el.hidden=false;el.textContent=msg+' Foto hanya bisa diambil langsung dari kamera HP; tidak bisa dipilih dari file atau galeri.'}function camStop(keep){if(CAM.stream){CAM.stream.getTracks().forEach(t=>t.stop());CAM.stream=null}if(!keep&&CAM.watch!=null){navigator.geolocation.clearWatch(CAM.watch);CAM.watch=null}}
+function camFallback(msg){const el=$('camErr');el.hidden=false;el.textContent=msg+(/^(visit|kantor)\./.test(CAM.p)?' Untuk foto langkah 4, Anda juga bisa menutup kamera lalu memakai tombol Upload galeri.':' Selfie dan foto absensi harus diambil langsung dari kamera HP.')}function camStop(keep){if(CAM.stream){CAM.stream.getTracks().forEach(t=>t.stop());CAM.stream=null}if(!keep&&CAM.watch!=null){navigator.geolocation.clearWatch(CAM.watch);CAM.watch=null}}
 function closeCam(){camStop();$('camV').srcObject=null;$('cam').hidden=true}
 const wibStr=iso=>{const d=new Date(Date.parse(iso)+7*36e5),i=d.toISOString();return `${HARI[d.getUTCDay()]}, ${fmtD(i.slice(0,10))} · ${i.slice(11,19)} WIB`};
 function camCompose(src,w0,h0){
@@ -1006,6 +1015,39 @@ $('camUse').onclick=async()=>{if(!CAM.shot)return;const p=CAM.p,sh=CAM.shot;clos
   setP(R,p,{id:'',u,ts:sh.meta.ts,geo:{lat:sh.meta.lat,lng:sh.meta.lng,acc:sh.meta.acc},th:sh.th});S.pend[u]={sh,kind:p};save();render();
   if(p==='checkin.selfie'||p==='checkin.tempat'){if(p==='checkin.selfie')R.checkin.kota='';revGeo(sh.meta.lat,sh.meta.lng).then(k=>{if(k&&R&&R.checkin&&(p==='checkin.selfie'||!R.checkin.kota)){R.checkin.kota=k;save();if(S.tab==='lap'&&S.step===0)render()}})}
   upload(u).then(()=>{save();render()}).catch(()=>{render();toast('Foto belum terunggah (koneksi). Akan dicoba lagi saat dikirim.')})};
+/* upload foto langkah 4 dari galeri / file lokal: dikecilkan, diberi keterangan "dari galeri" (tanpa klaim lokasi GPS) */
+function galDecode(file){
+  return new Promise((ok,bad)=>{const url=URL.createObjectURL(file),im=new Image();im.onload=()=>{ok(im);setTimeout(()=>URL.revokeObjectURL(url),1000)};im.onerror=()=>{URL.revokeObjectURL(url);bad(new Error('format foto tidak didukung'))};im.src=url});
+}
+function galShot(im,lab){
+  const w0=im.naturalWidth,h0=im.naturalHeight,s=Math.min(1,1600/Math.max(w0,h0)),w=Math.max(1,Math.round(w0*s)),h=Math.max(1,Math.round(h0*s));
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);
+  const ts=new Date().toISOString(),lines=[lab+(R.stasiun?' · '+R.stasiun:''),'Diunggah dari galeri · '+wibStr(ts),`Sales ${S.me.n}${R.mitra?' · '+R.mitra:''}`];
+  const fs=Math.max(12,Math.round(Math.min(w,h*1.2)*0.028)),lh=Math.round(fs*1.32),pad=Math.round(fs*.6),bh=lines.length*lh+pad*2;
+  cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,h-bh,w,bh);cx.fillStyle='#fff';cx.textBaseline='top';
+  lines.forEach((t,i)=>{cx.font=`${i===1?800:600} ${fs}px system-ui,"Segoe UI",Roboto,Arial,sans-serif`;cx.fillText(t,pad,h-bh+pad+i*lh,w-pad*2)});
+  const url=cv.toDataURL('image/jpeg',.8),t=document.createElement('canvas'),k=Math.min(1,360/Math.max(w,h));t.width=Math.round(w*k);t.height=Math.round(h*k);t.getContext('2d').drawImage(cv,0,0,t.width,t.height);
+  return {b64:url.split(',')[1],th:t.toDataURL('image/jpeg',.65),meta:{ts}};
+}
+async function galAdd(inp){
+  const p=inp.dataset.gal,max=+inp.dataset.max||10,lab=inp.dataset.lab||'Foto',files=[...(inp.files||[])];inp.value='';
+  if(!files.length||S.busy||!R)return;
+  const rec=R,arr=getP(rec,p)||[];setP(rec,p,arr);const room=max-arr.length,take=files.slice(0,Math.max(0,room));
+  let fail=0;const ups=[];
+  for(let i=0;i<take.length;i++){
+    prog(`Menyiapkan foto ${i+1} dari ${take.length}…`);
+    try{if(!/^image\//.test(take[i].type||'image/'))throw new Error('bukan gambar');
+      const sh=galShot(await galDecode(take[i]),lab+' · foto '+(arr.length+1)),u='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      if(R!==rec)break;arr.push({id:'',u,ts:sh.meta.ts,th:sh.th,src:'galeri'});S.pend[u]={sh,kind:p+'.'+(arr.length-1)};ups.push(u);
+    }catch(e){fail++}
+  }
+  prog('');save();render();
+  const msg=[ups.length?ups.length+' foto ditambahkan':'',files.length>take.length?(files.length-take.length)+' foto dilewati (maksimal '+max+')':'',fail?fail+' file tidak bisa dibaca (gunakan JPG atau PNG)':''].filter(Boolean).join(' · ');if(msg)toast(msg);
+  let gagal=0;for(const u of ups){try{await upload(u);save();render()}catch(e){gagal++}}
+  if(gagal){render();toast(gagal+' foto belum terunggah (koneksi). Akan dicoba lagi saat dikirim.')}
+}
+$('app').addEventListener('change',ev=>{const g=ev.target.closest&&ev.target.closest('input[data-gal]');if(g)galAdd(g)});
+$('app').addEventListener('keydown',ev=>{const l=ev.target.closest&&ev.target.closest('.fgal');if(l&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();const i=l.querySelector('input');if(i)i.click()}});
 function findPh(u){let f=null;const w=x=>{if(f||!x||typeof x!=='object')return;if(x.u===u&&'ts' in x){f=x;return}Object.values(x).forEach(w)};w(R);return f}
 async function upload(u){
   const e=S.pend[u];if(!e)return;
@@ -1105,7 +1147,7 @@ function siLightbox(url,cap){
 function siBindPhotos(frame){
   try{frame.contentDocument.querySelectorAll('.si-ph > div > a:first-child').forEach(a=>{const im=a.querySelector('img');if(!im)return;a.onclick=e=>{e.preventDefault();siLightbox(String(im.src).replace('sz=w400','sz=w1600'),im.alt)}})}catch(e){}
 }
-function siPhotos(list){list=list.filter(x=>x&&x[1]&&x[1].id);if(!list.length)return '';return `<div class="si-ph">${list.map(([l,p])=>`<div><a href="${esc(siView(p.id))}" target="_blank" rel="noopener" title="Buka foto ${esc(l)}"><img src="${esc(siPh(p.id))}" alt="${esc(l)}" loading="lazy" referrerpolicy="no-referrer"></a><span>${esc(l)} · ${siJam(p.ts)}${p.geo?` · <a href="https://maps.google.com/?q=${p.geo.lat},${p.geo.lng}" target="_blank" rel="noopener">peta</a>`:''}</span></div>`).join('')}</div>`}
+function siPhotos(list){list=list.filter(x=>x&&x[1]&&x[1].id);if(!list.length)return '';return `<div class="si-ph">${list.map(([l,p])=>`<div><a href="${esc(siView(p.id))}" target="_blank" rel="noopener" title="Buka foto ${esc(l)}"><img src="${esc(siPh(p.id))}" alt="${esc(l)}" loading="lazy" referrerpolicy="no-referrer"></a><span>${esc(l)} · ${siJam(p.ts)}${p.src==='galeri'?' · dari galeri':''}${p.geo?` · <a href="https://maps.google.com/?q=${p.geo.lat},${p.geo.lng}" target="_blank" rel="noopener">peta</a>`:''}</span></div>`).join('')}</div>`}
 const siOl=a=>(a||[]).filter(x=>String(x).trim()).length?`<ol class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'<span class="wo-mut">-</span>';
 const siPts=a=>(a||[]).filter(x=>String(x).trim()).length?`<ul class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>';
 function siKantor(r){
@@ -1381,7 +1423,7 @@ async function siPdfBuild(list,title,onProg){
         doc.setDrawColor(221,226,233);doc.setLineWidth(0.2);doc.rect(x,y,cw,ih,'S');
         if(im){const sc=Math.min((cw-1)/im.w,(ih-1)/im.h),w=im.w*sc,h=im.h*sc;try{doc.addImage(im.url,'JPEG',x+(cw-w)/2,y+(ih-h)/2,w,h,undefined,'FAST')}catch(e){}}
         else{F(false,7,[138,147,163]);doc.text('foto tidak tersedia',x+cw/2,y+ih/2,{align:'center'})}
-        const cap=split(it[0]+(it[1].ts?' | '+siJam(it[1].ts):''),cw,6.8).slice(0,2);F(false,6.8,[71,85,105]);cap.forEach((l,j)=>doc.text(l,x,y+ih+2.8+j*2.7));
+        const cap=split(it[0]+(it[1].ts?' | '+siJam(it[1].ts):'')+(it[1].src==='galeri'?' | galeri':''),cw,6.8).slice(0,2);F(false,6.8,[71,85,105]);cap.forEach((l,j)=>doc.text(l,x,y+ih+2.8+j*2.7));
       });
       y+=ih+9;
     }
@@ -1683,7 +1725,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126160539,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
+PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126172433,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
   manifest:{name:'Daily Report Sales Internal Starlite',short_name:'Daily Report',description:'Laporan harian sales internal Starlite: absensi, briefing, visit, issue, dan evaluasi',
     start_url:'sales.html?'+(T?'t='+encodeURIComponent(T)+'&':'')+'pwa=1',scope:'sales.html',
     icons:[{src:'sales-icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'sales-icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'sales-icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]},
@@ -1799,6 +1841,8 @@ function renderDash(){
   h+=`<section class="d-card"><h3>Ringkasan hasil visit</h3><p class="sub">${nf(nVis)} kegiatan dari ${nf(P.length)} laporan.</p>
     ${Object.keys(DVT).map(k=>dBar(DVT[k][0],VC[k]||0,mV,DVT[k][1],k==='odp'&&VC.odp?nf(nOdpY)+' potensial':'')).join('')}
     ${nTw?`<p class="foot" style="margin:12px 0 2px"><b>Hasil penawaran langsung</b></p><div>${['Langsung registrasi','Tertarik','Pikir-pikir','Tidak tertarik'].map(k=>`<span class="d-ch">${k} <b>${nf(hs[k]||0)}</b></span>`).join('')}</div>`:''}</section>`;
+  /* riwayat prospek tim */
+  h+=`<section class="d-card"><h3>Riwayat prospek tim</h3><p class="sub">Calon pelanggan dari penawaran langsung semua petugas (${S.dp} hari terakhir). Status pelanggan dicocokkan otomatis dari nomor telepon.</p><div id="dPros">${dProsBody()}</div></section>`;
   /* lokasi */
   const RG=new Map();P.forEach(r=>{const g=(r.rg||'').trim()||'Tanpa region';let o=RG.get(g);if(!o){o={n:0,lap:0,mit:0,kt:{}};RG.set(g,o)}o.n++;if(r.lok==='lapangan')o.lap++;else if(r.lok==='mitra')o.mit++;if(r.kota)o.kt[r.kota]=(o.kt[r.kota]||0)+1});
   const rgs=[...RG.entries()].sort((a,b)=>b[1].n-a[1].n||a[0].localeCompare(b[0],'id'));
@@ -1807,7 +1851,51 @@ function renderDash(){
       return `<div class="d-rg"><div class="d-rgh"><b>${esc(g)}</b><span>${nf(o.n)} check-in</span></div><div><span class="d-ch">Lapangan <b>${nf(o.lap)}</b></span><span class="d-ch">Kantor mitra <b>${nf(o.mit)}</b></span></div>${kk.map(k=>dBar(k,o.kt[k],mk,'#0f766e')).join('')||'<p class="foot" style="margin:6px 0">Kota akan tampil pada laporan baru.</p>'}</div>`}).join('')||'<p class="foot">Belum ada check-in pada periode ini.</p>'}</section>`;
   $('app').innerHTML=h;wireDash();
 }
+/* tabel riwayat prospek semua petugas, dengan nama sales */
+const dPF={q:'',sid:'',n:20};
+function dProsList(){
+  const today=S.today,from=addD(today,-(+S.dp-1)),L=[];
+  (S.team||[]).forEach(r=>{if(r.d<from||r.d>today)return;(r.pr||[]).forEach(p=>L.push({d:r.d,ci:r.ci,sales:r.n,sid:r.sid,own:r.own,st:r.s,rid:r.id,n:p.n,t:String(p.t||'').replace(/^'/,''),a:p.a,h:p.h}))});
+  return L.sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:String(a.sales).localeCompare(String(b.sales),'id'));
+}
+async function dProsMatch(){
+  const ph=[...new Set(dProsList().map(p=>hpK(p.t)).filter(x=>x.length>=10))].slice(0,300),key=ph.join(',');
+  if(!ph.length||S.tmKey===key||S.tmBusy)return;
+  S.tmBusy=true;
+  try{const r=await api('sr_match',{phones:ph});S.tmatch=r.map||{};S.tmErr=''}catch(e){S.tmatch=null;S.tmErr='1'}
+  S.tmKey=key;S.tmBusy=false;dProsUpd();
+}
+function dProsStat(p){
+  if(!S.tmatch)return [S.tmErr?'-':'memeriksa…','', '-'];
+  const x=S.tmatch[hpK(p.t)];
+  if(!x)return ['Belum terdaftar','no','-'];
+  if(x.status==='active')return ['Aktif'+(x.aktif&&x.aktif<p.d?' (pelanggan lama)':''),'ok',fmtD(x.aktif)];
+  return [CST[x.status]||x.status,'mid','-'];
+}
+function dProsBody(){
+  const all=dProsList();
+  if(!all.length)return '<p class="foot">Belum ada prospek pada periode ini.</p>';
+  const names=[...new Map(all.map(p=>[p.sid,p.sales])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'id'));
+  if(dPF.sid&&!names.some(x=>x[0]===dPF.sid))dPF.sid='';
+  const q=dPF.q.trim().toLowerCase(),L=all.filter(p=>(!dPF.sid||p.sid===dPF.sid)&&(!q||[p.sales,p.n,p.t,p.a,p.st].join(' ').toLowerCase().includes(q))),show=L.slice(0,dPF.n);
+  const act=S.tmatch?L.filter(p=>{const x=S.tmatch[hpK(p.t)];return x&&x.status==='active'}).length:null;
+  const tag=(t,c)=>`<span class="tag" style="${c==='ok'?'--c:#15803d;--bg2:#e6f4ea':c==='no'?'--c:#b42318;--bg2:#fdecea':c==='mid'?'--c:#b45309;--bg2:#fdf3e4':'--c:#475569;--bg2:#eef1f5'}">${esc(t)}</span>`;
+  const hc=h=>h==='Langsung registrasi'?'ok':h==='Tidak tertarik'?'no':'mid';
+  const wa=p=>hpK(p.t).length>=10?`<a href="https://wa.me/${esc(hpK(p.t))}" target="_blank" rel="noopener">${esc(p.t)}</a>`:esc(p.t||'-');
+  return `<div class="d-pf"><select id="dPS" aria-label="Filter petugas sales"><option value="">Semua petugas (${names.length})</option>${names.map(([k,n])=>`<option value="${esc(k)}"${dPF.sid===k?' selected':''}>${esc(n)}</option>`).join('')}</select><input type="search" id="dPQ" value="${esc(dPF.q)}" placeholder="Cari nama, telepon, stasiun" aria-label="Cari prospek"></div>
+    <div><span class="d-ch">Prospek <b>${nf(L.length)}</b></span><span class="d-ch">Sudah aktif <b>${act==null?'-':nf(act)}</b></span></div>
+    <div class="d-ptw tw"><table><thead><tr><th>Tanggal</th><th>Sales</th><th>Nama</th><th>Telepon</th><th>Stasiun</th><th>Hasil penawaran</th><th>Status pelanggan</th><th>Tanggal aktif</th></tr></thead><tbody>${show.map(p=>{const s=dProsStat(p);return `<tr><td>${esc(fmtD(p.d))}</td><td><b>${esc(p.sales)}</b></td><td>${esc(p.n)}<div class="foot">${esc(p.a||'')}</div></td><td>${wa(p)}</td><td>${esc(p.st)}</td><td>${tag(p.h||'-',hc(p.h))}</td><td>${s[1]?tag(s[0],s[1]):`<span class="foot">${esc(s[0])}</span>`}</td><td>${esc(s[2])}</td></tr>`}).join('')}</tbody></table></div>
+    <div class="d-pcl">${show.map(p=>{const s=dProsStat(p);return `<div class="d-pc"><div class="d-pch"><b>${esc(p.n||'(tanpa nama)')}</b>${tag(p.h||'-',hc(p.h))}</div><div class="d-pcs">Sales: <b>${esc(p.sales)}</b></div><small>${esc(fmtD(p.d))} · ${esc(p.st)}${p.a?' · '+esc(p.a):''}</small><div class="d-pcf">${wa(p)}<span>Status: ${s[1]?tag(s[0],s[1]):esc(s[0])}${s[2]!=='-'?' · aktif '+esc(s[2]):''}</span></div></div>`}).join('')}</div>
+    ${!L.length?'<p class="foot">Tidak ada yang cocok.</p>':''}${L.length>show.length?`<button type="button" class="btn sm sec" id="dPM" style="margin-top:8px">Tampilkan lebih banyak (${nf(L.length-show.length)} lagi)</button>`:''}`;
+}
+function dProsUpd(){const e=$('dPros');if(!e||S.tab!=='dash')return;e.innerHTML=dProsBody();dProsWire()}
+function dProsWire(){
+  const s=$('dPS');if(s)s.onchange=()=>{dPF.sid=s.value;dPF.n=20;dProsUpd()};
+  const q=$('dPQ');if(q)q.oninput=()=>{dPF.q=q.value;dPF.n=20;const p=q.selectionStart;dProsUpd();const n=$('dPQ');if(n){n.focus();try{n.setSelectionRange(p,p)}catch(e){}}};
+  const m=$('dPM');if(m)m.onclick=()=>{dPF.n+=20;dProsUpd()};
+}
 function wireDash(){
+  dProsWire();if(S.team)dProsMatch();
   const rmE=$('dRm');if(rmE)rmE.addEventListener('toggle',()=>{S.rmOpen=rmE.open});
   const go=$('dGo');if(go)go.onclick=()=>{S.tab='lap';document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x.dataset.tab==='lap'));if(R&&R.sent&&R.sent.akhir)S.step=5;else if(R&&R.sent&&R.sent.pagi)S.step=Math.max(2,S.step);else S.step=Math.min(1,S.step);render();scrollTo(0,0)};
   const rt=$('dRetry');if(rt)rt.onclick=()=>{S.teamErr='';loadTeam(true);renderDash()};

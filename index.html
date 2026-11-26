@@ -6588,7 +6588,7 @@ function siLightbox(url,cap){
 function siBindPhotos(frame){
   try{frame.contentDocument.querySelectorAll('.si-ph > div > a:first-child').forEach(a=>{const im=a.querySelector('img');if(!im)return;a.onclick=e=>{e.preventDefault();siLightbox(String(im.src).replace('sz=w400','sz=w1600'),im.alt)}})}catch(e){}
 }
-function siPhotos(list){list=list.filter(x=>x&&x[1]&&x[1].id);if(!list.length)return '';return `<div class="si-ph">${list.map(([l,p])=>`<div><a href="${esc(siView(p.id))}" target="_blank" rel="noopener" title="Buka foto ${esc(l)}"><img src="${esc(siPh(p.id))}" alt="${esc(l)}" loading="lazy" referrerpolicy="no-referrer"></a><span>${esc(l)} · ${siJam(p.ts)}${p.geo?` · <a href="https://maps.google.com/?q=${p.geo.lat},${p.geo.lng}" target="_blank" rel="noopener">peta</a>`:''}</span></div>`).join('')}</div>`}
+function siPhotos(list){list=list.filter(x=>x&&x[1]&&x[1].id);if(!list.length)return '';return `<div class="si-ph">${list.map(([l,p])=>`<div><a href="${esc(siView(p.id))}" target="_blank" rel="noopener" title="Buka foto ${esc(l)}"><img src="${esc(siPh(p.id))}" alt="${esc(l)}" loading="lazy" referrerpolicy="no-referrer"></a><span>${esc(l)} · ${siJam(p.ts)}${p.src==='galeri'?' · dari galeri':''}${p.geo?` · <a href="https://maps.google.com/?q=${p.geo.lat},${p.geo.lng}" target="_blank" rel="noopener">peta</a>`:''}</span></div>`).join('')}</div>`}
 const siOl=a=>(a||[]).filter(x=>String(x).trim()).length?`<ol class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'<span class="wo-mut">-</span>';
 const siPts=a=>(a||[]).filter(x=>String(x).trim()).length?`<ul class="si-ul">${a.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<span class="wo-mut">-</span>';
 function siKantor(r){
@@ -6864,7 +6864,7 @@ async function siPdfBuild(list,title,onProg){
         doc.setDrawColor(221,226,233);doc.setLineWidth(0.2);doc.rect(x,y,cw,ih,'S');
         if(im){const sc=Math.min((cw-1)/im.w,(ih-1)/im.h),w=im.w*sc,h=im.h*sc;try{doc.addImage(im.url,'JPEG',x+(cw-w)/2,y+(ih-h)/2,w,h,undefined,'FAST')}catch(e){}}
         else{F(false,7,[138,147,163]);doc.text('foto tidak tersedia',x+cw/2,y+ih/2,{align:'center'})}
-        const cap=split(it[0]+(it[1].ts?' | '+siJam(it[1].ts):''),cw,6.8).slice(0,2);F(false,6.8,[71,85,105]);cap.forEach((l,j)=>doc.text(l,x,y+ih+2.8+j*2.7));
+        const cap=split(it[0]+(it[1].ts?' | '+siJam(it[1].ts):'')+(it[1].src==='galeri'?' | galeri':''),cw,6.8).slice(0,2);F(false,6.8,[71,85,105]);cap.forEach((l,j)=>doc.text(l,x,y+ih+2.8+j*2.7));
       });
       y+=ih+9;
     }
@@ -8452,7 +8452,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261126160621,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261126172432,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
