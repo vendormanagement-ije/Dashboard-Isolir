@@ -997,6 +997,36 @@ header .hl{flex:1 1 auto;min-width:0}
 .tmp-t td:nth-child(2) b{display:block}
 @media(max-width:700px){#tmPop .tmp-t{min-width:760px}}
 
+/* ===== Menu Broadcast Notifikasi ===== */
+#v-bc .card input[type=text],#v-bc .card input[type=url],#v-bc .card input[type=password],#v-bc .card textarea,#v-bc .card select{width:100%;box-sizing:border-box;border:1.5px solid #d5dce8;border-radius:10px;padding:9px 11px;font:inherit;background:#fff;color:#0f1b3d}
+.bc-t{margin:0 0 4px;font-size:15px}
+.bc-l{display:block;font-weight:700;font-size:12.5px;margin:10px 0 4px}.bc-l em{color:#b42318;font-style:normal}
+.bc-dests{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bc-dest{display:flex;gap:11px;align-items:center;border:2px solid #d5dce8;border-radius:14px;padding:12px;cursor:pointer;background:#fff}
+.bc-dest.on{border-color:#1d4ed8;background:#f3f7ff}
+.bc-dest input{width:18px;height:18px;flex:none;accent-color:#1d4ed8}
+.bc-di{flex:none;width:40px;height:40px;border-radius:12px;background:#e8eefc;color:#1d4ed8;display:flex;align-items:center;justify-content:center}.bc-di svg{width:22px;height:22px}
+.bc-dest b{display:block}.bc-dest small{color:#64748b}
+.bc-sub{margin-top:12px;border:1px solid #dde2e9;border-radius:12px;padding:10px 12px}
+.bc-sh{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#5b6475;margin-bottom:6px}
+.bc-rad{display:flex;gap:18px;flex-wrap:wrap;font-weight:600}.bc-rad label,.bc-chk{cursor:pointer}
+.bc-chk{display:block;margin-top:10px;font-size:13px}
+.bc-pk{margin-top:8px}.bc-pk .tr-q{width:100%;max-width:340px}
+.bc-pka{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0;font-size:12px;color:#64748b}.bc-pka button{border:1px solid #d5dce8;background:#fff;border-radius:999px;padding:3px 10px;font:inherit;font-size:12px;cursor:pointer}
+.bc-pkl{max-height:220px;overflow:auto;border:1px solid #eef1f5;border-radius:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 8px;padding:4px 8px}
+.bc-pkl label{display:flex;gap:8px;align-items:flex-start;padding:5px 0;font-size:12.5px;cursor:pointer}.bc-pkl small{display:block;color:#8a93a3}
+.bc-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px}
+.bc-2{display:grid;grid-template-columns:1.6fr 1fr;gap:10px}
+.bc-pv{border:1px solid #c7d6f7;border-left:5px solid #1d4ed8;background:#f5f8ff;border-radius:14px;padding:12px 14px;overflow-wrap:anywhere}
+.bc-pvh{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#1d4ed8;margin-bottom:4px}
+.bc-pv p{margin:4px 0 6px;white-space:pre-line;font-size:13px;color:#334155}.bc-pv small{display:block;color:#8a93a3;margin-top:4px}.bc-pvl{color:#1d4ed8;font-weight:700;font-size:12.5px}
+.bc-send{display:flex;gap:10px;flex-wrap:wrap}#v-bc .bc-send input{flex:1 1 240px;width:auto!important}
+.bc-res{margin-top:10px}.bc-r{border-radius:10px;padding:8px 12px;margin-top:6px;font-size:13px}.bc-r.ok{background:#e6f4ea;color:#14532d}.bc-r.no{background:#fdecea;color:#7f1d1d}
+.bc-hh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.bc-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.bc-h{display:flex;gap:8px;align-items:flex-start;border:1px solid #dde2e9;border-radius:12px;padding:9px 11px;margin-bottom:8px}.bc-hx{min-width:0;flex:1}.bc-hx p{margin:3px 0;font-size:12.5px;white-space:pre-line;overflow-wrap:anywhere}.bc-hx small{color:#64748b}
+.bc-del{flex:none;font:inherit;font-size:11.5px;font-weight:700;color:#b42318;background:#fff;border:1.5px solid #f3c7c2;border-radius:999px;padding:3px 10px;cursor:pointer}
+@media(max-width:760px){.bc-dests,.bc-grid,.bc-cols,.bc-2{grid-template-columns:1fr}}
 /* ===== Menu Mitra Tier 1 ===== */
 .t1-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .t1-lk{flex:none;white-space:nowrap}
@@ -1787,6 +1817,9 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
       <div class="mg">
         <div class="mrow"><a class="mi" href="#si" data-v="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9z"/><path d="M8.5 12l2 2 4-4.5M8.5 17.5h7"/></svg><span>Daily Report Internal Sales Starlite FTTH</span></a></div>
       </div>
+      <div class="mg">
+        <div class="mrow"><a class="mi" href="#bc" data-v="bc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v3a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M14 8.5a5 5 0 0 1 0 8M17.5 5.5a9.5 9.5 0 0 1 0 14"/></svg><span>Broadcast Notifikasi Form</span></a></div>
+      </div>
     </nav>
     <nav class="menu menu-bottom">
       <div class="mg">
@@ -1871,6 +1904,7 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
   <div class="view vcol" id="v-tren" hidden></div>
   <div class="view vcol" id="v-tim" hidden></div>
   <div class="view vcol" id="v-si" hidden></div>
+  <div class="view vcol" id="v-bc" hidden></div>
   <div class="view vcol" id="v-t1" hidden></div>
   <div class="view vcol" id="v-unggah" hidden></div>
   <footer class="appfoot">Dashboard Versi V1.0.0<small class="by">Dashboard by Vendor Management</small></footer>
@@ -2606,9 +2640,9 @@ document.addEventListener('click',e=>{if(!e.target.closest('.mfil'))closeMf()});
 /* ================== MENU, SIDEBAR, ROUTING ================== */
 /* link yang dibagikan (hanya lihat): ?view=t1 menampilkan satu kartu Tier 1 tanpa menu */
 const VIEWONLY=/(^|[?&])view=t1(&|$)/.test(location.search);if(VIEWONLY)document.documentElement.classList.add('vo');
-const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',reminder:'v-remind',followup:'v-fu',tolak:'v-tolak',wo:'v-wo',regional:'v-regional',tren:'v-tren',tim:'v-tim',si:'v-si',t1:'v-t1',unggah:'v-unggah'};
+const VIEWS={isolir:'v-isolir',blast:'v-blast',pencocokan:'v-match',reminder:'v-remind',followup:'v-fu',tolak:'v-tolak',wo:'v-wo',regional:'v-regional',tren:'v-tren',tim:'v-tim',si:'v-si',bc:'v-bc',t1:'v-t1',unggah:'v-unggah'};
 const FW={recs:null,at:0,err:'',busy:false,idx:null,idxFor:null};
-const VTITLE={isolir:'Dashboard Isolir (+ RTD)',blast:'Report Broadcast Starlite & IRA',pencocokan:'Status Broadcast FTTH',reminder:'Kirim Reminder ke Mitra',followup:'Hasil Follow Up Mitra',tolak:'Analisis Pelanggan Tidak Bersedia Berlangganan Kembali',wo:'Menunggu Instalasi & WO',regional:'Analisis Per-Regional',tren:'Tren Aktivasi & Registrasi',tim:'Team IKR & Sales',si:'Daily Report Internal Sales Starlite FTTH',t1:'Tren & Analisa Mitra Tier 1 Starlite',unggah:'Unggah Data Broadcast'};
+const VTITLE={isolir:'Dashboard Isolir (+ RTD)',blast:'Report Broadcast Starlite & IRA',pencocokan:'Status Broadcast FTTH',reminder:'Kirim Reminder ke Mitra',followup:'Hasil Follow Up Mitra',tolak:'Analisis Pelanggan Tidak Bersedia Berlangganan Kembali',wo:'Menunggu Instalasi & WO',regional:'Analisis Per-Regional',tren:'Tren Aktivasi & Registrasi',tim:'Team IKR & Sales',si:'Daily Report Internal Sales Starlite FTTH',t1:'Tren & Analisa Mitra Tier 1 Starlite',bc:'Broadcast Notifikasi',unggah:'Unggah Data Broadcast'};
 let CUR='blast', ISOLIVE=null, BLIVE=null, BERR='';
 const fmtWhen=l=>l?new Date(l).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
 const pctS=(a,b,d=1)=>(b?a/b*100:0).toFixed(d).replace('.',',')+'%';
@@ -2633,6 +2667,8 @@ function updateHeader(){
     setPills('Tren aktivasi · durasi · peringkat',TR.rows?nf(TR.rows.reduce((s,r)=>s+r.n,0))+' pelanggan aktif':'Memuat…','Database langsung',!!TR.rows);
   }else if(CUR==='tim'){
     setPills('Sales & IKR · aktif · peringkat',TM.rows?nf(new Set(TM.rows.map(r=>r.r+r.p)).size)+' orang tercatat':'Memuat…','Database langsung',!!TM.rows);
+  }else if(CUR==='bc'){
+    setPills('Pesan ke panel notifikasi form','Follow Up Mitra · Daily Report Sales','Wajib Write Key',true);
   }else if(CUR==='t1'){
     setPills('10 mitra Tier 1 Starlite',TR.rows&&TR.reg?nf(T1LIST.filter(n=>(TR.rows||[]).some(r=>t1k(r.mi)===t1k(n))).length)+' dari 10 mitra ditemukan di data':'Memuat…','Database langsung',!!(TR.rows&&TR.reg));
   }else if(CUR==='si'){
@@ -2647,7 +2683,7 @@ function updateHeader(){
     setPills(`${nf(MS.cust)} nomor isolir terjangkau broadcast`,`${nf(FU.length)} mau lanjut, masih isolir`,`Isolir ${ISOLIVE?'langsung':'tersimpan'} · Broadcast ${BLIVE?'langsung':'tersimpan'}`,!!(ISOLIVE&&BLIVE));
   }
 }
-function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='reminder')renderRemindView();else if(CUR==='followup')renderFu();else if(CUR==='tolak')renderTolak();else if(CUR==='wo')renderWo();else if(CUR==='regional')renderRegional();else if(CUR==='tren')renderTren();else if(CUR==='tim')renderTim();else if(CUR==='si')renderSi();else if(CUR==='t1')renderT1();else if(CUR==='unggah')renderUnggah()}
+function renderView(){if(CUR==='blast')renderBlast();else if(CUR==='pencocokan')renderMatch();else if(CUR==='reminder')renderRemindView();else if(CUR==='followup')renderFu();else if(CUR==='tolak')renderTolak();else if(CUR==='wo')renderWo();else if(CUR==='regional')renderRegional();else if(CUR==='tren')renderTren();else if(CUR==='tim')renderTim();else if(CUR==='si')renderSi();else if(CUR==='t1')renderT1();else if(CUR==='bc')renderBc();else if(CUR==='unggah')renderUnggah()}
 function closeSide(){$('side').classList.remove('open');$('scrim').hidden=true;$('btnMenu').setAttribute('aria-expanded','false')}
 function openSide(){$('side').classList.add('open');$('scrim').hidden=false;$('btnMenu').setAttribute('aria-expanded','true')}
 function show(v){
@@ -2676,12 +2712,12 @@ function show(v){
   });
 })();(function(){
   /* menu bawah di HP: dikelompokkan seperti sidebar, ukuran lebih besar, bisa digeser kanan-kiri */
-  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',tolak:'Analisis',wo:'Instalasi',regional:'Regional',tren:'Tren',t1:'Tier 1',tim:'Tim',si:'Daily Report',unggah:'Unggah'};
+  const lab={blast:'Broadcast',isolir:'Isolir',pencocokan:'Status Broadcast',reminder:'Reminder',followup:'Follow Up',tolak:'Analisis',wo:'Instalasi',regional:'Regional',tren:'Tren',bc:'Notifikasi',t1:'Tier 1',tim:'Tim',si:'Daily Report',unggah:'Unggah'};
   const gname={monitor:'Monitoring',followup:'Follow up'};
   const link=a=>`<a class="ti" href="#${a.dataset.v}" data-v="${a.dataset.v}">${a.querySelector('svg').outerHTML}<span>${lab[a.dataset.v]||''}</span></a>`;
   const groups=[...document.querySelectorAll('.side .menu .mg')].map(g=>{
     const items=[...g.querySelectorAll('.mi')];if(!items.length)return '';
-    const nm=g.dataset.g?gname[g.dataset.g]||'':(items.length===1?({blast:'Broadcast',si:'Sales',unggah:'Data'}[items[0].dataset.v]||''):'');
+    const nm=g.dataset.g?gname[g.dataset.g]||'':(items.length===1?({blast:'Broadcast',si:'Sales',bc:'Pesan',unggah:'Data'}[items[0].dataset.v]||''):'');
     return `<div class="tb-g"><div class="tb-gl">${nm}</div><div class="tb-gi">${items.map(link).join('')}</div></div>`}).join('');
   $('tabbar').innerHTML=`<div class="tb-scroll" id="tbScroll">${groups}</div>`;
   const sc=$('tbScroll'),tb=$('tabbar');
@@ -6002,6 +6038,100 @@ function tmPopExport(){
 }
 
 /* ===== AKHIR MENU TEAM IKR & SALES ===== */
+/* ================== MENU BROADCAST NOTIFIKASI ==================
+ * Mengirim pesan ke panel notifikasi (lonceng) Form Laporan Follow Up Pelanggan (Apps Script follow up) dan
+ * Form Daily Report Sales Internal (Apps Script sales). Kirim dan hapus wajib Write Key; kunci tidak disimpan di browser. */
+const BCN={fu:true,sr:false,fuAll:true,fuSel:new Set(),fuQ:'',srAll:true,srSel:new Set(),title:'',body:'',link:'',days:'7',push:true,wk:'',busy:false,res:null,hist:{fu:null,sr:null},herr:{fu:'',sr:''}};
+const bcMitras=()=>Object.keys(MITRA_DB||{}).sort((a,b)=>a.localeCompare(b,'id'));
+const bcSales=()=>((SI.data&&SI.data.sales)||[]).map(s=>({n:s.n,h:siHp(s.h),j:s.j||''}));
+const bcErr=e=>e&&e.code==='bad-write-key'?'Write Key salah. Periksa huruf besar/kecilnya.':e&&e.code==='write-key-not-set'?'WRITE_KEY belum diatur di Script properties Apps Script follow up.':e&&(e.code==='bad-action'||/tidak dikenal|versi terbaru/i.test(e.message||''))?'Apps Script belum diperbarui. Tempel Code.gs terbaru, lalu Deploy > Manage deployments > pensil > Version: New version > Deploy.':((e&&e.message)||String(e));
+const bcWhen=ts=>{const s=String(ts||'');return s.length>=16?fmtD(s.slice(0,10))+' '+s.slice(11,16):'-'};
+function bcPick(id,items,sel,q,key,label){
+  const L=items.filter(x=>!q||x.l.toLowerCase().includes(q.toLowerCase()));
+  return `<div class="bc-pk">${key==='fu'?`<input type="search" id="bcQ" class="tr-q" placeholder="Cari ${label}…" value="${esc(q)}" aria-label="Cari ${label}">`:''}<div class="bc-pka"><button type="button" data-bcall="${id}">Pilih semua yang tampil</button><button type="button" data-bcnone="${id}">Kosongkan</button><span>${nf(sel.size)} dipilih</span></div><div class="bc-pkl" data-pkl="${id}">${L.map(x=>`<label><input type="checkbox" data-bcck="${id}" value="${esc(x.v)}"${sel.has(x.v)?' checked':''}><span>${esc(x.l)}${x.s?`<small>${esc(x.s)}</small>`:''}</span></label>`).join('')||'<p class="foot" style="margin:6px">Tidak ada yang cocok.</p>'}</div></div>`;
+}
+function bcTargetText(k){
+  if(k==='fu')return BCN.fuAll?'semua mitra':nf(BCN.fuSel.size)+' mitra terpilih';
+  return BCN.srAll?'semua petugas sales':nf(BCN.srSel.size)+' petugas terpilih';
+}
+function bcPrevHtml(){
+  return `<div class="bc-pv"><div class="bc-pvh">Pesan dari Tim Starlite</div><b>${esc(BCN.title||'Judul pesan')}</b><p>${esc(BCN.body||'Isi pesan akan tampil di sini.')}</p>${BCN.link?`<span class="bc-pvl">Buka tautan ›</span>`:''}<small>baru saja</small></div>`;
+}
+function bcHist(k){
+  const H=BCN.hist[k],er=BCN.herr[k];
+  if(er)return `<p class="note">${esc(er)}</p>`;
+  if(!H)return `<p class="foot">Klik <b>Muat riwayat</b>${k==='fu'?' (perlu Write Key)':''}.</p>`;
+  if(!H.length)return '<p class="foot">Belum ada broadcast.</p>';
+  const td=todayWib();
+  return H.map(x=>{const to=k==='fu'?(x.mitras&&x.mitras.length?(x.mitras.length<=3?x.mitras.join(', '):nf(x.mitras.length)+' mitra'):'Semua mitra'):(x.sales&&x.sales.length?nf(x.sales.length)+' petugas':'Semua petugas');
+    return `<div class="bc-h"><div class="bc-hx"><b>${esc(x.title)}</b><p>${esc(x.body)}</p><small>${esc(bcWhen(x.ts))} · ke ${esc(to)} · berlaku sampai ${esc(fmtD(x.exp))} ${x.exp<td?'<span class="si-st no">kedaluwarsa</span>':'<span class="si-st ok">aktif</span>'}</small></div><button type="button" class="bc-del" data-bcdel="${k}" data-id="${esc(x.id)}">Hapus</button></div>`}).join('');
+}
+function renderBc(){
+  const el=$('v-bc');if(!el)return;
+  if(!SI.data&&!SI.busy&&!SI.err&&!SI.need)siLoad().then(()=>{if(CUR==='bc')renderBc()});
+  const y=window.scrollY,sales=bcSales();
+  const dest=(k,t,d,ic)=>`<label class="bc-dest${BCN[k]?' on':''}"><input type="checkbox" id="bcD_${k}"${BCN[k]?' checked':''}><span class="bc-di">${ic}</span><span><b>${t}</b><small>${d}</small></span></label>`;
+  const radios=(k,all,lAll,lSel)=>`<div class="bc-rad"><label><input type="radio" name="bcR_${k}" value="1"${all?' checked':''}> ${lAll}</label><label><input type="radio" name="bcR_${k}" value="0"${all?'':' checked'}> ${lSel}</label></div>`;
+  el.innerHTML=`<div class="sechead"><div><div class="eyebrow">Notifikasi untuk form</div><h2 class="big">Broadcast Notifikasi</h2></div></div>
+  <section class="card"><h3 class="bc-t">1. Pilih tujuan</h3><p class="foot" style="margin:0 0 8px">Pilih salah satu atau keduanya. Penerima tiap form diatur terpisah.</p>
+    <div class="bc-dests">${dest('fu','Form Laporan Follow Up Pelanggan','Panel notifikasi mitra','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 13l2 2 4-4"/></svg>')}${dest('sr','Form Daily Report Sales Internal','Lonceng notifikasi petugas sales','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>')}</div>
+    ${BCN.fu?`<div class="bc-sub"><div class="bc-sh">Penerima Follow Up</div>${radios('fu',BCN.fuAll,'Semua mitra','Pilih mitra tertentu')}${BCN.fuAll?'':bcPick('fu',bcMitras().map(m=>({v:m,l:m})),BCN.fuSel,BCN.fuQ,'fu','mitra')}<label class="bc-chk"><input type="checkbox" id="bcPush"${BCN.push?' checked':''}> Kirim juga <b>push ke HP</b> mitra yang sudah mengaktifkan notifikasi (muncul walau form tidak dibuka)</label></div>`:''}
+    ${BCN.sr?`<div class="bc-sub"><div class="bc-sh">Penerima Daily Report Sales</div>${radios('sr',BCN.srAll,'Semua petugas sales','Pilih petugas tertentu')}${BCN.srAll?'':(sales.length?bcPick('sr',sales.map(s=>({v:s.h,l:s.n,s:s.j})),BCN.srSel,'','sr','petugas'):`<p class="note">${esc(SI.err||(SI.need?'Isi ADMIN_KEY di menu Daily Report dahulu.':'Memuat daftar petugas…'))}</p>`)}<p class="foot" style="margin:6px 0 0">Di form sales, pesan tampil di lonceng saat aplikasi dibuka atau berjalan di latar belakang.</p></div>`:''}
+  </section>
+  <section class="card"><h3 class="bc-t">2. Tulis pesan</h3><div class="bc-grid"><div>
+    <label class="bc-l" for="bcTi">Judul <em>*</em></label><input type="text" id="bcTi" maxlength="80" placeholder="Contoh: Batas laporan follow up hari ini" value="${esc(BCN.title)}">
+    <label class="bc-l" for="bcBo">Pesan <em>*</em></label><textarea id="bcBo" rows="5" maxlength="800" placeholder="Tulis pesan singkat dan jelas">${esc(BCN.body)}</textarea><div class="foot" id="bcCnt">${BCN.body.length}/800</div>
+    <div class="bc-2"><div><label class="bc-l" for="bcLi">Link (opsional)</label><input type="url" id="bcLi" maxlength="300" placeholder="https://…" value="${esc(BCN.link)}"></div><div><label class="bc-l" for="bcDy">Tampil selama</label><select id="bcDy">${[['1','Hari ini saja'],['3','3 hari'],['7','7 hari'],['14','14 hari'],['30','30 hari']].map(([v,l])=>`<option value="${v}"${BCN.days===v?' selected':''}>${l}</option>`).join('')}</select></div></div>
+  </div><div><div class="bc-l">Pratinjau</div><div id="bcPrev">${bcPrevHtml()}</div></div></div></section>
+  <section class="card"><h3 class="bc-t">3. Kirim</h3><label class="bc-l" for="bcWk">Write Key <em>*</em></label><div class="bc-send"><input type="password" id="bcWk" autocomplete="off" placeholder="Masukkan Write Key" value="${esc(BCN.wk)}"><button type="button" id="bcGo" class="xls"${BCN.busy?' disabled':''}>${BCN.busy?'Mengirim…':'Kirim broadcast'}</button></div><p class="foot" style="margin:6px 0 0">Write Key sama dengan WRITE_KEY di Apps Script. Untuk form sales, tambahkan Script property <b>WRITE_KEY</b> yang sama di Apps Script Daily Report Sales. Kunci tidak disimpan di browser.</p>
+    ${BCN.res?`<div class="bc-res">${BCN.res.map(r=>`<div class="bc-r ${r.ok?'ok':'no'}"><b>${esc(r.label)}</b> ${esc(r.msg)}</div>`).join('')}</div>`:''}</section>
+  <section class="card"><div class="bc-hh"><h3 class="bc-t">Riwayat broadcast</h3><button type="button" id="bcLoad" class="xls">Muat riwayat</button></div><div class="bc-cols"><div><div class="bc-sh">Form Follow Up Mitra</div>${bcHist('fu')}</div><div><div class="bc-sh">Form Daily Report Sales</div>${bcHist('sr')}</div></div></section>`;
+  const sc=(q,f)=>el.querySelectorAll(q).forEach(f);
+  ['fu','sr'].forEach(k=>{const c=$('bcD_'+k);if(c)c.onchange=()=>{BCN[k]=c.checked;BCN.res=null;renderBc()}});
+  sc('input[name=bcR_fu]',r=>r.onchange=()=>{BCN.fuAll=r.value==='1';renderBc()});sc('input[name=bcR_sr]',r=>r.onchange=()=>{BCN.srAll=r.value==='1';renderBc()});
+  const q=$('bcQ');if(q)q.oninput=()=>{BCN.fuQ=q.value;const p=q.selectionStart;renderBc();const n=$('bcQ');if(n){n.focus();n.setSelectionRange(p,p)}};
+  sc('[data-bcck]',c=>c.onchange=()=>{const s=c.dataset.bcck==='fu'?BCN.fuSel:BCN.srSel;if(c.checked)s.add(c.value);else s.delete(c.value);const n=c.closest('.bc-pk').querySelector('.bc-pka span');if(n)n.textContent=nf(s.size)+' dipilih'});
+  sc('[data-bcall]',b=>b.onclick=()=>{const s=b.dataset.bcall==='fu'?BCN.fuSel:BCN.srSel;el.querySelectorAll(`[data-pkl="${b.dataset.bcall}"] input`).forEach(c=>s.add(c.value));renderBc()});
+  sc('[data-bcnone]',b=>b.onclick=()=>{(b.dataset.bcnone==='fu'?BCN.fuSel:BCN.srSel).clear();renderBc()});
+  const pu=$('bcPush');if(pu)pu.onchange=()=>BCN.push=pu.checked;
+  const live=()=>{$('bcPrev').innerHTML=bcPrevHtml();$('bcCnt').textContent=BCN.body.length+'/800'};
+  $('bcTi').oninput=e=>{BCN.title=e.target.value;live()};$('bcBo').oninput=e=>{BCN.body=e.target.value;live()};$('bcLi').oninput=e=>{BCN.link=e.target.value.trim();live()};
+  $('bcDy').onchange=e=>BCN.days=e.target.value;$('bcWk').oninput=e=>BCN.wk=e.target.value;
+  $('bcGo').onclick=bcSend;$('bcLoad').onclick=bcLoadHist;
+  sc('[data-bcdel]',b=>b.onclick=()=>bcDelete(b.dataset.bcdel,b.dataset.id));
+  window.scrollTo(0,y);
+}
+async function bcSend(){
+  if(BCN.busy)return;
+  const bad=!BCN.fu&&!BCN.sr?'Pilih minimal satu form tujuan.':!BCN.title.trim()?'Judul wajib diisi.':!BCN.body.trim()?'Pesan wajib diisi.':BCN.link&&!/^https:\/\//i.test(BCN.link)?'Link harus diawali https://':BCN.fu&&!BCN.fuAll&&!BCN.fuSel.size?'Pilih minimal satu mitra.':BCN.sr&&!BCN.srAll&&!BCN.srSel.size?'Pilih minimal satu petugas sales.':!BCN.wk?'Masukkan Write Key.':'';
+  if(bad){toast(bad);return}
+  const sum=[BCN.fu?'Form Follow Up Mitra ('+bcTargetText('fu')+(BCN.push?', dengan push ke HP':'')+')':'',BCN.sr?'Form Daily Report Sales ('+bcTargetText('sr')+')':''].filter(Boolean).join('\n- ');
+  if(!confirm('Kirim broadcast "'+BCN.title.trim()+'" ke:\n- '+sum+'\n\nPesan akan langsung terlihat oleh penerima.'))return;
+  BCN.busy=true;BCN.res=null;renderBc();
+  const base={wkey:BCN.wk,title:BCN.title.trim(),body:BCN.body.trim(),link:BCN.link,days:+BCN.days},res=[];
+  if(BCN.fu){try{const j=await apiCall('bc_send',Object.assign({},base,{mitras:BCN.fuAll?[]:[...BCN.fuSel],push:BCN.push}));const p=j.push;res.push({k:'fu',ok:true,label:'Follow Up Mitra:',msg:'terkirim ke panel notifikasi'+(p?(p.err?' · push HP gagal: '+p.err:' · push HP ke '+nf(p.sent||0)+' mitra'):'')+'.'})}catch(e){res.push({k:'fu',ok:false,label:'Follow Up Mitra:',msg:bcErr(e)})}}
+  if(BCN.sr){try{await siApi('sr_bc_send',Object.assign({},base,{sales:BCN.srAll?[]:[...BCN.srSel]}));res.push({k:'sr',ok:true,label:'Daily Report Sales:',msg:'terkirim ke lonceng notifikasi petugas.'})}catch(e){res.push({k:'sr',ok:false,label:'Daily Report Sales:',msg:bcErr(e)})}}
+  BCN.busy=false;BCN.res=res;
+  if(res.every(r=>r.ok)){BCN.title='';BCN.body='';BCN.link=''}
+  /* tujuan yang gagal tetap terpilih agar bisa dikirim ulang tanpa mengirim dobel ke yang sudah berhasil */
+  else res.forEach(r=>{if(r.ok)BCN[r.k]=false});
+  renderBc();toast(res.every(r=>r.ok)?'Broadcast terkirim':'Ada tujuan yang gagal, lihat keterangan');
+  if(res.some(r=>r.ok)&&(BCN.hist.fu||BCN.hist.sr))bcLoadHist();
+}
+async function bcLoadHist(){
+  BCN.herr={fu:'',sr:''};
+  const jobs=[];
+  if(BCN.wk)jobs.push(apiCall('bc_admin',{wkey:BCN.wk}).then(j=>{BCN.hist.fu=j.items||[]}).catch(e=>{BCN.herr.fu=bcErr(e)}));
+  else BCN.herr.fu='Masukkan Write Key untuk melihat riwayat follow up.';
+  jobs.push(siApi('sr_bc_list',{}).then(j=>{BCN.hist.sr=j.items||[]}).catch(e=>{BCN.herr.sr=bcErr(e)}));
+  await Promise.all(jobs);if(CUR==='bc')renderBc();
+}
+async function bcDelete(k,id){
+  if(!BCN.wk){toast('Masukkan Write Key untuk menghapus.');const w=$('bcWk');if(w){w.scrollIntoView({block:'center'});w.focus()}return}
+  if(!confirm('Hapus broadcast ini? Pesan akan hilang dari panel notifikasi penerima.'))return;
+  try{if(k==='fu')await apiCall('bc_del',{wkey:BCN.wk,id});else await siApi('sr_bc_del',{wkey:BCN.wk,id});toast('Broadcast dihapus');await bcLoadHist()}catch(e){toast('Gagal menghapus: '+bcErr(e))}
+}
+/* ===== AKHIR MENU BROADCAST ===== */
 /* ================== MENU TREN & ANALISA MITRA TIER 1 STARLITE ==================
  * Memakai data yang sama dengan menu Tren: /act.csv (aktivasi per tanggal aktif, dengan status sekarang) dan /reg.csv (registrasi per tanggal registrasi),
  * ditambah antrean WO (/wo.csv). Hanya 10 mitra Tier 1; nama dicocokkan tanpa memedulikan huruf besar/kecil, awalan PT, dan tanda baca. */
@@ -6246,6 +6376,9 @@ async function siApi(action,data){
     if(action==='sr_match'){const map={};(data.phones||[]).forEach(p=>{if(/7890$/.test(p))map[p]={status:'active',aktif:'2026-11-22'}});return {ok:true,map}}
     if(action==='sr_admin')return {ok:true,demo:true,today:todayWib(),reports:D.lap,issues:D.iss,tl:D.tl,sales:D.sal};
     if(action==='sr_delete'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');D.lap=D.lap.filter(x=>x.id!==data.id);D.iss=(D.iss||[]).filter(x=>x.laporan_id!==data.id);D.tl=(D.tl||[]).filter(x=>x.laporan_id!==data.id);localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,id:data.id}}
+    if(action==='sr_bc_send'){D.bc=D.bc||[];const n=new Date(Date.now()+7*36e5);D.bc.push({id:'bc'+Date.now().toString(36),ts:n.toISOString().slice(0,19),title:data.title,body:data.body,link:data.link||'',sales:data.sales||[],exp:new Date(n.getTime()+(Math.max(1,+data.days||7)-1)*864e5).toISOString().slice(0,10)});localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true}}
+    if(action==='sr_bc_list')return {ok:true,items:(D.bc||[]).slice().reverse()};
+    if(action==='sr_bc_del'){D.bc=(D.bc||[]).filter(x=>x.id!==data.id);localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true}}
     if(action==='sr_sales'){const hs=(data.list||[]).map(s=>String(s.h).replace(/\D/g,''));D.sal=(D.sal||[]).filter(s=>!hs.includes(String(s.h||'').replace(/\D/g,'')));D.lap=D.lap.filter(r=>!hs.includes(String(r.hp||'').replace(/\D/g,''))||true);localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true}}
     if(action==='sr_review'){const r=D.lap.find(x=>x.id===data.id);if(!r)throw new Error('Laporan tidak ditemukan');r.ditinjau_at=new Date(Date.now()+7*36e5).toISOString().slice(0,19);r.catatan_review=data.note||'';localStorage.setItem('srDemo',JSON.stringify(D));return {ok:true,ditinjau_at:r.ditinjau_at}}
   }
@@ -8319,7 +8452,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261126143600,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261126160621,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */

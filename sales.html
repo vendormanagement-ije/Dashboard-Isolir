@@ -45,6 +45,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nf-ic{flex:none;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--c) 14%,#fff);color:var(--c);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800}
 .nf-tx{min-width:0;font-size:13.5px;line-height:1.4}.nf-tx small{display:block;color:var(--ink3);font-size:11.5px}
 .nf-e{padding:22px 16px;text-align:center;color:var(--ink3);margin:0}
+.nf-bcw{padding:0 12px 6px}.nf-bch{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#1d4ed8;padding:10px 2px 4px}
+.nf-l>.nf-bch{padding-left:14px;color:var(--ink3)}
+.nf-bc{border:1px solid #c7d6f7;border-left:4px solid #1d4ed8;background:#fff;border-radius:12px;padding:9px 11px;margin-bottom:7px}.nf-bc.new{background:#eef4ff}
+.nf-bc b{display:block;font-size:13.5px}.nf-bc b em{font-style:normal;font-size:10px;font-weight:800;background:#ef4444;color:#fff;border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+.nf-bc p{margin:3px 0;white-space:pre-line;overflow-wrap:anywhere;font-size:13px;color:#334155}.nf-bc a{font-weight:700;color:var(--blue);font-size:12.5px;text-decoration:none}.nf-bc small{display:block;color:var(--ink3);font-size:11px;margin-top:3px}
 .top .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:12px}
 .blogo{background:#fff;border-radius:10px;padding:6px 10px;flex:none}
 .blogo img{display:block;width:64px;height:auto}
@@ -454,7 +459,7 @@ async function demoApi(a,q){
   if(a==='sr_feed'){const me=hpK(q.hp),from=addD(d,-1),ev=[];
     D.lap.forEach(r=>{if(hpK(r.hp)===me||r.tanggal<from)return;if(r.checkin_at)ev.push({ts:r.checkin_at,n:r.nama,t:'in',x:[(r.checkin||{}).kota,r.mitra,r.stasiun].filter(Boolean).join(' · '),lid:r.id});if(r.checkout_at)ev.push({ts:r.checkout_at,n:r.nama,t:'out',x:'',lid:r.id})});
     (D.evt||[]).forEach(x=>{if(hpK(x.hp)!==me&&x.tanggal>=from)ev.push({ts:x.ts,n:x.nama,t:x.tipe,x:x.teks||'',lid:x.lid})});
-    ev.sort((x,y)=>x.ts<y.ts?1:-1);return {ok:true,now:nowWib(),events:ev.slice(0,60)}}
+    ev.sort((x,y)=>x.ts<y.ts?1:-1);return {ok:true,now:nowWib(),events:ev.slice(0,60),bc:(D.bc||[]).filter(x=>x.exp>=d&&(!x.sales.length||x.sales.map(hpK).includes(me))).reverse()}}
   if(a==='sr_team'){const me=hpK(q.hp),from=addD(d,-59);
     const sid=h=>'s'+hpK(h).slice(-6);
     const out=D.lap.filter(r=>r.tanggal>=from).map(r=>{const v=r.visit||[],c=r.checkin||{},au=(r.ach||{}).auto||{},cnt={},tw={};let odpY=0;
@@ -1678,7 +1683,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126110520,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
+PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126160539,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
   manifest:{name:'Daily Report Sales Internal Starlite',short_name:'Daily Report',description:'Laporan harian sales internal Starlite: absensi, briefing, visit, issue, dan evaluasi',
     start_url:'sales.html?'+(T?'t='+encodeURIComponent(T)+'&':'')+'pwa=1',scope:'sales.html',
     icons:[{src:'sales-icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'sales-icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'sales-icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]},
@@ -1852,7 +1857,17 @@ const nfSeenKey=()=>'srNfSeen.'+hpK(S.me.h);
 const nfSeen=()=>S.me?(lsGet(nfSeenKey())||''):'';
 const nfText=e=>{const t=NFT[e.t]||['•',e.t,'#475569'];return `${e.n} ${t[1]} pukul ${jam(e.ts)}`};
 function nfAgo(ts){const m=Math.round((Date.parse(nowWib()+'Z')-Date.parse(String(ts).slice(0,19)+'Z'))/6e4);return m<1?'baru saja':m<60?m+' menit lalu':m<1440?Math.floor(m/60)+' jam lalu':'kemarin'}
-function nfBadge(){const seen=nfSeen(),n=(S.nf||[]).filter(e=>e.ts>seen).length,b=$('bellN');b.hidden=!n;b.textContent=n>99?'99+':String(n);$('bell').setAttribute('aria-label','Notifikasi aktivitas tim'+(n?', '+n+' baru':''))}
+/* pesan broadcast dari admin (Tim Starlite) */
+const bcsKey=()=>'srBcSeen.'+hpK(S.me.h);
+const bcsSeen=()=>{if(!S.me)return new Set();try{return new Set(JSON.parse(lsGet(bcsKey())||'[]'))}catch(e){return new Set()}};
+const bcsUnread=()=>{const s=bcsSeen();return (S.bc||[]).filter(x=>!s.has(x.id))};
+const bcsMark=()=>{if(S.me)lsSet(bcsKey(),JSON.stringify([...new Set([...bcsSeen(),...(S.bc||[]).map(x=>x.id)])].slice(-200)))};
+function bcsHtml(){
+  const L=S.bc||[];if(!L.length)return '';
+  const seen=S.bcOpenSeen||bcsSeen();
+  return `<div class="nf-bcw"><div class="nf-bch">Pesan dari Tim Starlite</div>${L.map(x=>`<div class="nf-bc${seen.has(x.id)?'':' new'}"><b>${esc(x.title)}${seen.has(x.id)?'':'<em>baru</em>'}</b><p>${esc(x.body)}</p>${/^https:\/\//i.test(x.link||'')?`<a href="${esc(x.link)}" target="_blank" rel="noopener noreferrer">Buka tautan ›</a>`:''}<small>${fmtD(String(x.ts).slice(0,10))} · ${jam(x.ts)} · ${nfAgo(x.ts)}</small></div>`).join('')}</div><div class="nf-bch">Aktivitas tim</div>`;
+}
+function nfBadge(){const seen=nfSeen(),n=(S.nf||[]).filter(e=>e.ts>seen).length+bcsUnread().length,b=$('bellN');b.hidden=!n;b.textContent=n>99?'99+':String(n);$('bell').setAttribute('aria-label','Notifikasi aktivitas tim'+(n?', '+n+' baru':''))}
 function nfAlert(nw){
   if(!nw.length)return;
   const tx=nfText(nw[0])+(nw.length>1?` (+${nw.length-1} aktivitas lain)`:'');
@@ -1862,27 +1877,33 @@ function nfAlert(nw){
     const o={body:tx,icon:'sales-icon-192.png',tag:'srnf',renotify:true,data:{url:location.href.split('#')[0]}};
     if(navigator.serviceWorker&&navigator.serviceWorker.ready)navigator.serviceWorker.ready.then(r=>r.showNotification('Daily Report Sales',o)).catch(()=>{try{new Notification('Daily Report Sales',o)}catch(e){}});else new Notification('Daily Report Sales',o)}}catch(e){}
 }
+function bcsAlert(x){
+  if($('nfPop').hidden)toast('Pesan baru dari Tim Starlite: '+x.title);
+  const bl=$('bell');bl.classList.remove('ring');void bl.offsetWidth;bl.classList.add('ring');
+  try{if('Notification' in window&&Notification.permission==='granted'&&document.hidden){const o={body:String(x.body).slice(0,180),icon:'sales-icon-192.png',tag:'srbc-'+x.id,data:{url:location.href.split('#')[0]}};if(navigator.serviceWorker&&navigator.serviceWorker.ready)navigator.serviceWorker.ready.then(r=>r.showNotification(x.title,o)).catch(()=>{});else new Notification(x.title,o)}}catch(e){}
+}
 async function loadFeed(){
   if(!S.me||S.nfBusy)return;S.nfBusy=true;
   try{
     const r=await api('sr_feed',{hp:S.me.h}),ev=r.events||[],top=ev.length?ev[0].ts:'';
     if(S.nfInit&&top>(S.nfTop||''))nfAlert(ev.filter(e=>e.ts>(S.nfTop||'')));
+    {const bc=r.bc||[],old=new Set((S.bc||[]).map(x=>x.id)),fresh=S.nfInit?bc.filter(x=>!old.has(x.id)):[];S.bc=bc;if(fresh.length)bcsAlert(fresh[0])}
     S.nf=ev;S.nfTop=top;S.nfInit=true;
   }catch(e){}
   S.nfBusy=false;nfBadge();if(!$('nfPop').hidden)nfRender();
 }
 function nfRender(){
   const ev=S.nf||[],seen=S.nfOpenSeen||'',perm=('Notification' in window)?Notification.permission:'na';
-  $('nfPop').innerHTML=`<div class="nf-h"><b>Aktivitas tim</b><div><button type="button" id="nfRead">Tandai dibaca</button><button type="button" id="nfX" aria-label="Tutup">✕</button></div></div>
+  $('nfPop').innerHTML=`<div class="nf-h"><b>Notifikasi</b><div><button type="button" id="nfRead">Tandai dibaca</button><button type="button" id="nfX" aria-label="Tutup">✕</button></div></div>
     ${perm==='default'?'<div class="nf-p"><span>Aktifkan notifikasi perangkat agar kabar tim muncul saat aplikasi di latar belakang.</span><button type="button" id="nfPerm">Aktifkan</button></div>':''}
-    <div class="nf-l">${ev.length?ev.map(e=>{const t=NFT[e.t]||['•',e.t,'#475569'];return `<button type="button" class="nf-i${e.ts>seen?' new':''}" data-lid="${esc(e.lid)}"><span class="nf-ic" style="--c:${t[2]}">${t[0]}</span><span class="nf-tx"><b>${esc(e.n)}</b> ${esc(t[1])} pukul ${jam(e.ts)}<small>${e.x?esc(e.x)+' · ':''}${nfAgo(e.ts)}</small></span></button>`}).join(''):'<p class="nf-e">Belum ada aktivitas dari petugas lain hari ini.</p>'}</div>`;
+    <div class="nf-l">${bcsHtml()}${ev.length?ev.map(e=>{const t=NFT[e.t]||['•',e.t,'#475569'];return `<button type="button" class="nf-i${e.ts>seen?' new':''}" data-lid="${esc(e.lid)}"><span class="nf-ic" style="--c:${t[2]}">${t[0]}</span><span class="nf-tx"><b>${esc(e.n)}</b> ${esc(t[1])} pukul ${jam(e.ts)}<small>${e.x?esc(e.x)+' · ':''}${nfAgo(e.ts)}</small></span></button>`}).join(''):'<p class="nf-e">Belum ada aktivitas dari petugas lain hari ini.</p>'}</div>`;
   $('nfX').onclick=nfClose;
-  $('nfRead').onclick=()=>{S.nfOpenSeen=S.nfTop||'';lsSet(nfSeenKey(),S.nfTop||'');nfBadge();nfRender()};
+  $('nfRead').onclick=()=>{S.nfOpenSeen=S.nfTop||'';lsSet(nfSeenKey(),S.nfTop||'');bcsMark();S.bcOpenSeen=bcsSeen();nfBadge();nfRender()};
   const pm=$('nfPerm');if(pm)pm.onclick=()=>Notification.requestPermission().then(()=>nfRender());
   $('nfPop').querySelectorAll('[data-lid]').forEach(b=>b.onclick=()=>{nfClose();openRp(b.dataset.lid,true)});
 }
 function nfOpen(){
-  S.nfOpenSeen=nfSeen();
+  S.nfOpenSeen=nfSeen();S.bcOpenSeen=bcsSeen();bcsMark();
   $('nfPop').style.top=Math.round($('idbar').getBoundingClientRect().bottom+6)+'px';
   nfRender();$('nfPop').hidden=false;$('bell').setAttribute('aria-expanded','true');$('bell').classList.remove('ring');
   lsSet(nfSeenKey(),S.nfTop||'');nfBadge();loadFeed();

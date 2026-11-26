@@ -370,6 +370,9 @@ main>.card>h2::before,.dash>.card>h2::before,.dash .dh h2::before,.grid2>.card>h
 .np-t span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
 .np-t strong{font-size:24px;color:var(--ink);font-variant-numeric:tabular-nums}
 .np-it p{margin:4px 0 0;font-size:12.5px;color:var(--ink2);line-height:1.45}
+.np-bm{border:1px solid #c7d6f7;background:#fff;border-radius:10px;padding:9px 11px;margin-top:8px}.np-bm.new{background:#eef4ff;border-color:#8fa9e8}
+.np-bm b{display:block;font-size:13.5px;color:#0f172a}.np-bm b em{font-style:normal;font-size:10px;font-weight:800;background:#ef4444;color:#fff;border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+.np-bm p{white-space:pre-line;overflow-wrap:anywhere;color:#334155!important}.np-bm small{display:block;margin-top:5px;color:#8a93a3;font-size:11px}
 .np-sp{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px;height:74px}
 .np-sp div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;min-width:0}
 .np-sp i{display:block;width:70%;background:#f59e0b;border-radius:4px 4px 2px 2px;order:2}
@@ -726,7 +729,7 @@ async function load(){
     $('mName').textContent=S.mitra;$('mName2').textContent='Mitra '+S.mitra;
     $('boot').hidden=true;S.at=r.at||Date.now();
     try{PWA.dataLoaded()}catch(e){}
-    route();renderBell();swInit();iwLoad();PWA.load.done();
+    route();renderBell();swInit();iwLoad();loadBc();PWA.load.done();
     $('bellBtn').onclick=()=>toggleN();
     if(new URLSearchParams(location.search).get('n')==='1')setTimeout(()=>toggleN(true),300);
   }catch(e){PWA.load.done();fail(e.code==='bad-token'?e.message:('Daftar pelanggan tidak bisa dimuat. '+e.message),true)}
@@ -1540,13 +1543,38 @@ function notifData(){
   const B=S.recs&&S.recs.length?cycles().filter(c=>c.last.status==='lanjut'&&(c.now==='iso'||c.now==='dm')).sort((a,b)=>a.last.ts<b.last.ts?-1:1):[];
   return {td,days,per,nToday:per[td]||0,nYest:per[dayAdd(td,-1)]||0,nSus:sus.length,todo,B,W:Object.assign(iwStats(),{loaded:!!IW.rows})};
 }
+/* ---------- pesan broadcast dari Tim Starlite ---------- */
+const BCF={items:[],init:false,openSeen:null};
+const bcSeenKey=()=>'fuBcSeen.'+T.slice(0,12);
+const bcSeen=()=>{try{return new Set(JSON.parse(lsGet(bcSeenKey())||'[]'))}catch(e){return new Set()}};
+const bcUnread=()=>{const s=bcSeen();return BCF.items.filter(x=>!s.has(x.id))};
+const bcAt=ts=>{const s=String(ts||'');return s.length>=16?fmtD(s.slice(0,10))+' · '+s.slice(11,16)+' WIB':''};
+async function loadBc(){
+  if(!API||!T||!S.mitra)return;
+  try{
+    const r=await api('bc_get',{},1),old=new Set(BCF.items.map(x=>x.id)),items=r.items||[];
+    const fresh=BCF.init?items.filter(x=>!old.has(x.id)):[];
+    BCF.items=items;BCF.init=true;
+    if(fresh.length){toast('Pesan baru dari Tim Starlite: '+fresh[0].title);
+      try{if('Notification' in window&&Notification.permission==='granted'&&document.hidden&&PU.sw&&!PU.sub)PU.sw.showNotification(fresh[0].title,{body:fresh[0].body.slice(0,180),icon:'icon-192.png',tag:'bc-'+fresh[0].id,data:{url:location.href.split('#')[0]}})}catch(e){}}
+    renderBell();
+  }catch(e){/* Apps Script lama (aksi belum ada) atau koneksi putus: panel tetap berjalan tanpa pesan */}
+}
+function bcPanelHtml(){
+  if(!BCF.items.length)return '';
+  const seen=BCF.openSeen||bcSeen();
+  return `<section class="np-it np-bc" style="--c:#1d4ed8"><div class="np-t"><span>Pesan dari Tim Starlite</span><strong>${nf(BCF.items.length)}</strong></div>${BCF.items.map(x=>`<div class="np-bm${seen.has(x.id)?'':' new'}"><b>${esc(x.title)}${seen.has(x.id)?'':'<em>baru</em>'}</b><p>${esc(x.body)}</p>${/^https:\/\//i.test(x.link||'')?`<a class="np-go" href="${esc(x.link)}" target="_blank" rel="noopener noreferrer">Buka tautan ›</a>`:''}<small>${esc(bcAt(x.ts))}</small></div>`).join('')}</section>`;
+}
+setInterval(()=>{if(!document.hidden)loadBc()},180000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadBc()});
 function renderBell(){
   const btn=$('bellBtn');if(!btn||!S.mitra)return;
   const N=notifData(), items=(N.nToday?1:0)+(N.todo?1:0)+(N.B.length?1:0)+(N.W.p.length||N.W.o.length?1:0);
   const sig=N.td+':'+N.nToday+':'+N.todo+':'+N.B.length+':'+N.W.p.length+':'+N.W.o.length, seen=lsGet('fuNSeen.'+T.slice(0,12))===sig;
-  const em=$('bellN');em.hidden=!items||seen;em.textContent=items;
-  btn.classList.toggle('ring',!!items&&!seen);
-  btn.setAttribute('aria-label',`Notifikasi${items&&!seen?' ('+items+' baru)':''}`);
+  const nBc=bcUnread().length,cnt=(items&&!seen?items:0)+nBc;
+  const em=$('bellN');em.hidden=!cnt;em.textContent=cnt;
+  btn.classList.toggle('ring',!!cnt);
+  btn.setAttribute('aria-label',`Notifikasi${cnt?' ('+cnt+' baru)':''}`);
   if(NOPEN)renderNPanel(N);
 }
 function renderNPanel(N){
@@ -1570,6 +1598,7 @@ function renderNPanel(N){
   else if(isIOS)ih=`<ol class="np-st"><li>Buka link ini di <b>Safari</b>.</li><li>Ketuk tombol <b>Bagikan</b> <span class="np-ico">⬆︎</span> di bawah layar.</li><li>Pilih <b>Tambah ke Layar Utama</b>, lalu <b>Tambah</b>.</li></ol>`;
   else ih=`<ol class="np-st"><li>Buka link ini di <b>Google Chrome</b>.</li><li>Ketuk menu <b>⋮</b> di kanan atas.</li><li>Pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.</li></ol>`;
   $('nPanel').innerHTML=`<div class="np-h"><div><b>Notifikasi</b><span>${fmtD(N.td)}</span></div><button class="np-x" id="npX" aria-label="Tutup">✕</button></div>
+    ${bcPanelHtml()}
     <section class="np-it" style="--c:#b45309"><div class="np-t"><span>Harus diselesaikan · Instalasi &amp; WO</span><strong>${N.W.loaded?nf(N.W.p.length+N.W.o.length):'…'}</strong></div>
       ${N.W.loaded?`<p><b>Waiting First Payment ${nf(N.W.p.length)}</b>${N.W.p7?` · <span class="np-red">${nf(N.W.p7)} lebih dari 7 hari perlu ditagih</span>`:''}<br><b>WO Open ${nf(N.W.o.length)}</b>${N.W.o30?` · <span class="np-red">${nf(N.W.o30)} lebih dari 30 hari perlu diselesaikan</span>`:''}</p>
       ${wl?`<div class="np-cl">${wl}</div>`:''}${N.W.p.length+N.W.o.length?`<a class="np-go" href="#instalasi" data-nwo="1">Buka Instalasi &amp; WO ›</a>`:''}`:`<p>${IW.err?esc(IW.err):'Memuat data WO open dan Waiting First Payment…'}</p>`}</section>
@@ -1595,7 +1624,8 @@ function renderNPanel(N){
 function toggleN(open){
   NOPEN=open===undefined?!NOPEN:open;
   $('nPanel').hidden=!NOPEN;$('bellBtn').setAttribute('aria-expanded',String(NOPEN));
-  if(NOPEN){const N=notifData();lsSet('fuNSeen.'+T.slice(0,12),N.td+':'+N.nToday+':'+N.todo+':'+N.B.length+':'+N.W.p.length+':'+N.W.o.length);renderNPanel(N);renderBell()}
+  if(!NOPEN)BCF.openSeen=null;
+  if(NOPEN){BCF.openSeen=bcSeen();lsSet(bcSeenKey(),JSON.stringify([...new Set([...BCF.openSeen,...BCF.items.map(x=>x.id)])].slice(-200)));loadBc();const N=notifData();lsSet('fuNSeen.'+T.slice(0,12),N.td+':'+N.nToday+':'+N.todo+':'+N.B.length+':'+N.W.p.length+':'+N.W.o.length);renderNPanel(N);renderBell()}
 }
 document.addEventListener('click',e=>{if(NOPEN&&!e.target.closest('#nPanel')&&!e.target.closest('#bellBtn'))toggleN(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&NOPEN)toggleN(false)});
@@ -2049,7 +2079,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261125153625,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
+PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261126160539,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
   refreshData:()=>reloadAll(),
   busy:()=>!!(S&&S.busy)||!!(document.getElementById('sheet')&&!document.getElementById('sheet').hidden)});
 load();
