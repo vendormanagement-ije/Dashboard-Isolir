@@ -1646,25 +1646,29 @@ td.mc{font-size:11px;line-height:1.4;min-width:230px;white-space:nowrap}td.mc b{
 .fwatt:hover{background:#dbe7ff}
 .mtscroll{max-height:520px;overflow-y:auto;overflow-x:hidden;margin-top:8px}
 .mtl{display:flex;flex-direction:column}
-.mrh,.mrw{display:grid;grid-template-columns:30px minmax(150px,1fr) 128px 58px 54px 62px 66px 62px 62px;gap:0 8px;align-items:center;padding:0 8px}
-.mrh{position:sticky;top:0;z-index:1;background:#eef3fb;border-radius:8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#52607a;height:28px;line-height:1.1}
-.mrh .n{text-align:right}
-.mrw{min-height:34px;border-bottom:1px solid #e8edf5;font-size:12.5px}
-.mrw.click{cursor:pointer}.mrw.click:hover{background:#f4f8ff}.mrw.sel{background:#e6eefe;box-shadow:inset 3px 0 0 #2563eb}
-.mrw .c-at{text-align:center}.mrw .fwatt{width:24px;height:22px;border-radius:6px}.mrw .fwatt svg{width:13px;height:13px}
-.mrw .c-nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mrw .c-cv{display:flex;align-items:center;gap:6px;font-size:11px;color:#52607a;font-variant-numeric:tabular-nums}
-.mrw .c-cv i{flex:1;height:5px;background:#e6eaf0;border-radius:99px;overflow:hidden;display:block;min-width:30px}.mrw .c-cv u{display:block;height:100%;background:#2563eb;text-decoration:none}
-.mrw .c-cv span{white-space:nowrap}
-.mrw .c-n,.mrw .c-sr{text-align:right;font-variant-numeric:tabular-nums}
-.mrw .gd{color:#15803d}.mrw .rd{color:#b91c1c}.mrw .c-sr{font-weight:800;color:#0f1b3d}
+.mrh,.mrw{display:grid;grid-template-columns:36px 44px minmax(150px,1fr) 124px 212px 112px 94px;align-items:stretch}
+.mtl{min-width:790px}.mtscroll{overflow-x:auto}
+.mrh{position:sticky;top:0;z-index:1;background:#12306b;border:1px solid #12306b;border-radius:11px 11px 0 0;min-height:46px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;line-height:1.25;color:#fff}
+.mrh>div{display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;border-right:1px solid rgba(255,255,255,.28)}.mrh>div:last-child{border-right:0}.mrh>.h-m{justify-content:flex-start;padding-left:10px}
+.mrh>.h-st{flex-direction:column;align-items:stretch;padding:5px 0 0}.h-st i{display:grid;grid-template-columns:repeat(4,1fr);font-style:normal;margin-top:5px;border-top:1px solid rgba(255,255,255,.28)}.h-st em{font-style:normal;font-size:9.5px;letter-spacing:0;text-transform:none;line-height:2.1;white-space:nowrap;border-right:1px solid #c9d0dc}.h-st em:last-child{border-right:0}.h-st em.t{background:#dbe7ff;color:#1740a8}.h-st em.g{background:#dcf5e5;color:#116631}.h-st em.r{background:#fde2de;color:#9f1d12}.h-st em.n{background:#e8ecf3;color:#334155}
+.mrw{min-height:34px;border:1px solid #c9d0dc;border-top:0;font-size:12.5px;background:#fff}.mrw:last-child{border-radius:0 0 11px 11px;overflow:hidden}
+.mrw>div{display:flex;align-items:center;justify-content:center;min-width:0;border-right:1px solid #c9d0dc}.mrw>div:last-child{border-right:0}
+.mrw.click{cursor:pointer}.mrw.click:hover{background:#f5f8ff}.mrw.sel{background:#e6eefe}.mrw.sel>.c-no{box-shadow:inset 3px 0 0 #2563eb}.mrw:focus-visible{outline:2px solid #2563eb;outline-offset:-2px}
+.mrw>.c-no{font-size:11.5px;font-weight:800;color:#64748b;background:#f1f4f9}.mrw>.c-no.t1{background:#fef3c7;color:#92400e}.mrw>.c-no.t2{background:#e5e9f0;color:#334155}.mrw>.c-no.t3{background:#fde8d7;color:#9a4a12}
+.mrw .fwatt{width:26px;height:23px;border-radius:7px}.mrw .fwatt svg{width:13px;height:13px}
+.mrw>.c-nm{display:block;line-height:34px;padding:0 10px;font-weight:700;color:#0f1b3d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrw>.c-cv{gap:6px;padding:0 8px;font-size:11px;color:#52607a;font-variant-numeric:tabular-nums}.mrw .c-cv i{flex:1;height:4px;background:#e6eaf0;border-radius:99px;overflow:hidden;display:block;min-width:24px}.mrw .c-cv u{display:block;height:100%;background:#2563eb;text-decoration:none}.mrw .c-cv span{white-space:nowrap}
+.mrw>.c-st{display:grid;grid-template-columns:repeat(4,1fr);align-items:stretch}.c-st span{display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;border-right:1px solid #c9d0dc}.c-st span:last-child{border-right:0}.c-st .t{background:#eef4ff;color:#1d4ed8;font-weight:800}.c-st .g{background:#ecf9f1;color:#15803d}.c-st .r{background:#fdeeec;color:#b42318}.c-st .n{background:#f1f4f9;color:#475569}
+.mrw>.c-sr{gap:8px;padding:0 9px}.c-sr i{flex:1;height:4px;border-radius:999px;background:#eef1f6;overflow:hidden;display:block}.c-sr u{display:block;height:100%;background:#22a55a;text-decoration:none}.c-sr em{font-style:normal;font-size:11.5px;font-weight:700;color:#475569;min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+.mrw>.c-ak{gap:6px;background:#ecf9f1;color:#15803d}.c-ak svg{width:16px;height:16px;flex:none}.c-ak b{font-size:14px;font-variant-numeric:tabular-nums}
 @media(max-width:820px){
-  .mrh{display:none}
-  .mrw{display:flex;flex-wrap:wrap;align-items:center;padding:8px;gap:4px 12px}
-  .mrw .c-at{width:30px}.mrw .c-nm{flex:1 1 0;min-width:0;white-space:normal}.mrw .c-sr{margin-left:auto}
-  .mrw .c-cv{flex:1 1 100%}
-  .mrw .c-n{text-align:left;font-size:12px}
-  .mrw .c-n::before,.mrw .c-sr::before{content:attr(data-l) ": ";color:#64748b;font-weight:400;font-size:11px}
+  .mtl{min-width:0}.mrh{display:none}
+  .mrw{grid-template-columns:30px 40px minmax(0,1fr) auto;border-top:1px solid #c9d0dc;border-radius:10px;margin-bottom:6px;overflow:hidden}.mrw:last-child{border-radius:10px}
+  .mrw>.c-no{grid-row:1/4}.mrw>.c-at{border:0}.mrw>.c-nm{white-space:normal;line-height:1.3;padding:7px 8px;border:0}
+  .mrw>.c-ak{grid-column:4;grid-row:1;padding:0 9px}
+  .mrw>.c-st{grid-column:2/5;border-top:1px solid #c9d0dc;border-right:0}.c-st span{flex-direction:column;padding:3px 0}.c-st span::before{content:attr(data-l);font-size:9px;font-weight:600;color:#64748b}
+  .mrw>.c-cv{grid-column:2/4;grid-row:3;border-top:1px solid #c9d0dc;min-height:28px}.mrw>.c-cv::before{content:"Cakupan";font-size:10px}
+  .mrw>.c-sr{grid-column:4;grid-row:3;border-top:1px solid #c9d0dc}.c-sr i{display:none}
 }button.fwr{font:inherit;text-align:left;cursor:pointer;background:none;border:0;padding:6px 8px;margin:-6px -8px;border-radius:10px}
 button.fwr:hover{background:rgba(37,99,235,.08)}
 .fwtiles button.rmk:hover{box-shadow:0 2px 10px rgba(18,48,107,.18);transform:translateY(-1px)}
@@ -1761,7 +1765,9 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
 .lb-at{display:flex;justify-content:center}.lb-r .fwatt{width:26px;height:23px;border-radius:7px}.lb-r .fwatt svg{width:13px;height:13px}
 .lb-sth{text-align:center}.lb-sth i{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-style:normal;margin-top:2px}.lb-sth em{font-style:normal;font-size:8.5px;letter-spacing:0;text-transform:none}.lb-sth em.g{color:#15803d}.lb-sth em.r{color:#b42318}.lb-sth em.n{color:#64748b}
 .lb-st{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.lb-st .t{background:#eef4ff;color:#1d4ed8;font-weight:800}.lb-sth em.t{color:#1d4ed8}.lb-v.ak{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #bfe6cd}.lb-ok{width:16px;height:16px;flex:none}.lb-st span{text-align:center;border-radius:6px;padding:0 2px;font-size:10px;font-weight:600;line-height:1.75;font-variant-numeric:tabular-nums}.lb-st .g{background:#ecf9f1;color:#15803d}.lb-st .r{background:#fdeeec;color:#b42318}.lb-st .n{background:#f1f4f9;color:#475569}
-.lb-h{position:sticky;top:-12px;z-index:2;background:#fff;padding:6px 10px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#94a3b8;flex:none}.lb-h>span:nth-child(-n+2),.lb-h>span:nth-child(n+6){text-align:center}
+.lb-h{position:sticky;top:-12px;z-index:2;background:#12306b;border-radius:11px;padding:7px 10px;min-height:48px;box-shadow:0 0 0 1px #12306b,0 6px 14px -8px rgba(15,27,61,.55);font-size:11px;font-weight:800;line-height:1.25;letter-spacing:.05em;text-transform:uppercase;color:#fff;flex:none}.lb-h>span:nth-child(-n+2),.lb-h>span:nth-child(n+5){text-align:center}.lb-h>.lb-hm{text-align:left}
+.lb-h .lb-sth i{margin-top:5px}.lb-h .lb-sth em{display:block;font-size:10px;font-weight:800;line-height:1.7;border-radius:5px;white-space:nowrap}.lb-h .lb-sth em.t{background:#dbe7ff;color:#1740a8}.lb-h .lb-sth em.g{background:#dcf5e5;color:#116631}.lb-h .lb-sth em.r{background:#fde2de;color:#9f1d12}.lb-h .lb-sth em.n{background:#e8ecf3;color:#334155}
+.lb-wait{flex:none;font-size:12px;font-weight:600;color:#92400e;background:#fdf4e3;border:1px solid #f5dfae;border-radius:10px;padding:8px 12px}
 .lb{border:1px solid #e6eaf2;border-radius:12px;overflow:hidden;flex:none}
 .lb-r{padding:3px 10px;min-height:32px;border-top:1px solid #eef1f6;background:#fff;cursor:pointer;transition:background .15s}
 .lb-r:first-child{border-top:0}.lb-r:hover{background:#f5f8ff}.lb-r:focus-visible{outline:2px solid #2563eb;outline-offset:-2px}
@@ -1772,6 +1778,22 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
 .lb-v{text-align:center;border-radius:7px;padding:2px 4px;min-width:0}.lb-v b{font-size:14px;line-height:1.35;font-variant-numeric:tabular-nums}.lb-v span{display:none}
 .lb-v.fu{background:#eef4ff}.lb-v.fu b{color:#1d4ed8}.lb-v.ak{background:#ecf9f1}.lb-v.ak b{color:#15803d}
 @media(max-width:760px){.lb-h{display:none}.lb-r{grid-template-columns:26px minmax(0,1fr) auto auto;gap:3px 6px;padding:6px 8px}.lb-at{grid-column:1;grid-row:2}.lb-m{grid-column:2/5;white-space:normal;line-height:1.25;font-size:12px}.lb-st{grid-column:2/5}.lb-bar{grid-column:2}.lb-v{padding:1px 7px;white-space:nowrap}.lb-v b{font-size:12.5px}.lb-v span{display:inline;font-size:10px;color:#64748b;margin-left:3px}}
+/* garis tabel abu-abu (layar lebar; di HP tetap tampilan ringkas) */
+@media(min-width:761px){
+.lb-h,.lb-r{grid-template-columns:40px 48px minmax(0,1fr) 240px 150px 112px;gap:0;padding:0;align-items:stretch}
+.lb-h{border:1px solid #12306b;overflow:hidden}.lb{border-color:#c9d0dc}
+.lb-h>span{display:flex;align-items:center;justify-content:center;padding:6px;border-right:1px solid rgba(255,255,255,.28)}.lb-h>.lb-hm{justify-content:flex-start;padding-left:10px}
+.lb-h>.lb-sth{flex-direction:column;align-items:stretch;padding:6px 0 0}.lb-h .lb-sth i{gap:0;margin-top:5px;border-top:1px solid rgba(255,255,255,.28)}.lb-h .lb-sth em{border-radius:0;line-height:2;border-right:1px solid #c9d0dc}.lb-h .lb-sth em:last-child{border-right:0}
+.lb-h>span:last-child,.lb-r>:last-child{border-right:0}
+.lb-r{border-top-color:#c9d0dc;min-height:34px}
+.lb-r>*{border-right:1px solid #c9d0dc;min-width:0}
+.lb-r>.lb-no{width:auto;height:auto;border-radius:0;justify-self:stretch}
+.lb-r>.lb-at{align-items:center}
+.lb-r>.lb-m{display:block;align-self:stretch;line-height:34px;padding:0 10px}
+.lb-r>.lb-st{gap:0}.lb-r>.lb-st span{display:flex;align-items:center;justify-content:center;border-radius:0;border-right:1px solid #c9d0dc}.lb-r>.lb-st span:last-child{border-right:0}
+.lb-r>.lb-bar{padding:0 10px}
+.lb-r>.lb-v.ak{border:0;border-radius:0}
+}
 @media(max-width:760px){.pr.rk{grid-template-columns:auto minmax(0,1fr) auto}.pr.rk .pk{grid-column:2/4}}
 /* ===== Analisis pelanggan tidak bersedia (modul bersama) ===== */
 .ta{display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -3317,17 +3339,17 @@ async function loadActive(force){
   const url=activeUrl();if(!url){AKT.state='off';return}
   if(!force&&AKT.set&&Date.now()-AKT.at<36e5)return;
   AKT.state='loading';AKT.err='';fillOut();
-  const key='aktif|'+url;
-  if(!force){const c=await idbGet(key);if(c&&c.p&&Date.now()-c.at<36e5){AKT.set=new Set(c.p.split(','));AKT.at=c.at;AKT.n=AKT.set.size;AKT.state='ok';return}}
+  const key='aktif2|'+url;
+  if(!force){const c=await idbGet(key);if(c&&c.p&&c.c&&Date.now()-c.at<36e5){const un=s=>new Map(s?s.split(',').map(x=>x.split(':')):[]);AKT.codes=un(c.c);AKT.ids=un(c.i);AKT.phd=un(c.h);AKT.set=new Set(c.p.split(','));AKT.at=c.at;AKT.n=AKT.set.size;AKT.state='ok';return}}
   const res=await fetch(url+(url.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
   if(!res.ok)throw new Error('HTTP '+res.status);
-  const set=new Set();let iP=-1,iS=-1,head=true;
+  const set=new Set(),codes=new Map(),ids=new Map(),phd=new Map();let iP=-1,iS=-1,iC=-1,iI=-1,iA=-1,head=true;const later=(M,k,v)=>{if(k&&!(M.get(k)>=v))M.set(k,v)};
   const feed=line=>{
     if(!line||line==='\r')return;
     const f=line.indexOf('"')>=0?parseCsv(line)[0]:line.replace(/\r$/,'').split(',');
-    if(head){head=false;const h=f.map(x=>String(x).trim());iP=h.indexOf('phone_number');iS=h.indexOf('customer_status');if(iP<0||iS<0)throw new Error('kolom CSV pelanggan aktif tidak lengkap (phone_number, customer_status)');return}
+    if(head){head=false;const h=f.map(x=>String(x).trim());iP=h.indexOf('phone_number');iS=h.indexOf('customer_status');iC=h.indexOf('customer_code');iI=h.indexOf('customer_id');iA=h.indexOf('active_at');if(iP<0||iS<0)throw new Error('kolom CSV pelanggan aktif tidak lengkap (phone_number, customer_status)');return}
     if(String(f[iS]||'').trim().toLowerCase()!=='active')return;
-    const p=normPhone(f[iP]);if(p)set.add(p);
+    const p=normPhone(f[iP]),ad=iA<0?'':String(f[iA]||'').slice(0,10);if(p){set.add(p);later(phd,p,ad)}if(iC>=0)later(codes,String(f[iC]||'').trim().toUpperCase(),ad);if(iI>=0)later(ids,String(f[iI]||'').trim().toUpperCase(),ad);
   };
   if(res.body&&res.body.getReader){
     const rd=res.body.getReader(),td=new TextDecoder();let buf='';
@@ -3335,8 +3357,9 @@ async function loadActive(force){
     buf+=td.decode();feed(buf);
   }else{(await res.text()).split('\n').forEach(feed)}
   if(!set.size)throw new Error('tidak ada pelanggan berstatus active');
-  AKT.set=set;AKT.at=Date.now();AKT.n=set.size;AKT.state='ok';
-  idbSet(key,{at:AKT.at,p:[...set].join(',')});
+  AKT.codes=iC<0?null:codes;AKT.ids=ids;AKT.phd=phd;AKT.set=set;AKT.at=Date.now();AKT.n=set.size;AKT.state='ok';
+  const pk=M=>[...M].map(x=>x[0]+':'+x[1]).join(',');
+  idbSet(key,{at:AKT.at,p:[...set].join(','),c:iC<0?'':pk(codes),i:pk(ids),h:pk(phd)});
 }
 /* Status Broadcast FTTH: nomor broadcast FTTH Starlite menurut status pelanggannya sekarang (Masih isolir / Aktif kembali / Dismantle) */
 /* total pelanggan isolir = jumlah pelanggan di Dashboard Isolir (mengikuti filter status), sama dengan Kirim Reminder */
@@ -3362,7 +3385,7 @@ function fillMStat(){
 }
 function kickActive(force){
   if(force)AKT.oth=undefined;
-  loadActive(force).catch(e=>{AKT.state='err';AKT.err=(e&&e.message)||String(e)}).then(()=>{try{fillMStat()}catch(e){}try{fillFwTop()}catch(e){}if(AKT.state==='ok'&&AKT.oth===undefined&&!AKT.othBusy)loadOther().then(()=>{try{fillMStat()}catch(e){}try{fillFwTop()}catch(e){}try{if(typeof fillOut==='function'&&$('bOut'))fillOut();if(typeof renderOut==='function'&&!$('omodal').hidden)renderOut()}catch(e){}});try{if(typeof fillOut==='function'&&$('bOut')){fillOut();if(AKT.set&&BREADY&&typeof fillBTimeline==='function'&&$('bTl'))fillBTimeline()}}catch(e){}});
+  loadActive(force).catch(e=>{AKT.state='err';AKT.err=(e&&e.message)||String(e)}).then(()=>{try{if(CUR==='followup'&&FW.recs){fillFu();if(!$('fwP').hidden){const y=$('fwPB').scrollTop;renderPop();$('fwPB').scrollTop=y}}}catch(e){console.error(e)}try{fillMStat()}catch(e){}try{fillFwTop()}catch(e){}if(AKT.state==='ok'&&AKT.oth===undefined&&!AKT.othBusy)loadOther().then(()=>{try{fillMStat()}catch(e){}try{fillFwTop()}catch(e){}try{if(typeof fillOut==='function'&&$('bOut'))fillOut();if(typeof renderOut==='function'&&!$('omodal').hidden)renderOut()}catch(e){}});try{if(typeof fillOut==='function'&&$('bOut')){fillOut();if(AKT.set&&BREADY&&typeof fillBTimeline==='function'&&$('bTl'))fillBTimeline()}}catch(e){}});
 }
 function outList(k,g,day){
   const ds=day?new Set(BL.filter(b=>b.pr==='ftth'&&dayOfB(b)===day).map(b=>b.pn)):null;
@@ -4469,10 +4492,10 @@ function renderPop(){
   const X=FWCTX,body=$('fwPB'),kind=FWPOP.kind,t=FWPT[kind]||['',''];
   if(!X)return;
   if(kind==='rank'){
-    const q=FWPOP.q, rs=X.rows.filter(r=>r.n>0).slice().sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n).map((r,i)=>Object.assign({},r,{rank:i+1})), l=q?rs.filter(r=>r.m.toLowerCase().includes(q)):rs;
+    const q=FWPOP.q, rs=X.rows.filter(r=>r.n>0).slice().sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n||a.m.localeCompare(b.m)).map((r,i)=>Object.assign({},r,{rank:i+1})), l=q?rs.filter(r=>r.m.toLowerCase().includes(q)):rs;
     FWPOP.list=l;
     $('fwPS').textContent=`${t[1]} · ${FWF.per?BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):'semua periode laporan'} · ${nf(rs.length)} mitra sudah follow up`;
-    body.innerHTML=l.length?`<div class="lb-h"><span>#</span><span title="Lampiran hasil follow up">Hasil</span><span>Mitra</span><span class="lb-sth">Status follow up<i><em class="t">Total</em><em class="g">Bersedia</em><em class="r">Tidak</em><em class="n">No respon</em></i></span><span>Success rate</span><span>Aktif kembali</span></div><div class="lb">${l.map(r=>`<div class="lb-r click" data-m="${esc(r.m)}" role="button" tabindex="0" title="${esc(r.m)} · ${nf(r.l)} bersedia lanjut · ${nf(r.rec)} laporan · klik untuk memfilter dashboard"><span class="lb-no${r.rank<=3?' t'+r.rank:''}">${r.rank}</span><span class="lb-at">${fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</span><b class="lb-m">${esc(r.m)}</b><div class="lb-st"><span class="t" title="Total di-follow up: ${nf(r.n)} pelanggan">${nf(r.n)}</span><span class="g" title="Bersedia lanjut: ${nf(r.l)} pelanggan">${nf(r.l)}</span><span class="r" title="Tidak bersedia: ${nf(r.t)} pelanggan">${nf(r.t)}</span><span class="n" title="Tidak merespon: ${nf(r.r)} pelanggan">${nf(r.r)}</span></div><div class="lb-bar"><i><u style="width:${Math.min(100,r.akt/r.n*100).toFixed(1)}%"></u></i><em>${pctS(r.akt,r.n)}</em></div><div class="lb-v ak" title="Aktif kembali: ${nf(r.akt)} pelanggan, terverifikasi dari data pelanggan aktif"><svg class="lb-ok" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#16a34a"/><path d="M7.5 12.4l3 3 6-6.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b>${nf(r.akt)}</b><span>aktif</span></div></div>`).join('')}</div>`:`<div class="empty">${q?'Mitra tidak ditemukan.':'Belum ada mitra yang melakukan follow up.'}</div>`;
+    body.innerHTML=l.length?`${AKT.codes?'':`<div class="lb-wait" role="status">${AKT.state==='err'?'Data pelanggan aktif gagal dimuat, jadi angka aktif kembali belum lengkap.':'Memuat data pelanggan aktif… angka aktif kembali dan urutan peringkat belum final.'}</div>`}<div class="lb-h"><span>#</span><span title="Lampiran hasil follow up">Hasil</span><span class="lb-hm">Mitra</span><span class="lb-sth">Status follow up<i><em class="t">Total</em><em class="g">Bersedia</em><em class="r">Tidak</em><em class="n">No respon</em></i></span><span>Success rate</span><span>Aktif kembali</span></div><div class="lb">${l.map(r=>`<div class="lb-r click" data-m="${esc(r.m)}" role="button" tabindex="0" title="${esc(r.m)} · ${nf(r.l)} bersedia lanjut · ${nf(r.rec)} laporan · klik untuk memfilter dashboard"><span class="lb-no${r.rank<=3?' t'+r.rank:''}">${r.rank}</span><span class="lb-at">${fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</span><b class="lb-m">${esc(r.m)}</b><div class="lb-st"><span class="t" title="Total di-follow up: ${nf(r.n)} pelanggan">${nf(r.n)}</span><span class="g" title="Bersedia lanjut: ${nf(r.l)} pelanggan">${nf(r.l)}</span><span class="r" title="Tidak bersedia: ${nf(r.t)} pelanggan">${nf(r.t)}</span><span class="n" title="Tidak merespon: ${nf(r.r)} pelanggan">${nf(r.r)}</span></div><div class="lb-bar"><i><u style="width:${Math.min(100,r.akt/r.n*100).toFixed(1)}%"></u></i><em>${pctS(r.akt,r.n)}</em></div><div class="lb-v ak" title="Aktif kembali: ${nf(r.akt)} pelanggan, terverifikasi dari data pelanggan aktif"><svg class="lb-ok" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#16a34a"/><path d="M7.5 12.4l3 3 6-6.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b>${nf(r.akt)}</b><span>aktif</span></div></div>`).join('')}</div>`:`<div class="empty">${q?'Mitra tidak ditemukan.':'Belum ada mitra yang melakukan follow up.'}</div>`;
     body.querySelectorAll('.lb-r').forEach(e=>{e.onclick=()=>{FWF.mi=e.dataset.m;FWF.page=0;closePop();fillFu()};e.onkeydown=k=>{if((k.key==='Enter'||k.key===' ')&&k.target===e){k.preventDefault();e.click()}}});
     body.querySelectorAll('.lb-r .fwatt').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const r=rs.find(x=>x.m===b.dataset.m);if(r)openGal(r.m,`${nf(r.rec)} laporan follow up${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}`,r.recs)});
     return;
@@ -4560,6 +4583,14 @@ function fwIsoIdx(){
 }
 /* satu siklus = satu pelanggan pada satu periode isolir (tanggal isolir). Follow up ke-N = urutan periode itu.
    Hasil dihitung dari laporan terakhir pada periode tersebut. */
+function fwInAct(code,recs){
+  return recs.some(r=>{
+    if((r.k||'s')!=='x')return AKT.codes.has(code.toUpperCase());
+    if(r.status!=='lanjut'||!r.nb)return false;
+    const d=new Date(Date.parse(r.ts)+7*36e5).toISOString().slice(0,10), id=String(r.nb.id||'').trim().toUpperCase(), ph=normPhone(r.nb.ph);
+    return (!!id&&((AKT.codes.get(id)||'')>=d||(AKT.ids.get(id)||'')>=d))||(!!ph&&(AKT.phd.get(ph)||'')>=d);
+  });
+}
 function fwCycles(){
   const idx=fwIsoIdx(), by=new Map(), out=[];
   (FW.recs||[]).forEach(r=>{let a=by.get(r.code);if(!a){a=[];by.set(r.code,a)}a.push(r)});
@@ -4569,10 +4600,12 @@ function fwCycles(){
     isos.forEach((iso,i)=>{
       const rs=a.filter(r=>(r.iso||'')===iso), last=rs[rs.length-1];
       let now;
-      if(cur){const cd=cur.d||'';now=cd===iso?'iso':(iso<cd?'aktif':'iso')}
-      /* dismantled: aktif kembali hanya lewat identitas pelanggan baru (nomor telepon baru ada di data aktif) */
-      else if(last.k==='x')now=AKT.set?(last.nb&&AKT.set.has(normPhone(last.nb.ph))?'aktif':'dis'):'unk';
-      else now=AKT.set?(AKT.set.has(normPhone(last.ph))?'aktif':'dis'):'unk';
+      /* aturan sama dengan form mitra & peringkat di Apps Script: suspend/RTD/dismantling dicek lewat kode pelanggan;
+         dismantled lewat identitas pelanggan baru (ID atau nomor telepon) yang aktif pada/sesudah tanggal laporan */
+      const k=last.k||'s';
+      if(k!=='x'&&k!=='y'&&cur&&cur.d)now=cur.d>iso?'aktif':'iso';
+      else if(!AKT.codes)now=k!=='x'&&cur?'iso':'unk';
+      else now=fwInAct(code,a)?'aktif':(k!=='x'&&cur?'iso':'dis');
       out.push({code,iso,n:i+1,recs:rs,last,first:rs[0],mitra:last.mitra,now,again:!!cur&&now==='aktif'});
     });
   });
@@ -4607,7 +4640,7 @@ const FU_HTML=`
       <div class="ctl"><input type="text" id="fwQ" placeholder="Cari nama, kode, nomor, mitra, pelapor, remark" aria-label="Cari laporan"><select id="fwSt" aria-label="Status hasil follow up"><option value="">Semua status mitra</option><option value="lanjut">Bersedia lanjut</option><option value="tidak">Tidak bersedia lanjut</option><option value="norespon">Tidak merespon</option></select><select id="fwNow" aria-label="Status pelanggan sekarang"><option value="">Semua status sekarang</option><option value="aktif">Aktif kembali</option><option value="iso">Masih isolir</option><option value="dis">Tidak ditemukan</option></select></div></div>
     <div class="tw"><table id="fwT"></table></div><div id="fwPager"></div>
   </section>
-  <p class="note">Laporan diisi mitra melalui link form yang dikirim bersama pesan Kirim Reminder ke Mitra. Riwayat tidak pernah dihapus: bila pelanggan isolir lagi pada periode berikutnya, laporannya tercatat sebagai follow up ke-2 dan seterusnya. <b>Success rate terverifikasi</b> = pelanggan yang di-follow up lalu benar-benar aktif kembali (keluar dari data isolir periode itu, atau ada di data pelanggan aktif). <b>Rate klaim mitra</b> = status "Bersedia lanjut" yang dipilih mitra.</p>
+  <p class="note">Laporan diisi mitra melalui link form yang dikirim bersama pesan Kirim Reminder ke Mitra. Riwayat tidak pernah dihapus: bila pelanggan isolir lagi pada periode berikutnya, laporannya tercatat sebagai follow up ke-2 dan seterusnya. <b>Success rate terverifikasi</b> = pelanggan yang di-follow up lalu benar-benar aktif kembali (suspend dan RTD: tanggal isolirnya sudah berganti, atau kode pelanggan yang sama berstatus aktif; dismantled: identitas pelanggan baru aktif pada atau sesudah tanggal laporan). <b>Rate klaim mitra</b> = status "Bersedia lanjut" yang dipilih mitra.</p>
 </div>
 <div class="mback" id="fwP" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fwPTt">
@@ -6487,8 +6520,8 @@ function siCalc(){
   const byS=new Map();today.forEach(r=>byS.set(siHp(r.hp),r));
   const roster=[...sales.values()].map(s=>({s,r:byS.get(s.h)||null})).sort((a,b)=>(a.r?a.r.status==='lengkap'?0:1:2)-(b.r?b.r.status==='lengkap'?0:1:2)||a.s.n.localeCompare(b.s.n,'id'));
   const cnt=(r,k)=>(r.visit||[]).filter(v=>v.jenis===k).length;
-  const agg=new Map();per.forEach(r=>{const k=siHp(r.hp);let o=agg.get(k);if(!o){o={n:r.nama,hari:0,lengkap:0,visit:0,join:0,ling:0,odp:0,odpY:0,tawar:0,reg:0,issue:0,tl:0,target:0,st:new Set(),late:0};agg.set(k,o)}
-    o.hari++;if(r.status==='lengkap')o.lengkap++;o.visit+=(r.visit||[]).length;['join','ling','odp','tawar'].forEach(x=>o[x]+=cnt(r,x));o.odpY+=(r.visit||[]).filter(v=>v.jenis==='odp'&&v.pot==='ya').length;
+  const agg=new Map();per.forEach(r=>{const k=siHp(r.hp);let o=agg.get(k);if(!o){o={n:r.nama,hari:0,lengkap:0,bad:0,visit:0,join:0,ling:0,odp:0,odpY:0,tawar:0,reg:0,issue:0,tl:0,target:0,st:new Set(),late:0};agg.set(k,o)}
+    o.hari++;if(r.status==='lengkap')o.lengkap++;else if(siBad(r))o.bad++;o.visit+=(r.visit||[]).length;['join','ling','odp','tawar'].forEach(x=>o[x]+=cnt(r,x));o.odpY+=(r.visit||[]).filter(v=>v.jenis==='odp'&&v.pot==='ya').length;
     o.reg+=(r.visit||[]).filter(v=>v.jenis==='tawar'&&v.hasil==='Langsung registrasi').length;o.issue+=(r.issue||[]).length;o.tl+=(r.tl||[]).length;o.target+=+((r.rencana||{}).target_reg)||0;String(r.stasiun||'').split(', ').forEach(x=>o.st.add(x));
     if(siJam(r.checkin_at)>'09:00')o.late++});
   const pros=[];per.forEach(r=>(r.visit||[]).forEach(v=>{if(v.jenis==='tawar')pros.push({tanggal:r.tanggal,sales:r.nama,mitra:r.mitra,stasiun:r.stasiun,nama:v.nama,telp:v.telp,alamat:v.alamat,paket:v.paket,hasil:v.hasil,jam:v.jam})}));
@@ -6498,21 +6531,23 @@ function siCalc(){
 }
 /* ---------- tampilan ---------- */
 /*CORE-BEGIN*/function siTile(l,v,s,c){return `<div class="si-tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}</div>`}/*CORE-END*/
-function siStatus(r){if(!r)return '<span class="si-st no">Belum lapor</span>';if(r.status==='lengkap')return '<span class="si-st ok">Lengkap</span>';return '<span class="si-st mid">Baru check-in</span>'}
+function siStatus(r){if(!r)return '<span class="si-st no">Belum lapor</span>';const x=siRepSt(r.status,r.tanggal);return `<span class="si-st ${x.k}">${x.l}</span>`}
+/*CORE-BEGIN*/function siRepSt(status,tgl){if(status==='lengkap')return {k:'ok',l:'Lengkap'};const d=String(tgl||'').slice(0,10);return d&&d<new Date(Date.now()+7*36e5).toISOString().slice(0,10)?{k:'no',l:'Tidak lengkap'}:{k:'mid',l:'Baru check-in'}}/*CORE-END*/
+const siBad=r=>!!r&&siRepSt(r.status,r.tanggal).k==='no';
 /* ---------- tampilan menu (minimalis modern) ---------- */
 const siIni=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
 const SI_HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const siDayName=d=>SI_HARI[new Date(d+'T00:00:00Z').getUTCDay()]||'';
 const siKpi=(l,v,s,c)=>`<div class="ds-k" style="--c:${c}"><span>${l}</span><b>${v}</b><small>${s||'&nbsp;'}</small></div>`;
 const siHead=(no,title,sub,extra)=>`<div class="ds-hd"><div><h2><i>${no}</i>${title}</h2><p>${sub}</p></div>${extra||''}</div>`;
-const siRepStat=r=>r.status==='lengkap'?'<span class="ds-st ok">Lengkap</span>':'<span class="ds-st mid">Baru check-in</span>';
+const siRepStat=r=>{const x=siRepSt(r.status,r.tanggal);return `<span class="ds-st ${x.k}">${x.l}</span>`};
 const siCounts=r=>{const v=r.visit||[];return {v:v.length,p:v.filter(a=>a.jenis==='tawar').length,i:(r.issue||[]).length}};
 const siNums=c=>`<span class="ds-num"><b>${nf(c.v)}</b> visit</span><span class="ds-num"><b>${nf(c.p)}</b> prospek</span><span class="ds-num"><b>${nf(c.i)}</b> issue</span>`;
 function siS1(C){
-  const R=C.roster,ci=R.filter(x=>x.r).length,lk=R.filter(x=>x.r&&x.r.status==='lengkap').length,rv=R.filter(x=>x.r&&x.r.ditinjau_at).length,tot=R.length;
+  const R=C.roster,ci=R.filter(x=>x.r).length,lk=R.filter(x=>x.r&&x.r.status==='lengkap').length,rv=R.filter(x=>x.r&&x.r.ditinjau_at).length,tl=R.filter(x=>siBad(x.r)).length,tot=R.length;
   const pc=a=>tot?Math.round(a/tot*100):0;
-  const f=SI.f||'',q=SI.q.toLowerCase();
-  const pass=x=>f==='sudah'?!!x.r:f==='lengkap'?!!(x.r&&x.r.status==='lengkap'):f==='belum'?!x.r:true;
+  const f=SI.f==='tidak'&&!tl?'':SI.f||'',q=SI.q.toLowerCase();
+  const pass=x=>f==='sudah'?!!x.r:f==='lengkap'?!!(x.r&&x.r.status==='lengkap'):f==='belum'?!x.r:f==='tidak'?siBad(x.r):true;
   const L=R.filter(x=>pass(x)&&(!q||(x.s.n+' '+(x.r?x.r.mitra+' '+x.r.stasiun:'')).toLowerCase().includes(q)));
   const nRep=new Map();C.reps.forEach(r=>{const k=siHp(r.hp);nRep.set(k,(nRep.get(k)||0)+1)});
   const row=x=>{const r=x.r,c=r?siCounts(r):null,k=(r&&(r.checkin||{}).kota)||'';
@@ -6524,19 +6559,19 @@ function siS1(C){
       <div class="ds-nums">${r?siNums(c):''}</div>
       <div class="ds-state">${r?siRepStat(r):'<span class="ds-st no">Belum lapor</span>'}${r&&r.ditinjau_at?'<span class="ds-st rv">Ditinjau</span>':''}</div>
       <div class="ds-act">${r?`<button type="button" class="ds-btn" data-sio="${esc(r.id)}">Buka laporan</button>`:''}<span class="ds-hist">${nf(nRep.get(x.s.h)||0)} laporan ›</span></div></div>`};
-  const chips=[['','Semua',tot],['sudah','Sudah check-in',ci],['lengkap','Lengkap',lk],['belum','Belum lapor',tot-ci]];
+  const chips=[['','Semua',tot],['sudah','Sudah check-in',ci],['lengkap','Lengkap',lk],['belum','Belum lapor',tot-ci]];if(tl)chips.splice(3,0,['tidak','Tidak lengkap',tl]);
   return `<section class="card rg-sec ds-sec" id="si1">${siHead(1,'Kepatuhan laporan harian',`${siDayName(C.day)}, ${fmtD(C.day)} · klik nama petugas untuk melihat laporannya per hari`)}
-    <div class="ds-kpis">${siKpi('Sales terdaftar',nf(tot),'di daftar sales','#475569')}${siKpi('Sudah check-in',nf(ci),pc(ci)+'% dari sales','#1d4ed8')}${siKpi('Laporan lengkap',nf(lk),pc(lk)+'% sudah check-out','#15803d')}${siKpi('Belum lapor',nf(tot-ci),pc(tot-ci)+'% dari sales','#b42318')}${siKpi('Sudah ditinjau',nf(rv),`dari ${nf(ci)} laporan`,'#7c3aed')}</div>
-    <div class="ds-prog" title="${nf(lk)} lengkap · ${nf(ci-lk)} baru check-in · ${nf(tot-ci)} belum lapor"><i style="width:${pc(lk)}%;background:#16a34a"></i><i style="width:${Math.max(0,pc(ci)-pc(lk))}%;background:#f59e0b"></i></div>
+    <div class="ds-kpis">${siKpi('Sales terdaftar',nf(tot),'di daftar sales','#475569')}${siKpi('Sudah check-in',nf(ci),pc(ci)+'% dari sales','#1d4ed8')}${siKpi('Laporan lengkap',nf(lk),tl?`${nf(tl)} tidak lengkap`:pc(lk)+'% sudah check-out','#15803d')}${siKpi('Belum lapor',nf(tot-ci),pc(tot-ci)+'% dari sales','#b42318')}${siKpi('Sudah ditinjau',nf(rv),`dari ${nf(ci)} laporan`,'#7c3aed')}</div>
+    <div class="ds-prog" title="${nf(lk)} lengkap · ${nf(ci-lk-tl)} baru check-in · ${nf(tl)} tidak lengkap · ${nf(tot-ci)} belum lapor"><i style="width:${pc(lk)}%;background:#16a34a"></i><i style="width:${Math.max(0,pc(ci)-pc(lk))}%;background:${tl?'#dc2626':'#f59e0b'}"></i></div>
     <div class="ds-tools"><div class="ds-chips">${chips.map(([k,l,n])=>`<button type="button" data-sif="${k}" class="${f===k?'on':''}">${l} <b>${nf(n)}</b></button>`).join('')}</div><input type="search" id="siQ" class="ds-q" placeholder="Cari sales, mitra, stasiun" value="${esc(SI.q)}" aria-label="Cari sales"></div>
     <div class="ds-list">${L.map(row).join('')||`<p class="ds-empty">${tot?'Tidak ada petugas yang cocok dengan filter.':'Belum ada sales terdaftar. Nama sales muncul setelah melapor pertama kali.'}</p>`}</div></section>`;
 }
 function siS2(C){
   const A=C.agg,T=A.reduce((s,o)=>{['hari','visit','join','ling','odp','odpY','tawar','reg','issue','tl'].forEach(k=>s[k]=(s[k]||0)+o[k]);return s},{}),mx=Math.max(1,...A.map(o=>o.visit));
-  const hd=['Sales','Hari lapor','Lengkap','Masuk > 09.00','Visit','Join','Lingk./affil.','ODP (potensial)','Prospek','Langsung reg.','Issue','Evaluasi','Stasiun'];
+  const hd=['Sales','Hari lapor','Lengkap','Tidak lengkap','Masuk > 09.00','Visit','Join','Lingk./affil.','ODP (potensial)','Prospek','Langsung reg.','Issue','Evaluasi','Stasiun'];
   return `<section class="card rg-sec ds-sec" id="si2">${siHead(2,'Rekap aktivitas per sales',`${fmtD(C.from)} – ${fmtD(C.day)} (${SI.per} hari)`)}
     <div class="ds-kpis">${siKpi('Laporan masuk',nf(T.hari||0),`${nf(A.length)} sales aktif melapor`,'#1d4ed8')}${siKpi('Total visit',nf(T.visit||0),`join ${nf(T.join||0)} · lingk. ${nf(T.ling||0)}`,'#0f766e')}${siKpi('ODP dicek',nf(T.odp||0),`${nf(T.odpY||0)} potensial`,'#7c3aed')}${siKpi('Prospek',nf(T.tawar||0),`${nf(T.reg||0)} langsung registrasi`,'#d97706')}${siKpi('Issue dilaporkan',nf(T.issue||0),`${nf(T.tl||0)} evaluasi & solusi`,'#b42318')}</div>
-    <div class="ds-tw" style="max-height:440px"><table class="ds-t"><thead><tr>${hd.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')}</tr></thead><tbody>${A.map(o=>`<tr><td><b>${esc(o.n)}</b></td><td class="n">${nf(o.hari)}</td><td class="n">${nf(o.lengkap)}</td><td class="n${o.late?' si-warn':''}">${nf(o.late)}</td><td class="n ds-vis"><b>${nf(o.visit)}</b><i><u style="width:${Math.round(o.visit/mx*100)}%"></u></i></td><td class="n">${nf(o.join)}</td><td class="n">${nf(o.ling)}</td><td class="n">${nf(o.odp)} <span class="ds-mut">(${nf(o.odpY)})</span></td><td class="n"><b>${nf(o.tawar)}</b></td><td class="n">${nf(o.reg)}</td><td class="n">${nf(o.issue)}</td><td class="n">${nf(o.tl)}</td><td class="n">${nf(o.st.size)}</td></tr>`).join('')||`<tr><td colspan="${hd.length}" class="ds-mut">Belum ada laporan pada periode ini.</td></tr>`}</tbody></table></div></section>`;
+    <div class="ds-tw" style="max-height:440px"><table class="ds-t"><thead><tr>${hd.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')}</tr></thead><tbody>${A.map(o=>`<tr><td><b>${esc(o.n)}</b></td><td class="n">${nf(o.hari)}</td><td class="n">${nf(o.lengkap)}</td><td class="n${o.bad?' si-warn':''}">${nf(o.bad)}</td><td class="n${o.late?' si-warn':''}">${nf(o.late)}</td><td class="n ds-vis"><b>${nf(o.visit)}</b><i><u style="width:${Math.round(o.visit/mx*100)}%"></u></i></td><td class="n">${nf(o.join)}</td><td class="n">${nf(o.ling)}</td><td class="n">${nf(o.odp)} <span class="ds-mut">(${nf(o.odpY)})</span></td><td class="n"><b>${nf(o.tawar)}</b></td><td class="n">${nf(o.reg)}</td><td class="n">${nf(o.issue)}</td><td class="n">${nf(o.tl)}</td><td class="n">${nf(o.st.size)}</td></tr>`).join('')||`<tr><td colspan="${hd.length}" class="ds-mut">Belum ada laporan pada periode ini.</td></tr>`}</tbody></table></div></section>`;
 }
 function siS3(C){
   const P=C.pros,by={};P.forEach(p=>by[p.hasil]=(by[p.hasil]||0)+1);
@@ -6578,12 +6613,12 @@ function siHistClose(){const el=$('siHist');if(el)el.hidden=true;if(!document.qu
 function siHist(h){
   if(!SI.data)return;const C=siCalc(),x=C.roster.find(q=>q.s.h===h);if(!x){siHistClose();return}SI.hh=h;
   const L=C.reps.filter(r=>siHp(r.hp)===h).sort((a,b)=>String(b.tanggal).localeCompare(String(a.tanggal))||String(b.checkin_at).localeCompare(String(a.checkin_at)));
-  const el=siHistEl(),T=L.reduce((s,r)=>{const c=siCounts(r);s.v+=c.v;s.p+=c.p;s.i+=c.i;if(r.status==='lengkap')s.l++;return s},{v:0,p:0,i:0,l:0});
+  const el=siHistEl(),T=L.reduce((s,r)=>{const c=siCounts(r);s.v+=c.v;s.p+=c.p;s.i+=c.i;if(r.status==='lengkap')s.l++;else if(siBad(r))s.b++;return s},{v:0,p:0,i:0,l:0,b:0});
   $('siHT').textContent=x.s.n;
   $('siHS').innerHTML=`${esc(x.s.j||'-')} · <a href="https://wa.me/${esc(h)}" target="_blank" rel="noopener">${esc(h)}</a> · data 60 hari terakhir`;
   const days=new Map();L.forEach(r=>{let a=days.get(r.tanggal);if(!a)days.set(r.tanggal,a=[]);a.push(r)});
   const td=todayWib();
-  $('siHB').innerHTML=`<div class="ds-hsum">${siKpi('Laporan',nf(L.length),`${nf(T.l)} lengkap`,'#1d4ed8')}${siKpi('Visit',nf(T.v),'kegiatan','#0f766e')}${siKpi('Prospek',nf(T.p),'calon pelanggan','#d97706')}${siKpi('Issue',nf(T.i),'dilaporkan','#b42318')}</div>
+  $('siHB').innerHTML=`<div class="ds-hsum">${siKpi('Laporan',nf(L.length),`${nf(T.l)} lengkap${T.b?' · '+nf(T.b)+' tidak lengkap':''}`,'#1d4ed8')}${siKpi('Visit',nf(T.v),'kegiatan','#0f766e')}${siKpi('Prospek',nf(T.p),'calon pelanggan','#d97706')}${siKpi('Issue',nf(T.i),'dilaporkan','#b42318')}</div>
     ${!days.has(td)?`<div class="ds-note">Belum ada check-in hari ini (${fmtD(td)}). Laporan sebelumnya ada di bawah.</div>`:''}
     ${[...days.entries()].map(([d,rs])=>`<div class="ds-day"><div class="ds-dayh">${siDayName(d)}, ${fmtD(d)}${d===td?'<span>Hari ini</span>':''}</div>${rs.map(r=>{const k=(r.checkin||{}).kota||'';return `<button type="button" class="ds-rep" data-sio="${esc(r.id)}"><div class="ds-repm"><b>${esc(r.mitra||'-')}</b><small>${esc(r.stasiun||'-')} · ${esc(SI_LOK[(r.checkin||{}).lokasi]||'-')}${k?' · '+esc(k):''}</small><div class="ds-nums">${siNums(siCounts(r))}</div></div><div class="ds-repr"><span class="ds-tm">${siJam(r.checkin_at)} – ${siJam(r.checkout_at)}</span><span>${siRepStat(r)}${r.ditinjau_at?' <span class="ds-st rv">Ditinjau</span>':''}</span></div><em aria-hidden="true">›</em></button>`}).join('')}</div>`).join('')||'<p class="ds-empty">Petugas ini belum punya laporan dalam 60 hari terakhir.</p>'}
     <div class="ds-hfoot"><span>Petugas sudah tidak aktif atau data uji coba?</span><button type="button" class="si-rm" id="siHRm">Hapus dari daftar</button></div>`;
@@ -6812,7 +6847,7 @@ function siAnalisis(r){
   {const rw=(r.rencana||{}).review||[];if(rw.length){const ya=rw.filter(x=>x.s==='ya').length,sb=rw.filter(x=>x.s==='sebagian').length;G.push(['Pelaksanaan rencana',`${ya} dari ${rw.length} terlaksana${sb?`, ${sb} sebagian`:''}${rw.filter(x=>x.s==='tidak').length?`, ${rw.filter(x=>x.s==='tidak').length} tidak terlaksana`:''}`])}}
   if(fotoN)G.push(['Dokumentasi',`${nfs(fotoN)} foto`]);
   /* perlu perhatian */
-  if(r.status!=='lengkap')P.push('Laporan belum lengkap: belum check-out.');
+  if(r.status!=='lengkap')P.push(siRepSt(r.status,r.tanggal).k==='no'?'Laporan tidak lengkap: tidak check-out sampai hari berganti.':'Laporan belum lengkap: belum check-out.');
   const pen=((r.ach||{}).penyebab||[]).length?`; penyebab yang dilaporkan: ${r.ach.penyebab.join(', ')}`:'';
   [['Registrasi',a.tr_reg,a.reg,a.reg_lw],['Aktivasi',a.tr_act,a.act,a.act_lw]].forEach(x=>{if(x[1]==='turun')P.push(`${x[0]} kemarin turun ${siPct(x[2],x[3]).replace('−','')} dibanding minggu lalu (${nfs(x[2])} vs ${nfs(x[3])})${pen}.`)});
   if(ag&&ag.wo){const t=ag.wo.b[0]+ag.wo.b[1]+ag.wo.b[2];if(t&&ag.wo.b[2]/t>=.5)P.push(`${nfs(ag.wo.b[2])} dari ${nfs(t)} WO open sudah lebih dari 14 hari (aging rata-rata ${fa(ag.wo.avg)} hari).`)}
@@ -6906,7 +6941,7 @@ function siReport(r,o){
 function siPrintHead(r){
   const A=siAnalisis(r);
   return `<div class="ph-head"><div class="ey">Daily Report Sales Internal Starlite</div><h1>${esc(r.nama)}${r.jabatan?` <span class="wo-mut" style="font-size:13px;font-weight:600">· ${esc(r.jabatan)}</span>`:''}</h1>
-    <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
+    <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${siRepSt(r.status,r.tanggal).k==='ok'?'laporan lengkap':siRepSt(r.status,r.tanggal).k==='no'?'<b style="color:#b42318">laporan tidak lengkap</b>':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
 }
 function siPrintDoc(list,title,inline,src){
   const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${src||(inline?'form sales':'dashboard')}${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
@@ -7003,7 +7038,7 @@ async function siPdfBuild(list,title,onProg){
     /* kepala */
     F(true,7.5,SEC);doc.text('DAILY REPORT SALES INTERNAL STARLITE',M,y+3);y+=5;
     F(true,16,[15,27,61]);doc.text(pdfT(r.nama+(r.jabatan?'  ('+r.jabatan+')':'')),M,y+6);y+=9;
-    para([fmtD(r.tanggal),r.mitra,r.stasiun,r.region||r.regional,r.status==='lengkap'?'laporan lengkap':'baru check-in','penilaian '+A.label].filter(Boolean).join('  |  '),{size:9,color:[71,85,105],gap:1.5});
+    para([fmtD(r.tanggal),r.mitra,r.stasiun,r.region||r.regional,r.status==='lengkap'?'laporan lengkap':siRepSt(r.status,r.tanggal).k==='no'?'laporan tidak lengkap':'baru check-in','penilaian '+A.label].filter(Boolean).join('  |  '),{size:9,color:[71,85,105],gap:1.5});
     doc.setDrawColor(29,78,216);doc.setLineWidth(0.7);doc.line(M,y,M+CW,y);y+=4;
     /* garis waktu horizontal, tepat di bawah kepala laporan */
     {const E=siTlEvents(r);if(E.length){
@@ -7114,7 +7149,7 @@ function siPop(id){
   const r=((SI.data&&SI.data.reports)||[]).find(x=>x.id===id);if(!r)return;
   const el=siPopEl();
   $('siPT').textContent=r.nama+(r.jabatan?' ('+r.jabatan+')':'')+' · '+fmtD(r.tanggal);
-  $('siPS').innerHTML=`${esc(r.mitra)} · <b>${esc(r.stasiun)}</b> · masuk ${siJam(r.checkin_at)} · pulang ${siJam(r.checkout_at)} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'}`;
+  $('siPS').innerHTML=`${esc(r.mitra)} · <b>${esc(r.stasiun)}</b> · masuk ${siJam(r.checkin_at)} · pulang ${siJam(r.checkout_at)} · ${siRepSt(r.status,r.tanggal).k==='ok'?'laporan lengkap':siRepSt(r.status,r.tanggal).k==='no'?'laporan tidak lengkap':'baru check-in'}`;
   $('siPB').innerHTML=`<iframe id="siRf" title="Laporan lengkap" scrolling="no" style="width:100%;height:480px;border:0;display:block;flex:none"></iframe>
     <h4 class="rg-h4">Tinjauan atasan</h4>
     <textarea id="siRv" class="si-rv" maxlength="1000" placeholder="Catatan untuk sales (opsional), tampil di riwayat form sales">${esc(r.catatan_review||'')}</textarea>
@@ -7153,7 +7188,7 @@ function siExport(){
   if(!SI.data){toast('Data belum dimuat');return}
   const C=siCalc();
   const lap=[['Tanggal','Sales','Jabatan','HP','Regional','Mitra','Stasiun','Status','Check-in','Check-out','Lokasi kerja','Rencana kegiatan','Visit','Join visit','Lingkungan/affiliator','Cek ODP','ODP potensial','Prospek','Issue','Evaluasi','Ditinjau','Catatan review']];
-  C.per.forEach(r=>{const v=r.visit||[],k=j=>v.filter(x=>x.jenis===j).length;lap.push([r.tanggal,r.nama,r.jabatan||'',r.hp,r.regional,r.mitra,r.stasiun,r.status,siJam(r.checkin_at),siJam(r.checkout_at),SI_LOK[(r.checkin||{}).lokasi]||(r.checkin||{}).lokasi||'',((r.rencana||{}).kegiatan||[]).filter(Boolean).join('; '),v.length,k('join'),k('ling'),k('odp'),v.filter(x=>x.jenis==='odp'&&x.pot==='ya').length,k('tawar'),(r.issue||[]).length,(r.tl||[]).length,r.ditinjau_at||'',r.catatan_review||''])});
+  C.per.forEach(r=>{const v=r.visit||[],k=j=>v.filter(x=>x.jenis===j).length;lap.push([r.tanggal,r.nama,r.jabatan||'',r.hp,r.regional,r.mitra,r.stasiun,siRepSt(r.status,r.tanggal).l,siJam(r.checkin_at),siJam(r.checkout_at),SI_LOK[(r.checkin||{}).lokasi]||(r.checkin||{}).lokasi||'',((r.rencana||{}).kegiatan||[]).filter(Boolean).join('; '),v.length,k('join'),k('ling'),k('odp'),v.filter(x=>x.jenis==='odp'&&x.pot==='ya').length,k('tawar'),(r.issue||[]).length,(r.tl||[]).length,r.ditinjau_at||'',r.catatan_review||''])});
   const pro=[['Tanggal','Jam','Sales','Mitra','Stasiun','Nama','Telepon','Alamat','Paket','Hasil penawaran','Status pelanggan','Tanggal aktif']].concat(C.pros.map(p=>{const x=SI.match&&SI.match[siHp(String(p.telp||'').replace(/^'/,''))];return [p.tanggal,siJam(p.jam),p.sales,p.mitra,p.stasiun,p.nama,p.telp,p.alamat||'',p.paket||'',p.hasil||'',SI.match?(x?(x.status==='active'?'Aktif':(SI_CST[x.status]||x.status)):'Belum terdaftar'):'',x&&x.status==='active'?x.aktif:'']}));
 const kan=[['Tanggal','Sales','Mitra','Stasiun','PIC mitra','Jabatan PIC','Data sistem vs mitra','Catatan selisih','Sales mitra aktif','IKR aktif','WO open (mitra)','Kapasitas/hari','Agenda','Temuan data','Kendala','Kesepakatan','Jumlah foto']];
   C.per.forEach(r=>{const k=r.kantor;if(k&&(r.checkin||{}).lokasi==='mitra'){const j=a=>(a||[]).filter(Boolean).join('; ');kan.push([r.tanggal,r.nama,r.mitra,r.stasiun,k.pic||'',k.jab_pic||'',k.data_sama==='selisih'?'Ada selisih':k.data_sama==='sama'?'Sama':'',k.data_selisih||'',k.sales_aktif||'',k.ikr_aktif||'',k.wo_mitra||'',k.kapasitas||'',j(k.agenda),j(k.temuan),j(k.kendala),j(k.sepakat),(k.fotos||[]).length])}});
@@ -7395,26 +7430,27 @@ function fwDayRender(){
     return {m,iso:s.size,done,n:o.c.length,rec:o.rec,l:k('lanjut'),t:k('tidak'),r:k('norespon'),akt,last:o.last,recs:o.c.flatMap(c=>c.recs)};
   }).sort((a,b)=>b.n-a.n||b.iso-a.iso||a.m.localeCompare(b.m,'id'));
   const tot=rows.reduce((a,r)=>{['iso','done','n','rec','l','t','r','akt'].forEach(k=>a[k]+=r[k]);return a},{iso:0,done:0,n:0,rec:0,l:0,t:0,r:0,akt:0});
-  const tr=(r,cls)=>{
+  const okSvg='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#16a34a"/><path d="M7.5 12.4l3 3 6-6.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const tr=(r,cls,i)=>{
     const cov=r.iso?Math.min(100,r.done/r.iso*100):0, sr=r.n?pctS(r.akt,r.n):'-';
-    return `<div class="mrw ${cls}" data-m="${esc(r.m)}" role="button" tabindex="0" title="${r.last?'Laporan terakhir '+fwTs(r.last)+' · ':''}${nf(r.rec)} laporan · klik untuk memfilter mitra">
+    return `<div class="mrw ${cls}" data-m="${esc(r.m)}" role="button" tabindex="0" title="${esc(r.m)} · ${r.last?'laporan terakhir '+fwTs(r.last)+' · ':''}${nf(r.rec)} laporan · klik untuk memfilter mitra">
+      <div class="c-no${r.n&&i<3?' t'+(i+1):''}">${i+1}</div>
       <div class="c-at">${fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</div>
       <div class="c-nm">${esc(r.m)}</div>
-      <div class="c-cv" data-l="Cakupan"><i><u style="width:${cov.toFixed(1)}%"></u></i><span>${nf(r.done)}/${nf(r.iso)}</span></div>
-      <div class="c-n" data-l="Di-follow up">${nf(r.n)}</div>
-      <div class="c-n gd" data-l="Bersedia">${nf(r.l)}</div>
-      <div class="c-n rd" data-l="Tdk bersedia">${nf(r.t)}</div>
-      <div class="c-n" data-l="Tdk merespon">${nf(r.r)}</div>
-      <div class="c-n gd" data-l="Aktif kembali"><b>${nf(r.akt)}</b></div>
-      <div class="c-sr" data-l="Success rate">${sr}</div>
+      <div class="c-cv" title="Cakupan isolir: ${nf(r.done)} dari ${nf(r.iso)} pelanggan"><i><u style="width:${cov.toFixed(1)}%"></u></i><span>${nf(r.done)}/${nf(r.iso)}</span></div>
+      <div class="c-st"><span class="t" data-l="Total" title="Total di-follow up: ${nf(r.n)}">${nf(r.n)}</span><span class="g" data-l="Bersedia" title="Bersedia lanjut: ${nf(r.l)}">${nf(r.l)}</span><span class="r" data-l="Tidak" title="Tidak bersedia: ${nf(r.t)}">${nf(r.t)}</span><span class="n" data-l="No respon" title="Tidak merespon: ${nf(r.r)}">${nf(r.r)}</span></div>
+      <div class="c-sr"><i><u style="width:${r.n?Math.min(100,r.akt/r.n*100).toFixed(1):0}%"></u></i><em>${sr}</em></div>
+      <div class="c-ak" title="Aktif kembali: ${nf(r.akt)} pelanggan">${okSvg}<b>${nf(r.akt)}</b></div>
     </div>`};
-  $('fwMT').innerHTML=`<div class="mrh"><div></div><div>Mitra</div><div>Cakupan isolir</div><div class="n">Follow up</div><div class="n">Bersedia</div><div class="n">Tdk bersedia</div><div class="n">Tdk merespon</div><div class="n">Aktif kembali</div><div class="n">Success rate</div></div>`+rows.map(r=>tr(r,'click'+(r.m===FWF.mi?' sel':''))).join('');
+  /* urutan tabel = urutan peringkat (aktif kembali, success rate, jumlah follow up); mitra tanpa follow up di bawah */
+  const mtRows=rows.slice().sort((a,b)=>(b.n>0)-(a.n>0)||b.akt-a.akt||(b.n?b.akt/b.n:0)-(a.n?a.akt/a.n:0)||b.n-a.n||b.iso-a.iso||a.m.localeCompare(b.m));
+  $('fwMT').innerHTML=`<div class="mrh"><div>#</div><div>Hasil</div><div class="h-m">Mitra</div><div>Cakupan isolir</div><div class="h-st">Status follow up<i><em class="t">Total</em><em class="g">Bersedia</em><em class="r">Tidak</em><em class="n">No respon</em></i></div><div>Success rate</div><div>Aktif kembali</div></div>`+mtRows.map((r,i)=>tr(r,'click'+(r.m===FWF.mi?' sel':''),i)).join('');
   $('fwMT').querySelectorAll('.mrw.click').forEach(t=>{const go=()=>{FWF.mi=FWF.mi===t.dataset.m?'':t.dataset.m;FWF.page=0;fillFu()};t.onclick=go;t.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===t){e.preventDefault();go()}}});
 
   $('fwMT').querySelectorAll('.fwatt').forEach(b=>b.onclick=e=>{e.stopPropagation();const r=rows.find(x=>x.m===b.dataset.m);if(r)openGal(r.m,`${nf(r.rec)} laporan follow up${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}`,r.recs)});
   FWCTX={C,inPer,isoBy,curSet,rows};
   /* peringkat 3 besar mitra: diurutkan menurut KUANTITAS pelanggan aktif kembali; success rate dan jumlah di-follow up sebagai pembanding/penentu seri */
-  const top=rows.filter(r=>r.n>0).slice().sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n).slice(0,3);
+  const top=rows.filter(r=>r.n>0).slice().sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n||a.m.localeCompare(b.m)).slice(0,3);
   $('fwRank').innerHTML=`<div class="head"><h2>Peringkat 3 besar mitra</h2><span class="foot">diurutkan dari jumlah pelanggan aktif kembali terbanyak (seri: success rate lebih tinggi)${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}</span><button id="fwRankAll" class="rkall">Lihat semua peringkat ›</button></div>`+
     (top.length?`<div class="tp3">${top.map((r,i)=>`<button class="tpc t${i+1}" data-rk="${esc(r.m)}" title="Lihat pelanggan aktif kembali"><em>${i+1}</em><div class="tpb"><b class="tpn">${esc(r.m)}</b><span>dari ${nf(r.n)} pelanggan di-follow up · success rate <b>${pctS(r.akt,r.n)}</b></span><i><u style="width:${Math.min(100,r.akt/r.n*100).toFixed(1)}%"></u></i></div><strong>${nf(r.akt)}<small>aktif kembali</small></strong></button>`).join('')}</div>`:'<div class="empty">Belum ada mitra dengan pelanggan yang di-follow up pada periode ini.</div>');  $('fwRank').querySelectorAll('button[data-rk]').forEach(b=>b.onclick=()=>openPop('aktif',b.dataset.rk));
   $('fwRankAll').onclick=()=>openPop('rank');
@@ -8579,7 +8615,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261127114110,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261127131819,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */

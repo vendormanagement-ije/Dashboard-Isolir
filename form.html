@@ -1111,9 +1111,9 @@ function cyclesRaw(){
     let now;
     if(k==='x')now=V.state==='ok'?(V.act.has(c.code)?'aktif':(late(last)?'unk':'dm')):'unk';
     else if(k==='y'){if(V.state==='ok'&&V.act.has(c.code))now='aktif';else if(row)now='iso';else now=V.state==='ok'?(late(last)?'unk':'dis'):'unk'}
-    else if(row)now=(row[5]||'')>c.iso?'aktif':'iso';
-    else if(V.state==='ok')now=V.act.has(c.code)?'aktif':(late(last)?'unk':'dis');
-    else now='unk';
+    else if(row&&row[5])now=row[5]>c.iso?'aktif':'iso';
+    else if(V.state==='ok')now=V.act.has(c.code)?'aktif':(row?'iso':(late(last)?'unk':'dis'));
+    else now=row?'iso':'unk';
     return Object.assign(c,{last,k,cat:catOfK(k),first:c.recs[0],now,st:last.st||(row&&row[0])||'(Tanpa stasiun)',name:last.name||(row&&row[2])||'',n:cycleNo(c.code,c.iso)});
   });
 }
@@ -1275,7 +1275,7 @@ function renderRank(){
   }
   const top=RK.top||[], meIn=top.some(o=>o.m===S.mitra);
   /* peringkat stasiun dari server (semua mitra); bila server lama, dihitung dari stasiun mitra sendiri */
-  let st=RK.st, stNote='Semua mitra · '+nf(RK.stTotal||0)+' stasiun sudah di-follow up';
+  let st=RK.st, stNote='Semua mitra · dihitung per stasiun milik tiap mitra';
   if(!st){
     const m=new Map();cycles().forEach(c=>{let o=m.get(c.st);if(!o)m.set(c.st,o={s:c.st,n:0,akt:0,m:S.mitra});o.n++;if(c.now==='aktif')o.akt++});
     st=[...m.values()].sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n).slice(0,10);stNote='Stasiun mitra Anda (perbarui Apps Script untuk melihat semua mitra)';
@@ -2079,7 +2079,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261126160539,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
+PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261127130429,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
   refreshData:()=>reloadAll(),
   busy:()=>!!(S&&S.busy)||!!(document.getElementById('sheet')&&!document.getElementById('sheet').hidden)});
 load();

@@ -879,13 +879,14 @@ async function matchPros(){
   try{const r=await api('sr_match',{phones:ph});S.match=r.map||{};S.matchErr=''}catch(e){S.match=null;S.matchErr=e.message||String(e)}
   if(S.tab==='rw')renderRiwayat(true);
 }
+const stCss=(st,d)=>({ok:'--c:#15803d;--bg2:#e6f4ea',mid:'--c:#b45309;--bg2:#fdf3e4',no:'--c:#b42318;--bg2:#fdecea'})[siRepSt(st,d).k];
 function renderRiwayat(skip){
   const o=S.open||{},M=o.mine||[],P=o.prospek||[];
   $('bar').hidden=true;
   if(!skip)S.rp={};
   const act=S.match?P.filter(p=>{const x=S.match[prosKey(p)];return x&&x.status==='active'}).length:null;
   $('app').innerHTML=`<section class="card"><h2>Riwayat laporan saya</h2><p class="sub">30 laporan terakhir. Ketuk laporan untuk melihat hasil lengkap beserta analisisnya, sama dengan yang dilihat atasan.</p>
-    ${M.map(r=>`<div class="hist clk" data-rp="${esc(r.id)}" role="button" tabindex="0"><div class="hh"><b>${fmtD(r.tanggal)} · ${esc(r.stasiun)}</b><span class="tag" style="${r.status==='lengkap'?'--c:#15803d;--bg2:#e6f4ea':'--c:#b45309;--bg2:#fdf3e4'}">${r.status==='lengkap'?'Lengkap':'Baru check-in'}</span></div>
+    ${M.map(r=>`<div class="hist clk" data-rp="${esc(r.id)}" role="button" tabindex="0"><div class="hh"><b>${fmtD(r.tanggal)} · ${esc(r.stasiun)}</b><span class="tag" style="${stCss(r.status,r.tanggal)}">${siRepSt(r.status,r.tanggal).l}</span></div>
       <div class="foot">${esc(r.mitra)} · masuk ${jam(r.checkin_at)} · pulang ${jam(r.checkout_at)} · ${nf(r.n_visit)} visit · ${nf(r.n_prospek)} prospek · ${nf(r.n_issue)} issue</div>
       ${r.ditinjau_at?`<div class="note ok" style="margin:6px 0 0">Ditinjau ${fmtD(String(r.ditinjau_at).slice(0,10))}${r.catatan_review?': '+esc(r.catatan_review):''}</div>`:''}<div class="rpl">Lihat laporan lengkap ›</div></div>`).join('')||'<p class="foot">Belum ada laporan.</p>'}</section>
   <section class="card"><h2>Prospek saya (${nf(P.length)})</h2><p class="sub">Calon pelanggan dari penawaran langsung${act!=null?` · ${nf(act)} sudah aktif`:''}. Status pelanggan dicocokkan otomatis dari nomor telepon dengan data pelanggan.${S.matchErr?' Pengecekan status sedang belum tersedia.':''}</p>
@@ -1134,6 +1135,7 @@ const siHp=h=>{let x=String(h||'').replace(/\D/g,'');if(x[0]==='0')x='62'+x.slic
 const siPh=id=>{if(!id)return '';if(String(id).startsWith('demo-')){try{return JSON.parse(localStorage.getItem('srDemoPh')||'{}')[id]||''}catch(e){return ''}}return 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w400'};
 const siView=id=>String(id||'').startsWith('demo-')?siPh(id):'https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view';
 function siTile(l,v,s,c){return `<div class="si-tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}</div>`}
+function siRepSt(status,tgl){if(status==='lengkap')return {k:'ok',l:'Lengkap'};const d=String(tgl||'').slice(0,10);return d&&d<new Date(Date.now()+7*36e5).toISOString().slice(0,10)?{k:'no',l:'Tidak lengkap'}:{k:'mid',l:'Baru check-in'}}
 /* pratinjau foto di dalam aplikasi (tanpa pindah ke Drive) */
 function siLightbox(url,cap){
   const old=document.getElementById('siLb');if(old)old.remove();
@@ -1244,7 +1246,7 @@ function siAnalisis(r){
   {const rw=(r.rencana||{}).review||[];if(rw.length){const ya=rw.filter(x=>x.s==='ya').length,sb=rw.filter(x=>x.s==='sebagian').length;G.push(['Pelaksanaan rencana',`${ya} dari ${rw.length} terlaksana${sb?`, ${sb} sebagian`:''}${rw.filter(x=>x.s==='tidak').length?`, ${rw.filter(x=>x.s==='tidak').length} tidak terlaksana`:''}`])}}
   if(fotoN)G.push(['Dokumentasi',`${nfs(fotoN)} foto`]);
   /* perlu perhatian */
-  if(r.status!=='lengkap')P.push('Laporan belum lengkap: belum check-out.');
+  if(r.status!=='lengkap')P.push(siRepSt(r.status,r.tanggal).k==='no'?'Laporan tidak lengkap: tidak check-out sampai hari berganti.':'Laporan belum lengkap: belum check-out.');
   const pen=((r.ach||{}).penyebab||[]).length?`; penyebab yang dilaporkan: ${r.ach.penyebab.join(', ')}`:'';
   [['Registrasi',a.tr_reg,a.reg,a.reg_lw],['Aktivasi',a.tr_act,a.act,a.act_lw]].forEach(x=>{if(x[1]==='turun')P.push(`${x[0]} kemarin turun ${siPct(x[2],x[3]).replace('−','')} dibanding minggu lalu (${nfs(x[2])} vs ${nfs(x[3])})${pen}.`)});
   if(ag&&ag.wo){const t=ag.wo.b[0]+ag.wo.b[1]+ag.wo.b[2];if(t&&ag.wo.b[2]/t>=.5)P.push(`${nfs(ag.wo.b[2])} dari ${nfs(t)} WO open sudah lebih dari 14 hari (aging rata-rata ${fa(ag.wo.avg)} hari).`)}
@@ -1338,7 +1340,7 @@ function siReport(r,o){
 function siPrintHead(r){
   const A=siAnalisis(r);
   return `<div class="ph-head"><div class="ey">Daily Report Sales Internal Starlite</div><h1>${esc(r.nama)}${r.jabatan?` <span class="wo-mut" style="font-size:13px;font-weight:600">· ${esc(r.jabatan)}</span>`:''}</h1>
-    <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${r.status==='lengkap'?'laporan lengkap':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
+    <div class="mt">${esc(fmtD(r.tanggal))} · ${esc(r.mitra||'-')} · <b>${esc(r.stasiun||'-')}</b> · ${esc(r.region||r.regional||'-')} · ${siRepSt(r.status,r.tanggal).k==='ok'?'laporan lengkap':siRepSt(r.status,r.tanggal).k==='no'?'<b style="color:#b42318">laporan tidak lengkap</b>':'baru check-in'} · penilaian <span class="si-st ${A.cls}">${A.label}</span></div></div>`;
 }
 function siPrintDoc(list,title,inline,src){
   const body=list.map((r,i)=>`<article class="pg${i?' brk':''}">${siPrintHead(r)}${siReport(r,{print:true})}<div class="pgf">Dibuat dari ${src||(inline?'form sales':'dashboard')}${esc(new Date().toLocaleString('id-ID'))} · Daily Report Sales Internal Starlite</div></article>`).join('');
@@ -1435,7 +1437,7 @@ async function siPdfBuild(list,title,onProg){
     /* kepala */
     F(true,7.5,SEC);doc.text('DAILY REPORT SALES INTERNAL STARLITE',M,y+3);y+=5;
     F(true,16,[15,27,61]);doc.text(pdfT(r.nama+(r.jabatan?'  ('+r.jabatan+')':'')),M,y+6);y+=9;
-    para([fmtD(r.tanggal),r.mitra,r.stasiun,r.region||r.regional,r.status==='lengkap'?'laporan lengkap':'baru check-in','penilaian '+A.label].filter(Boolean).join('  |  '),{size:9,color:[71,85,105],gap:1.5});
+    para([fmtD(r.tanggal),r.mitra,r.stasiun,r.region||r.regional,r.status==='lengkap'?'laporan lengkap':siRepSt(r.status,r.tanggal).k==='no'?'laporan tidak lengkap':'baru check-in','penilaian '+A.label].filter(Boolean).join('  |  '),{size:9,color:[71,85,105],gap:1.5});
     doc.setDrawColor(29,78,216);doc.setLineWidth(0.7);doc.line(M,y,M+CW,y);y+=4;
     /* garis waktu horizontal, tepat di bawah kepala laporan */
     {const E=siTlEvents(r);if(E.length){
@@ -1725,7 +1727,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261126173044,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
+PWA.init({app:'sales',name:'Daily Report Sales Internal Starlite',buildId:20261127130934,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'sls',bottom:88,
   manifest:{name:'Daily Report Sales Internal Starlite',short_name:'Daily Report',description:'Laporan harian sales internal Starlite: absensi, briefing, visit, issue, dan evaluasi',
     start_url:'sales.html?'+(T?'t='+encodeURIComponent(T)+'&':'')+'pwa=1',scope:'sales.html',
     icons:[{src:'sales-icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'sales-icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'sales-icon-512-maskable.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]},
@@ -1928,7 +1930,7 @@ function openKpi(key){
   const tbl=(heads,rows)=>`<div class="tw"><table><thead><tr>${heads.map((h,i)=>`<th${i?' style="text-align:right"':''}>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i?' style="text-align:right"':''}>${i?c:esc(c)}</td>`).join('')}</tr>`).join('')}<tr style="font-weight:800;background:#f6f8fc">${heads.map((h,i)=>i?`<td style="text-align:right">${nf(rows.reduce((t,r)=>t+(+String(r[i]).replace(/\D/g,'')||0),0))}</td>`:'<td>Total</td>').join('')}</tr></tbody></table></div>`;
   const rrow=r=>`<button type="button" class="d-rr" data-rid="${esc(r.id)}"><div><b>${esc(r.n)} · ${esc(fmtD(r.d))}</b><small>${esc(r.m)} · ${esc(r.s)}${r.kota?' · '+esc(r.kota):''}</small></div><em aria-hidden="true">›</em></button>`;
   let title='',body='';
-  if(key==='rep'){title='Laporan masuk';body=P.map(r=>`<button type="button" class="d-rr" data-rid="${esc(r.id)}"><div><b>${esc(r.n)} · ${esc(fmtD(r.d))}</b><small>${esc(r.m)} · ${esc(r.s)}${r.kota?' · '+esc(r.kota):''}</small><small>masuk ${jam(r.ci)} · pulang ${jam(r.co)} · ${nf(r.nv)} visit · ${nf((r.iss||[]).length)} issue</small></div><span class="tag" style="${r.st==='lengkap'?'--c:#15803d;--bg2:#e6f4ea':'--c:#b45309;--bg2:#fdf3e4'}">${r.st==='lengkap'?'Lengkap':'Check-in'}</span><em aria-hidden="true">›</em></button>`).join('')}
+  if(key==='rep'){title='Laporan masuk';body=P.map(r=>`<button type="button" class="d-rr" data-rid="${esc(r.id)}"><div><b>${esc(r.n)} · ${esc(fmtD(r.d))}</b><small>${esc(r.m)} · ${esc(r.s)}${r.kota?' · '+esc(r.kota):''}</small><small>masuk ${jam(r.ci)} · pulang ${jam(r.co)} · ${nf(r.nv)} visit · ${nf((r.iss||[]).length)} issue</small></div><span class="tag" style="${stCss(r.st,r.d)}">${siRepSt(r.st,r.d).l}</span><em aria-hidden="true">›</em></button>`).join('')}
   else if(key==='vis'){title='Total visit';const VC={};P.forEach(r=>Object.keys(r.vis||{}).forEach(k=>VC[k]=(VC[k]||0)+r.vis[k]));const mv=Math.max(1,...Object.values(VC));
     body=Object.keys(DVT).map(k=>dBar(DVT[k][0],VC[k]||0,mv,DVT[k][1])).join('')+'<p class="foot" style="margin:14px 0 6px"><b>Per petugas</b></p>'+tbl(['Petugas','Visit','Join','Lingk.','ODP','Tawar','Temuan'],PL.sort((a,b)=>b.nv-a.nv).map(o=>[o.n,nf(o.nv),nf(o.vis.join||0),nf(o.vis.ling||0),nf(o.vis.odp||0),nf(o.vis.tawar||0),nf(o.vis.temuan||0)]))}
   else if(key==='tw'){title='Prospek penawaran langsung';const hs={};P.forEach(r=>Object.keys(r.tw||{}).forEach(k=>hs[k]=(hs[k]||0)+r.tw[k]));
@@ -1949,7 +1951,7 @@ function openTm(sid){
   const rs=(S.team||[]).filter(r=>r.sid===sid).sort((a,b)=>a.d<b.d?1:-1);if(!rs.length)return;
   const r0=rs[0];
   $('tmT').textContent=r0.n;$('tmS').textContent=`${r0.j||'-'} · ${rs.length} laporan`;
-  $('tmB').innerHTML=rs.map(r=>`<button type="button" class="d-rr" data-rid="${esc(r.id)}"><div><b>${esc(fmtD(r.d))} · ${DHARI[new Date(r.d+'T00:00:00Z').getUTCDay()]}</b><small>${esc(r.m)} · ${esc(r.s)}${r.kota?' · '+esc(r.kota):''}</small><small>masuk ${jam(r.ci)} · pulang ${jam(r.co)} · ${nf(r.nv)} visit · ${nf((r.iss||[]).length)} issue</small></div><span class="tag" style="${r.st==='lengkap'?'--c:#15803d;--bg2:#e6f4ea':'--c:#b45309;--bg2:#fdf3e4'}">${r.st==='lengkap'?'Lengkap':'Check-in'}</span><em aria-hidden="true">›</em></button>`).join('');
+  $('tmB').innerHTML=rs.map(r=>`<button type="button" class="d-rr" data-rid="${esc(r.id)}"><div><b>${esc(fmtD(r.d))} · ${DHARI[new Date(r.d+'T00:00:00Z').getUTCDay()]}</b><small>${esc(r.m)} · ${esc(r.s)}${r.kota?' · '+esc(r.kota):''}</small><small>masuk ${jam(r.ci)} · pulang ${jam(r.co)} · ${nf(r.nv)} visit · ${nf((r.iss||[]).length)} issue</small></div><span class="tag" style="${stCss(r.st,r.d)}">${siRepSt(r.st,r.d).l}</span><em aria-hidden="true">›</em></button>`).join('');
   $('tmB').querySelectorAll('[data-rid]').forEach(b=>b.onclick=()=>openRp(b.dataset.rid,true));
   $('tmPop').hidden=false;document.body.style.overflow='hidden';$('tmB').scrollTop=0;
 }
