@@ -1137,6 +1137,54 @@ html.vo .t1-cd{cursor:default}html.vo .t1-cd:hover{border-color:#dde2e9;box-shad
 .si-lk{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed #dde2e9;flex-wrap:wrap}.si-lk>div{flex:1 1 320px}
 .siDelB{background:#b42318!important;color:#fff!important;border-color:#b42318!important}.siDelB:hover{background:#912018!important}
 .si-dc{border:1.5px solid #f3b4ad;background:#fff4f2;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;color:#7a271a}.si-dc b{font-size:14px;color:#912018}.si-dc span{font-size:12.5px;line-height:1.5}
+/* ---- Daily Report: tampilan minimalis modern ---- */
+#v-si .sechead{margin-bottom:0}
+.ds-dd{position:relative}.ds-dd summary{list-style:none;display:flex;align-items:center;gap:8px;user-select:none}.ds-dd summary::-webkit-details-marker{display:none}
+.ds-dd summary::after{content:"";width:6px;height:6px;border:solid currentColor;border-width:0 2px 2px 0;transform:translateY(-2px) rotate(45deg)}.ds-dd[open] summary::after{transform:translateY(2px) rotate(225deg)}
+.ds-ddp{position:absolute;right:0;top:calc(100% + 6px);z-index:30;min-width:190px;background:#fff;border:1px solid #e6eaf2;border-radius:12px;padding:6px;box-shadow:0 12px 30px rgba(15,27,61,.16);display:flex;flex-direction:column}
+.ds-ddp button{font:inherit;font-size:13px;font-weight:600;text-align:left;border:0;background:none;color:#1e293b;border-radius:8px;padding:10px 12px;cursor:pointer;white-space:nowrap}.ds-ddp button:hover,.ds-ddp button:focus-visible{background:#eef3fb}
+.ds-bar .ds-barl,.ds-bar .ds-barr{flex-wrap:nowrap}.ds-bar .ds-b{white-space:nowrap}
+@media(max-width:900px){.ds-bar .ds-date>span{display:none}.ds-bar .ds-barl .tr-seg{min-width:180px;width:180px}}
+@media(max-width:700px){.ds-bar .ds-barl,.ds-bar .ds-barr{width:100%}.ds-bar .ds-barl .tr-seg{min-width:0;width:auto;flex:1}.ds-bar .ds-barr{justify-content:space-between}}
+.ds-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e6eaf2;border-radius:14px;padding:10px 12px}
+.ds-barl,.ds-barr{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ds-date{display:flex;align-items:center;gap:8px;font-size:12px;color:#64748b;font-weight:700}.ds-date input{border:1px solid #dde3ee;border-radius:10px;padding:7px 10px;font:inherit;color:#0f1b3d}
+.ds-barl .tr-seg{min-width:230px}
+.ds-b{font:inherit;font-size:12.5px;font-weight:700;border:1px solid #dde3ee;background:#fff;color:#1e293b;border-radius:10px;padding:8px 13px;cursor:pointer}.ds-b:hover{background:#f6f8fc;border-color:#c3cee0}.ds-b.pri{background:#12306b;border-color:#12306b;color:#fff}
+.card.ds-sec{border:1px solid #e6eaf2;border-radius:18px;padding:18px 18px 16px;box-shadow:0 1px 2px rgba(15,27,61,.04)}
+.ds-hd h2{display:flex;align-items:center;gap:10px;margin:0;font-size:16px}.ds-hd h2 i{font-style:normal;width:26px;height:26px;border-radius:8px;background:#eef2fb;color:#1d4ed8;display:grid;place-items:center;font-size:12.5px;font-weight:800;flex:none}.ds-hd p{margin:4px 0 0 36px;font-size:12px;color:#8a93a3}
+.ds-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0 10px}
+.ds-k{border:1px solid #e9edf4;border-radius:12px;padding:10px 12px;background:#fcfdfe;min-width:0}.ds-k span{display:flex;align-items:center;gap:6px;font-size:11.5px;color:#64748b;font-weight:600;line-height:1.25}.ds-k span::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}.ds-k b{display:block;font-size:24px;line-height:1.25;letter-spacing:-.02em;color:#0f1b3d;font-variant-numeric:tabular-nums}.ds-k small{display:block;font-size:11px;color:#94a3b8;line-height:1.3}
+.ds-prog{display:flex;height:6px;border-radius:999px;background:#eef1f6;overflow:hidden;margin:0 0 12px}.ds-prog i{display:block;height:100%}
+.ds-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ds-chips{display:flex;flex-wrap:wrap;gap:6px}.ds-chips button{font:inherit;font-size:12px;font-weight:600;border:1px solid #e2e8f0;background:#fff;border-radius:999px;padding:5px 12px;cursor:pointer;color:#475569}.ds-chips button b{margin-left:3px;color:#0f1b3d}.ds-chips button.on{background:#12306b;border-color:#12306b;color:#fff}.ds-chips button.on b{color:#fff}
+.ds-q{border:1px solid #dde3ee;border-radius:10px;padding:7px 12px;font:inherit;font-size:12.5px;min-width:220px}
+.ds-list{border:1px solid #e9edf4;border-radius:14px;max-height:520px;overflow:auto}
+.ds-row{display:grid;grid-template-columns:34px minmax(0,1.1fr) minmax(0,1.5fr) 104px minmax(0,1fr) 92px 112px;gap:10px;align-items:center;padding:9px 12px;border-top:1px solid #eef1f6;cursor:pointer;background:#fff}.ds-row:first-child{border-top:0}.ds-row:hover{background:#f7f9fd}.ds-row:focus-visible{outline:2px solid #2563eb;outline-offset:-2px}
+.ds-av{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#e8eefc;color:#1d4ed8;font-weight:800;font-size:12px}.ds-row.off .ds-av{background:#f1f4f9;color:#94a3b8}
+.ds-who,.ds-loc{min-width:0}.ds-who b,.ds-loc b{display:block;font-size:13px;line-height:1.3;overflow-wrap:anywhere}.ds-loc b{font-size:12px}.ds-who small,.ds-loc small{display:block;font-size:11.5px;color:#8a93a3;line-height:1.35}
+.ds-time{display:flex;gap:12px}.ds-time small{display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em}.ds-time b{font-size:13.5px;font-variant-numeric:tabular-nums}
+.ds-nums{display:flex;flex-wrap:wrap;gap:4px}.ds-num{font-size:11px;color:#64748b;background:#f4f6fa;border-radius:7px;padding:1px 7px;white-space:nowrap}.ds-num b{color:#0f1b3d}
+.ds-state{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.ds-st{display:inline-block;font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap;background:#f1f4f9;color:#475569}.ds-st.ok{background:#e8f7ee;color:#15803d}.ds-st.mid{background:#fdf4e3;color:#b45309}.ds-st.no{background:#fdedeb;color:#b42318}.ds-st.rv{background:#f1ecfd;color:#6d28d9}
+.ds-act{display:flex;flex-direction:column;align-items:flex-end;gap:3px}.ds-btn{font:inherit;font-size:11.5px;font-weight:700;border:1px solid #c7d6f7;background:#f3f7ff;color:#1d4ed8;border-radius:8px;padding:4px 10px;cursor:pointer;white-space:nowrap}.ds-btn:hover{background:#e3ecff}.ds-hist{font-size:11px;color:#64748b;white-space:nowrap}
+.ds-empty{margin:0;padding:16px;text-align:center;color:#8a93a3;font-size:12.5px}.ds-mut{color:#8a93a3}
+.ds-tw{overflow:auto;border:1px solid #e9edf4;border-radius:14px}
+.ds-t{width:100%;border-collapse:collapse;font-size:12.5px;min-width:820px}.ds-t th{position:sticky;top:0;z-index:1;background:#f8fafc;color:#64748b;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:9px 10px;border-bottom:1px solid #e9edf4;vertical-align:bottom}.ds-t td{padding:8px 10px;border-bottom:1px solid #f0f3f8;vertical-align:top;line-height:1.4}.ds-t tbody tr:last-child td{border-bottom:0}.ds-t tbody tr:hover td{background:#fafbfe}.ds-t .n{text-align:right}.ds-t td small{display:block;color:#8a93a3;font-size:11px}.ds-t a{color:#1d4ed8;text-decoration:none;font-weight:600}.ds-pt{min-width:980px}
+.ds-vis i{display:block;height:4px;width:70px;margin:3px 0 0 auto;background:#eef1f6;border-radius:999px;overflow:hidden}.ds-vis u{display:block;height:100%;background:#2563eb}
+.ds-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
+.ds-h3{display:flex;align-items:center;gap:8px;font-size:13.5px;margin:6px 0 8px}.ds-h3>b{background:#eef2fb;color:#1d4ed8;border-radius:999px;padding:0 9px;font-size:12px}
+.ds-items{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow:auto;padding-right:2px}
+.ds-it{border:1px solid #e9edf4;border-left:3px solid var(--c);border-radius:12px;padding:10px 12px;background:#fff;flex:none}.ds-ith{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:5px}.ds-dl{font-size:11.5px;font-weight:700;color:#475569}.ds-dl.late{color:#b42318}.ds-cat{font-size:12.5px}
+.ds-it p{margin:0 0 5px;font-size:12.5px;line-height:1.5;overflow-wrap:anywhere}.ds-itt{font-weight:700}.ds-it em{display:block;font-style:normal;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#94a3b8}.ds-pre{white-space:pre-line}.ds-it small{display:block;font-size:11.5px;color:#8a93a3;border-top:1px dashed #e9edf4;padding-top:5px;margin-top:3px}.ds-it small b{color:#475569}
+.ds-hsum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:none}
+.ds-note{background:#fff8e6;border:1px solid #f5dfa4;color:#78350f;border-radius:10px;padding:8px 12px;font-size:12.5px;margin-top:10px;flex:none}
+.ds-day{margin-top:12px;flex:none}.ds-dayh{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#64748b;margin-bottom:6px}.ds-dayh::after{content:'';flex:1;height:1px;background:#e9edf4;order:2}.ds-dayh span{order:1;background:#12306b;color:#fff;border-radius:999px;padding:0 8px;font-size:10px}
+.ds-rep{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;border:1px solid #e9edf4;background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;margin-bottom:6px}.ds-rep:hover{border-color:#a9c0f2;background:#f8faff}.ds-repm{flex:1;min-width:0}.ds-repm>b{display:block;font-size:13px}.ds-repm small{display:block;font-size:11.5px;color:#8a93a3;margin-bottom:4px}.ds-repr{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.ds-tm{font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}.ds-rep>em{font-style:normal;font-size:20px;color:#a9b6cc}
+.ds-hfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center;margin-top:16px;padding-top:12px;border-top:1px dashed #e2e8f0;font-size:12px;color:#8a93a3;flex:none}.ds-hfoot .si-rm{margin:0}
+@media(max-width:1100px){.ds-row{grid-template-columns:34px minmax(0,1fr) minmax(0,1.3fr) 104px 96px;grid-auto-flow:row}.ds-row .ds-nums{grid-column:3/4;grid-row:2}.ds-row .ds-act{grid-column:2/6;grid-row:3;flex-direction:row;justify-content:flex-end;gap:10px}.ds-row .ds-state{grid-column:5;grid-row:1}.ds-cols{grid-template-columns:1fr}}
+@media(max-width:900px){.ds-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.ds-kpis,.ds-hsum{grid-template-columns:repeat(2,minmax(0,1fr))}.ds-row{grid-template-columns:34px minmax(0,1fr) auto}.ds-row .ds-who{grid-column:2;grid-row:1}.ds-row .ds-state{grid-column:3;grid-row:1;align-items:flex-end}.ds-row .ds-loc{grid-column:2/4;grid-row:2}.ds-row .ds-time{grid-column:2/4;grid-row:3}.ds-row .ds-nums{grid-column:2/4;grid-row:4}.ds-row .ds-act{grid-column:2/4;grid-row:5;justify-content:space-between}.ds-row .ds-time:empty,.ds-row .ds-nums:empty{display:none}.ds-q{min-width:0;width:100%}.ds-barr .ds-b{flex:1 1 auto}.ds-hd p{margin-left:0}.ds-repr .ds-st.rv{display:none}}
 /* ===== Seluler: tidak boleh ada konten yang melebihi lebar layar ===== */
 @media(max-width:900px){
   html,body{max-width:100%;overflow-x:hidden}
@@ -1708,6 +1756,22 @@ button.fwr:hover{background:rgba(37,99,235,.08)}
 .rkno.r1{background:#f5c518;color:#5a4300}.rkno.r2{background:#c3cad6;color:#2f3b4d}.rkno.r3{background:#d99a62;color:#4a2a0c}
 .pr.rk .pk>span{font-size:11px;color:#64748b}
 .rkn2{text-align:right}.rkn2 b{display:block;font-size:20px;color:#15803d;line-height:1.1}.rkn2 span{font-size:11px;color:#64748b}
+/* peringkat mitra: daftar ringkas minimalis; di-follow up & aktif kembali disorot */
+.lb-h,.lb-r{display:grid;grid-template-columns:28px 34px minmax(0,1fr) 210px 128px 100px;gap:9px;align-items:center}
+.lb-at{display:flex;justify-content:center}.lb-r .fwatt{width:26px;height:23px;border-radius:7px}.lb-r .fwatt svg{width:13px;height:13px}
+.lb-sth{text-align:center}.lb-sth i{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-style:normal;margin-top:2px}.lb-sth em{font-style:normal;font-size:8.5px;letter-spacing:0;text-transform:none}.lb-sth em.g{color:#15803d}.lb-sth em.r{color:#b42318}.lb-sth em.n{color:#64748b}
+.lb-st{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.lb-st .t{background:#eef4ff;color:#1d4ed8;font-weight:800}.lb-sth em.t{color:#1d4ed8}.lb-v.ak{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #bfe6cd}.lb-ok{width:16px;height:16px;flex:none}.lb-st span{text-align:center;border-radius:6px;padding:0 2px;font-size:10px;font-weight:600;line-height:1.75;font-variant-numeric:tabular-nums}.lb-st .g{background:#ecf9f1;color:#15803d}.lb-st .r{background:#fdeeec;color:#b42318}.lb-st .n{background:#f1f4f9;color:#475569}
+.lb-h{position:sticky;top:-12px;z-index:2;background:#fff;padding:6px 10px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#94a3b8;flex:none}.lb-h>span:nth-child(-n+2),.lb-h>span:nth-child(n+6){text-align:center}
+.lb{border:1px solid #e6eaf2;border-radius:12px;overflow:hidden;flex:none}
+.lb-r{padding:3px 10px;min-height:32px;border-top:1px solid #eef1f6;background:#fff;cursor:pointer;transition:background .15s}
+.lb-r:first-child{border-top:0}.lb-r:hover{background:#f5f8ff}.lb-r:focus-visible{outline:2px solid #2563eb;outline-offset:-2px}
+.lb-no{width:24px;height:22px;border-radius:7px;display:grid;place-items:center;font-weight:800;font-size:11.5px;color:#64748b;background:#f1f4f9;justify-self:center}
+.lb-no.t1{background:#fef3c7;color:#92400e}.lb-no.t2{background:#e5e9f0;color:#334155}.lb-no.t3{background:#fde8d7;color:#9a4a12}
+.lb-m{min-width:0;font-size:12.5px;font-weight:700;color:#0f1b3d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-bar{display:flex;align-items:center;gap:8px;min-width:0}.lb-bar i{flex:1;height:4px;border-radius:999px;background:#eef1f6;overflow:hidden;display:block}.lb-bar u{display:block;height:100%;border-radius:999px;background:#22a55a;text-decoration:none}.lb-bar em{flex:none;font-style:normal;font-size:11.5px;font-weight:700;color:#475569;min-width:40px;text-align:right}
+.lb-v{text-align:center;border-radius:7px;padding:2px 4px;min-width:0}.lb-v b{font-size:14px;line-height:1.35;font-variant-numeric:tabular-nums}.lb-v span{display:none}
+.lb-v.fu{background:#eef4ff}.lb-v.fu b{color:#1d4ed8}.lb-v.ak{background:#ecf9f1}.lb-v.ak b{color:#15803d}
+@media(max-width:760px){.lb-h{display:none}.lb-r{grid-template-columns:26px minmax(0,1fr) auto auto;gap:3px 6px;padding:6px 8px}.lb-at{grid-column:1;grid-row:2}.lb-m{grid-column:2/5;white-space:normal;line-height:1.25;font-size:12px}.lb-st{grid-column:2/5}.lb-bar{grid-column:2}.lb-v{padding:1px 7px;white-space:nowrap}.lb-v b{font-size:12.5px}.lb-v span{display:inline;font-size:10px;color:#64748b;margin-left:3px}}
 @media(max-width:760px){.pr.rk{grid-template-columns:auto minmax(0,1fr) auto}.pr.rk .pk{grid-column:2/4}}
 /* ===== Analisis pelanggan tidak bersedia (modul bersama) ===== */
 .ta{display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -4408,8 +4472,9 @@ function renderPop(){
     const q=FWPOP.q, rs=X.rows.filter(r=>r.n>0).slice().sort((a,b)=>b.akt-a.akt||(b.akt/b.n)-(a.akt/a.n)||b.n-a.n).map((r,i)=>Object.assign({},r,{rank:i+1})), l=q?rs.filter(r=>r.m.toLowerCase().includes(q)):rs;
     FWPOP.list=l;
     $('fwPS').textContent=`${t[1]} · ${FWF.per?BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):'semua periode laporan'} · ${nf(rs.length)} mitra sudah follow up`;
-    body.innerHTML=l.length?`<div class="pl">${l.map(r=>`<div class="pr rk click" data-m="${esc(r.m)}" role="button" tabindex="0" title="Filter dashboard ke mitra ini"><span class="rkno r${Math.min(r.rank,4)}">${r.rank}</span><div class="pm"><b>${esc(r.m)}</b><span>${nf(r.n)} pelanggan di-follow up · ${nf(r.l)} bersedia lanjut · ${nf(r.rec)} laporan</span></div><div class="pk"><div class="cvb"><i><u style="width:${Math.min(100,r.akt/r.n*100).toFixed(1)}%;background:#16a34a"></u></i><b>${pctS(r.akt,r.n)}</b></div><span>success rate</span></div><div class="rkn2"><b>${nf(r.akt)}</b><span>aktif kembali</span></div></div>`).join('')}</div>`:`<div class="empty">${q?'Mitra tidak ditemukan.':'Belum ada mitra yang melakukan follow up.'}</div>`;
-    body.querySelectorAll('.pr.rk').forEach(e=>e.onclick=()=>{FWF.mi=e.dataset.m;FWF.page=0;closePop();fillFu()});
+    body.innerHTML=l.length?`<div class="lb-h"><span>#</span><span title="Lampiran hasil follow up">Hasil</span><span>Mitra</span><span class="lb-sth">Status follow up<i><em class="t">Total</em><em class="g">Bersedia</em><em class="r">Tidak</em><em class="n">No respon</em></i></span><span>Success rate</span><span>Aktif kembali</span></div><div class="lb">${l.map(r=>`<div class="lb-r click" data-m="${esc(r.m)}" role="button" tabindex="0" title="${esc(r.m)} · ${nf(r.l)} bersedia lanjut · ${nf(r.rec)} laporan · klik untuk memfilter dashboard"><span class="lb-no${r.rank<=3?' t'+r.rank:''}">${r.rank}</span><span class="lb-at">${fwAttBtn(r.recs,'data-m="'+esc(r.m)+'"')}</span><b class="lb-m">${esc(r.m)}</b><div class="lb-st"><span class="t" title="Total di-follow up: ${nf(r.n)} pelanggan">${nf(r.n)}</span><span class="g" title="Bersedia lanjut: ${nf(r.l)} pelanggan">${nf(r.l)}</span><span class="r" title="Tidak bersedia: ${nf(r.t)} pelanggan">${nf(r.t)}</span><span class="n" title="Tidak merespon: ${nf(r.r)} pelanggan">${nf(r.r)}</span></div><div class="lb-bar"><i><u style="width:${Math.min(100,r.akt/r.n*100).toFixed(1)}%"></u></i><em>${pctS(r.akt,r.n)}</em></div><div class="lb-v ak" title="Aktif kembali: ${nf(r.akt)} pelanggan, terverifikasi dari data pelanggan aktif"><svg class="lb-ok" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#16a34a"/><path d="M7.5 12.4l3 3 6-6.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b>${nf(r.akt)}</b><span>aktif</span></div></div>`).join('')}</div>`:`<div class="empty">${q?'Mitra tidak ditemukan.':'Belum ada mitra yang melakukan follow up.'}</div>`;
+    body.querySelectorAll('.lb-r').forEach(e=>{e.onclick=()=>{FWF.mi=e.dataset.m;FWF.page=0;closePop();fillFu()};e.onkeydown=k=>{if((k.key==='Enter'||k.key===' ')&&k.target===e){k.preventDefault();e.click()}}});
+    body.querySelectorAll('.lb-r .fwatt').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const r=rs.find(x=>x.m===b.dataset.m);if(r)openGal(r.m,`${nf(r.rec)} laporan follow up${FWF.per?' · '+BLN[+FWF.per.slice(5,7)-1]+' '+FWF.per.slice(0,4):''}`,r.recs)});
     return;
   }
   if(kind==='day'){
@@ -6434,42 +6499,97 @@ function siCalc(){
 /* ---------- tampilan ---------- */
 /*CORE-BEGIN*/function siTile(l,v,s,c){return `<div class="si-tile" style="--c:${c||'#1d4ed8'}"><span>${l}</span><b>${v}</b>${s?`<small>${s}</small>`:''}</div>`}/*CORE-END*/
 function siStatus(r){if(!r)return '<span class="si-st no">Belum lapor</span>';if(r.status==='lengkap')return '<span class="si-st ok">Lengkap</span>';return '<span class="si-st mid">Baru check-in</span>'}
+/* ---------- tampilan menu (minimalis modern) ---------- */
+const siIni=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+const SI_HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const siDayName=d=>SI_HARI[new Date(d+'T00:00:00Z').getUTCDay()]||'';
+const siKpi=(l,v,s,c)=>`<div class="ds-k" style="--c:${c}"><span>${l}</span><b>${v}</b><small>${s||'&nbsp;'}</small></div>`;
+const siHead=(no,title,sub,extra)=>`<div class="ds-hd"><div><h2><i>${no}</i>${title}</h2><p>${sub}</p></div>${extra||''}</div>`;
+const siRepStat=r=>r.status==='lengkap'?'<span class="ds-st ok">Lengkap</span>':'<span class="ds-st mid">Baru check-in</span>';
+const siCounts=r=>{const v=r.visit||[];return {v:v.length,p:v.filter(a=>a.jenis==='tawar').length,i:(r.issue||[]).length}};
+const siNums=c=>`<span class="ds-num"><b>${nf(c.v)}</b> visit</span><span class="ds-num"><b>${nf(c.p)}</b> prospek</span><span class="ds-num"><b>${nf(c.i)}</b> issue</span>`;
 function siS1(C){
   const R=C.roster,ci=R.filter(x=>x.r).length,lk=R.filter(x=>x.r&&x.r.status==='lengkap').length,rv=R.filter(x=>x.r&&x.r.ditinjau_at).length,tot=R.length;
-  const pc=a=>tot?Math.round(a/tot*100)+'%':'-';
-  const q=SI.q.toLowerCase(),L=R.filter(x=>!q||(x.s.n+' '+(x.r?x.r.mitra+' '+x.r.stasiun:'')).toLowerCase().includes(q));
-  return `<section class="card rg-sec" id="si1">${rgHead(1,'Kepatuhan laporan harian',`${fmtD(C.day)} · klik baris untuk melihat laporan lengkap dan memberi tinjauan`)}
-    <div class="si-tiles">${siTile('Sales terdaftar',nf(tot),'nama di daftar sales','#475569')}${siTile('Sudah check-in',nf(ci),pc(ci)+' dari sales','#1d4ed8')}${siTile('Laporan lengkap',nf(lk),pc(lk)+' · check-out','#15803d')}${siTile('Belum lapor',nf(tot-ci),pc(tot-ci),'#b42318')}${siTile('Sudah ditinjau',nf(rv),`dari ${nf(ci)} laporan`,'#7c3aed')}</div>
-    <div class="tr-ctl"><input type="search" id="siQ" class="tr-q" placeholder="Cari sales, mitra, stasiun" value="${esc(SI.q)}" aria-label="Cari sales"></div>
-    <div class="si-list">${L.map(x=>{const r=x.r,v=r?(r.visit||[]):[];return `<div class="si-li${r?'':' off'}"${r?` data-sio="${esc(r.id)}" role="button" tabindex="0"`:''}>
-      <div class="si-l1"><b>${esc(x.s.n)}</b>${x.s.j?`<span class="wo-mut">${esc(x.s.j)}</span>`:''}${siStatus(r)}${r&&r.ditinjau_at?'<span class="si-st rv">Ditinjau</span>':''}<button type="button" class="si-rm" data-sirm="${esc(x.s.h)}" data-sin="${esc(x.s.n)}" title="Hapus sales ini dari daftar">Hapus dari daftar</button></div>
-      ${r?`<div class="si-l2"><span>${esc(r.mitra)} · <b>${esc(r.stasiun)}</b></span><span>Masuk <b>${siJam(r.checkin_at)}</b> · Pulang <b>${siJam(r.checkout_at)}</b></span><span>${nf(v.length)} visit · ${nf(v.filter(a=>a.jenis==='tawar').length)} prospek · ${nf((r.issue||[]).length)} issue · ${esc(SI_LOK[(r.checkin||{}).lokasi]||'-')}${(r.checkin||{}).kota?' · '+esc(r.checkin.kota):''}</span></div>`:`<div class="si-l2"><span class="wo-mut">${esc(x.s.h)} · belum ada laporan di tanggal ini</span></div>`}
-    </div>`}).join('')||'<p class="wo-mut">Belum ada sales terdaftar. Nama sales muncul setelah melapor pertama kali.</p>'}</div></section>`;
+  const pc=a=>tot?Math.round(a/tot*100):0;
+  const f=SI.f||'',q=SI.q.toLowerCase();
+  const pass=x=>f==='sudah'?!!x.r:f==='lengkap'?!!(x.r&&x.r.status==='lengkap'):f==='belum'?!x.r:true;
+  const L=R.filter(x=>pass(x)&&(!q||(x.s.n+' '+(x.r?x.r.mitra+' '+x.r.stasiun:'')).toLowerCase().includes(q)));
+  const nRep=new Map();C.reps.forEach(r=>{const k=siHp(r.hp);nRep.set(k,(nRep.get(k)||0)+1)});
+  const row=x=>{const r=x.r,c=r?siCounts(r):null,k=(r&&(r.checkin||{}).kota)||'';
+    return `<div class="ds-row${r?'':' off'}" data-sih="${esc(x.s.h)}" role="button" tabindex="0" title="Lihat laporan ${esc(x.s.n)} per hari">
+      <span class="ds-av">${esc(siIni(x.s.n))}</span>
+      <div class="ds-who"><b>${esc(x.s.n)}</b><small>${esc(x.s.j||'-')}</small></div>
+      <div class="ds-loc">${r?`<b>${esc(r.mitra||'-')}</b><small>${esc(r.stasiun||'-')} · ${esc(SI_LOK[(r.checkin||{}).lokasi]||'-')}${k?' · '+esc(k):''}</small>`:`<small>Belum ada laporan di tanggal ini</small>`}</div>
+      <div class="ds-time">${r?`<span><small>Masuk</small><b>${siJam(r.checkin_at)}</b></span><span><small>Pulang</small><b>${siJam(r.checkout_at)}</b></span>`:''}</div>
+      <div class="ds-nums">${r?siNums(c):''}</div>
+      <div class="ds-state">${r?siRepStat(r):'<span class="ds-st no">Belum lapor</span>'}${r&&r.ditinjau_at?'<span class="ds-st rv">Ditinjau</span>':''}</div>
+      <div class="ds-act">${r?`<button type="button" class="ds-btn" data-sio="${esc(r.id)}">Buka laporan</button>`:''}<span class="ds-hist">${nf(nRep.get(x.s.h)||0)} laporan ›</span></div></div>`};
+  const chips=[['','Semua',tot],['sudah','Sudah check-in',ci],['lengkap','Lengkap',lk],['belum','Belum lapor',tot-ci]];
+  return `<section class="card rg-sec ds-sec" id="si1">${siHead(1,'Kepatuhan laporan harian',`${siDayName(C.day)}, ${fmtD(C.day)} · klik nama petugas untuk melihat laporannya per hari`)}
+    <div class="ds-kpis">${siKpi('Sales terdaftar',nf(tot),'di daftar sales','#475569')}${siKpi('Sudah check-in',nf(ci),pc(ci)+'% dari sales','#1d4ed8')}${siKpi('Laporan lengkap',nf(lk),pc(lk)+'% sudah check-out','#15803d')}${siKpi('Belum lapor',nf(tot-ci),pc(tot-ci)+'% dari sales','#b42318')}${siKpi('Sudah ditinjau',nf(rv),`dari ${nf(ci)} laporan`,'#7c3aed')}</div>
+    <div class="ds-prog" title="${nf(lk)} lengkap · ${nf(ci-lk)} baru check-in · ${nf(tot-ci)} belum lapor"><i style="width:${pc(lk)}%;background:#16a34a"></i><i style="width:${Math.max(0,pc(ci)-pc(lk))}%;background:#f59e0b"></i></div>
+    <div class="ds-tools"><div class="ds-chips">${chips.map(([k,l,n])=>`<button type="button" data-sif="${k}" class="${f===k?'on':''}">${l} <b>${nf(n)}</b></button>`).join('')}</div><input type="search" id="siQ" class="ds-q" placeholder="Cari sales, mitra, stasiun" value="${esc(SI.q)}" aria-label="Cari sales"></div>
+    <div class="ds-list">${L.map(row).join('')||`<p class="ds-empty">${tot?'Tidak ada petugas yang cocok dengan filter.':'Belum ada sales terdaftar. Nama sales muncul setelah melapor pertama kali.'}</p>`}</div></section>`;
 }
 function siS2(C){
-  const A=C.agg,T=A.reduce((s,o)=>{['hari','visit','join','ling','odp','odpY','tawar','reg','issue','tl'].forEach(k=>s[k]=(s[k]||0)+o[k]);return s},{});
-  const hd=['Sales','Hari lapor','Lengkap','Masuk > 09.00','Visit','Join','Lingk./affiliator','ODP (potensial)','Prospek','Langsung reg.','Issue','Evaluasi','Stasiun'];
-  return `<section class="card rg-sec" id="si2">${rgHead(2,'Rekap aktivitas per sales',`${fmtD(C.from)} – ${fmtD(C.day)} (${SI.per} hari)`)}
-    <div class="si-tiles">${siTile('Laporan masuk',nf(T.hari||0),`${nf(A.length)} sales aktif melapor`,'#1d4ed8')}${siTile('Total visit',nf(T.visit||0),`join ${nf(T.join||0)} · lingk. ${nf(T.ling||0)}`,'#0f766e')}${siTile('ODP dicek',nf(T.odp||0),`${nf(T.odpY||0)} potensial`,'#7c3aed')}${siTile('Prospek',nf(T.tawar||0),`${nf(T.reg||0)} langsung registrasi`,'#d97706')}${siTile('Issue dilaporkan',nf(T.issue||0),`${nf(T.tl||0)} evaluasi & solusi`,'#b42318')}</div>
-    <div class="tw scrollbox" style="max-height:440px"><table class="wo-t si-t"><thead><tr>${hd.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')}</tr></thead><tbody>${A.map(o=>`<tr><td><b>${esc(o.n)}</b></td><td class="n">${nf(o.hari)}</td><td class="n">${nf(o.lengkap)}</td><td class="n${o.late?' si-warn':''}">${nf(o.late)}</td><td class="n"><b>${nf(o.visit)}</b></td><td class="n">${nf(o.join)}</td><td class="n">${nf(o.ling)}</td><td class="n">${nf(o.odp)} (${nf(o.odpY)})</td><td class="n"><b>${nf(o.tawar)}</b></td><td class="n">${nf(o.reg)}</td><td class="n">${nf(o.issue)}</td><td class="n">${nf(o.tl)}</td><td class="n">${nf(o.st.size)}</td></tr>`).join('')||`<tr><td colspan="${hd.length}" class="wo-mut">Belum ada laporan pada periode ini.</td></tr>`}</tbody></table></div></section>`;
+  const A=C.agg,T=A.reduce((s,o)=>{['hari','visit','join','ling','odp','odpY','tawar','reg','issue','tl'].forEach(k=>s[k]=(s[k]||0)+o[k]);return s},{}),mx=Math.max(1,...A.map(o=>o.visit));
+  const hd=['Sales','Hari lapor','Lengkap','Masuk > 09.00','Visit','Join','Lingk./affil.','ODP (potensial)','Prospek','Langsung reg.','Issue','Evaluasi','Stasiun'];
+  return `<section class="card rg-sec ds-sec" id="si2">${siHead(2,'Rekap aktivitas per sales',`${fmtD(C.from)} – ${fmtD(C.day)} (${SI.per} hari)`)}
+    <div class="ds-kpis">${siKpi('Laporan masuk',nf(T.hari||0),`${nf(A.length)} sales aktif melapor`,'#1d4ed8')}${siKpi('Total visit',nf(T.visit||0),`join ${nf(T.join||0)} · lingk. ${nf(T.ling||0)}`,'#0f766e')}${siKpi('ODP dicek',nf(T.odp||0),`${nf(T.odpY||0)} potensial`,'#7c3aed')}${siKpi('Prospek',nf(T.tawar||0),`${nf(T.reg||0)} langsung registrasi`,'#d97706')}${siKpi('Issue dilaporkan',nf(T.issue||0),`${nf(T.tl||0)} evaluasi & solusi`,'#b42318')}</div>
+    <div class="ds-tw" style="max-height:440px"><table class="ds-t"><thead><tr>${hd.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')}</tr></thead><tbody>${A.map(o=>`<tr><td><b>${esc(o.n)}</b></td><td class="n">${nf(o.hari)}</td><td class="n">${nf(o.lengkap)}</td><td class="n${o.late?' si-warn':''}">${nf(o.late)}</td><td class="n ds-vis"><b>${nf(o.visit)}</b><i><u style="width:${Math.round(o.visit/mx*100)}%"></u></i></td><td class="n">${nf(o.join)}</td><td class="n">${nf(o.ling)}</td><td class="n">${nf(o.odp)} <span class="ds-mut">(${nf(o.odpY)})</span></td><td class="n"><b>${nf(o.tawar)}</b></td><td class="n">${nf(o.reg)}</td><td class="n">${nf(o.issue)}</td><td class="n">${nf(o.tl)}</td><td class="n">${nf(o.st.size)}</td></tr>`).join('')||`<tr><td colspan="${hd.length}" class="ds-mut">Belum ada laporan pada periode ini.</td></tr>`}</tbody></table></div></section>`;
 }
 function siS3(C){
   const P=C.pros,by={};P.forEach(p=>by[p.hasil]=(by[p.hasil]||0)+1);
   const act=SI.match?P.filter(p=>{const x=SI.match[siHp(String(p.telp||'').replace(/^'/,''))];return x&&x.status==='active'}).length:null;
-  return `<section class="card rg-sec" id="si3">${rgHead(3,'Prospek dari penawaran langsung',`${nf(P.length)} calon pelanggan · ${fmtD(C.from)} – ${fmtD(C.day)}${act!=null?` · ${nf(act)} sudah aktif sebagai pelanggan`:''}`)}
-    <div class="si-chips">${['Langsung registrasi','Tertarik','Pikir-pikir','Tidak tertarik'].map(k=>`<span class="si-chip">${k} <b>${nf(by[k]||0)}</b></span>`).join('')}</div>
-    <p class="foot" style="margin:4px 0">Status pelanggan dicocokkan otomatis dari nomor telepon dengan database pelanggan. Aktif = nomor ditemukan pada pelanggan berstatus aktif.</p>
-    <div class="tw scrollbox" style="max-height:420px"><table class="wo-t si-t"><thead><tr><th>Tanggal</th><th>Sales</th><th>Mitra · Stasiun</th><th>Calon pelanggan</th><th>Telepon</th><th>Paket</th><th>Hasil penawaran</th><th>Status pelanggan</th><th>Tanggal aktif</th></tr></thead><tbody>${P.slice(0,500).map(p=>`<tr><td>${fmtD(p.tanggal)}<div class="wo-mut">${siJam(p.jam)}</div></td><td>${esc(p.sales)}</td><td>${esc(p.mitra)}<div class="wo-mut">${esc(p.stasiun)}</div></td><td><b>${esc(p.nama)}</b><div class="wo-mut">${esc(p.alamat||'')}</div></td><td><a href="https://wa.me/${siHp(p.telp)}" target="_blank" rel="noopener">${esc(p.telp)}</a></td><td>${esc(p.paket||'-')}</td><td><span class="si-st ${p.hasil==='Langsung registrasi'?'ok':p.hasil==='Tidak tertarik'?'no':'mid'}">${esc(p.hasil||'-')}</span></td>${siMatchCells(p)}</tr>`).join('')||'<tr><td colspan="9" class="wo-mut">Belum ada prospek pada periode ini.</td></tr>'}</tbody></table></div></section>`;
-}function siS4(C){
+  return `<section class="card rg-sec ds-sec" id="si3">${siHead(3,'Prospek dari penawaran langsung',`${fmtD(C.from)} – ${fmtD(C.day)} · status dicocokkan otomatis dari nomor telepon dengan database pelanggan`)}
+    <div class="ds-kpis">${siKpi('Calon pelanggan',nf(P.length),'pada periode ini','#1d4ed8')}${siKpi('Langsung registrasi',nf(by['Langsung registrasi']||0),'saat penawaran','#15803d')}${siKpi('Tertarik',nf(by['Tertarik']||0),'perlu ditindaklanjuti','#d97706')}${siKpi('Pikir-pikir / tidak',nf((by['Pikir-pikir']||0)+(by['Tidak tertarik']||0)),`${nf(by['Pikir-pikir']||0)} pikir-pikir · ${nf(by['Tidak tertarik']||0)} tidak`,'#475569')}${siKpi('Sudah aktif',act==null?'…':nf(act),'terverifikasi','#0f766e')}</div>
+    <div class="ds-tw" style="max-height:420px"><table class="ds-t ds-pt"><thead><tr><th>Tanggal</th><th>Sales</th><th>Mitra · Stasiun</th><th>Calon pelanggan</th><th>Telepon</th><th>Paket</th><th>Hasil penawaran</th><th>Status pelanggan</th><th>Tanggal aktif</th></tr></thead><tbody>${P.slice(0,500).map(p=>`<tr><td>${fmtD(p.tanggal)}<small>${siJam(p.jam)}</small></td><td><b>${esc(p.sales)}</b></td><td>${esc(p.mitra)}<small>${esc(p.stasiun)}</small></td><td><b>${esc(p.nama)}</b><small>${esc(p.alamat||'')}</small></td><td><a href="https://wa.me/${siHp(p.telp)}" target="_blank" rel="noopener">${esc(p.telp)}</a></td><td>${esc(p.paket||'-')}</td><td><span class="ds-st ${p.hasil==='Langsung registrasi'?'ok':p.hasil==='Tidak tertarik'?'no':'mid'}">${esc(p.hasil||'-')}</span></td>${siMatchCells(p)}</tr>`).join('')||'<tr><td colspan="9" class="ds-mut">Belum ada prospek pada periode ini.</td></tr>'}</tbody></table></div></section>`;
+}
+function siS4(C){
   const day=C.day,open=C.iss.filter(x=>x.status!=='selesai'),tlo=C.tl.filter(x=>x.status!=='selesai'),late=tlo.filter(x=>x.deadline&&x.deadline<day);
   const byK={};open.forEach(x=>byK[x.kategori]=(byK[x.kategori]||0)+1);
-  const stc=s=>s==='selesai'?'ok':s==='eskalasi'?'no':'mid';
-  return `<section class="card rg-sec" id="si4">${rgHead(4,'Issue Homeconnect & tindak lanjut','issue dan evaluasi yang belum selesai dibawa ke laporan berikutnya sampai ditutup oleh sales')}
-    <div class="si-tiles">${Object.keys(SI_ISS).map(k=>siTile(SI_ISS[k],nf(byK[k]||0),'issue terbuka',{community:'#0f766e',apps:'#1d4ed8',network:'#7c3aed',mitra:'#d97706',lain:'#475569'}[k])).join('')}</div>
-    <h4 class="rg-h4">Tindak lanjut terbuka (${nf(tlo.length)}) ${late.length?`<span class="si-st no">${nf(late.length)} lewat deadline</span>`:''}</h4>
-    <div class="tw scrollbox" style="max-height:380px"><table class="wo-t si-t"><thead><tr><th>Deadline</th><th>Masalah</th><th>Solusi</th><th>PIC</th><th>Sales · Stasiun</th><th>Status</th></tr></thead><tbody>${tlo.slice().sort((a,b)=>String(a.deadline).localeCompare(String(b.deadline))).map(x=>`<tr class="${x.deadline&&x.deadline<day?'si-late':''}"><td><b>${fmtD(x.deadline)}</b>${x.deadline&&x.deadline<day?'<div class="si-warn">lewat deadline</div>':''}</td><td>${esc(x.masalah)}</td><td>${esc(x.solusi)}${x.catatan_terakhir?`<div class="wo-mut">${esc(x.catatan_terakhir)}</div>`:''}</td><td>${esc(x.pic)}</td><td>${esc(x.sales)}<div class="wo-mut">${esc(x.stasiun)}</div></td><td><span class="si-st ${stc(x.status)}">${esc(x.status)}</span></td></tr>`).join('')||'<tr><td colspan="6" class="wo-mut">Tidak ada tindak lanjut terbuka.</td></tr>'}</tbody></table></div>
-    <h4 class="rg-h4">Issue terbuka (${nf(open.length)})</h4>
-    <div class="tw scrollbox" style="max-height:380px"><table class="wo-t si-t"><thead><tr><th>Tanggal</th><th>Kategori</th><th>Urgensi</th><th class="n">Dampak</th><th>Detail</th><th>Sales · Stasiun</th><th>Status</th></tr></thead><tbody>${open.slice().sort((a,b)=>({tinggi:0,sedang:1,rendah:2}[a.urgensi]||3)-({tinggi:0,sedang:1,rendah:2}[b.urgensi]||3)||String(b.tanggal).localeCompare(String(a.tanggal))).map(x=>`<tr><td>${fmtD(x.tanggal)}</td><td>${esc(SI_ISS[x.kategori]||x.kategori)}</td><td><span class="si-st ${x.urgensi==='tinggi'?'no':x.urgensi==='sedang'?'mid':'ok'}">${esc(x.urgensi)}</span></td><td class="n">${nf(x.dampak)}</td><td style="white-space:pre-line">${esc(x.poin)}${x.catatan_terakhir?`<div class="wo-mut">${esc(x.catatan_terakhir)}</div>`:''}</td><td>${esc(x.sales)}<div class="wo-mut">${esc(x.stasiun)}</div></td><td><span class="si-st ${stc(x.status)}">${esc(x.status)}</span></td></tr>`).join('')||'<tr><td colspan="7" class="wo-mut">Tidak ada issue terbuka.</td></tr>'}</tbody></table></div></section>`;
+  const stc=s=>s==='selesai'?'ok':s==='eskalasi'?'no':'mid',urg=u=>u==='tinggi'?'no':u==='sedang'?'mid':'ok';
+  const tl=tlo.slice().sort((a,b)=>String(a.deadline).localeCompare(String(b.deadline)));
+  const is=open.slice().sort((a,b)=>({tinggi:0,sedang:1,rendah:2}[a.urgensi]??3)-({tinggi:0,sedang:1,rendah:2}[b.urgensi]??3)||String(b.tanggal).localeCompare(String(a.tanggal)));
+  return `<section class="card rg-sec ds-sec" id="si4">${siHead(4,'Issue Homeconnect & tindak lanjut','yang belum selesai dibawa ke laporan berikutnya sampai ditutup oleh sales')}
+    <div class="ds-kpis">${Object.keys(SI_ISS).map(k=>siKpi(SI_ISS[k],nf(byK[k]||0),'issue terbuka',{community:'#0f766e',apps:'#1d4ed8',network:'#7c3aed',mitra:'#d97706',lain:'#475569'}[k])).join('')}</div>
+    <div class="ds-cols"><div><h3 class="ds-h3">Tindak lanjut terbuka <b>${nf(tlo.length)}</b>${late.length?`<span class="ds-st no">${nf(late.length)} lewat deadline</span>`:''}</h3>
+      <div class="ds-items">${tl.map(x=>{const lt=x.deadline&&x.deadline<day;return `<article class="ds-it" style="--c:${lt?'#dc2626':'#94a3b8'}"><div class="ds-ith"><span class="ds-dl${lt?' late':''}">Deadline ${fmtD(x.deadline)}${lt?' · lewat':''}</span><span class="ds-st ${stc(x.status)}">${esc(x.status)}</span></div><p class="ds-itt">${esc(x.masalah)}</p><p><em>Solusi</em>${esc(x.solusi)}</p>${x.catatan_terakhir?`<p class="ds-mut">${esc(x.catatan_terakhir)}</p>`:''}<small>PIC <b>${esc(x.pic)}</b> · ${esc(x.sales)} · ${esc(x.stasiun)}</small></article>`}).join('')||'<p class="ds-empty">Tidak ada tindak lanjut terbuka.</p>'}</div></div>
+    <div><h3 class="ds-h3">Issue terbuka <b>${nf(open.length)}</b></h3>
+      <div class="ds-items">${is.map(x=>`<article class="ds-it" style="--c:${x.urgensi==='tinggi'?'#dc2626':x.urgensi==='sedang'?'#f59e0b':'#16a34a'}"><div class="ds-ith"><span><span class="ds-st ${urg(x.urgensi)}">${esc(x.urgensi)}</span> <b class="ds-cat">${esc(SI_ISS[x.kategori]||x.kategori)}</b></span><span class="ds-st ${stc(x.status)}">${esc(x.status)}</span></div><p class="ds-pre">${esc(x.poin)}</p>${x.catatan_terakhir?`<p class="ds-mut">${esc(x.catatan_terakhir)}</p>`:''}<small>${fmtD(x.tanggal)} · dampak <b>${nf(x.dampak)}</b> pelanggan · ${esc(x.sales)} · ${esc(x.stasiun)}</small></article>`).join('')||'<p class="ds-empty">Tidak ada issue terbuka.</p>'}</div></div></div></section>`;
+}
+/* ---------- panel laporan per petugas, dikelompokkan per hari (tetap bisa dibuka walau hari ini belum check-in) ---------- */
+async function siRemoveSales(h,n,b){
+  const pw=await siDelAuth('Hapus "'+n+'" dari daftar sales','Nama, laporan, issue, dan tindak lanjutnya tidak lagi tampil di dashboard ini. Data di Google Sheets tetap tersimpan.');if(!pw)return;
+  b.disabled=true;b.textContent='Menghapus…';
+  try{await siApi('sr_sales',{list:[{h,n,aktif:false}],pw});toast(n+' dihapus dari daftar sales');siHistClose();SI.data=null;renderSi();await siLoad(true);renderSi();updateHeader()}
+  catch(er){toast('Gagal menghapus: '+(er.message||er));b.disabled=false;b.textContent='Hapus dari daftar'}
+}
+function siHistEl(){
+  let el=$('siHist');if(el)return el;
+  el=document.createElement('div');el.id='siHist';el.className='mback';el.hidden=true;
+  el.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="siHT" style="max-width:760px;width:96vw"><div class="mhead"><div><div class="eyebrow">Laporan per petugas</div><h2 id="siHT"></h2><div class="foot" id="siHS" style="margin-top:2px"></div></div><div class="ctl"><button id="siHC" aria-label="Tutup">Tutup ✕</button></div></div><div class="mbody" id="siHB"></div></div>';
+  document.body.appendChild(el);
+  $('siHC').onclick=siHistClose;el.addEventListener('click',e=>{if(e.target===el)siHistClose()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!el.hidden&&(!$('siPop')||$('siPop').hidden))siHistClose()});
+  return el;
+}
+function siHistClose(){const el=$('siHist');if(el)el.hidden=true;if(!document.querySelector('.mback:not([hidden])'))document.body.style.overflow=''}
+function siHist(h){
+  if(!SI.data)return;const C=siCalc(),x=C.roster.find(q=>q.s.h===h);if(!x){siHistClose();return}SI.hh=h;
+  const L=C.reps.filter(r=>siHp(r.hp)===h).sort((a,b)=>String(b.tanggal).localeCompare(String(a.tanggal))||String(b.checkin_at).localeCompare(String(a.checkin_at)));
+  const el=siHistEl(),T=L.reduce((s,r)=>{const c=siCounts(r);s.v+=c.v;s.p+=c.p;s.i+=c.i;if(r.status==='lengkap')s.l++;return s},{v:0,p:0,i:0,l:0});
+  $('siHT').textContent=x.s.n;
+  $('siHS').innerHTML=`${esc(x.s.j||'-')} · <a href="https://wa.me/${esc(h)}" target="_blank" rel="noopener">${esc(h)}</a> · data 60 hari terakhir`;
+  const days=new Map();L.forEach(r=>{let a=days.get(r.tanggal);if(!a)days.set(r.tanggal,a=[]);a.push(r)});
+  const td=todayWib();
+  $('siHB').innerHTML=`<div class="ds-hsum">${siKpi('Laporan',nf(L.length),`${nf(T.l)} lengkap`,'#1d4ed8')}${siKpi('Visit',nf(T.v),'kegiatan','#0f766e')}${siKpi('Prospek',nf(T.p),'calon pelanggan','#d97706')}${siKpi('Issue',nf(T.i),'dilaporkan','#b42318')}</div>
+    ${!days.has(td)?`<div class="ds-note">Belum ada check-in hari ini (${fmtD(td)}). Laporan sebelumnya ada di bawah.</div>`:''}
+    ${[...days.entries()].map(([d,rs])=>`<div class="ds-day"><div class="ds-dayh">${siDayName(d)}, ${fmtD(d)}${d===td?'<span>Hari ini</span>':''}</div>${rs.map(r=>{const k=(r.checkin||{}).kota||'';return `<button type="button" class="ds-rep" data-sio="${esc(r.id)}"><div class="ds-repm"><b>${esc(r.mitra||'-')}</b><small>${esc(r.stasiun||'-')} · ${esc(SI_LOK[(r.checkin||{}).lokasi]||'-')}${k?' · '+esc(k):''}</small><div class="ds-nums">${siNums(siCounts(r))}</div></div><div class="ds-repr"><span class="ds-tm">${siJam(r.checkin_at)} – ${siJam(r.checkout_at)}</span><span>${siRepStat(r)}${r.ditinjau_at?' <span class="ds-st rv">Ditinjau</span>':''}</span></div><em aria-hidden="true">›</em></button>`}).join('')}</div>`).join('')||'<p class="ds-empty">Petugas ini belum punya laporan dalam 60 hari terakhir.</p>'}
+    <div class="ds-hfoot"><span>Petugas sudah tidak aktif atau data uji coba?</span><button type="button" class="si-rm" id="siHRm">Hapus dari daftar</button></div>`;
+  $('siHB').querySelectorAll('[data-sio]').forEach(b=>b.onclick=()=>{document.body.appendChild(siPopEl());siPop(b.dataset.sio)});
+  $('siHRm').onclick=()=>siRemoveSales(h,x.s.n,$('siHRm'));
+  el.hidden=false;document.body.style.overflow='hidden';$('siHB').scrollTop=0;$('siHC').focus();
 }
 const siLkLast=()=>{try{return localStorage.getItem('siLkSync')||''}catch(e){return ''}};
 async function siSyncLinks(){
@@ -6537,7 +6657,9 @@ function renderSi(){
   if(!SI.data&&!SI.busy&&!SI.err&&!SI.need)siLoad().then(()=>{if(CUR==='si'){renderSi();updateHeader()}});
   const y=window.scrollY,C=SI.data?siCalc():null;
   el.innerHTML=`<div class="sechead"><div><div class="eyebrow">Daily Report Sales Internal Starlite</div><h2 class="big">Daily Report Internal Sales Starlite FTTH</h2></div>
-    <div class="ctl"><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan">${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}<button id="siR" class="xls">Muat ulang</button><button id="siS" class="xls">Pengaturan</button><button id="siX" class="xls">Download Excel</button><button id="siP" class="xls">Unduh PDF</button><button id="siL" class="xls">Salin link form</button></div></div>
+    </div>
+    <div class="ds-bar"><div class="ds-barl"><label class="ds-date"><span>Tanggal</span><input type="date" id="siD" value="${esc(SI.day||todayWib())}" aria-label="Tanggal laporan"></label>${trSeg('siper',[['1','1 hari'],['7','7 hari'],['30','30 hari']],SI.per)}</div>
+    <div class="ds-barr"><button id="siR" class="ds-b pri">Muat ulang</button><details class="ds-dd" id="siDd"><summary class="ds-b">Menu</summary><div class="ds-ddp"><button type="button" id="siL">Salin link form</button><button type="button" id="siX">Unduh Excel</button><button type="button" id="siP">Unduh PDF</button><button type="button" id="siS">Pengaturan</button></div></details></div></div>
     ${SI.share?siShare():''}
     ${SI.demo?'<p class="note"><b>Mode demo.</b> Web App sales belum diatur, data dibaca dari form sales demo di browser ini. Buka Pengaturan untuk mengisi alamat Web App dan ADMIN_KEY.</p>':''}
     ${SI.need?'<p class="note"><b>Masukkan ADMIN_KEY sekali di browser ini.</b> Salin nilai <b>ADMIN_KEY</b> dari Apps Script Daily Report Sales (Project Settings &gt; Script properties), tempel di kolom ADMIN_KEY di bawah, lalu klik <b>Simpan &amp; muat</b>. Kunci tersimpan di browser ini, jadi tidak perlu diisi lagi.</p>':''}
@@ -6557,11 +6679,16 @@ function renderSi(){
   if(SI.share){const L=siFormLink();$('siShCL').onclick=()=>siCopy(L);$('siShCM').onclick=()=>siCopy($('siShM').value);$('siShO').onclick=()=>window.open(L,'_blank','noopener');$('siShX').onclick=()=>{SI.share=false;renderSi()}}
   const lk=$('siLk');if(lk)lk.onclick=siSyncLinks;
   $('siP').onclick=()=>{if(!C){toast('Data belum dimuat');return}const L=C.today.slice().sort((x,y)=>String(x.checkin_at).localeCompare(String(y.checkin_at)));siPrint(L,'Laporan Sales Internal - '+fmtD(C.day))};
+  const dd=$('siDd');dd.querySelector('.ds-ddp').addEventListener('click',()=>{dd.open=false});
+  if(!window.siDdBound){window.siDdBound=true;
+    document.addEventListener('click',e=>{const x=document.getElementById('siDd');if(x&&x.open&&!x.contains(e.target))x.open=false});
+    document.addEventListener('keydown',e=>{const x=document.getElementById('siDd');if(e.key==='Escape'&&x&&x.open)x.open=false})}
   const kk=$('siK');if(kk){kk.onkeydown=e=>{if(e.key==='Enter'&&sv)sv.click()};if(SI.need)setTimeout(()=>kk.focus(),0)}
   const q=$('siQ');if(q)q.oninput=ev=>{SI.q=ev.target.value;const p=ev.target.selectionStart;renderSi();const n=$('siQ');if(n){n.focus();n.setSelectionRange(p,p)}};
-  sc('[data-sirm]',b=>b.onclick=async e=>{e.stopPropagation();const n=b.dataset.sin;const pw=await siDelAuth('Hapus "'+n+'" dari daftar sales','Nama, laporan, issue, dan tindak lanjutnya tidak lagi tampil di dashboard ini. Data di Google Sheets tetap tersimpan.');if(!pw)return;
-    b.disabled=true;b.textContent='Menghapus…';try{await siApi('sr_sales',{list:[{h:b.dataset.sirm,n,aktif:false}],pw});toast(n+' dihapus dari daftar sales');SI.data=null;renderSi();await siLoad(true);renderSi();updateHeader()}catch(er){toast('Gagal menghapus: '+(er.message||er));b.disabled=false;b.textContent='Hapus dari daftar'}});
-  sc('[data-sio]',li=>{const go=()=>siPop(li.dataset.sio);li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+  sc('[data-sif]',b=>b.onclick=()=>{SI.f=b.dataset.sif;renderSi()});
+  sc('[data-sio]',b=>b.onclick=e=>{e.stopPropagation();siPop(b.dataset.sio)});
+  sc('[data-sih]',li=>{const go=()=>siHist(li.dataset.sih);li.onclick=go;li.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===li){e.preventDefault();go()}}});
+  if($('siHist')&&!$('siHist').hidden&&SI.hh&&SI.data)siHist(SI.hh);
 }
 /* ---------- jendela detail laporan ---------- */
 function siPopEl(){
@@ -8452,7 +8579,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261126172432,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
+PWA.init({app:'dashboard',name:'Dashboard Analisa Homeconnect',buildId:20261127114110,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',
   refreshData:()=>typeof loadLive==='function'?loadLive(true):location.reload(),
   busy:()=>!!document.querySelector('.mback:not([hidden])')});
 /* ===== Pemuatan data (versi mandiri untuk GitHub Pages) ===== */
