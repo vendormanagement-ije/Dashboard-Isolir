@@ -199,6 +199,7 @@ table.t{width:100%;border-collapse:collapse;font-size:13px}
 .al{list-style:none;margin:8px 0 0;padding:0}
 .al li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:13px}
 .al li b{flex:none}
+.akhint{margin:8px 0 0;padding:9px 11px;border-radius:10px;background:#fef7e6;border:1px solid #f4d48a;color:#7c4a03;font-size:12.5px;line-height:1.45}.akhint span{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.akhint button{font:inherit;font-size:12px;font-weight:700;border-radius:8px;padding:5px 10px;border:1px solid #b45309;background:#b45309;color:#fff;cursor:pointer}.akhint button.sec{background:#fff;color:#7c4a03}
 /* ---- peringkat ---- */
 .rkl{display:flex;flex-direction:column;gap:8px;margin-top:12px}
 .rkq{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:12px 16px;background:#fff}
@@ -605,6 +606,13 @@ a.np-c{text-decoration:none;color:inherit}
       <label class="f" for="fAk">Kelompok alasan <em>*</em></label>
       <select id="fAk"><option value="">Pilih kelompok alasan…</option></select>
       <div class="err" id="eAk" hidden>Pilih kelompok alasan.</div>
+      <p class="foot" style="margin:4px 0 0">Pilih kelompok yang paling sesuai. <b>Lainnya</b> dan <b>Tidak menyebutkan alasan</b> hanya dipilih bila memang tidak ada yang cocok.</p>
+      <div class="akhint" id="akHint" hidden></div>
+      <div id="tqWrap" hidden>
+        <label class="f" for="fTq">Bagaimana alasannya sudah ditanyakan? <em>*</em></label>
+        <select id="fTq"><option value="">Pilih…</option><option value="telp">Sudah ditelepon, pelanggan tidak mau menyebutkan</option><option value="wa">Sudah ditanya lewat WhatsApp, pelanggan tidak mau menyebutkan</option><option value="visit">Sudah dikunjungi, pelanggan tidak mau menyebutkan</option></select>
+        <div class="err" id="eTq" hidden>Pilih cara alasan sudah ditanyakan. Bila belum ditanyakan, tanyakan dulu ke pelanggan.</div>
+      </div>
       <label class="f" for="fAl">Alasan tidak bersedia lanjut (tulis lengkap) <em>*</em></label>
       <textarea id="fAl" maxlength="1000" placeholder="Tuliskan alasan pelanggan"></textarea>
       <div class="err" id="eAl" hidden>Alasan wajib diisi.</div>
@@ -775,28 +783,47 @@ $('wEdit').onclick=()=>showWho(true);
 const TA_CAT=[
   ['biaya','Biaya / kondisi ekonomi','#d97706',1,/mahal|biaya|ekonomi|keuangan|finansial|\buang\b|duit|\bdana\b|nunggak|tunggak|\bgaji\b|\bphk\b|nganggur|menganggur|kurang mampu|tidak mampu|gak mampu|ga mampu|belum mampu|berat (bayar|membayar)|\bharga\b|\btarif\b|hemat|irit|kebutuhan lain|belum gajian|tagihan|bayar/],
   ['provider','Pindah ke provider lain','#7c3aed',1,/indihome|indi home|biznet|first ?media|myrep|my republic|iconnet|icon ?plus|\bmnc\b|oxygen|starlink|telkom|xl ?home|xl satu|smartfren|\borbit\b|provider|proveder|proveider|provider|provder|provaider|profider|\bisp\b|wifi lain|pindah (ke )?(wifi|internet|layanan)|wifi tetangga|wifi (dari|punya|milik)|wifi (yang |yg )?lama|pasang (yang|wifi|internet) lain|ganti (wifi|internet|layanan|provider)|(sudah|udah|sdh) (pasang|pakai|pake|ada|punya) (wifi|internet)|nebeng|numpang|wifi kantor|wifi sekolah/],
-  ['kuota','Cukup pakai kuota HP','#0891b2',1,/kuota|paket data|data seluler|hotspot|tethering|pakai hp|pake hp|cukup (hp|handphone)|\bmifi\b|modem/],
-  ['gangguan','Gangguan / kualitas jaringan','#dc2626',1,/gangguan|ganguan|lemot|lambat|lelet|putus|sering mati|mati terus|sering (error|eror|los|down)|\berror\b|\beror\b|\blos\b|sinyal|signal|tidak stabil|ga stabil|gak stabil|koneksi|jaringan (jelek|buruk|lemah|bermasalah)|kecepatan|\bspeed\b|buffering|redaman|tidak (bisa|dapat) (di ?)?(connect|konek|pakai|dipakai|digunakan|gunakan)|\bont\b|\brouter\b|\bpetir\b|kabel (putus|rusak)|(tidak|kurang|gak|ga) (bagus|memuaskan|puas|lancar|kencang|kenceng)|bermasal|trouble|lost|jelek|\bslow\b/],
+  ['kuota','Cukup pakai kuota HP','#0891b2',1,/kuota|paket data|data seluler|hotspot|tethering|pakai hp|pake hp|cukup (hp|handphone)|\bmifi\b|modem|cukup (menggunakan|pakai|pake) data/],
+  ['gangguan','Gangguan / kualitas jaringan','#dc2626',1,/gangguan|ganguan|lemot|lambat|lelet|putus|sering mati|mati terus|sering (error|eror|los|down)|\berror\b|\beror\b|\blos\b|sinyal|signal|tidak stabil|ga stabil|gak stabil|koneksi|jaringan (jelek|buruk|lemah|bermasalah)|kecepatan|\bspeed\b|buffering|redaman|tidak (bisa|dapat) (di ?)?(connect|konek|pakai|dipakai|digunakan|gunakan)|\bont\b|\brouter\b|\bpetir\b|kabel (putus|rusak)|(tidak|kurang|gak|ga) (bagus|memuaskan|puas|lancar|kencang|kenceng)|bermasal|trouble|lost|jelek|\bslow\b|jaringan (yang |yg )?(buruk|jelek|lemah)/],
+  ['teknis','Kendala teknis pemasangan (ODP, port, sejak awal)','#b91c1c',1,/\bodp\b|port (penuh|habis|kosong)|tidak ada port|(tidak|gak|ga|belum) (bisa|pernah bisa|nyala|aktif) (dari|sejak) awal|sejak (awal )?(pasang|pemasangan|dipasang)|jarak (terlalu )?jauh|\btiang\b|belum (di ?)?aktivasi/],
   ['layanan','Kecewa pelayanan / penagihan','#db2777',1,/kecewa|pelayanan|teknisi|\bcs\b|customer service|komplain|keluhan|lama (diperbaiki|ditangani|direspon|respon)|tidak (ada|pernah) (respon|tanggapan)|tidak (diperbaiki|ditangani|direspon)|tagihan (tidak sesuai|salah|dobel|double|naik|membengkak)|\bdenda\b|ditagih (terus|padahal)|tidak sesuai janji|janji/],
-  ['tidakbutuh','Tidak butuh / jarang dipakai','#64748b',0,/(tidak|tdk|gak|ga|nggak|ngga|enggak) (butuh|perlu|membutuhkan|memerlukan|terpakai|minat|berminat|tertarik|menggunakan|memakai|makai)|(tidak|tdk|gak|ga|nggak|ngga|enggak) (di ?)?(pakai|pake|pakek|gunakan|digunakan)|jarang (di ?)?(pakai|pake|pakek|gunakan|digunakan)|minim terpakai|anak (sudah|udah|sdh) (lulus|besar|kerja|menikah)|(tidak|gak|ga|nggak) ada yang (pakai|pake|makai|memakai|menggunakan)|cuma (1|satu) orang|lansia/],
-  ['pindah','Pindah rumah / domisili','#2563eb',0,/pindah|pndh|domisili|boyongan|balik kampung|pulang kampung|ikut (suami|istri|anak|orang ?tua|ortu|keluarga)|(sudah|udah) tidak tinggal|tidak tinggal di|ngontrak|kontrakan|\bkos(t|an)?\b|rumah (dijual|terjual|dikontrakkan|disewakan)|\bdijual\b/],
-  ['kosong','Rumah kosong / penghuni merantau','#0d9488',0,/kosong|tidak (di ?)?tempati|jarang (di ?(rumah|rmh)|pulang)|kerja (di )?luar|luar (kota|negeri|pulau|jawa)|merantau|rantau|\btki\b|\btkw\b|\bpmi\b|kuliah|mondok|pesantren|\bdinas\b/],
+  ['carabayar','Kesulitan cara pembayaran','#ea580c',1,/(cara|metode|sistem|proses) (bayar|pembayaran)|(bayar|pembayaran) (yang )?(harus )?(pakai|pake|lewat|via|melalui|menggunakan) (aplikasi|app|online|transfer)|kesulitan (dengan |dalam )?(pembayaran|bayar|membayar)|(ribet|susah|sulit|repot) (bayar|membayar|pembayaran)|tidak (bisa|paham|mengerti) (cara )?(bayar|membayar)|gaptek/],
+  ['tidakbutuh','Tidak butuh / jarang dipakai','#64748b',0,/(tidak|tdk|gak|ga|nggak|ngga|enggak) (butuh|perlu|membutuhkan|memerlukan|terpakai|minat|berminat|tertarik|menggunakan|memakai|makai)|(tidak|tdk|gak|ga|nggak|ngga|enggak) (di ?)?(pakai|pake|pakek|gunakan|digunakan)|jarang (di ?)?(pakai|pake|pakek|gunakan|digunakan|terpakai)|minim terpakai|anak (sudah|udah|sdh) (lulus|besar|kerja|menikah)|(tidak|gak|ga|nggak) ada yang (pakai|pake|makai|memakai|menggunakan)|cuma (1|satu) orang|(untuk|buat) (1|satu) hp|lansia|pas promo|tidak pernah (memakai|pakai|menggunakan|dipakai)/],
+  ['pindah','Pindah rumah / domisili','#2563eb',0,/pindah|pndh|domisili|boyongan|balik kampung|pulang kampung|ikut (suami|istri|anak|orang ?tua|ortu|keluarga)|(sudah|udah) tidak tinggal|tidak tinggal di|ngontrak|kontrakan|\bkos(t|an)?\b|rumah (dijual|terjual|dikontrakkan|disewakan)|\bdijual\b|tinggal di (luar|kota)/],
+  ['kosong','Rumah kosong / penghuni merantau','#0d9488',0,/kosong|tidak (di ?)?tempati|jarang (di ?(rumah|rmh)|pulang)|kerja (di )?luar|luar (kota|negeri|pulau|jawa)|merantau|rantau|\btki\b|\btkw\b|\bpmi\b|kuliah|mondok|pesantren|\bdinas\b|muser/],
+  ['renovasi','Rumah direnovasi / dibongkar','#a16207',0,/renovasi|renov|dibongkar|bongkar rumah|bangun (rumah|ulang)|sedang dibangun|rumah (dirobohkan|digusur)|digusur|penggusuran/],
+  ['tutup','Usaha / tempat sudah tutup','#78716c',0,/(usaha|toko|warung|kios|tempat(nya)?|kantor|kafe|cafe|bengkel|counter|konter|salon|laundry|sekolah|kantin)( sudah| sdh| udah)? (tutup|bangkrut|berhenti beroperasi)|bangkrut|gulung tikar|tempatnya sudah tutup/],
+  ['musibah','Musibah / bencana (kebakaran, banjir)','#9f1239',0,/musibah|kebakar|kebakran|kebaran|terbakar|banjir|longsor|gempa|bencana|puting beliung|angin kencang|rumah (roboh|ambruk|rusak berat|hancur)|tertimpa/],
+  ['ditarik','Perangkat sudah ditarik / layanan dicabut','#475569',0,/(perangkat|alat|modem|ont|router)( sudah| sdh| sedang)? (di ?)?(ambil|tarik|cabut|bongkar)|(sudah|sdh|udah) (di ?)?(cabut|tarik)|minta (di ?)?(cabut|putus|stop|berhenti)|\bdicabut\b|penarikan (perangkat|alat|modem)|perangkat (sudah )?tidak ada/],
+  ['fasum','Dialihkan ke fasum / paket khusus','#0e7490',0,/fasum|fasilitas umum|\bgratis\b|paket khusus|dialihkan (menjadi|ke)/],
+  ['datasalah','Data pelanggan tidak sesuai (tidak merasa pasang, dobel)','#6d28d9',0,/(tidak|tdk|belum) (pernah )?merasa (pasang|memasang|pakai|memakai|berlangganan|di ?pasang)|tertukar|(doble|dobel|double|ganda) data|data (doble|dobel|double|ganda|salah|tertukar)|salah data|bukan (beliau|pelanggan|dia|pemilik) yang|nomor(nya)? (di ?)?pakai orang|belum (pernah )?(di ?)?pasang(kan)?\b|sudah ada akun|akun lain|(tidak|tdk) pernah (pasang|memasang)|merasa tidak (memasang|pasang)|(double|dobel|doble) input/],
+  ['kontak','Tidak bisa dihubungi (nomor / WA tidak aktif)','#94a3b8',0,/(tidak|tdk|gak|ga|belum) (bisa|dapat) (di ?)?hubungi|nomor( hp| telp| telpon| telepon| pelanggan| hp pelanggan| wa)? (tidak|tdk|gak) (terdaftar|aktif|valid|bisa)|nomor (salah|mati|sudah mati)|salah nomor|(tidak|tdk|gak) (ada|punya|pakai|memakai|menggunakan) (wa|whatsapp|whatshap|whatsap|watsap)|(wa|whatsapp|whatshap|whatsap|chat|pesan)( tidak| tdk| gak| belum)( di| ada)? ?(balas|dibalas|balasan|respon|direspon|aktif|terkirim)|(telepon|telpon|telp|panggilan) (tidak|tdk|gak) (diangkat|aktif|tersambung)|^(pelanggan )?(tidak|tdk) (merespon|merespons|respon)$|^no respon|(wa|whatsapp|nomor wa|no wa|no whatsapp|nomor whatsapp)( nya)?( sudah)? (tidak|tdk) (aktif|terdaftar)( lagi)?/],
   ['meninggal','Pelanggan meninggal dunia','#334155',0,/meninggal|wafat|almarhum|almarhumah|\balm\b|tutup usia|berpulang/],
-  ['idbaru','Sudah pasang ulang dengan ID baru','#0f766e',1,/(pasang|daftar|berlangganan|langganan)( ulang)? (dengan|pakai|pake|menggunakan) (id|akun|nama) (yang |yg )?baru|\bid baru\b/],
-  ['tanpa','Tidak menyebutkan alasan','#cbd5e1',0,/(tidak|tdk|belum|blm) (mau )?(memberitahu|memberitahukan|menyebutkan|menjelaskan|mengatakan|memberikan|memberi|ada jawaban|ada balasan|ada alasan|menjawab|membalas)|alasan ?nya|tidak ada alasan|berhenti|(tidak|tdk|gak|ga) (mau|bersedia|ingin) (lanjut|dilanjut|melanjutkan|berlangganan|langganan|menggunakan kembali)|^(tidak|tdk) (bersedia|mau|lanjut)( lanjut)?( berlangganan| langganan)?$|^no respon/],
-  ['lain','Lainnya / belum terkelompok','#a3a3a3',0,null]
+  ['idbaru','Sudah pasang ulang dengan ID baru','#0f766e',1,/(pasang|daftar|berlangganan|langganan)( ulang)? (dengan|pakai|pake|menggunakan) (id|akun|nama|data) (yang |yg )?(baru|lain)|\bid baru\b|(sudah|sdh) (di ?)?pasang ulang|diganti (yg|yang) baru dengan data|ganti modem starlite dengan nama|(sudah|sdh) (lanjut )?aktif dengan (data|nama)|(daftar|didaftarkan|pasang kembali|pasang ulang)( baru)? (dengan|menggunakan|memakai) (nomor|nama|data) lain|ganti (no|nomor|nama) pelanggan/],
+  ['tanpa','Tidak menyebutkan alasan','#cbd5e1',0,/(tidak|tdk|belum|blm) (mau )?(memberitahu|memberitahukan|menyebutkan|menjelaskan|mengatakan|memberikan|memberi|menginformasikan|menyertakan|katakan|ada jawaban|ada balasan|ada alasan|menjawab|membalas)|alasan ?nya|tidak ada alasan|no reason|berhenti|(tidak|tdk|gak|ga) (mau|bersedia|ingin|minat|berniat|berencana) (lanjut|dilanjut|melanjutkan|berlangganan|langganan|menggunakan kembali)|^(tidak|tdk) (bersedia|mau|lanjut)( lanjut)?( berlangganan| langganan)?$|^tidak (ada|lanjut|berlanjut)|menolak|(tidak|engga|enggak|gak|ga) (bersedia|mau) (menyebut|memberi|mencantum)|(tidak|tdk) (men+e?y?ebut|mencantumkan|dicantumkan|disebutkan)|(sudah |sdh |udah )?(tidak|tdk|engga|enggak|gak|ga) (di ?)?(berlangganan|berlanjut|lanjut|melanjutkan)|sudah (di ?)?(visit|kunjungi)|sudah (dilakukan )?follow ?up|konfirmasi (bahwa )?tidak|terima ?kasih|tiramakasih|stop (dahulu|dulu)/],
+  ['lain','Lainnya (alasan lain, tulis jelas)','#a3a3a3',0,null]
 ];
 const TA_CK=Object.fromEntries(TA_CAT.map(c=>[c[0],c]));
-const TA_ORDER=['idbaru','meninggal','provider','pindah','kosong','kuota','gangguan','layanan','biaya','tidakbutuh'];
+/* urutan pengecekan kata kunci: kelompok paling spesifik lebih dulu */
+const TA_ORDER=['idbaru','meninggal','musibah','ditarik','fasum','datasalah','renovasi','tutup','provider','pindah','kosong','carabayar','teknis','kuota','gangguan','layanan','biaya','tidakbutuh','kontak'];
 const TA_REKO={
   biaya:'tawarkan paket lebih murah, keringanan atau cicilan tunggakan, dan promo reaktivasi',
   provider:'siapkan penawaran harga dan kecepatan yang lebih kompetitif dibanding provider pesaing',
   kuota:'tunjukkan bahwa internet rumah lebih hemat dibanding kuota HP untuk seluruh anggota keluarga',
   gangguan:'cek riwayat gangguan di stasiun terkait dan pastikan jaringan sudah diperbaiki sebelum menawarkan kembali',
+  teknis:'cek ketersediaan ODP/port dan riwayat pemasangan; selesaikan kendala teknis sebelum menawarkan kembali',
   layanan:'eskalasi ke tim layanan, sampaikan permintaan maaf, dan tawarkan kompensasi',
+  carabayar:'bantu pelanggan dengan cara bayar yang lebih mudah (gerai, transfer, bantuan petugas) dan pendampingan',
   tidakbutuh:'tawarkan paket dasar dengan kecepatan dan harga paling rendah',
   pindah:'tawarkan pasang baru di alamat baru bila masih di area layanan Starlite',
   kosong:'jadwalkan follow up ulang saat penghuni kembali ke rumah',
+  renovasi:'catat perkiraan selesai renovasi dan jadwalkan penawaran ulang',
+  tutup:'tawarkan paket rumah bila pemilik masih tinggal di area layanan',
+  musibah:'sampaikan empati, tawarkan penangguhan atau pasang ulang setelah rumah siap ditempati',
+  ditarik:'pastikan status perangkat dan pelanggan di sistem sudah sesuai (penarikan tercatat)',
+  fasum:'pastikan perubahan ke fasum sudah tercatat; keluarkan dari daftar follow up',
+  datasalah:'perbaiki data pelanggan di sistem (nama, nomor, ID ganda) bersama tim data',
+  kontak:'cari nomor lain atau lakukan kunjungan langsung ke rumah pelanggan',
   meninggal:'konfirmasi ke keluarga dan tawarkan pengalihan nama bila rumah masih ditempati',
   idbaru:'cek apakah ID baru sudah aktif; laporan seperti ini seharusnya diisi "Bersedia berlangganan kembali" dengan identitas pelanggan baru',
   tanpa:'minta petugas menanyakan ulang alasannya dan memilih kelompok alasan di form',
@@ -807,13 +834,14 @@ const TA_NOW={aktif:'Aktif kembali',iso:'Masih suspend / RTD',dm:'Belum berlangg
 const TA_STOP=new Set('yang dan di ke dari untuk dengan ini itu sudah udah belum masih karena krn karna sedang lagi mau akan bisa ada tidak tdk gak ga nggak ngga enggak juga saja aja sih kok pun lah kah nya ya iya dia beliau ibu bapak pak bu mas mbak pelanggan customer cust rumah sama atau tapi tetapi namun jadi jika kalau kalo kl sudah sdh blm saat waktu nanti dulu kami kita saya aku kalian mereka orang dalam pada oleh bahwa lebih sangat banget terus selalu hanya cuma kembali lanjut berlangganan langganan wifi internet starlite terlalu bulanan'.split(' '));
 function taNorm(t){return String(t||'').toLowerCase().replace(/[^a-z0-9+]+/g,' ').replace(/\s+/g,' ').trim()}
 function taCls(r){
-  if(r.ak&&TA_CK[r.ak])return {k:r.ak,src:'mitra'};
   const a=taNorm(r.alasan), b=taNorm(r.remark);
+  const pilih=r.ak&&TA_CK[r.ak]?r.ak:'';
+  if(pilih&&pilih!=='lain'&&pilih!=='tanpa')return {k:pilih,src:'mitra'};
+  /* "Lainnya" / "Tidak menyebutkan" / laporan lama: kelompokkan ulang dari isi alasan, lalu remark */
   for(const t of [a,b]){if(!t)continue;for(const k of TA_ORDER){if(TA_CK[k][4].test(t))return {k,src:'auto'}}}
-  if(!a||TA_CK.tanpa[4].test(a))return {k:'tanpa',src:'auto'};
-  return {k:'lain',src:'auto'};
-}
-const taEsc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(!a||TA_CK.tanpa[4].test(a))return {k:'tanpa',src:pilih?'mitra':'auto'};
+  return {k:'lain',src:pilih?'mitra':'auto'};
+}const taEsc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const taNf=n=>Number(n||0).toLocaleString('id-ID');
 const taPc=(a,b)=>b?a/b*100:0;
 const taPf=x=>x.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';
@@ -1743,16 +1771,31 @@ function openSheet(row){
   $('sHist').innerHTML=histHtml(row[1],s.all);
   $('sFh').textContent=s.all.length?'Isi laporan follow up baru':'Isi laporan follow up';
   ['chat','selfie','rumah'].forEach(k=>setPh(k,null));
-  $('fSt').value='';$('fAk').value='';$('fAl').value='';$('fRm').value='';$('alWrap').hidden=true;
+  $('fSt').value='';$('fAk').value='';$('fTq').value='';$('tqWrap').hidden=true;$('akHint').hidden=true;S.akSug='';S.akOk=false;$('fAl').value='';$('fRm').value='';$('alWrap').hidden=true;
   const isX=kOf(row)==='x';$('fSt').querySelector('option[value=lanjut]').textContent=isX?'Bersedia berlangganan kembali':'Bersedia lanjut';
   $('fSt').querySelector('option[value=tidak]').textContent=isX?'Tidak bersedia berlangganan':'Tidak bersedia lanjut';
   $('nbWrap').hidden=true;['nbN','nbI','nbP'].forEach(id=>{$(id).value='';$(id).classList.remove('bad-f')});['enbN','enbP'].forEach(id=>$(id).hidden=true);
-  ['eChat','eSt','eAk','eAl','eRm'].forEach(id=>$(id).hidden=true);['fSt','fAk','fAl','fRm'].forEach(id=>$(id).classList.remove('bad-f'));
+  ['eChat','eSt','eAk','eAl','eRm','eTq'].forEach(id=>$(id).hidden=true);['fSt','fAk','fAl','fRm','fTq'].forEach(id=>$(id).classList.remove('bad-f'));
   $('prog').hidden=true;$('sGo').disabled=false;
   $('sheet').hidden=false;document.body.style.overflow='hidden';$('sheet').querySelector('.sh').scrollTop=0;
 }
 function closeSheet(){if(S.busy)return;$('sheet').hidden=true;document.body.style.overflow='';S.cur=null}
-$('fAk').innerHTML='<option value="">Pilih kelompok alasan…</option>'+TA_CAT.filter(c=>c[0]!=='idbaru').map(c=>`<option value="${c[0]}">${esc(c[0]==='lain'?'Lainnya':c[1])}</option>`).join('');$('fAk').onchange=()=>{$('eAk').hidden=true;$('fAk').classList.remove('bad-f')};
+{const opt=c=>`<option value="${c[0]}">${esc(c[1])}</option>`;
+ $('fAk').innerHTML='<option value="">Pilih kelompok alasan…</option>'+TA_CAT.filter(c=>!['idbaru','lain','tanpa'].includes(c[0])).slice().sort((a,b)=>a[1].localeCompare(b[1],'id')).map(opt).join('')
+   +'<optgroup label="Bila tidak ada yang cocok">'+opt(TA_CK.lain)+'<option value="tanpa">Tidak menyebutkan alasan (sudah ditanyakan)</option></optgroup>';}
+/* saran kelompok: bila alasan yang ditulis cocok dengan kelompok tertentu, mitra diarahkan memilih kelompok itu */
+function akCheck(){
+  const ak=$('fAk').value,t=taNorm($('fAl').value);$('tqWrap').hidden=ak!=='tanpa';
+  let sug='';if(t&&(!ak||ak==='lain'||ak==='tanpa'))for(const k of TA_ORDER){if(TA_CK[k][4].test(t)){sug=k;break}}
+  if(sug!==S.akSug)S.akOk=false;S.akSug=sug;const h=$('akHint');
+  if(!sug||S.akOk){h.hidden=true;return}
+  h.hidden=false;h.innerHTML=`Alasan ini sepertinya masuk kelompok <b>${esc(TA_CK[sug][1])}</b>.<span><button type="button" id="akUse">Pakai kelompok ini</button>${ak?`<button type="button" id="akKeep" class="sec">Tetap "${esc(ak==='lain'?'Lainnya':'Tidak menyebutkan alasan')}"</button>`:''}</span>`;
+  $('akUse').onclick=()=>{$('fAk').value=sug;$('eAk').hidden=true;$('fAk').classList.remove('bad-f');akCheck()};
+  if($('akKeep'))$('akKeep').onclick=()=>{S.akOk=true;$('eAk').hidden=true;$('fAk').classList.remove('bad-f');akCheck()};
+}
+$('fAk').onchange=()=>{$('eAk').hidden=true;$('fAk').classList.remove('bad-f');akCheck()};
+$('fAl').addEventListener('input',()=>{clearTimeout(akCheck.t);akCheck.t=setTimeout(akCheck,400)});
+$('fTq').onchange=()=>{$('eTq').hidden=true;$('fTq').classList.remove('bad-f')};
 $('sX').onclick=closeSheet;$('sCancel').onclick=closeSheet;
 $('sheet').addEventListener('click',e=>{if(e.target===$('sheet'))closeSheet()});
 $('fSt').onchange=()=>{$('alWrap').hidden=$('fSt').value!=='tidak';$('nbWrap').hidden=!(S.cur&&kOf(S.cur)==='x'&&$('fSt').value==='lanjut');$('eSt').hidden=true;$('fSt').classList.remove('bad-f')};
@@ -1868,7 +1911,15 @@ $('sGo').onclick=async()=>{
   let bad=null;
   const flag=(id,f,on)=>{$(id).hidden=!on;if(f)$(f).classList.toggle('bad-f',on);if(on&&!bad)bad=f||id};
   flag('eChat',null,!S.files.chat);$('pchat').classList.toggle('bad-f',!S.files.chat);
-  flag('eSt','fSt',!st);flag('eAk','fAk',st==='tidak'&&!ak);flag('eAl','fAl',st==='tidak'&&!al);
+  flag('eSt','fSt',!st);
+  if(st==='tidak')akCheck();
+  const akSalah=st==='tidak'&&(ak==='lain'||ak==='tanpa')&&S.akSug&&!S.akOk;
+  $('eAk').textContent=akSalah?`Alasan yang ditulis cocok dengan kelompok "${TA_CK[S.akSug][1]}". Pilih kelompok itu, atau tekan "Tetap" bila memang tidak sesuai.`:'Pilih kelompok alasan.';
+  flag('eAk','fAk',st==='tidak'&&(!ak||akSalah));
+  const kata=al.split(/\s+/).filter(Boolean).length, alPendek=st==='tidak'&&ak==='lain'&&kata<4;
+  $('eAl').textContent=alPendek?'Untuk kelompok Lainnya, tulis alasan pelanggan dengan jelas (minimal 4 kata).':'Alasan wajib diisi.';
+  flag('eAl','fAl',st==='tidak'&&(!al||alPendek));
+  flag('eTq','fTq',st==='tidak'&&ak==='tanpa'&&!$('fTq').value);
   const needNb=kOf(S.cur)==='x'&&st==='lanjut', nb={name:$('nbN').value.trim(),id:$('nbI').value.trim(),ph:$('nbP').value.trim()};
   flag('enbN','nbN',needNb&&!nb.name);flag('enbP','nbP',needNb&&nb.ph.replace(/\D/g,'').length<9);
   flag('eRm','fRm',!rm);
@@ -1886,7 +1937,7 @@ $('sGo').onclick=async()=>{
       S.up[k]=r.id;
     }
     prog('Menyimpan laporan…');
-    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],k:kOf(row),pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',ak:st==='tidak'?ak:'',remark:rm,photos:S.up,nb:needNb?nb:null,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
+    const r=await api('fu_submit',{rec:{code:row[1],cid:row[6],name:row[2],ph:row[3],st:row[0],iso:row[5],act:row[4],k:kOf(row),pic:pic.n,picHp:pic.h,status:st,alasan:st==='tidak'?al:'',ak:st==='tidak'?ak:'',tq:st==='tidak'&&ak==='tanpa'?$('fTq').value:'',remark:rm,photos:S.up,nb:needNb?nb:null,geo:{selfie:(S.files.selfie&&S.files.selfie.meta)||null,rumah:(S.files.rumah&&S.files.rumah.meta)||null}}},1);
     S.recs.push(r.rec);
     if(!(S.petugas||[]).some(x=>hpK(x.h)===hpK(pic.h)))(S.petugas=S.petugas||[]).push({n:pic.n,h:pic.h});
     S.busy=false;$('sCancel').disabled=false;closeSheet();if(S.view==='fu'){render();catHead()}else if(S.view==='hasil')renderHasil();renderNav();
@@ -2079,7 +2130,7 @@ const PWA=(function(){
   return {init,install,help,dataLoaded,tick,load:{start:ldStart,set:ldSet,done:ldDone},state:()=>({bip:!!ST.bip,standalone:standalone(),isIOS,isAndroid,s0:ST.s0,latest:ST.latest,showing:ST.showing}),_st:ST};
 })();
 
-PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261127130429,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
+PWA.init({app:'form',name:'Laporan Follow Up Pelanggan',buildId:20261128140043,stampUrl:'https://data.110-239-85-120.sslip.io/stamp.json',stampKey:'isolir',bottom:84,
   refreshData:()=>reloadAll(),
   busy:()=>!!(S&&S.busy)||!!(document.getElementById('sheet')&&!document.getElementById('sheet').hidden)});
 load();
